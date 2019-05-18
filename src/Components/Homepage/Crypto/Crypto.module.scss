@@ -1,0 +1,73 @@
+.cryptoContainer {
+  display: flex;
+  margin: 25px 0;
+  padding: 10px;
+  height: 75px;
+  border-bottom: 1px solid lightgray;
+  //   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  &:hover {
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.25), 0 3px 3px rgba(0, 0, 0, 0.22);
+    cursor: pointer;
+  }
+}
+
+.dataContainer {
+  padding: 10px 0 0 20px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-right: 25px;
+  min-width: 75px;
+}
+
+.priceData {
+  color: #555;
+  font-weight: 600;
+  font-size: 22px;
+  height: 35px;
+  display: flex;
+}
+
+.description {
+  font-size: 13px;
+  color: #666;
+}
+
+// Different Data Groups
+
+//Logo
+.logoContainer {
+  width: 100px;
+  display: flex;
+  align-items: center;
+  .logo {
+    width: auto;
+    min-width: 75px;
+    max-width: 100%;
+    height: 100%;
+  }
+}
+
+//Name/Industry
+.cryptoName {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+.up {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
+.arrowContainer {
+  .arrow {
+    height: 15px;
+    width: auto;
+  }
+}

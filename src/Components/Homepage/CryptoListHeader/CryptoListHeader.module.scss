@@ -1,0 +1,30 @@
+.filterColumnsHeader {
+  width: 100%;
+  display: flex;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #999;
+  padding-bottom: 10px;
+}
+
+.column {
+  width: 135px;
+  margin-right: 15px;
+  color: #888;
+  font-size: 14px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.spacer {
+  width: 250px;
+}
+
+.sort_icon {
+  height: 65%;
+  width: auto;
+  margin: 3px 0 0 5px;
+}

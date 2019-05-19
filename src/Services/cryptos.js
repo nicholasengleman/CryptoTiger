@@ -5,69 +5,18 @@ const cryptos = [
     industry: "main",
     marketcap: "$300B",
     priceData: {
-      price: 2,
-      minute: {
-        "5m": "1"
+      current: {
+        zero: { data_name: "current price", data_value: 2 }
       },
-      hour: {
-        "1h": "10"
+      hourly: {
+        one: { data_name: "1 hour change", data_value: 2 },
+        two: { data_name: "2 hour change", data_value: 2 },
+        four: { data_name: "3 hour change", data_value: 2 }
       },
-      day: {
-        "7d": "-20"
-      },
-      month: {
-        "6m": "200"
-      }
-    },
-    volumeData: {
-      volume: 1,
-      minute: {
-        "5m": "1"
-      },
-      hour: {
-        "1h": "10"
-      },
-      day: {
-        "7d": "-14"
-      },
-      month: {
-        "6m": "200"
-      }
-    }
-  },
-  {
-    id: 2,
-    name: "Bitcoin",
-    industry: "main",
-    marketcap: "$300B",
-    priceData: {
-      price: 2,
-      minute: {
-        "5m": "1"
-      },
-      hour: {
-        "1h": "10"
-      },
-      day: {
-        "7d": "20"
-      },
-      month: {
-        "6m": "200"
-      }
-    },
-    volumeData: {
-      volume: 10,
-      minute: {
-        "5m": "1"
-      },
-      hour: {
-        "1h": "10"
-      },
-      day: {
-        "7d": "45"
-      },
-      month: {
-        "6m": "200"
+      daily: {
+        one: { data_name: "1 daily change", data_value: 2 },
+        two: { data_name: "2 daily change", data_value: 2 },
+        four: { data_name: "3 daily change", data_value: 2 }
       }
     }
   }
@@ -75,4 +24,19 @@ const cryptos = [
 
 export function getAllCryptos() {
   return cryptos;
+}
+
+export function getDefaultColumns() {
+  return [
+    {
+      data_name: cryptos[0].priceData.current.data_name,
+      data_type: "priceData",
+      data_price_period_type: "current",
+      data_price_period: "zero"
+    }
+    // {
+    //   data_name: cryptos[0].priceData.daily.one.data_name,
+    //   data_location: "props.priceData.daily.one.data_value"
+    // }
+  ];
 }

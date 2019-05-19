@@ -1,34 +1,27 @@
 import React, { Component } from "react";
-import { getAllCryptos } from "../../Services/cryptos";
+import { getAllCryptos, getDefaultColumns } from "../../Services/cryptos";
 
 import styles from "./Homepage.module.scss";
 
 import Crypto from "./Crypto/Crypto";
+import CryptoListHeader from "./CryptoListHeader/CryptoListHeader";
 
 class Homepage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cryptos: getAllCryptos()
-      filterheader: [
-        { 
-          
-        }
-      ]
-      }
+      cryptos: getAllCryptos(),
+      columns: getDefaultColumns()
     };
   }
 
   render() {
     return (
       <div className={styles.pageContainer}>
-    
         <div className={styles.cryptoListContainer}>
-          <div className={styles.cryptoListHeader}>
-            <div></div>
-          </div>
+          <CryptoListHeader columns={this.state.columns} />
           {this.state.cryptos.map(props => (
-            <Crypto key={props.id} {...props} />
+            <Crypto key={props.id} {...props} columns={this.state.columns} />
           ))}
         </div>
       </div>

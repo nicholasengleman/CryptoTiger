@@ -1,9 +1,6 @@
 import React from "react";
 import styles from "./Crypto.module.scss";
-import classNames from "classnames";
 import crypto_logo from "../../../img/crypto_logo.png";
-import winning_normal from "../../../img/winning-normal.png";
-import losing_normal from "../../../img/losing-normal.png";
 
 import CryptoData from "./CryptoData/CryptoData";
 
@@ -20,7 +17,7 @@ const Crypto = props => {
       </div>
 
       {props.columns.map(data => (
-        <CryptoData columnData={data} data={props.data} />
+        <CryptoData key={data.data_id} columnData={data} data={props.data} />
       ))}
     </div>
   );

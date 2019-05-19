@@ -25,25 +25,25 @@ const cryptos = [
         data_id: 2,
         data_type: "price",
         data_period_type: "hourly",
-        data_period: 2,
+        data_period: 20,
         data_name: "2 Hour Change",
-        data_value: 2
+        data_value: 200
       },
       "3": {
         data_id: 3,
         data_type: "price",
         data_period_type: "hourly",
-        data_period: 3,
+        data_period: 30,
         data_name: "3 Hour Change",
-        data_value: 3
+        data_value: 300
       },
       "4": {
         data_id: 4,
         data_type: "price",
         data_period_type: "daily",
-        data_period: 1,
+        data_period: 10,
         data_name: "1 daily Change",
-        data_value: 1
+        data_value: 100
       },
       "5": {
         data_id: 5,
@@ -113,9 +113,9 @@ const cryptos = [
         data_id: 13,
         data_type: "volume",
         data_period_type: "daily",
-        data_period: 3,
+        data_period: 4,
         data_name: "3 daily Change",
-        data_value: 3
+        data_value: 4
       }
     }
   },
@@ -225,7 +225,7 @@ const cryptos = [
         data_id: 12,
         data_type: "volume",
         data_period_type: "daily",
-        data_period: 2,
+        data_period: 1,
         data_name: "2 daily Change",
         data_value: 2
       },
@@ -233,7 +233,7 @@ const cryptos = [
         data_id: 13,
         data_type: "volume",
         data_period_type: "daily",
-        data_period: 3,
+        data_period: 4,
         data_name: "3 daily Change",
         data_value: 3
       }

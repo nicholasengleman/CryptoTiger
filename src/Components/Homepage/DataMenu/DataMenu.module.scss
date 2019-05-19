@@ -1,0 +1,55 @@
+.container {
+  height: calc(100% - 100px);
+  width: 90%;
+  margin: 0 auto;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.25), 0 3px 3px rgba(0, 0, 0, 0.22);
+  background-color: white;
+  display: flex;
+}
+
+.dataTypeWindow {
+  border-right: 1px solid lightgray;
+  height: 100%;
+  width: 20%;
+  min-width: 200px;
+}
+
+.dataType {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid rgb(230, 230, 230);
+  &:hover {
+    background-color: rgb(230, 230, 230);
+    cursor: pointer;
+  }
+  p {
+    margin: 15px 20px;
+    text-transform: capitalize;
+  }
+}
+
+.dataPeriodsWindow {
+  padding: 10px;
+  display: flex;
+}
+
+.dataPeriodType {
+  width: 200px;
+  height: 200px;
+  border: 1px solid black;
+  margin-right: 25px;
+}
+
+.period {
+  width: 100%;
+  height: 30px;
+  &:hover {
+    background-color: rgb(230, 230, 230);
+    cursor: pointer;
+  }
+  p {
+    margin: 15px 20px;
+    text-transform: capitalize;
+  }
+}

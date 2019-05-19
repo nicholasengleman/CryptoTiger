@@ -29,7 +29,7 @@ const CryptoData = props => {
         </span>
       </span>
 
-      <div className={styles.priceDescription}>
+      <div className={styles.description}>
         {props.data[props.columnData.data_id].data_name}
       </div>
     </div>

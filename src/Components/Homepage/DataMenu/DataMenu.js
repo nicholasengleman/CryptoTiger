@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import styles from "./DataMenu.module.scss";
 import { getAllCryptos } from "../../../Services/cryptos";
+import classNames from "classnames";
+
+import DataPeriod from "./DataPeriod/DataPeriod";
 
 class DataMenu extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      column_id: "",
       selectedDataType: "price"
     };
   }
@@ -87,17 +89,24 @@ class DataMenu extends Component {
           {data}
           {this.getDataPeriods(data).map(function(period) {
             return (
-              <div className={styles.period} key={period.data_id}>
-                <p>{period.data_period}</p>
-              </div>
+              <DataPeriod
+                key={period.data_id}
+                {...period}
+                handleDataChange={this.props.handleDataChange}
+              />
             );
-          })}
+          }, this)}
         </div>
       );
     }, this);
 
     return (
-      <div className={styles.container}>
+      <div
+        className={classNames(
+          styles.container,
+          this.props.dataMenuData.open ? styles.open : styles.closed
+        )}
+      >
         <div className={styles.dataTypeWindow}>{data_types}</div>
         <div className={styles.dataPeriodsWindow}>{data_periodtypes}</div>
       </div>

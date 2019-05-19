@@ -6,25 +6,6 @@
   padding-bottom: 10px;
 }
 
-.column {
-  width: 155px;
-  margin-right: 15px;
-  color: #888;
-  font-size: 14px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  &:hover {
-    cursor: pointer;
-  }
-}
-
 .spacer {
   width: 250px;
-}
-
-.sort_icon {
-  height: 85%;
-  width: auto;
-  margin: 3px 0 0 5px;
 }

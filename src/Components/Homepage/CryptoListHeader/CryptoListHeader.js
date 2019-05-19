@@ -1,16 +1,19 @@
 import React from "react";
 import styles from "./CryptoListHeader.module.scss";
-import sort_icon from "./../../../img/data_menu.png";
+
+import CryptoHeader from "./CryptoHeader/CryptoHeader";
 
 const CryptoListHeader = props => {
   return (
     <div className={styles.filterColumnsHeader}>
       <div className={styles.spacer} />
-      {props.columns.map(column => (
-        <div key={column.data_id} className={styles.column}>
-          {column.data_name}
-          <img className={styles.sort_icon} src={sort_icon} alt="" />
-        </div>
+      {props.columns.map(item => (
+        <CryptoHeader
+          key={item.data_id}
+          id={item.data_id}
+          name={item.data_name}
+          handleDataMenuToggle={props.handleDataMenuToggle}
+        />
       ))}
     </div>
   );

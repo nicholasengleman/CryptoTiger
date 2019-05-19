@@ -1,0 +1,12 @@
+.period {
+  width: 100%;
+  height: 30px;
+  &:hover {
+    background-color: rgb(230, 230, 230);
+    cursor: pointer;
+  }
+  p {
+    margin: 15px 20px;
+    text-transform: capitalize;
+  }
+}

@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { changeColumnDataID } from "../../../../store/actions/actionCreators";
+
 import styles from "./DataPeriod.module.scss";
 
 class DataPeriod extends Component {
@@ -18,4 +21,13 @@ class DataPeriod extends Component {
   }
 }
 
-export default DataPeriod;
+const mapDispatchToProps = dispatch => {
+  return {
+    handleDataChange: data_id => dispatch(changeColumnDataID(data_id))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(DataPeriod);

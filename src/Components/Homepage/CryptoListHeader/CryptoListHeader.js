@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./CryptoListHeader.module.scss";
 
+import { connect } from "react-redux";
+
 import CryptoHeader from "./CryptoHeader/CryptoHeader";
 
 const CryptoListHeader = props => {
@@ -19,4 +21,10 @@ const CryptoListHeader = props => {
   );
 };
 
-export default CryptoListHeader;
+const mapStateToProps = state => {
+  return {
+    columns: state.columns
+  };
+};
+
+export default connect(mapStateToProps)(CryptoListHeader);

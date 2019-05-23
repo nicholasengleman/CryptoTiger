@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import styles from "./CryptoHeader.module.scss";
 import sort_icon from "./../../../../img/data_menu.png";
+import { connect } from "react-redux";
+import { dataMenuToggle } from "./../../../../store/actions/actionCreators";
 
 class CryptoHeader extends Component {
   constructor(props) {
@@ -10,7 +12,7 @@ class CryptoHeader extends Component {
   render() {
     return (
       <div
-        onClick={() => this.props.handleDataMenuToggle(this.props.id)}
+        onClick={() => this.props.onDataMenuToggle(this.props.id)}
         className={styles.column}
       >
         {this.props.name}
@@ -20,4 +22,13 @@ class CryptoHeader extends Component {
   }
 }
 
-export default CryptoHeader;
+const mapDispatchToProps = dispatch => {
+  return {
+    onDataMenuToggle: column_id => dispatch(dataMenuToggle(column_id))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(CryptoHeader);

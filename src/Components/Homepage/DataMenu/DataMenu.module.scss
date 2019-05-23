@@ -20,7 +20,6 @@
   width: 100%;
   border-bottom: 1px solid rgb(230, 230, 230);
   &:hover {
-    background-color: rgb(230, 230, 230);
     cursor: pointer;
   }
   p {
@@ -47,4 +46,9 @@
 
 .closed {
   display: none;
+}
+
+.dataTypeSelected {
+  background-color: black;
+  color: white;
 }

@@ -27,7 +27,7 @@ const dataMenuToggle = (state, action) => {
   return updatedObject(state, updatedState);
 };
 
-const updateColumnData = (state, action) => {
+const changeColumnData = (state, action) => {
   const columns = [...state.columns];
   let dataMenu = { ...state.dataMenu };
 
@@ -50,8 +50,8 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.DATA_MENU_TOGGLE:
       return dataMenuToggle(state, action);
-    case actionTypes.COLUMN_CHANGE_DATA_ID:
-      return updateColumnData(state, action);
+    case actionTypes.CHANGE_COLUMN_DATA:
+      return changeColumnData(state, action);
     default:
       return state;
   }

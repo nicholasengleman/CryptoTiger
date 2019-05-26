@@ -10,7 +10,7 @@ export const dataMenuToggle = column_id => {
 
 export const changeColumnDataID = data_id => {
   return {
-    type: actionTypes.COLUMN_CHANGE_DATA_ID,
+    type: actionTypes.CHANGE_COLUMN_DATA,
     data_id: data_id
   };
 };

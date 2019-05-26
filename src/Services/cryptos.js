@@ -29,8 +29,80 @@ const cryptos = [
         data_name: "2 Hour Change",
         data_value: -123123
       },
-      "3": {
-        data_id: 3,
+      "20": {
+        data_id: 20,
+        data_type: "price",
+        data_period_type: "hourly",
+        data_period: 1,
+        data_name: "1 Hour Change",
+        data_value: -123
+      },
+      "21": {
+        data_id: 21,
+        data_type: "price",
+        data_period_type: "hourly",
+        data_period: 20,
+        data_name: "2 Hour Change",
+        data_value: -123123
+      },
+      "23": {
+        data_id: 23,
+        data_type: "price",
+        data_period_type: "hourly",
+        data_period: 1,
+        data_name: "1 Hour Change",
+        data_value: -123
+      },
+      "24": {
+        data_id: 24,
+        data_type: "price",
+        data_period_type: "hourly",
+        data_period: 20,
+        data_name: "2 Hour Change",
+        data_value: -123123
+      },
+      "25": {
+        data_id: 25,
+        data_type: "price",
+        data_period_type: "hourly",
+        data_period: 1,
+        data_name: "1 Hour Change",
+        data_value: -123
+      },
+      "26": {
+        data_id: 26,
+        data_type: "price",
+        data_period_type: "hourly",
+        data_period: 20,
+        data_name: "2 Hour Change",
+        data_value: -123123
+      },
+      "27": {
+        data_id: 28,
+        data_type: "price",
+        data_period_type: "hourly",
+        data_period: 30,
+        data_name: "3 Hour Change",
+        data_value: 68678
+      },
+      "28": {
+        data_id: 28,
+        data_type: "price",
+        data_period_type: "hourly",
+        data_period: 1,
+        data_name: "1 Hour Change",
+        data_value: -123
+      },
+      "30": {
+        data_id: 30,
+        data_type: "price",
+        data_period_type: "hourly",
+        data_period: 20,
+        data_name: "2 Hour Change",
+        data_value: -123123
+      },
+      "29": {
+        data_id: 29,
         data_type: "price",
         data_period_type: "hourly",
         data_period: 30,

@@ -2,17 +2,18 @@ import React, { Component } from "react";
 import styles from "./DataMenu.module.scss";
 
 import { connect } from "react-redux";
-
 import classNames from "classnames";
 
 import DataPeriod from "./DataPeriod/DataPeriod";
+import DataFilter from "./DataFilter/DataFilter";
 
 class DataMenu extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      selectedDataType: "price"
+      selectedDataType: "price",
+      selectedDataID: ""
     };
   }
 
@@ -62,8 +63,12 @@ class DataMenu extends Component {
     return data_periods;
   };
 
-  handleSetDataTypeClick = event => {
+  handleSetDataType = event => {
     this.setState({ selectedDataType: event.currentTarget.textContent });
+  };
+
+  handleSetDataID = data_id => {
+    this.setState({ selectedDataID: data_id });
   };
 
   render() {
@@ -73,9 +78,11 @@ class DataMenu extends Component {
         <div
           className={classNames(
             styles.dataType,
-            this.state.selectedDataType == data ? styles.dataTypeSelected : null
+            this.state.selectedDataType === data
+              ? styles.dataTypeSelected
+              : null
           )}
-          onClick={this.handleSetDataTypeClick}
+          onClick={this.handleSetDataType}
           key={data}
         >
           <p>{data}</p>
@@ -87,9 +94,16 @@ class DataMenu extends Component {
     let data_periodtypes = this.getDataPeriodTypes().map(function(data) {
       return (
         <div className={styles.dataPeriodType} key={data}>
-          {data}
+          <div className={styles.dataPeriodTypeHeader}>{data}</div>
           {this.getDataPeriods(data).map(function(period) {
-            return <DataPeriod key={period.data_id} {...period} />;
+            return (
+              <DataPeriod
+                key={period.data_id}
+                selectedPeriod={this.state.selectedDataID}
+                {...period}
+                setDataID={this.handleSetDataID}
+              />
+            );
           }, this)}
         </div>
       );
@@ -105,6 +119,7 @@ class DataMenu extends Component {
       >
         <div className={styles.dataTypeWindow}>{data_types}</div>
         <div className={styles.dataPeriodsWindow}>{data_periodtypes}</div>
+        {this.state.selectedDataID && <DataFilter />}
       </div>
     );
   }

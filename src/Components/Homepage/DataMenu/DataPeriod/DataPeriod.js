@@ -1,33 +1,34 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { changeColumnDataID } from "../../../../store/actions/actionCreators";
+import classNames from "classnames";
+import checkmark from "./../../../../img/checkmark_white.png";
+import arrow from "./../../../../img/arrow_cute.png";
 
 import styles from "./DataPeriod.module.scss";
 
 class DataPeriod extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div
-        onClick={() => this.props.handleDataChange(this.props.data_id)}
-        className={styles.period}
+        onClick={() => this.props.setDataID(this.props.data_id)}
+        className={classNames(styles.period)}
       >
-        {this.props.data_period}
+        <div className={styles.arrow}>
+          <img src={arrow} alt="" />
+        </div>
+        <div
+          className={classNames(
+            styles.checkbox,
+            this.props.data_id === this.props.selectedPeriod
+              ? styles.selected
+              : null
+          )}
+        >
+          <img src={checkmark} alt="" />
+        </div>
+        <p>{this.props.data_period}</p>
       </div>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    handleDataChange: data_id => dispatch(changeColumnDataID(data_id))
-  };
-};
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(DataPeriod);
+export default DataPeriod;

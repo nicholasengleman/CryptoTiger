@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { getAllCryptos, getDefaultColumns } from "../../Services/cryptos";
 import styles from "./Homepage.module.scss";
 
 import Crypto from "./Crypto/Crypto";

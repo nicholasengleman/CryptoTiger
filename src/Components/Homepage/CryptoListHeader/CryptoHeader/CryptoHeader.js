@@ -5,10 +5,6 @@ import { connect } from "react-redux";
 import { dataMenuToggle } from "./../../../../store/actions/actionCreators";
 
 class CryptoHeader extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div

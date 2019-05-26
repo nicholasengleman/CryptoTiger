@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="90c720ab-b997-4df3-a936-4ff76b4aa6b0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/CryptoTiger.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TODO.md" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Homepage/CryptoListHeader/CryptoHeader/CryptoHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Homepage/CryptoListHeader/CryptoHeader/CryptoHeader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataMenu.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataMenu.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataPeriod/DataPeriod.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataPeriod/DataPeriod.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataPeriod/DataPeriod.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataPeriod/DataPeriod.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Homepage/Homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Homepage/Homepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Homepage/Homepage.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Homepage/Homepage.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/cryptos.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/cryptos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/actions/actionCreators.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/actionCreators.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/actions/actionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/actionTypes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/reducers/reducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers/reducer.js" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="CryptoTiger" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataMenu.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="249">
+              <caret line="85" column="20" lean-forward="true" selection-start-line="85" selection-start-column="20" selection-end-line="85" selection-end-column="20" />
+              <folding>
+                <element signature="e#1200#1614#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataPeriod/DataPeriod.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="11" column="64" lean-forward="true" selection-start-line="11" selection-start-column="64" selection-end-line="11" selection-end-column="64" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>footer</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/index.js" />
+        <option value="$PROJECT_DIR$/TODO.md" />
+        <option value="$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataFilter/Select/Select.js" />
+        <option value="$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataFilter/DataFilter.js" />
+        <option value="$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataFilter/DataFilter.module.scss" />
+        <option value="$PROJECT_DIR$/src/store/actions/actionTypes.js" />
+        <option value="$PROJECT_DIR$/src/store/reducers/reducer.js" />
+        <option value="$PROJECT_DIR$/src/store/actions/actionCreators.js" />
+        <option value="$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataPeriod/DataPeriod.js" />
+        <option value="$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataMenu.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="width" value="1968" />
+    <option name="height" value="1398" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <autoscrollToSource ProjectPane="true" />
+      <autoscrollFromSource ProjectPane="true" />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="CryptoTiger" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CryptoTiger" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CryptoTiger" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CryptoTiger" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CryptoTiger" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CryptoTiger" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CryptoTiger" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CryptoTiger" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Components" type="462c0819:PsiDirectoryNode" />
+              <item name="Homepage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CryptoTiger" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CryptoTiger" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Components" type="462c0819:PsiDirectoryNode" />
+              <item name="Homepage" type="462c0819:PsiDirectoryNode" />
+              <item name="Crypto" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CryptoTiger" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CryptoTiger" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Components" type="462c0819:PsiDirectoryNode" />
+              <item name="Homepage" type="462c0819:PsiDirectoryNode" />
+              <item name="Crypto" type="462c0819:PsiDirectoryNode" />
+              <item name="CryptoData" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CryptoTiger" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CryptoTiger" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Components" type="462c0819:PsiDirectoryNode" />
+              <item name="Homepage" type="462c0819:PsiDirectoryNode" />
+              <item name="CryptoListHeader" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CryptoTiger" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CryptoTiger" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Components" type="462c0819:PsiDirectoryNode" />
+              <item name="Homepage" type="462c0819:PsiDirectoryNode" />
+              <item name="CryptoListHeader" type="462c0819:PsiDirectoryNode" />
+              <item name="CryptoHeader" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CryptoTiger" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CryptoTiger" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Components" type="462c0819:PsiDirectoryNode" />
+              <item name="Homepage" type="462c0819:PsiDirectoryNode" />
+              <item name="DataMenu" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CryptoTiger" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CryptoTiger" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Components" type="462c0819:PsiDirectoryNode" />
+              <item name="Homepage" type="462c0819:PsiDirectoryNode" />
+              <item name="DataMenu" type="462c0819:PsiDirectoryNode" />
+              <item name="DataPeriod" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CryptoTiger" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CryptoTiger" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="store" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CryptoTiger" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CryptoTiger" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="store" type="462c0819:PsiDirectoryNode" />
+              <item name="actions" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CryptoTiger" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CryptoTiger" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="store" type="462c0819:PsiDirectoryNode" />
+              <item name="reducers" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="redshift" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="90c720ab-b997-4df3-a936-4ff76b4aa6b0" name="Default Changelist" comment="" />
+      <created>1558649247475</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1558649247475</updated>
+      <workItem from="1558649250020" duration="1193000" />
+      <workItem from="1558728928985" duration="212000" />
+      <workItem from="1558729158079" duration="503000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="1908000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-6" y="0" width="1574" height="1118" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4989858" visible="true" weight="0.2582563" />
+      <window_info id="Structure" order="1" sideWeight="0.5010142" side_tool="true" weight="0.2647929" />
+      <window_info id="npm" order="2" sideWeight="0.5010142" side_tool="true" weight="0.2647929" />
+      <window_info id="Favorites" order="3" sideWeight="0.5010142" side_tool="true" weight="0.2647929" />
+      <window_info id="DB Browser" order="4" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.2616633" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.3296146" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.20993915" />
+      <window_info anchor="bottom" id="DB Execution Console" order="11" />
+      <window_info anchor="bottom" id="Database Changes" order="12" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" weight="0.3297619" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/react.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="298" column="8" selection-start-line="298" selection-start-column="8" selection-end-line="298" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TODO.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="32">
+            <caret line="2" column="8" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataFilter/Select/Select.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Homepage/Crypto/Crypto.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Homepage/Crypto/CryptoData/CryptoData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="12" column="61" lean-forward="true" selection-start-line="12" selection-start-column="61" selection-end-line="12" selection-end-column="61" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Homepage/CryptoListHeader/CryptoListHeader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Homepage/CryptoListHeader/CryptoHeader/CryptoHeader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataMenu.module.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="11" column="17" lean-forward="true" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataFilter/DataFilter.module.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="553">
+          <caret line="48" column="5" lean-forward="true" selection-start-line="48" selection-start-column="5" selection-end-line="48" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataFilter/DataFilter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="108" column="86" lean-forward="true" selection-start-line="108" selection-start-column="86" selection-end-line="108" selection-end-column="86" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+            <element signature="e#543#1888#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/reducers/reducer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="16" column="38" lean-forward="true" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#76#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/actions/actionCreators.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="5" column="33" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/actions/actionTypes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataPeriod/DataPeriod.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="11" column="64" lean-forward="true" selection-start-line="11" selection-start-column="64" selection-end-line="11" selection-end-column="64" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Homepage/DataMenu/DataMenu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="85" column="20" lean-forward="true" selection-start-line="85" selection-start-column="20" selection-end-line="85" selection-end-column="20" />
+          <folding>
+            <element signature="e#1200#1614#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

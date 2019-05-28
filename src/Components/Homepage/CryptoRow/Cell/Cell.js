@@ -1,10 +1,10 @@
 import React from "react";
-import styles from "./CryptoData.module.scss";
+import styles from "./Cell.module.scss";
 import classNames from "classnames";
 import winning_normal from "../../../../img/winning-normal.png";
 import losing_normal from "../../../../img/losing-normal.png";
 
-const CryptoData = props => {
+const Cell = props => {
   return (
     <div className={styles.dataContainer}>
       <span
@@ -36,4 +36,4 @@ const CryptoData = props => {
   );
 };
 
-export default CryptoData;
+export default Cell;

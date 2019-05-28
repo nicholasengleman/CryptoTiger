@@ -12,37 +12,27 @@ class DataFilter extends Component {
     }
 
 
-    onSelectChange = (e) => {
-        this.setState({value: e.value});
-    };
-
-
-    onNumberInputChange = (event) => {
-        this.setState({[event.target.id]: event.target.value});
-    };
-
-
 
     numberView = (filtertype) => {
         switch (filtertype) {
             case'in-between':
                 return (
                     <div className={styles.numberInputContainer}>
-                        <input className={styles.numberInput} type="number" id="lower_bound_number" max="999999" onChange={this.onNumberInputChange} value={this.state.lower_bound_number}/>
+                        <input className={styles.numberInput} type="number" id="lower_bound_number" max="999999" onChange={this.props.handleFilterNumberChange} value={this.state.lower_bound_number}/>
                         <span className={styles.connectingWords} >and</span>
-                        <input className={styles.numberInput} type="number" id="higher_bound_number" max="999999" onChange={this.onNumberInputChange} value={this.state.higher_bound_number}/>
+                        <input className={styles.numberInput} type="number" id="higher_bound_number" max="999999" onChange={this.props.handleFilterNumberChange}  value={this.state.higher_bound_number}/>
                     </div>
                 );
             case'greater-than':
                 return (
                     <div className={styles.numberInputContainer}>
-                        <input className={styles.numberInput} type="number" id="lower_bound_number" onChange={this.onNumberInputChange} value={this.state.lower_bound_number}/>
+                        <input className={styles.numberInput} type="number" id="lower_bound_number" onChange={this.props.handleFilterNumberChange}  value={this.state.lower_bound_number}/>
                     </div>
                 );
             case'less-than':
                 return (
                     <div className={styles.numberInputContainer}>
-                        <input className={styles.numberInput} type="number" id="higher_bound_number" onChange={this.onNumberInputChange} value={this.state.higher_bound_number}/>
+                        <input className={styles.numberInput} type="number" id="higher_bound_number" onChange={this.props.handleFilterNumberChange}  value={this.state.higher_bound_number}/>
                     </div>
                 );
             default:
@@ -102,21 +92,21 @@ class DataFilter extends Component {
         return (
             <div className={styles.container}>
                 <div className={styles.header}>
-                    Add Filter?
+                    Add filter to this data?
                     <span>X</span>
                 </div>
                 <div className={styles.body}>
                     <p className={styles.description}>Include data where price is:</p>
                     <div className={styles.filterContainer}>
                         <Select options={options} styles={customStyles}
-                                onChange={this.onSelectChange}
+                                onChange={this.props.handleFilterTypeChange}
                                 defaultValue={{ label: "in between", value: "in-between" }}/>
                         {this.numberView(this.state.value)}
                     </div>
                 </div>
                 <div className={styles.footer}>
                     <button className={styles.addFilter}>Add Filter</button>
-                    <button className={styles.addFilter}>Add Without Filter</button>
+                    <button className={styles.addFilter} onClick={this.props.handleAddWithoutFilter}>Add Without Filter</button>
                 </div>
             </div>
         );

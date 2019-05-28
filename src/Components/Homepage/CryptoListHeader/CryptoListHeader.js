@@ -23,7 +23,7 @@ const CryptoListHeader = props => {
 
 const mapStateToProps = state => {
   return {
-    columns: state.columns
+    columns: state.dataMenu.columns
   };
 };
 

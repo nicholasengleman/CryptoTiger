@@ -1,12 +1,18 @@
-.container {
-  height: calc(100% - 100px);
+.dataMenuContainer {
+  position: absolute;
   width: 90%;
+}
+
+.dataContainer {
+  height: 300px;
+  width: 100%;
   margin: 0 auto;
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.25), 0 3px 3px rgba(0, 0, 0, 0.22);
   background-color: white;
   display: flex;
   transition: all 0.5s;
-  position: absolute;
+  z-index: 1;
+  position: relative;
 }
 
 .dataTypeWindow {

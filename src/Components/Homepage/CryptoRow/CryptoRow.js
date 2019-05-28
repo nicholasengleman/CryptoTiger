@@ -1,10 +1,10 @@
 import React from "react";
-import styles from "./Crypto.module.scss";
+import styles from "./CryptoRow.module.scss";
 import crypto_logo from "../../../img/crypto_logo.png";
 
-import CryptoData from "./CryptoData/CryptoData";
+import Cell from "./Cell/Cell";
 
-const Crypto = props => {
+const CryptoRow = props => {
   return (
     <div className={styles.cryptoContainer}>
       <div className={styles.logoContainer}>
@@ -17,10 +17,10 @@ const Crypto = props => {
       </div>
 
       {props.columns.map(data => (
-        <CryptoData key={data.data_id} columnData={data} data={props.data} />
+        <Cell key={data.data_id} columnData={data} data={props.data} />
       ))}
     </div>
   );
 };
 
-export default Crypto;
+export default CryptoRow;

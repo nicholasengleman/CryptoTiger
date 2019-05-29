@@ -1,31 +1,8 @@
 import * as actionTypes from "../actions/actionTypes";
-import {updatedObject} from "../../utilities/utilities";
-
-export function fetchCryptoData() {
-    return dispatch => {
-        dispatch(actionTypes.FETCH_CRYPTOS_BEGIN);
-        return fetch("/products")
-            .then(handleErrors)
-            .then(res => res.json())
-            .then(json => {
-                dispatch(actionTypes.FETCH_CRYPTOS_SUCCESS(json.cryptos));
-                return json.cryptos;
-            })
-            .catch(error => dispatch(actionTypes.FETCH_CRYPTOS_FAILURE(error)));
-    }
-}
-
-function handleErrors(response) {
-    if (!response.ok) {
-        throw Error(response.statusText);
-    }
-    return response;
-}
-
-
+import { updatedObject } from "../../utilities/utilities";
 
 const initialState = {
-    items: [],
+    cryptos: [],
     loading: false,
     error: null
 }
@@ -41,7 +18,7 @@ const fetchCryptosBegin = (state, action) => {
 const fetchCryptosSuccess = (state, action) => {
     const updatedState = {
         loading: false,
-        items: action.payload.cryptos
+        cryptos: action.payload.cryptos
     }
     return updatedObject(state, updatedState);
 }
@@ -49,8 +26,8 @@ const fetchCryptosSuccess = (state, action) => {
 const fetchCryptosFailure = (state, action) => {
     const updatedState = {
         loading: false,
-        error: action.payload.error,
-        items: []
+        error: true,
+        cryptos: []
     }
     return updatedObject(state, updatedState);
 }

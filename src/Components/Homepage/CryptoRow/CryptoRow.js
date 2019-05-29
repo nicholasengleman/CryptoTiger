@@ -13,7 +13,7 @@ const CryptoRow = props => {
 
       <div className={styles.dataContainer}>
         <div className={styles.cryptoName}>{props.name}</div>
-        <div className={styles.description}>{props.industry}</div>
+        {/*<div className={styles.description}>{props.industry}</div>*/}
       </div>
 
       {props.columns.map(data => (

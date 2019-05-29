@@ -26,7 +26,7 @@ export const fetchCryptosBegin = () => ({
   type: actionTypes.FETCH_CRYPTOS_BEGIN
 });
 
-export const fetchCryptosSucess = ( cryptos) => ({
+export const fetchCryptosSuccess = ( cryptos) => ({
   type: actionTypes.FETCH_CRYPTOS_SUCCESS,
   payload: { cryptos }
 });

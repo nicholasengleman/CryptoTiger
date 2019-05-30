@@ -3,7 +3,7 @@ import styles from "./DataMenu.module.scss";
 import classNames from "classnames";
 
 import {connect} from "react-redux";
-import { changeColumnData, closeDataMenu } from "./../../../store/actions/actionCreators";
+import { changeColumnData, closeDataMenu } from "../../../store/actions/actionCreators";
 
 import DataPeriod from "./DataPeriod/DataPeriod";
 import DataFilter from "./DataFilter/DataFilter";

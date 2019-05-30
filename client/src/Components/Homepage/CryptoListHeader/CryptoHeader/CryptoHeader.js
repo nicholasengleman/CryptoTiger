@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import styles from "./CryptoHeader.module.scss";
-import sort_icon from "./../../../../img/data_menu.png";
+import sort_icon from "../../../../img/data_menu.png";
 import { connect } from "react-redux";
-import { toggleDataMenu } from "./../../../../store/actions/actionCreators";
+import { toggleDataMenu } from "../../../../store/actions/actionCreators";
 
 class CryptoHeader extends Component {
   render() {

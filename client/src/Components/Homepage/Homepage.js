@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import axios from "axios";
 
-import {fetchCryptosBegin, fetchCryptosSuccess, fetchCryptosFailure} from "./../../store/actions/actionCreators";
+import {fetchCryptosBegin, fetchCryptosSuccess, fetchCryptosFailure} from "../../store/actions/actionCreators";
 
 import styles from "./Homepage.module.scss";
 

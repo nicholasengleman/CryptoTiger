@@ -1,4 +1,4 @@
-import { getAllCryptos, getDefaultColumns } from "./../../Services/cryptos";
+import { getAllCryptos, getDefaultColumns } from "../../Services/cryptos";
 import * as actionTypes from "../actions/actionTypes";
 import { updatedObject } from "../../utilities/utilities";
 

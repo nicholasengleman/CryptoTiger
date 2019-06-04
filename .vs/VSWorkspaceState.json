@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\client",
+    "\\client\\src",
+    "\\client\\src\\Components",
+    "\\client\\src\\Components\\Homepage",
+    "\\client\\src\\scss",
+    "\\services"
+  ],
+  "SelectedNode": "\\client\\src\\Components\\Homepage\\Homepage.module.scss",
+  "PreviewInSolutionExplorer": false
+}

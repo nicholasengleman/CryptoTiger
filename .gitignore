@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/client/node_modules
 /.pnp
 .pnp.js
 
@@ -23,3 +24,9 @@ yarn-debug.log*
 yarn-error.log*
 
 .history
+.idea
+.xml
+
+
+.idea/workspace.xml
+.idea/codeStyles/Project.xml

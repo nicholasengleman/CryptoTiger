@@ -11,4 +11,4 @@ function updateCryptoData(callback) {
   });
 }
 
-module.exports = { updateCryptoData };
+module.exports = updateCryptoData;

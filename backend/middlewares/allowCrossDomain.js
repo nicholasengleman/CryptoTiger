@@ -1,3 +1,3 @@
-import cors from "cors";
+const cors = require("cors");
 
-export default cors;
+module.exports = { cors };

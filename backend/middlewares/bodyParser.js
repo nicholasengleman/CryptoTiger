@@ -9,4 +9,4 @@ const middleware = [
   })
 ];
 
-export default middleware;
+module.exports = { middleware };

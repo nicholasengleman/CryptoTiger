@@ -1,0 +1,4 @@
+export const DATA_ID_MAP = {
+  MKTCAP: "MKCAP_CURRENT_0",
+  PRICE: "PRICE_CURRENT_0"
+};

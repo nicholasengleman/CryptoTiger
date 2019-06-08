@@ -1,0 +1,39 @@
+.priceData {
+  color: #555;
+  font-weight: 600;
+  font-size: 22px;
+  height: 35px;
+  display: flex;
+}
+
+.description {
+  font-size: 13px;
+  color: #666;
+}
+
+// Different Data Groups
+
+.up {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
+.arrowContainer {
+  .arrow {
+    height: 15px;
+    width: auto;
+  }
+}
+
+.dataContainer {
+  padding: 10px 0 0 0;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 155px;
+  margin-right: 15px;
+}

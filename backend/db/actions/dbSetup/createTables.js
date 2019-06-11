@@ -13,7 +13,7 @@ function createTables() {
   });
 
   var sql =
-    "CREATE TABLE DataInfo (data_id VARCHAR(100) NOT NULL PRIMARY KEY, data_name TINYTEXT NOT NULL, data_period_type TINYTEXT NOT NULL, data_period INT NOT NULL)";
+    "CREATE TABLE DataInfo (data_id VARCHAR(100) NOT NULL PRIMARY KEY, data_name TINYTEXT NOT NULL, data_type VARCHAR(100), data_period_type TINYTEXT NOT NULL, data_period INT NOT NULL)";
   db.connection.query(sql, function(error, results) {
     if (error) throw error;
     console.log("table created");

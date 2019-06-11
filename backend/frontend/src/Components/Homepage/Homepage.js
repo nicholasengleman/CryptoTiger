@@ -40,9 +40,9 @@ class Homepage extends Component {
           {/* {this.props.cryptos &&
             this.props.cryptos.map(crypto => (
               <CryptoRow
-                key={crypto.CoinInfo.id}
-                cryptoInfo={crypto.RAW.USD}
-                name={crypto.CoinInfo.FullName}
+                key={crypto[0]}
+                cryptoInfo={crypto[1].data}
+                name="Demo"
                 columns={this.props.columns}
               />
             ))} */}

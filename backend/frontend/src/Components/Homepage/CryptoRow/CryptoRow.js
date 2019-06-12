@@ -16,8 +16,12 @@ const CryptoRow = props => {
         {/*<div className={styles.description}>{props.industry}</div>*/}
       </div>
 
-      {props.columns.map(data => (
-        <Cell key={data.data_id} columnData={data} data={props.data} />
+      {props.columns.map(columnData => (
+        <Cell
+          key={columnData.data_id}
+          columnData={columnData}
+          cryptoInfo={props.cryptoInfo}
+        />
       ))}
     </div>
   );

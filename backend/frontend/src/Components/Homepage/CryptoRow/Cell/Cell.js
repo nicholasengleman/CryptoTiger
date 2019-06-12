@@ -8,11 +8,13 @@ class Cell extends Component {
   getValue = () => {
     let value = 0;
     if (
-      this.props.data &&
-      this.props.data[this.props.columnData.data_id] &&
-      this.props.data[this.props.columnData.data_id].data_value
+      this.props.columnData &&
+      this.props.cryptoInfo &&
+      this.props.cryptoInfo[this.props.columnData.data_id[0]] &&
+      this.props.cryptoInfo[this.props.columnData.data_id[0]].data_value
     ) {
-      value = this.props.data[this.props.columnData.data_id].data_value;
+      value = this.props.cryptoInfo[this.props.columnData.data_id[0]]
+        .data_value;
     }
     return value;
   };
@@ -20,11 +22,13 @@ class Cell extends Component {
   getName = () => {
     let name = "";
     if (
-      this.props.data &&
-      this.props.data[this.props.columnData.data_id] &&
-      this.props.data[this.props.columnData.data_id].data_name
+      this.props.columnData &&
+      this.props.cryptoInfo &&
+      this.props.cryptoInfo[this.props.columnData.data_id[0]] &&
+      this.props.cryptoInfo[this.props.columnData.data_id[0]].data_name[0]
     ) {
-      name = this.props.data[this.props.columnData.data_id].data_name;
+      name = this.props.cryptoInfo[this.props.columnData.data_id[0]]
+        .data_name[0];
     }
     return name;
   };

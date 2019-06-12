@@ -5,7 +5,8 @@ import axios from "axios";
 import {
   fetchCryptosBegin,
   fetchCryptosSuccess,
-  fetchCryptosFailure
+  fetchCryptosFailure,
+  loadInitialColumnData
 } from "../../store/actions/actionCreators";
 
 import styles from "./Homepage.module.scss";
@@ -21,6 +22,7 @@ class Homepage extends Component {
       .get("http://localhost:5000/api/updatedata")
       .then(response => {
         this.props.CryptosSuccess(response.data);
+        this.props.loadInitialColData(response.data);
         console.log("[Success]", response.data);
       })
       .catch(error => {
@@ -37,7 +39,7 @@ class Homepage extends Component {
         </div>
         <div className={styles.cryptoListContainer}>
           <CryptoListHeader />
-          {/* {this.props.cryptos &&
+          {this.props.cryptos &&
             this.props.cryptos.map(crypto => (
               <CryptoRow
                 key={crypto[0]}
@@ -45,7 +47,7 @@ class Homepage extends Component {
                 name="Demo"
                 columns={this.props.columns}
               />
-            ))} */}
+            ))}
         </div>
       </div>
     );
@@ -63,7 +65,8 @@ const mapDispatchToProps = dispatch => {
   return {
     CryptosBegin: () => dispatch(fetchCryptosBegin()),
     CryptosSuccess: data => dispatch(fetchCryptosSuccess(data)),
-    CryptosFailure: error => dispatch(fetchCryptosFailure(error))
+    CryptosFailure: error => dispatch(fetchCryptosFailure(error)),
+    loadInitialColData: data1 => dispatch(loadInitialColumnData(data1))
   };
 };
 

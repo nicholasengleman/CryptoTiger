@@ -12,4 +12,4 @@ function updateCryptoData(callback) {
   });
 }
 
-module.exports = updateCryptoData;
+module.exports = updateClientCryptoData;

@@ -4,7 +4,11 @@ let connection = mysql.createConnection({
   host: "mydb.c29nwmoj38nu.us-east-1.rds.amazonaws.com",
   user: "root",
   password: "engleman",
-  database: "cryptotiger"
+  database: "cryptotiger",
+  multipleStatements: true,
+  dateStrings: true,
 });
+
+
 
 module.exports = { connection };

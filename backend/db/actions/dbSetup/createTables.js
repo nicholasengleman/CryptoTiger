@@ -6,7 +6,7 @@ const db = require("./../db");
 ///////////////////////////
 function createTables() {
   var sql =
-    "CREATE TABLE CryptoList (crypto_id INT NOT NULL PRIMARY KEY, crypto_name TINYTEXT NOT NULL)";
+    "CREATE TABLE CryptoList (crypto_id INT NOT NULL PRIMARY KEY, crypto_name TINYTEXT NOT NULL, crypto_shortname TINYTEXT NOT NULL)";
   db.connection.query(sql, function(error, results) {
     if (error) throw error;
     console.log("table created");

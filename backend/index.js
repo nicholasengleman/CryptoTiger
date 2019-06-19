@@ -14,6 +14,7 @@ const app = express();
 // app.use("/api/updatedata", updateCryptoData);
 
 const UpdateDBNumberTable = require("./controllers/updateDBNumberTable");
+
 const updateDB = new UpdateDBNumberTable();
 
 console.log(updateDB.getCryptoIDsShortnames());

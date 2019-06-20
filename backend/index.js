@@ -17,7 +17,7 @@ const UpdateDBNumberTable = require("./controllers/updateDBNumberTable");
 
 const updateDB = new UpdateDBNumberTable();
 
-console.log(updateDB.getCryptoIDsShortnames());
+console.log(updateDB.updateData());
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}`));

@@ -19,6 +19,7 @@ const fetchCryptosSuccess = (state, action) => {
   let cryptos_processed = {};
 
   action.payload.cryptos.forEach(function(item) {
+    //TODO: get rid of else statement
     if (!cryptos_processed[item.crypto_id]) {
       cryptos_processed[item.crypto_id] = {
         data: {

@@ -5,7 +5,7 @@
 var axios = require("axios");
 const db = require("./../db/db");
 const api_key = require("./../db/api_key.js");
-const DATA_ID_MAP = require("./../db/data_id_map");
+const DATA_ID_MAP = require("../db/utilities/getDataInfoObject");
 
 //insert list of cryptos
 function updateDB() {

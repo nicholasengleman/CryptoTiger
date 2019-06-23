@@ -1,7 +1,7 @@
-const db = require("./.././../db");
+const db = require("../db");
 
 //insert data info
-function insertDataInfo() {
+function insertDataIntoDataInfo() {
   let dataInfo = [];
 
   let m1 = ["PRICE_HOUR_11", "11 Hour Price", "hour", 11, "price"];
@@ -25,4 +25,4 @@ function insertDataInfo() {
   });
 }
 
-insertDataInfo();
+insertDataIntoDataInfo();

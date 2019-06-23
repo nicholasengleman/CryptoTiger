@@ -13,11 +13,26 @@ const app = express();
 // const updateCryptoData = require("./routes/cryptoData");
 // app.use("/api/updatedata", updateCryptoData);
 
-const UpdateDBNumberTable = require("./controllers/updateDBNumberTable");
 
-const updateDB = new UpdateDBNumberTable();
+const updateDBNumberTable = require("./db/update/updateDBNumberTable");
+const insertDBNumberTable = require("./db/migrate/insertDBNumberTable");
 
-console.log(updateDB.updateData());
+//insertDBNumberTable();
+updateDBNumberTable("minute");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}`));

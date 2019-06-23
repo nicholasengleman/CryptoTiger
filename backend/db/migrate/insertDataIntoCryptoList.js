@@ -4,12 +4,12 @@
  */
 
 var axios = require("axios");
-const db = require("./../../db");
-const api_key = require("./../../../db/api_key");
+const db = require("../db");
+const api_key = require("../api_key");
 
 
 //insert list of cryptos into CryptoList table
-function insertCryptoList() {
+function insertDataIntoCryptoList() {
     let cryptoList = [];
     const request = axios
         .get(
@@ -146,4 +146,4 @@ function updateDBNumberTable() {
 
 
 
-module.exports = insertCryptoList;
+module.exports = insertDataIntoCryptoList;

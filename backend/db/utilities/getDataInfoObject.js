@@ -10,12 +10,6 @@ function getDataInfoObject(callback) {
         } else {
             let DATA_ID_MAP = {};
 
-            // let id = results.filter(function (data) {
-            //     return data.data_type === "price" && data.data_period_type === timeframe && data.data_period === period;
-            // });
-            //
-            // callback(null, id[0].data_id);
-
             results.forEach(function (tf) {
                 DATA_ID_MAP = {
                     ...DATA_ID_MAP,
@@ -28,8 +22,6 @@ function getDataInfoObject(callback) {
                     }
                 }
             });
-
-
             callback(null, DATA_ID_MAP);
         }
     });

@@ -5,21 +5,19 @@ const cors = require("cors");
 //Express Setup
 const app = express();
 
-// app.use(cors());
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Routers
-// const updateCryptoData = require("./routes/cryptoData");
-// app.use("/api/updatedata", updateCryptoData);
+const updateCryptoData = require("./routes/cryptoData");
+app.use("/api/", updateCryptoData);
 
 
-const updateDBNumberTable = require("./db/update/updateDBNumberTable");
-const insertDBNumberTable = require("./db/migrate/insertDBNumberTable");
-
-//insertDBNumberTable();
-updateDBNumberTable("minute");
-
+// const updateDBNumberTable = require("./db/update/updateDBNumberTable");
+//
+// updateDBNumberTable("hour");
+//
 
 
 

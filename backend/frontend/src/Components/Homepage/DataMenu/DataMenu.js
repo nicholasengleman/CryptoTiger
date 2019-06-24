@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import styles from "./DataMenu.module.scss";
 import classNames from "classnames";
 
@@ -21,51 +22,70 @@ class DataMenu extends Component {
     };
   }
 
-  // getDataTypes = () => {
-  //   let values = Object.values(this.props.cryptos[0].data);
-  //   let data_types = [];
+  componentDidMount() {
+    axios
+        .get("http://localhost:5000/api/getdataobject")
+        .then(response => {
+          // this.props.CryptosSuccess(response.data);
+          // this.props.loadInitialColData(response.data);
+        //  this.setState({ dataObject: response.data.Data });
+          console.log(response.data);
+        })
+        .catch(error => {
+          // this.props.CryptosFailure(error);
+          console.log("[Error]", error);
+        });
+  }
 
-  //   for (const value of values) {
-  //     if (!data_types.includes(value.data_type)) {
-  //       data_types.push(value.data_type);
-  //     }
-  //   }
-  //   return data_types;
-  // };
+  // price, volume, etc
+  getDataTypes = () => {
+    let values = Object.values(this.props.cryptos[0].data);
+    let data_types = [];
 
-  // getDataPeriodTypes = () => {
-  //   let values = Object.values(this.props.cryptos[0].data);
-  //   let data_periods = [];
+    for (const value of values) {
+      if (!data_types.includes(value.data_type)) {
+        data_types.push(value.data_type);
+      }
+    }
+    console.log(data_types);
+    return data_types;
+  };
 
-  //   for (const value of values) {
-  //     if (value.data_type === this.state.selectedDataType) {
-  //       if (value.data_period_type !== "current") {
-  //         if (!data_periods.includes(value.data_period_type)) {
-  //           data_periods.push(value.data_period_type);
-  //         }
-  //       }
-  //     }
-  //   }
+  // day, hour, minute etc
+  getDataPeriodTypes = () => {
+    let values = Object.values(this.props.cryptos[0].data);
+    let data_periods = [];
 
-  //   return data_periods;
-  // };
+    for (const value of values) {
+      if (value.data_type === this.state.selectedDataType) {
+        if (value.data_period_type !== "current") {
+          if (!data_periods.includes(value.data_period_type)) {
+            data_periods.push(value.data_period_type);
+          }
+        }
+      }
+    }
 
-  // getDataPeriods = period_type => {
-  //   let values = Object.values(this.props.cryptos[0].data);
-  //   let data_periods = [];
+    return data_periods;
+  };
 
-  //   for (const value of values) {
-  //     if (value.data_type === this.state.selectedDataType) {
-  //       if (value.data_period_type === period_type) {
-  //         data_periods.push({
-  //           data_id: value.data_id,
-  //           data_period: value.data_period
-  //         });
-  //       }
-  //     }
-  //   }
-  //   return data_periods;
-  // };
+  // 1,2,3,4 etc
+  getDataPeriods = period_type => {
+    let values = Object.values(this.props.cryptos[0].data);
+    let data_periods = [];
+
+    for (const value of values) {
+      if (value.data_type === this.state.selectedDataType) {
+        if (value.data_period_type === period_type) {
+          data_periods.push({
+            data_id: value.data_id,
+            data_period: value.data_period
+          });
+        }
+      }
+    }
+    return data_periods;
+  };
 
   // handleSetDataType = event => {
   //   this.setState({ selectedDataType: event.currentTarget.textContent });
@@ -95,7 +115,7 @@ class DataMenu extends Component {
 
   render() {
     return <div>23</div>;
-    //creates the left sidebar component: "Price, Volumn, etc"
+    //creates the left sidebar component: "Price, Volumne, etc"
     // let data_types = this.getDataTypes().map(function(data) {
     //   return (
     //     <div

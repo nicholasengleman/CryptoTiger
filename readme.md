@@ -1,74 +1,18 @@
-Database Setup
-db.actions.dbsetup.index();
+* get data menu to show
+* get separate panels of data menu to show
+* enable changing of current columns by selecting new data type
+* get name and icon to show
 
-insert Price Data
-dbUpdate.getUpdateCryptoNumberValues();
 
-##Data Load Procedure/Schema
-Step 1:
+* enable adding new column
+* enable deleting column
 
-- crypto data is pulled to client as a flat array from db. Array has this schema:
-  [
-  [data_id, crypto_id, data_value]
-  ]
+* get correct value to show in front in. current value is just historical value. correct value is percentage change.
+* enable streaming updates of current price. 
 
-- client proccess array and turns it into an array of objects with this schema:
-  const cryptos = [
-  {
-  crypto_id: x,
-  crypto_name: x,
-  data : {
-  data_id {
-  data_id: x,
-  data_type: x,
-  data_period_type: x,
-  data_period: x,
-  data_name: x,
-  data_value: x
-  },
-  data_id {
-  data_id: x,
-  data_type: x,
-  data_period_type: x,
-  data_period: x,
-  data_name: x,
-  data_value: x
-  }
-  }
-  },
-  {
-  crypto_id: x,
-  crypto_name: x,
-  data : {
-  data_id {
-  data_id: x,
-  data_type: x,
-  data_period_type: x,
-  data_period: x,
-  data_name: x,
-  data_value: x
-  },
-  data_id {
-  data_id: x,
-  data_type: x,
-  data_period_type: x,
-  data_period: x,
-  data_name: x,
-  data_value: x
-  }
-  }
-  }
-  ]
+* enable optional filtering of each column
+* add list of popular filters
 
-Crypto Objects are then sorted by one of the data id/data_values
+* add uber graph at top
 
-Step 2:
-The new array kept in the redux store. It is fed to the Homepage component which iterates over it and creates a CryptoRow componenet for each object(which represents each crypto) in the array.
 
-The CryptoRow component also receives an array of keys that describes the data ids for each column. The array has this schema:
-[data_id, data_id]
-
-Step 3:
-The CryptoRow Component iterates over the column array and uses the data_id keys to look the value in the crypto.data object to show.
-
-The value of each cell will be crypto.data[data_id].data_value;

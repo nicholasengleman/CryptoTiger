@@ -9,7 +9,7 @@ class DataPeriod extends Component {
   render() {
     return (
       <div
-        onClick={() => this.props.setDataID(this.props.data_id)}
+        onClick={() => this.props.setDataID(this.props.data_id, this.props.period_name)}
         className={classNames(styles.period)}
       >
         <div className={styles.arrow}>
@@ -25,7 +25,7 @@ class DataPeriod extends Component {
         >
           <img src={checkmark} alt="" />
         </div>
-        <p>{this.props.data_period}</p>
+        <p>{this.props.period_name}</p>
       </div>
     );
   }

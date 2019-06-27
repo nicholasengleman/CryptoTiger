@@ -23,9 +23,6 @@ const loadInitialColumnData = (state, action) => {
                 let data = {
                     data_id: [item.data_id],
                     data_name: [item.data_name],
-                    data_period_type: [item.data_period_type],
-                    data_period: [item.data_period],
-                    data_type: [item.data_type]
                 };
                 columns_processed.push(data);
             }
@@ -66,12 +63,14 @@ const closeDataMenu = (state, action) => {
 };
 
 const changeColumnData = (state, action) => {
-    const columns = [...state.columns];
+    let columns = [...state.columns];
     let dataMenu = { ...state.dataMenu };
 
     columns.forEach(function(column) {
         if (column.data_id === state.dataMenu.column_id) {
             column.data_id = action.data_id;
+            column.data_name = action.data_name;
+
             dataMenu.column_id = action.data_id;
         }
     });

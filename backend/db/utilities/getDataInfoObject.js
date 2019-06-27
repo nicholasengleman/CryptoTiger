@@ -1,10 +1,10 @@
 const connection = require("./../db");
 const util = require('util');
 
-function getDataInfoObject(callback) {
+const getDataInfoObject = callback => {
     let sql =
         "SELECT data_id, data_name, data_period_type, data_period, data_type FROM DataInfo";
-    connection.query(sql, function (error, results) {
+    connection.query(sql, function (error, results = "") {
         if (error) {
             callback(error);
         } else {
@@ -17,7 +17,10 @@ function getDataInfoObject(callback) {
                        ...DATA_ID_MAP[tf.data_type],
                        [tf.data_period_type] : {
                            ...(DATA_ID_MAP[tf.data_type] && DATA_ID_MAP[tf.data_type][tf.data_period_type]),
-                           [tf.data_period] : tf.data_id
+                           [tf.data_period] : {
+                               'data_id' : tf.data_id,
+                               'data_name' : tf.data_name
+                           }
                        }
                     }
                 }
@@ -25,7 +28,7 @@ function getDataInfoObject(callback) {
             callback(null, DATA_ID_MAP);
         }
     });
-}
+};
 
 
 module.exports = getDataInfoObject;

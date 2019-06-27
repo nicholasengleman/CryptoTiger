@@ -21,6 +21,7 @@ class Homepage extends Component {
         axios
             .get("http://localhost:5000/api/updatedata")
             .then(response => {
+                console.log(response.data);
                 this.props.CryptosSuccess(response.data);
                 this.props.loadInitialColData(response.data);
             })
@@ -42,8 +43,8 @@ class Homepage extends Component {
                     this.props.cryptos.map(crypto => (
                         <CryptoRow
                             key={crypto[0]}
-                            cryptoInfo={crypto[1].data}
-                            name="Demo"
+                            cryptoInfo={crypto[1]}
+                            name={crypto[0]}
                             columns={this.props.columns}
                         />
                     ))}

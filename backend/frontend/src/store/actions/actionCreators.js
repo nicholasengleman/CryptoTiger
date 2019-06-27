@@ -18,10 +18,11 @@ export const closeDataMenu = () => {
     type: actionTypes.CLOSE_DATA_MENU
   };
 };
-export const changeColumnData = data_id => {
+export const changeColumnData = (data_id, data_name) => {
   return {
     type: actionTypes.CHANGE_COLUMN_DATA,
-    data_id: data_id
+    data_id: data_id,
+    data_name: data_name
   };
 };
 

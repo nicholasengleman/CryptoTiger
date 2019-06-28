@@ -1,5 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
-import { updatedObject } from "../../utilities/utilities";
+import {updatedObject} from "../../utilities/utilities";
 
 const initialState = {
     columns: [],
@@ -13,13 +13,13 @@ const loadInitialColumnData = (state, action) => {
     let columns_processed = [];
     let id;
 
-    action.payload.data.forEach(function(item) {
+    action.payload.data.forEach(function (item) {
         let columns_default = ["PRICE_HOUR_10", "PRICE_HOUR_3", "PRICE_DAY_1", "PRICE_DAY_5"];
         if (!id) {
             id = item.crypto_id;
         }
         if (id === item.crypto_id) {
-            if(columns_default.includes(item.data_id)) {
+            if (columns_default.includes(item.data_id)) {
                 let data = {
                     data_id: [item.data_id],
                     data_name: [item.data_name],
@@ -42,10 +42,11 @@ const toggleDataMenu = (state, action) => {
     } else {
         menu_state = true;
     }
+
     const updatedState = {
         dataMenu: {
             open: menu_state,
-            column_id: action.column_id
+            column_id: action.column_id ? action.column_id : "ADD_NEW_COLUMN"
         }
     };
     return updatedObject(state, updatedState);
@@ -64,16 +65,20 @@ const closeDataMenu = (state, action) => {
 
 const changeColumnData = (state, action) => {
     let columns = [...state.columns];
-    let dataMenu = { ...state.dataMenu };
+    let dataMenu = {...state.dataMenu};
 
-    columns.forEach(function(column) {
-        if (column.data_id === state.dataMenu.column_id) {
-            column.data_id = action.data_id;
-            column.data_name = action.data_name;
+    if (state.dataMenu.column_id !== 'ADD_NEW_COLUMN') {
+        columns.forEach(function (column) {
+            if (column.data_id === state.dataMenu.column_id) {
+                column.data_id = action.data_id;
+                column.data_name = action.data_name;
+            }
+        });
+    } else {
+        columns.push({data_id: action.data_id, data_name: action.data_name});
+    }
 
-            dataMenu.column_id = action.data_id;
-        }
-    });
+    dataMenu.column_id = action.data_id;
 
     const updatedState = {
         columns,

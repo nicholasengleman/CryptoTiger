@@ -1,10 +1,10 @@
 /*
-  Creates and Inserts list of Cryptos with their id, fullname and shortname
+  Creates and Inserts list of Cryptos with their id, fullname, shortname, and icon
 
  */
 
 var axios = require("axios");
-const db = require("../db");
+const connection = require("./../db");
 const api_key = require("../api_key");
 
 
@@ -25,21 +25,20 @@ function insertDataIntoCryptoList() {
         });
 
     request.then(data => {
-
         data.forEach(coin => {
             let coinInfo = [
                 Number.parseInt(coin.CoinInfo.Id),
                 coin.CoinInfo.FullName,
-                coin.CoinInfo.Name
+                coin.CoinInfo.Name,
+                coin.CoinInfo.ImageUrl
             ];
             cryptoList.push(coinInfo);
        });
 
-        console.log(cryptoList);
 
-        var sql = "INSERT IGNORE INTO CryptoList (crypto_id, crypto_name, crypto_shortname) VALUES ?";
+        var sql = "INSERT IGNORE INTO CryptoList (crypto_id, crypto_name, crypto_shortname, crypto_icon_url) VALUES ?";
 
-        db.connection.query(sql, [cryptoList], function (error, results) {
+        connection.query(sql, [cryptoList], function (error, results) {
             if (error) throw error;
             console.log(results);
         });

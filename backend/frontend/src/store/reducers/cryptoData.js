@@ -23,6 +23,8 @@ const fetchCryptosSuccess = (state, action) => {
                 ...cryptos_processed,
                 [item.crypto_id]: {
                     ...cryptos_processed[item.crypto_id],
+                    'crypto_name': item.crypto_name,
+                    'crypto_icon_url' : item.crypto_icon_url,
                     [item.data_id]: {
                         'data_id': item.data_id,
                         'data_name': item.data_name,

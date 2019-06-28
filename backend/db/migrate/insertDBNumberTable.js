@@ -30,14 +30,12 @@ function insertDBNumberTable() {
                         if (err) throw err;
                         insertDataInTable(data, DATA_INFO_MAP, timeframe, (err, results) => {
                             if (err) throw err;
-                            console.log(results);
                         });
                     });
                 }
             });
         });
     });
-    console.log("finished");
 }
 
 
@@ -58,7 +56,7 @@ function insertDataInTable(data, DATA_INFO_MAP, timeframe, callback) {
                     cryptoList.push(coinInfo);
                 });
             });
-           // console.log(cryptoList);
+
             var sql =
                 "INSERT IGNORE INTO CryptoNumberDataValues (data_id, crypto_id, data_value) VALUES ?";
             connection.query(sql, [cryptoList], function (error, results) {

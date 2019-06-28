@@ -33,10 +33,9 @@ function getHistoricalData(data, timeframe, lookback_period, callback) {
         });
         i++;
         if (!data[i] || i > data.length) {
-            console.log("finished");
             clearInterval(interval_id);
         }
-    }, 200);
+    }, 400);
 }
 
 module.exports = getHistoricalData;

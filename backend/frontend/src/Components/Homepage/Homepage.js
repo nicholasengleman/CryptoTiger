@@ -44,7 +44,8 @@ class Homepage extends Component {
                         <CryptoRow
                             key={crypto[0]}
                             cryptoInfo={crypto[1]}
-                            name={crypto[0]}
+                            crypto_icon={crypto[1].crypto_icon_url}
+                            crypto_name={crypto[1].crypto_name}
                             columns={this.props.columns}
                         />
                     ))}

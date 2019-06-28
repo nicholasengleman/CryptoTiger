@@ -5,14 +5,15 @@ import crypto_logo from "../../../img/crypto_logo.png";
 import Cell from "./Cell/Cell";
 
 const CryptoRow = props => {
+
   return (
     <div className={styles.cryptoContainer}>
       <div className={styles.logoContainer}>
-        <img className={styles.logo} src={crypto_logo} alt="" />
+        <img className={styles.logo} src={"https://www.cryptocompare.com".concat(props.crypto_icon)} alt="" />
       </div>
 
       <div className={styles.dataContainer}>
-        <div className={styles.cryptoName}>{props.name}</div>
+        <div className={styles.cryptoName}>{props.crypto_name}</div>
         {/*<div className={styles.description}>{props.industry}</div>*/}
       </div>
 
@@ -23,6 +24,7 @@ const CryptoRow = props => {
           cryptoInfo={props.cryptoInfo}
         />
       ))}
+
     </div>
   );
 };

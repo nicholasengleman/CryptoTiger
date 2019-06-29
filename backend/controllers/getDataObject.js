@@ -1,4 +1,4 @@
-const dataObject  = require("./../db/utilities/getDataInfoObject");
+const dataObject  = require("../db/utilities/getDataInfoTable");
 
 function getDataObject (callback) {
     dataObject(function(err, data) {

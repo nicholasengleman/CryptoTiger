@@ -14,32 +14,25 @@ The function needs to first retrieve/calculate 3 values to update the DB: the da
 
 const connection = require("./../db");
 const getCryptoShortNames = require("./../utilities/getCryptoShortNames");
-const getHistoricalData = require("./../utilities/getHistoricalData");
-const getDataInfoObject = require("./../utilities/getDataInfoObject");
+const getCurrentData = require("../utilities/getCurrentData");
+const getDataInfoObject = require("../utilities/getDataInfoTable");
 const computeDataId = require("./../utilities/computeDataId");
 
-
-function insertDBNumberTable() {
+function updateCurrentNumberData() {
     getCryptoShortNames((err, cryptoShortNames) => {
         if (err) throw err;
         getDataInfoObject((error, DATA_INFO_MAP) => {
-            Object.keys(DATA_INFO_MAP.price).forEach((timeframe) => {
-                if (timeframe !== 'current') {
-                    const length  = Object.keys(DATA_INFO_MAP["price"][timeframe]).length;
-                    getHistoricalData(cryptoShortNames, timeframe, length, (err, data) => {
-                        if (err) throw err;
-                        insertDataInTable(data, DATA_INFO_MAP, timeframe, (err, results) => {
-                            if (err) throw err;
-                        });
-                    });
-                }
+            getCurrentData(cryptoShortNames, (err, data) => {
+            //     if (err) throw err;
+            //     // updateDataInTable(data, DATA_INFO_MAP, timeframe, err => {
+            //     //     if (err) throw err;
+            //     // });
             });
         });
     });
 }
 
-
-function insertDataInTable(data, DATA_INFO_MAP, timeframe, callback) {
+function updateDataInTable(data, DATA_INFO_MAP, timeframe, callback) {
     let count = data.i;
     let crypto_id = data.crypto_id;
     let historical_data = data.historical_data;
@@ -50,25 +43,39 @@ function insertDataInTable(data, DATA_INFO_MAP, timeframe, callback) {
     try {
         if (Array.isArray(historical_data)) {
             historical_data.forEach(bar => {
-                computeDataId(timeframe, bar.time, DATA_INFO_MAP, function (err, data_id) {
+                computeDataId(timeframe, bar.time, DATA_INFO_MAP, function (
+                    err,
+                    data_id
+                ) {
                     if (err) throw err;
-                    let coinInfo = [data_id, data.crypto_id, bar.close];
-                    cryptoList.push(coinInfo);
+                    cryptoList.push([bar.close, data_id, crypto_id]);
                 });
             });
 
-            var sql =
-                "INSERT IGNORE INTO CryptoNumberDataValues (data_id, crypto_id, data_value) VALUES ?";
-            connection.query(sql, [cryptoList], function (error, results) {
-                if (error) callback(error);
-                return results;
-            });
+            console.log(cryptoList);
+
+            let prevCount = 0;
+
+            let sql =
+                "UPDATE CryptoNumberDataValues SET data_value = ? WHERE data_id = ? AND crypto_id = ?";
+            for (let i = 0; i < cryptoList.length; i++) {
+                connection.query(sql, cryptoList[i], function (error, results) {
+                    if (error) {
+                        callback(error);
+                    } else {
+                        if (prevCount !== count) {
+                            console.log(
+                                "crypto " + count + " updated. (10 rows updated for each)"
+                            );
+                            prevCount = count;
+                        }
+                    }
+                });
+            }
         }
     } catch (error) {
         callback(error);
     }
 }
 
-
-module.exports = insertDBNumberTable;
-
+module.exports = updateCurrentNumberData;

@@ -21,6 +21,7 @@ function getHistoricalData(data, timeframe, lookback_period, callback) {
                 console.log(error);
                 callback(error);
             });
+
         request.then(historical_data => {
 
             if (data[i]) {
@@ -37,5 +38,6 @@ function getHistoricalData(data, timeframe, lookback_period, callback) {
         }
     }, 400);
 }
+
 
 module.exports = getHistoricalData;

@@ -1,7 +1,7 @@
 const connection = require("./../db");
 const util = require('util');
 
-const getDataInfoObject = callback => {
+const getDataInfoTable = callback => {
     let sql =
         "SELECT data_id, data_name, data_period_type, data_period, data_type FROM DataInfo";
     connection.query(sql, function (error, results = "") {
@@ -31,6 +31,6 @@ const getDataInfoObject = callback => {
 };
 
 
-module.exports = getDataInfoObject;
+module.exports = getDataInfoTable;
 
 

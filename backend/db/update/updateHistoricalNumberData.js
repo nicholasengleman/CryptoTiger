@@ -14,11 +14,11 @@ The function needs to first retrieve/calculate 3 values to update the DB: the da
 
 const connection = require("./../db");
 const getCryptoShortNames = require("./../utilities/getCryptoShortNames");
-const getHistoricalData = require("./../utilities/getHistoricalData");
-const getDataInfoObject = require("./../utilities/getDataInfoObject");
+const getHistoricalData = require("../utilities/getHistoricalData");
+const getDataInfoObject = require("../utilities/getDataInfoTable");
 const computeDataId = require("./../utilities/computeDataId");
 
-function updateDBNumberTable(timeframe = "hour") {
+function updateHistoricalNumberData(timeframe = "hour") {
   getCryptoShortNames((err, cryptoShortNames) => {
     if (err) throw err;
     getDataInfoObject((error, DATA_INFO_MAP) => {
@@ -57,8 +57,6 @@ function updateDataInTable(data, DATA_INFO_MAP, timeframe, callback) {
         });
       });
 
-      console.log(cryptoList);
-
       let prevCount = 0;
 
       let sql =
@@ -83,4 +81,4 @@ function updateDataInTable(data, DATA_INFO_MAP, timeframe, callback) {
   }
 }
 
-module.exports = updateDBNumberTable;
+module.exports = updateHistoricalNumberData;

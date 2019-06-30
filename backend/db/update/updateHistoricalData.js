@@ -14,25 +14,22 @@ The function needs to first retrieve/calculate 3 values to update the DB: the da
 
 const connection = require("./../db");
 const getCryptoShortNames = require("./../utilities/getCryptoShortNames");
-const getCurrentData = require("../utilities/getCurrentData");
-const getDataInfoObject = require("../utilities/getDataInfoTable");
+const getHistoricalData = require("../utilities/getHistoricalData");
 const computeDataId = require("./../utilities/computeDataId");
 
-function updateCurrentNumberData() {
+function updateHistoricalData(timeframe = "hour") {
     getCryptoShortNames((err, cryptoShortNames) => {
         if (err) throw err;
-        getDataInfoObject((error, DATA_INFO_MAP) => {
-            getCurrentData(cryptoShortNames, (err, data) => {
+        getHistoricalData(cryptoShortNames, timeframe, length, (err, data) => {
+            if (err) throw err;
+            // updateDataInTable(data, timeframe, err => {
             //     if (err) throw err;
-            //     // updateDataInTable(data, DATA_INFO_MAP, timeframe, err => {
-            //     //     if (err) throw err;
-            //     // });
-            });
+            // });
         });
-    });
+    }
 }
 
-function updateDataInTable(data, DATA_INFO_MAP, timeframe, callback) {
+function updateDataInTable(data, timeframe, callback) {
     let count = data.i;
     let crypto_id = data.crypto_id;
     let historical_data = data.historical_data;
@@ -43,7 +40,7 @@ function updateDataInTable(data, DATA_INFO_MAP, timeframe, callback) {
     try {
         if (Array.isArray(historical_data)) {
             historical_data.forEach(bar => {
-                computeDataId(timeframe, bar.time, DATA_INFO_MAP, function (
+                computeDataId(timeframe, bar.time, function (
                     err,
                     data_id
                 ) {
@@ -51,8 +48,6 @@ function updateDataInTable(data, DATA_INFO_MAP, timeframe, callback) {
                     cryptoList.push([bar.close, data_id, crypto_id]);
                 });
             });
-
-            console.log(cryptoList);
 
             let prevCount = 0;
 
@@ -78,4 +73,4 @@ function updateDataInTable(data, DATA_INFO_MAP, timeframe, callback) {
     }
 }
 
-module.exports = updateCurrentNumberData;
+module.exports = updateHistoricalData;

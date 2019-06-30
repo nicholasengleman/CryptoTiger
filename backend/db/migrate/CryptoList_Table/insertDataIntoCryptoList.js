@@ -4,8 +4,8 @@
  */
 
 var axios = require("axios");
-const connection = require("./../db");
-const api_key = require("../api_key");
+const connection = require("../../db");
+const api_key = require("../../api_key");
 
 
 //insert list of cryptos into CryptoList table

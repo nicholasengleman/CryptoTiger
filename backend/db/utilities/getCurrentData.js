@@ -1,41 +1,38 @@
 const api_key = require("../api_key");
 const get = require("axios");
-const util = require('util');
 
+const getCryptoListTable = require("./../utilities/getCryptoListTable");
 
-function getCurrentData(cryptos, callback) {
-    let cryptoList = "";
-    cryptos.forEach(function (crypto, i) {
-        cryptoList += (i !== 0 ? "," + crypto.crypto_shortname : crypto.crypto_shortname);
-    });
-
-    const request = get(
-        `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${cryptoList}&tsyms=USD&?${api_key}`
-    )
-        .then(response => {
-            return response.data;
-        })
-        .catch(error => {
-            console.log(error);
-            callback(error);
+function getCurrentData(callback) {
+    getCryptoListTable((err, CRYPTO_LIST_TABLE) => {
+        let cryptoList = "";
+        Object.keys(CRYPTO_LIST_TABLE).forEach((crypto) => {
+            if (isNaN(crypto)) {
+                cryptoList += (cryptoList.length !== 0 ? "," + crypto : crypto);
+            }
         });
-
-    request.then(historical_data => {
-
-        //  console.log(util.inspect(historical_data, {showHidden: false, depth: null}));
-
-        let processedCryptoList = [];
-
-        Object.keys(historical_data.RAW).forEach(function (crypto) {
-            processedCryptoList.push({
-                price: historical_data.RAW[crypto].USD.PRICE,
-                shortname: historical_data.RAW[crypto].USD.FROMSYMBOL
+        const request = get(
+            `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${cryptoList}&tsyms=USD&?${api_key}`
+        )
+            .then(response => {
+                return response.data;
             })
+            .catch(error => {
+                console.log(error);
+                callback(error);
+            });
+
+        request.then(historical_data => {
+            let processedCryptoList = [];
+
+            Object.keys(historical_data.RAW).forEach(function (crypto) {
+                processedCryptoList.push({
+                    price: historical_data.RAW[crypto].USD.PRICE,
+                    shortname: historical_data.RAW[crypto].USD.FROMSYMBOL
+                })
+            });
+            callback(null, processedCryptoList);
         });
-
-        //console.log(util.inspect(processedCryptoList, {showHidden: false, depth: null}));
-
-        callback(null, processedCryptoList);
     });
 }
 

@@ -16,11 +16,11 @@ app.use("/api/", updateCryptoData);
 // const updateDBNumberTable = require("./db/update/updateDBNumberTable");
 // updateDBNumberTable("hour");
 
-// const updateCurrentNumberData = require("./db/update/updateCurrentNumberData");
-// updateCurrentNumberData();
+// const updateCurrentData = require("./db/update/updateCurrentData");
+// updateCurrentData();
 
-const insertCurrentNumberData = require("./db/migrate/insertCurrentNumberData");
-insertCurrentNumberData();
+const insertCurrentData = require("./db/migrate/NumberData_Table/insertCurrentData");
+insertCurrentData();
 
 // const getCryptoListTable = require("./db/utilities/getCryptoListTable");
 // getCryptoListTable();

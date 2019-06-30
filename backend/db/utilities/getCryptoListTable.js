@@ -9,7 +9,6 @@ const getCryptoListTable = callback => {
             callback(error);
         } else {
             let CRYPTO_LIST_TABLE = {};
-
             results.forEach(function (crypto) {
                 CRYPTO_LIST_TABLE = {
                     ...CRYPTO_LIST_TABLE,

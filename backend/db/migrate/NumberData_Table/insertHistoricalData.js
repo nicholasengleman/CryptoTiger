@@ -12,14 +12,14 @@ The function needs to first retrieve/calculate 3 values to update the DB: the da
     a)
 */
 
-const connection = require("./../db");
-const getCryptoShortNames = require("./../utilities/getCryptoShortNames");
-const getHistoricalData = require("../utilities/getHistoricalData");
-const getDataInfoObject = require("../utilities/getDataInfoTable");
-const computeDataId = require("./../utilities/computeDataId");
+const connection = require("../../db");
+const getCryptoShortNames = require("../../utilities/getCryptoShortNames");
+const getHistoricalData = require("../../utilities/getHistoricalData");
+const getDataInfoObject = require("../../utilities/getDataInfoTable");
+const computeDataId = require("../../utilities/computeDataId");
 
 
-function insertHistoricalNumberData() {
+function insertHistoricalData() {
     getCryptoShortNames((err, cryptoShortNames) => {
         if (err) throw err;
         getDataInfoObject((error, DATA_INFO_MAP) => {
@@ -70,5 +70,5 @@ function insertDataInTable(data, DATA_INFO_MAP, timeframe, callback) {
 }
 
 
-module.exports = insertHistoricalNumberData;
+module.exports = insertHistoricalData;
 

@@ -18,13 +18,17 @@ const getDataInfoObject = require("../../utilities/getDataInfoTable");
 const computeDataId = require("../utilities/computeDataId");
 
 
+
 function insertHistoricalPrice() {
+
+    let total_rows_changed = 0;
+
     getDataInfoObject((error, DATA_INFO_MAP) => {
         Object.keys(DATA_INFO_MAP.price).forEach((timeframe) => {
             if (timeframe !== 'current') {
                 getHistoricalData(timeframe, (err, data) => {
                     if (err) throw err;
-                    insertDataInTable(data, timeframe, (err, results) => {
+                    insertDataInTable(data, timeframe, total_rows_changed, (err, results) => {
                         if (err) throw err;
                     });
                 });
@@ -34,7 +38,7 @@ function insertHistoricalPrice() {
 }
 
 
-function insertDataInTable(data, timeframe, callback) {
+function insertDataInTable(data, timeframe, total_rows_changed, callback) {
     let count = data.i;
     let crypto_id = data.crypto_id;
     let historical_data = data.historical_data;
@@ -52,7 +56,7 @@ function insertDataInTable(data, timeframe, callback) {
             var sql = "INSERT IGNORE INTO CryptoNumberDataValues (data_id, crypto_id, data_value) VALUES ?";
             connection.query(sql, [cryptoList], function (error, results) {
                 if (error) callback(error);
-                console.log(results.changedRows);
+                console.log(results.changedRows + " rows changed.");
                 return results;
             });
         });

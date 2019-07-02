@@ -1,9 +1,9 @@
-const api_key = require("../api_key");
+const api_key = require("../../utilities/api_key");
 const get = require("axios");
 
-const getCryptoListTable = require("./../utilities/getCryptoListTable");
+const getCryptoListTable = require("../../utilities/getCryptoListTable");
 
-function getCurrentData(callback) {
+function getCurrentPrice(callback) {
     getCryptoListTable((err, CRYPTO_LIST_TABLE) => {
         let cryptoList = "";
         Object.keys(CRYPTO_LIST_TABLE).forEach((crypto) => {
@@ -37,4 +37,4 @@ function getCurrentData(callback) {
 }
 
 
-module.exports = getCurrentData;
+module.exports = getCurrentPrice;

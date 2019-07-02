@@ -1,4 +1,4 @@
-const connection = require("./../db/db");
+const connection = require("../db/utilities/db");
 
 function updateClientCryptoData(callback) {
   var sql =

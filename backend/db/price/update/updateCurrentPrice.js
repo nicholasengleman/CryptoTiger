@@ -1,9 +1,9 @@
-const connection = require("./../db");
-const getCurrentData = require("./../utilities/getCurrentData");
-const prepareCurrentData = require("./../utilities/prepareCurrentData");
+const connection = require("../../utilities/db");
+const getCurrentPrice = require("../utilities/getCurrentPrice");
+const prepareCurrentData = require("../utilities/processCurrentPriceData");
 
-function updateCurrentData() {
-    getCurrentData((err, cryptos) => {
+function updateCurrentPrice() {
+    getCurrentPrice((err, cryptos) => {
         if (err) throw err;
         updateDataInTable(cryptos, err => {
             if (err) throw err;
@@ -36,4 +36,4 @@ function updateDataInTable(cryptos, callback) {
 }
 
 
-module.exports = updateCurrentData;
+module.exports = updateCurrentPrice;

@@ -13,22 +13,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const updateCryptoData = require("./routes/cryptoData");
 app.use("/api/", updateCryptoData);
 
-// const updateDBNumberTable = require("./db/update/updateDBNumberTable");
-// updateDBNumberTable("hour");
-
-// const updateCurrentData = require("./db/update/updateCurrentData");
-// updateCurrentData();
-
-const insertCurrentData = require("./db/migrate/NumberData_Table/insertCurrentData");
-insertCurrentData();
-
-// const getCryptoListTable = require("./db/utilities/getCryptoListTable");
-// getCryptoListTable();
-
-
-
-
-
 
 
 

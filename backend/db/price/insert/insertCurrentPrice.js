@@ -1,8 +1,8 @@
-const connection = require("../../db");
-const getCurrentData = require("../../utilities/getCurrentData");
-const prepareCurrentData = require("../../utilities/prepareCurrentData");
+const connection = require("../../utilities/db");
+const getCurrentData = require("../utilities/getCurrentPrice");
+const prepareCurrentData = require("../utilities/processCurrentPriceData");
 
-function insertCurrentData() {
+function insertCurrentPrice() {
     getCurrentData((err, cryptos) => {
         if (err) throw err;
         insertDataInTable(cryptos, err => {
@@ -25,13 +25,14 @@ function insertDataInTable(cryptos, callback) {
                     "INSERT IGNORE INTO CryptoNumberDataValues (data_id, crypto_id, data_value) VALUES ?";
                 connection.query(sql, [cryptoList], function (error, results) {
                     if (error) callback(error);
+                    console.log(`Finished inserting ${results.changedRows} rows of current ${data_type} data.`);
                     return results;
                 });
             }
-            console.log(`Finished inserting current ${data_type} data.`);
+
         })
     });
 }
 
-module.exports = insertCurrentData;
+module.exports = insertCurrentPrice;
 

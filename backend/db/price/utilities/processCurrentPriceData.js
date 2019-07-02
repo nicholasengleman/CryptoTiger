@@ -1,7 +1,7 @@
-const getCryptoListTable = require("./../utilities/getCryptoListTable");
-const getDataInfoTable = require("./../utilities/getDataInfoTable");
+const getCryptoListTable = require("../../utilities/getCryptoListTable");
+const getDataInfoTable = require("../../utilities/getDataInfoTable");
 
-function prepareCurrentData(type_of_operation, cryptos, data_type, callback) {
+function processCurrentPriceData(type_of_operation, cryptos, data_type, callback) {
 
     if (type_of_operation !== "insert" && type_of_operation !== "update") {
         return callback("Unknown operation type for preparing data.")
@@ -33,4 +33,4 @@ function prepareCurrentData(type_of_operation, cryptos, data_type, callback) {
 }
 
 
-module.exports = prepareCurrentData;
+module.exports = processCurrentPriceData;

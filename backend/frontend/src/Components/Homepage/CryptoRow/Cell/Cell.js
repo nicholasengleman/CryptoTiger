@@ -13,10 +13,12 @@ class Cell extends Component {
             this.props.cryptoInfo[this.props.columnData.data_id] &&
             this.props.cryptoInfo[this.props.columnData.data_id].data_value
         ) {
-            value = this.props.cryptoInfo[this.props.columnData.data_id]
-                .data_value;
+            let period_value = this.props.cryptoInfo[this.props.columnData.data_id].data_value;
+            let current_value = this.props.cryptoInfo.PRICE_CURRENT_0.data_value;
+            value = ((current_value - period_value) / period_value).toFixed(4);
+
+            return value;
         }
-        return value;
     };
 
     getName = () => {
@@ -42,7 +44,7 @@ class Cell extends Component {
                 this.getValue() > 0 ? styles.up : styles.down
             )}
         >
-          {this.getValue()}
+          {this.getValue() + "%"}
             <span className={styles.arrowContainer}>
             <img
                 className={styles.arrow}

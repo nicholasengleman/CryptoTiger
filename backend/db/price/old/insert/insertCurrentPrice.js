@@ -1,6 +1,6 @@
-const connection = require("../../utilities/db");
-const getCurrentData = require("../utilities/getCurrentPrice");
-const prepareCurrentData = require("../utilities/processCurrentPriceData");
+const connection = require("../../../utilities/db");
+const getCurrentData = require("../../utilities/getCurrentPrice");
+const prepareCurrentData = require("../../utilities/processCurrentPriceData");
 
 function insertCurrentPrice() {
     getCurrentData((err, cryptos) => {

@@ -10,31 +10,27 @@ function createTables() {
         "crypto_name TINYTEXT NOT NULL, " +
         "crypto_shortname TINYTEXT NOT NULL, " +
         "crypto_icon_url TINYTEXT)";
-    db.connection.query(sql, function (error, results) {
+    db.query(sql, function (error, results) {
         if (error) throw error;
-        console.log("table created");
+        console.log("CryptoList table created");
     });
 
-    var sql =
-        "CREATE TABLE DataInfo (data_id VARCHAR(100) NOT NULL PRIMARY KEY, data_name TINYTEXT NOT NULL, data_type VARCHAR(100), data_period_type TINYTEXT NOT NULL, data_period INT NOT NULL)";
-    db.connection.query(sql, function (error, results) {
-        if (error) throw error;
-        console.log("table created");
-    });
+    // var sql =
+    //     "CREATE TABLE CryptoStringDataValues (crypto_datetime datetime, crypto_id INT, data_value float, PRIMARY" +
+    //     " KEY(crypto_datetime, crypto_id), FOREIGN KEY(crypto_id) REFERENCES CryptoList(crypto_id) ON DELETE CASCADE)";
+    // db.connection.query(sql, function (error, results) {
+    //     if (error) throw error;
+    //     console.log("table created");
+    // });
 
     var sql =
-        "CREATE TABLE CryptoStringDataValues (data_id VARCHAR(100), crypto_id INT, data_value TEXT, PRIMARY KEY(data_id, crypto_id), FOREIGN KEY(data_id) REFERENCES DataInfo(data_id), FOREIGN KEY(crypto_id) REFERENCES CryptoList(crypto_id) ON DELETE CASCADE)";
-    db.connection.query(sql, function (error, results) {
+        "CREATE TABLE CryptoNumberDataValues (crypto_datetime datetime, crypto_id INT, data_value FLOAT, PRIMARY KEY(crypto_datetime, crypto_id), FOREIGN KEY(crypto_id) REFERENCES CryptoList(crypto_id) ON DELETE CASCADE)";
+    db.query(sql, function (error, results) {
         if (error) throw error;
-        console.log("table created");
-    });
-
-    var sql =
-        "CREATE TABLE CryptoNumberDataValues (data_id VARCHAR(100), crypto_id INT, data_value FLOAT, PRIMARY KEY(data_id, crypto_id), FOREIGN KEY(data_id) REFERENCES DataInfo(data_id) ON DELETE CASCADE, FOREIGN KEY(crypto_id) REFERENCES CryptoList(crypto_id) ON DELETE CASCADE)";
-    db.connection.query(sql, function (error, results) {
-        if (error) throw error;
-        console.log("table created");
+        console.log("CryptoNumberDataValues table created");
     });
 }
 
-module.exports = {createTables};
+createTables();
+
+

@@ -12,11 +12,10 @@ The function needs to first retrieve/calculate 3 values to update the DB: the da
     a)
 */
 
-const connection = require("../../utilities/db");
-const getHistoricalData = require("../utilities/getHistoricalPrice");
-const getDataInfoObject = require("../../utilities/getDataInfoTable");
-const computeDataId = require("../utilities/computeDataId");
-
+const connection = require("../../../utilities/db");
+const getHistoricalData = require("../../utilities/getHistoricalPrice");
+const getDataInfoObject = require("../../../utilities/getDataInfoTable");
+const computeDataId = require("../../utilities/computeDataId");
 
 
 function insertHistoricalPrice() {

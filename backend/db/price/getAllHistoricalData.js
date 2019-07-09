@@ -18,7 +18,7 @@ function getHistoricalData(callback) {
         callNextCrypto(i);
 
         function callNextCrypto(i) {
-            getHistoricalPrice(cryptoList[i], (err, cryptoData) => {
+            getHistoricalPrice(cryptoList[i], 2000, (err, cryptoData) => {
                 if (err) throw err;
                 console.log(cryptoData.length);
 
@@ -26,7 +26,7 @@ function getHistoricalData(callback) {
                     " VALUES ?";
                 db.query(sql, [cryptoData], function (error, results) {
                     if (error) throw error;
-                    console.log(`${cryptoList[i].crypto_shortname}: ${results.changedRows} rows changed.`);
+                    console.log(`#${i} ${cryptoList[i].crypto_shortname}: ${results.changedRows} rows changed.`);
                     i++;
                     if(i < 100) {
                         callNextCrypto(i);

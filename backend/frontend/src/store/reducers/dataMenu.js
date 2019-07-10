@@ -13,24 +13,14 @@ const loadInitialColumnData = (state, action) => {
     let columns_processed = [];
     let id;
 
-    action.payload.data.forEach(function (item) {
-        let columns_default = ["PRICE_HOUR_10", "PRICE_HOUR_3", "PRICE_DAY_1", "PRICE_DAY_5"];
-        if (!id) {
-            id = item.crypto_id;
-        }
-        if (id === item.crypto_id) {
-            if (columns_default.includes(item.data_id)) {
-                let data = {
-                    data_id: [item.data_id],
-                    data_name: [item.data_name],
-                };
-                columns_processed.push(data);
-            }
-        }
-    });
+    let numberdata = [];
+
+    for(let i = 1; i<action.payload.data.length; i++) {
+        numberdata.push(action.payload.data[i])
+    }
 
     const updatedState = {
-        columns: columns_processed
+        columns: numberdata
     };
     return updatedObject(state, updatedState);
 };

@@ -14,7 +14,7 @@ const CryptoListHeader = props => {
         <CryptoHeader
           key={item.data_id}
           id={item.data_id}
-          name={item.data_name}
+          name={item.name}
           handleDataMenuToggle={props.handleDataMenuToggle}
         />
       ))}

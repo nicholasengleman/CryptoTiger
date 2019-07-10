@@ -3,7 +3,6 @@ import {updatedObject} from "../../utilities/utilities";
 
 const initialState = {
     cryptosBasicData: [],
-    cryptosNumberData: {},
     loading: false,
     error: null
 };
@@ -21,7 +20,6 @@ const fetchCryptosSuccess = (state, action) => {
         const updatedState = {
             loading: false,
             cryptosBasicData: action.payload.data[0],
-            cryptosNumberData: action.payload.data[1]
         };
 
         return updatedObject(state, updatedState);

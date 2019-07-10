@@ -1,5 +1,5 @@
 const getCryptoListTable = require("../../utilities/getCryptoListTable");
-const getDataInfoTable = require("../../utilities/getDataInfoTable");
+const getDataInfoTable = require("../../../timeframeList");
 
 function processCurrentPriceData(type_of_operation, cryptos, data_type, callback) {
 

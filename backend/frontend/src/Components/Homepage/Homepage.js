@@ -19,7 +19,7 @@ class Homepage extends Component {
     componentDidMount() {
         this.props.CryptosBegin();
         axios
-            .get("http://localhost:5000/api/updatedata")
+            .get("http://localhost:5000/api/crypto-data/getDefaultData")
             .then(response => {
                 console.log(response.data);
                 this.props.CryptosSuccess(response.data);

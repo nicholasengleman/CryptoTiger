@@ -30,9 +30,9 @@ export const changeColumnData = (data_id, data_name) => {
 export const fetchCryptosBegin = () => ({
   type: actionTypes.FETCH_CRYPTOS_BEGIN
 });
-export const fetchCryptosSuccess = cryptos => ({
+export const fetchCryptosSuccess = data => ({
   type: actionTypes.FETCH_CRYPTOS_SUCCESS,
-  payload: { cryptos }
+  payload: { data }
 });
 export const fetchCryptosFailure = error => ({
   type: actionTypes.FETCH_CRYPTOS_FAILURE,

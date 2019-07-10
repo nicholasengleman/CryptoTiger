@@ -2,7 +2,8 @@ import * as actionTypes from "../actions/actionTypes";
 import {updatedObject} from "../../utilities/utilities";
 
 const initialState = {
-    cryptos: [],
+    cryptosBasicData: [],
+    cryptosNumberData: {},
     loading: false,
     error: null
 };
@@ -16,32 +17,13 @@ const fetchCryptosBegin = (state, action) => {
 };
 
 const fetchCryptosSuccess = (state, action) => {
-        let cryptos_processed = {};
-
-        action.payload.cryptos.forEach(function (item) {
-            cryptos_processed = {
-                ...cryptos_processed,
-                [item.crypto_id]: {
-                    ...cryptos_processed[item.crypto_id],
-                    'crypto_name': item.crypto_name,
-                    'crypto_icon_url' : item.crypto_icon_url,
-                    [item.data_id]: {
-                        'data_id': item.data_id,
-                        'data_name': item.data_name,
-                        'data_period_type': item.data_period_type,
-                        'data_period': item.data_period,
-                        'data_type': item.data_type,
-                        'data_value': item.data_value
-                    }
-                }
-            };
-        });
-
 
         const updatedState = {
             loading: false,
-            cryptos: Array.from(Object.entries(cryptos_processed))
+            cryptosBasicData: action.payload.data[0],
+            cryptosNumberData: action.payload.data[1]
         };
+
         return updatedObject(state, updatedState);
     }
 ;

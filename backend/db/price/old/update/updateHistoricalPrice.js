@@ -14,7 +14,7 @@ The function needs to first retrieve/calculate 3 values to update the DB: the da
 
 const connection = require("../../../utilities/db");
 const getHistoricalData = require("../../utilities/getHistoricalPrice");
-const getDataInfoObject = require("../../../utilities/getDataInfoTable");
+const getDataInfoObject = require("../../../../timeframeList");
 const computeDataId = require("../../utilities/computeDataId");
 
 function updateHistoricalPrice(timeframe = "hour") {

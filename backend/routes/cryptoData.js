@@ -1,20 +1,15 @@
 const express = require("express");
 const router = express.Router();
 
-const updateCryptoData = require("../controllers/updateClientCryptoData");
-const getDataObject = require("../controllers/getDataObject");
+const getDefaultData = require("../controllers/getDefaultData");
 
-router.get("/updatedata", function(req, res) {
-  updateCryptoData(function(result) {
+router.get("/getDefaultData", function(req, res) {
+  getDefaultData(function(result) {
     res.send(result);
   });
 });
 
 
-router.get("/getdataobject", function(req, res) {
-  getDataObject(function(result) {
-    res.send(result);
-  })
-});
+;
 
 module.exports = router;

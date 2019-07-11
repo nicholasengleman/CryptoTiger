@@ -10,7 +10,8 @@ const CryptoListHeader = props => {
   return (
     <div className={styles.filterColumnsHeader}>
       <div className={styles.spacer} />
-      {props.columns.map(item => (
+
+      {props.crypto && props.crypto.columns.map(item => (
         <CryptoHeader
           key={item.data_id}
           id={item.data_id}
@@ -27,7 +28,7 @@ const CryptoListHeader = props => {
 
 const mapStateToProps = state => {
   return {
-    columns: state.dataMenu.columns
+    crypto: state.cryptoData.data[0]
   };
 };
 

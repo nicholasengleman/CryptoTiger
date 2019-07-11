@@ -21,7 +21,7 @@ function getDefaultData(callback) {
         .then(results => data[2] =  {
             name : timeframeList['3H'].name,
             period: timeframeList['3H'].period,
-            h3 : results
+            data : results
         })
         .catch(err => console.log("error:", err.message));
 
@@ -29,7 +29,7 @@ function getDefaultData(callback) {
         .then(results => data[3] = {
             name : timeframeList['6H'].name,
             period: timeframeList['6H'].period,
-            h6 : results
+            data : results
         })
         .catch(err => console.log("error:", err.message));
 
@@ -63,7 +63,7 @@ function getDefaultData(callback) {
 
         return new Promise((resolve, reject) => {
 
-            var sql = `SELECT MAX(crypto_datetime) as crypto_datetime, crypto_id
+            var sql = `SELECT MAX(crypto_datetime) as crypto_datetime, crypto_id, data_value
                        from CryptoNumberDataValues
                        WHERE crypto_datetime < (${time_since_1970_in_seconds} - ${timeframe})
                        GROUP BY crypto_id`;

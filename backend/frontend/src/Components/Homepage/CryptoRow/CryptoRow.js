@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./CryptoRow.module.scss";
-import crypto_logo from "../../../img/crypto_logo.png";
 
 import Cell from "./Cell/Cell";
 
@@ -19,9 +18,9 @@ const CryptoRow = props => {
 
       {props.columns.map(columnData => (
         <Cell
-          key={columnData.data_id}
-          columnData={columnData}
-          cryptoInfo={props.cryptoInfo}
+          key={columnData.name}
+          crypto_value={columnData.crypto_value}
+          crypto_name={columnData.name}
         />
       ))}
 

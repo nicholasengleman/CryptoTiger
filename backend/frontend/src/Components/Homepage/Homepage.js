@@ -23,7 +23,6 @@ class Homepage extends Component {
             .then(response => {
                 console.log(response.data);
                 this.props.CryptosSuccess(response.data);
-                this.props.loadInitialColData(response.data);
             })
             .catch(error => {
                 this.props.CryptosFailure(error);
@@ -39,14 +38,15 @@ class Homepage extends Component {
                 </div>
                 <div className={styles.cryptoListContainer}>
                     <CryptoListHeader/>
-                    {this.props.cryptos &&
-                    this.props.cryptos.map(crypto => (
+
+                    {this.props.cryptosData &&
+                    this.props.cryptosData.map(crypto => (
                         <CryptoRow
-                            key={crypto[0]}
-                            cryptoInfo={crypto[1]}
-                            crypto_icon={crypto[1].crypto_icon_url}
-                            crypto_name={crypto[1].crypto_name}
-                            columns={this.props.columns}
+                            key={crypto.crypto_id}
+                            cryptoInfo={crypto.crypto_id}
+                            crypto_icon={crypto.crypto_icon_url}
+                            crypto_name={crypto.crypto_name}
+                            columns={crypto.columns}
                         />
                     ))}
                 </div>
@@ -57,8 +57,7 @@ class Homepage extends Component {
 
 const mapStateToProps = state => {
     return {
-        cryptos: state.cryptoData.cryptos,
-        columns: state.dataMenu.columns
+        cryptosData: state.cryptoData.data,
     };
 };
 
@@ -67,7 +66,6 @@ const mapDispatchToProps = dispatch => {
         CryptosBegin: () => dispatch(fetchCryptosBegin()),
         CryptosSuccess: data => dispatch(fetchCryptosSuccess(data)),
         CryptosFailure: error => dispatch(fetchCryptosFailure(error)),
-        loadInitialColData: data1 => dispatch(loadInitialColumnData(data1))
     };
 };
 

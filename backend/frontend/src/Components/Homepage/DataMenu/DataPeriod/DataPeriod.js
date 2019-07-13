@@ -6,10 +6,11 @@ import arrow from "../../../../img/arrow_cute.png";
 import styles from "./DataPeriod.module.scss";
 
 class DataPeriod extends Component {
+
   render() {
     return (
       <div
-        onClick={() => this.props.setDataID(this.props.data_id, this.props.period_name)}
+        onClick={this.props.handleSetDataType}
         className={classNames(styles.period)}
       >
         <div className={styles.arrow}>
@@ -18,7 +19,7 @@ class DataPeriod extends Component {
         <div
           className={classNames(
             styles.checkbox,
-            this.props.data_id === this.props.selectedPeriod
+            this.props.period_name === this.props.selectedPeriod
               ? styles.selected
               : null
           )}

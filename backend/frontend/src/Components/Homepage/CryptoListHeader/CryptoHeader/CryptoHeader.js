@@ -8,10 +8,10 @@ class CryptoHeader extends Component {
   render() {
     return (
       <div
-        onClick={() => this.props.onToggleDataMenu(this.props.id)}
+        onClick={() => this.props.onToggleDataMenu(this.props.column_name)}
         className={styles.column}
       >
-        {this.props.name}
+        {this.props.column_name}
         <img className={styles.sort_icon} src={sort_icon} alt="" />
       </div>
     );
@@ -20,7 +20,7 @@ class CryptoHeader extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onToggleDataMenu: (column_id) => dispatch(toggleDataMenu(column_id))
+    onToggleDataMenu: (column_name) => dispatch(toggleDataMenu(column_name))
   };
 };
 

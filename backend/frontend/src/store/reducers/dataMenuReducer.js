@@ -4,7 +4,12 @@ import {updatedObject} from "../../utilities/utilities";
 const initialState = {
     dataMenu: {
         open: false,
-        column_id: ""
+        column_id: "",
+        timeframes: {
+            hours: 18,
+            days: 30,
+            weeks: 52
+        }
     }
 };
 
@@ -18,6 +23,7 @@ const toggleDataMenu = (state, action) => {
 
     const updatedState = {
         dataMenu: {
+            ...state.dataMenu,
             open: menu_state,
             column_id: action.column_id ? action.column_id : "ADD_NEW_COLUMN"
         }
@@ -32,10 +38,8 @@ const closeDataMenu = (state, action) => {
             column_id: 0
         }
     };
-
     return updatedObject(state, updatedState);
 };
-
 
 
 const dataMenuReducer = (state = initialState, action) => {

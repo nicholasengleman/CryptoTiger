@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import axios from "axios";
 import styles from "./DataMenu.module.scss";
 import classNames from "classnames";
 
@@ -23,28 +22,12 @@ class DataMenu extends Component {
         };
     }
 
-    componentDidMount() {
-        axios
-            .get("http://localhost:5000/api/getdataobject")
-            .then(response => {
-                // this.props.CryptosSuccess(response.data);
-                // this.props.loadInitialColData(response.data);
-                //  this.setState({ dataObject: response.data.Data });
-                this.setState({dataInfo: response.data});
-            })
-            .catch(error => {
-                // this.props.CryptosFailure(error);
-                console.log("[Error]", error);
-            });
-    }
 
     handleSetDataType = event => {
-        this.setState({selectedDataType: event.currentTarget.textContent});
+        this.setState({selectedDataID: event.currentTarget.textContent});
+
     };
 
-    handleSetDataID = (data_id, data_name) => {
-        this.setState({selectedDataID: data_id, selectedDataName: data_name });
-    };
 
     handleFilterTypeChange = e => {
         let filter = {...this.state.filter};
@@ -65,48 +48,7 @@ class DataMenu extends Component {
     };
 
     render() {
-        //creates the left sidebar component: "Price, Volumne, etc"
-        let data_types = this.state.dataInfo && Object.keys(this.state.dataInfo).map(function (data) {
-            return (
-                <div
-                    className={classNames(
-                        styles.dataType,
-                        this.state.selectedDataType === data
-                            ? styles.dataTypeSelected
-                            : null
-                    )}
-                    onClick={this.handleSetDataType}
-                    key={data}
-                >
-                    <p>{data}</p>
-                </div>
-            );
-        }, this);
 
-        //creates the time frame type components (hourly, daily, etc) and then the individual time frames(5min, 1hr,
-        // etc) inside each component
-        let data_period_types = this.state.dataInfo && Object.keys(this.state.dataInfo[this.state.selectedDataType]).map(function (data, i) {
-            if (i > 0) {
-                return (
-                    <div className={styles.dataPeriodType} key={data}>
-                        <div className={styles.dataPeriodTypeHeader}>{data}</div>
-                        {Object.keys(this.state.dataInfo[this.state.selectedDataType][data]).map(function (period) {
-                            let period_data = this.state.dataInfo[this.state.selectedDataType][data][period];
-                            return (
-                                <DataPeriod
-                                    key={period_data.data_id}
-                                    selectedPeriod={this.state.selectedDataID}
-                                    period_name={period_data.data_name}
-                                    data_id={period_data.data_id}
-                                    setDataID={this.handleSetDataID}
-                                />
-                            );
-                        }, this)}
-                    </div>
-                );
-            }
-        }, this);
-        
         //renders all the above above components
         return (
             <div className={styles.dataMenuContainer}>
@@ -116,8 +58,69 @@ class DataMenu extends Component {
                         this.props.dataMenu.open ? styles.open : styles.closed
                     )}
                 >
-                    <div className={styles.dataTypeWindow}>{data_types}</div>
-                    <div className={styles.dataPeriodsWindow}>{data_period_types}</div>
+                    <div className={styles.dataTypeWindow}>
+                        <div className={classNames(
+                            styles.dataType,
+                            this.state.selectedDataType === "price"
+                                ? styles.dataTypeSelected
+                                : null
+                        )}
+                             onClick={this.handleSetDataType}
+                        >
+                            <p>Price</p>
+                        </div>
+                    </div>
+                    <div className={styles.dataPeriodsWindow}>
+
+                        <div className={styles.dataPeriodType}>
+                            <div className={styles.dataPeriodTypeHeader}>Hour</div>
+                            {Array.from({length: this.props.dataMenu.timeframes.hours}, (v, k) => k + 1).map(function (period) {
+                                const timeframe_description = period === 1 ? " Hour" : " Hours";
+                                return (
+                                    <DataPeriod
+                                        key={period}
+                                        selectedPeriod={this.state.selectedDataID}
+                                        period_time={period * 60 * 60}
+                                        period_name={period + timeframe_description}
+                                        handleSetDataType={this.handleSetDataType}
+                                    />
+                                );
+                            }, this)}
+                        </div>
+
+                        <div className={styles.dataPeriodType}>
+                            <div className={styles.dataPeriodTypeHeader}>Day</div>
+                            {Array.from({length: this.props.dataMenu.timeframes.days}, (v, k) => k + 1).map(function (period) {
+                                const timeframe_description = period === 1 ? " Day" : " Days";
+                                return (
+                                    <DataPeriod
+                                        key={period}
+                                        selectedPeriod={this.state.selectedDataID}
+                                        period_time={period * 60 * 60 * 24}
+                                        period_name={period + timeframe_description}
+                                        handleSetDataType={this.handleSetDataType}
+                                    />
+                                );
+                            }, this)}
+                        </div>
+
+                        <div className={styles.dataPeriodType}>
+                            <div className={styles.dataPeriodTypeHeader}>Weeks</div>
+                            {Array.from({length: this.props.dataMenu.timeframes.weeks}, (v, k) => k + 1).map(function (period) {
+                                const timeframe_description = period === 1 ? " Week" : " Weeks";
+                                return (
+                                    <DataPeriod
+                                        key={period}
+                                        selectedPeriod={this.state.selectedDataID}
+                                        period_time={period * 60 * 60 * 24 * 7}
+                                        period_name={period + timeframe_description}
+                                        handleSetDataType={this.handleSetDataType}
+                                    />
+                                );
+                            }, this)}
+                        </div>
+
+                    </div>
                 </div>
                 {this.state.selectedDataID && (
                     <DataFilter
@@ -134,7 +137,6 @@ class DataMenu extends Component {
 const mapStateToProps = state => {
     return {
         dataMenu: state.dataMenu.dataMenu,
-        periodData: state.dataMenu.columns
     };
 };
 

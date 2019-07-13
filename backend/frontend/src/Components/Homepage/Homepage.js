@@ -6,7 +6,6 @@ import {
     fetchCryptosBegin,
     fetchCryptosSuccess,
     fetchCryptosFailure,
-    loadInitialColumnData
 } from "../../store/actions/actionCreators";
 
 import styles from "./Homepage.module.scss";
@@ -37,6 +36,7 @@ class Homepage extends Component {
                     <DataMenu/>
                 </div>
                 <div className={styles.cryptoListContainer}>
+
                     <CryptoListHeader/>
 
                     {this.props.cryptosData &&

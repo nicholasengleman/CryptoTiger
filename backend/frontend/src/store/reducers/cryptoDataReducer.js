@@ -7,6 +7,7 @@ const initialState = {
     error: null
 };
 
+
 const fetchCryptosBegin = (state, action) => {
     const updatedState = {
         loading: true,
@@ -14,7 +15,6 @@ const fetchCryptosBegin = (state, action) => {
     };
     return updatedObject(state, updatedState);
 };
-
 const fetchCryptosSuccess = (state, action) => {
 
         let default_data = action.payload.data[0];
@@ -46,9 +46,7 @@ const fetchCryptosSuccess = (state, action) => {
         };
 
         return updatedObject(state, updatedState);
-    }
-;
-
+    };
 const fetchCryptosFailure = (state, action) => {
     const updatedState = {
         loading: false,
@@ -57,6 +55,7 @@ const fetchCryptosFailure = (state, action) => {
     };
     return updatedObject(state, updatedState);
 };
+
 
 const cryptoDataReducer = (state = initialState, action) => {
     switch (action.type) {

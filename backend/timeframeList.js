@@ -1,3 +1,5 @@
+
+
 const dataInfoTable = {
     '1H': {
         period: 1,

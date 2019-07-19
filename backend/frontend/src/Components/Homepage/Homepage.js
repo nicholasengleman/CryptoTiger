@@ -40,13 +40,13 @@ class Homepage extends Component {
                     <CryptoListHeader/>
 
                     {this.props.cryptosData &&
-                    this.props.cryptosData.map(crypto => (
+                    Object.keys(this.props.cryptosData).map(crypto => (
                         <CryptoRow
-                            key={crypto.crypto_id}
-                            cryptoInfo={crypto.crypto_id}
-                            crypto_icon={crypto.crypto_icon_url}
-                            crypto_name={crypto.crypto_name}
-                            columns={crypto.columns}
+                            key={this.props.cryptosData[crypto].crypto_id}
+                            cryptoInfo={this.props.cryptosData[crypto].crypto_id}
+                            crypto_icon={this.props.cryptosData[crypto].crypto_icon_url}
+                            crypto_name={this.props.cryptosData[crypto].crypto_name}
+                            columns={this.props.cryptosData[crypto].columns}
                         />
                     ))}
                 </div>

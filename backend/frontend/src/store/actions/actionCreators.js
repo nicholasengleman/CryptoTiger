@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
 
+
 // Data Menu action creators
 export const loadInitialColumnData = data => {
   return {
@@ -13,18 +14,32 @@ export const toggleDataMenu = column_id => {
     column_id: column_id
   };
 };
+
+
+//Crypto Data Managing creators
 export const closeDataMenu = () => {
   return {
     type: actionTypes.CLOSE_DATA_MENU
   };
 };
-export const changeColumnData = (data_id, data_name) => {
+export const processNewColumnData = (new_timeframe_name, new_column_data) => {
   return {
-    type: actionTypes.CHANGE_COLUMN_DATA,
-    data_id: data_id,
-    data_name: data_name
+    type: actionTypes.PROCESS_NEW_COLUMN_DATA,
+    payload: { new_timeframe_name, new_column_data }
   };
 };
+export const updateLiveColumnView = () => {
+  return {
+    type: actionTypes.UPDATE_LIVE_COLUMN_VIEW
+  }
+};
+export const getCurrentSelectedColumn = (current_selected_column) => {
+  return {
+    type: actionTypes.GET_CURRENT_SELECTED_COLUMN,
+    payload: { current_selected_column }
+  };
+};
+
 
 // Crypto Menu action creators
 export const fetchCryptosBegin = () => ({

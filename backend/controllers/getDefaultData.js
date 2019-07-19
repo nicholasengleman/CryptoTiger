@@ -63,10 +63,11 @@ function getDefaultData(callback) {
 
         return new Promise((resolve, reject) => {
 
-            var sql = `SELECT MAX(crypto_datetime) as crypto_datetime, crypto_id, data_value
+            var sql = `SELECT crypto_datetime, crypto_id, data_value
                        from CryptoNumberDataValues
                        WHERE crypto_datetime < (${time_since_1970_in_seconds} - ${timeframe})
-                       GROUP BY crypto_id`;
+                       order by crypto_datetime DESC
+                       LIMIT 100`;
 
             connection.query(sql, function (err, results) {
                 if (err) {

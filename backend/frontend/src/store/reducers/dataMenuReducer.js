@@ -34,6 +34,7 @@ const toggleDataMenu = (state, action) => {
 const closeDataMenu = (state, action) => {
     const updatedState = {
         dataMenu: {
+            ...state.dataMenu,
             open: false,
             column_id: 0
         }

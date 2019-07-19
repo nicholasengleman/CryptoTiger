@@ -1,10 +1,12 @@
 import React, {Component} from "react";
 import styles from "./DataMenu.module.scss";
 import classNames from "classnames";
-
 import {connect} from "react-redux";
+import axios from "axios";
+
 import {
-    changeColumnData,
+    processNewColumnData,
+    updateLiveColumnView,
     closeDataMenu
 } from "../../../store/actions/actionCreators";
 
@@ -17,34 +19,43 @@ class DataMenu extends Component {
 
         this.state = {
             selectedDataType: "price",
-            selectedDataID: "",
-            selectedDataName: ""
+            selectedDataName: "",
         };
     }
 
 
-    handleSetDataType = event => {
-        this.setState({selectedDataID: event.currentTarget.textContent});
-
+    handleSetDataType = (new_timeframe_seconds, new_timeframe_name) => {
+        if (this.state.selectedDataName !== new_timeframe_name) {
+            this.setState({selectedDataName: new_timeframe_name});
+            axios
+                .get(`http://localhost:5000/api/crypto-data/getColumnData/${new_timeframe_seconds}`)
+                .then(response => {
+                    this.props.processNewColumnData(new_timeframe_name, response.data);
+                })
+                .catch(error => {
+                    console.log("[Error]", error);
+                });
+        }
     };
 
-
-    handleFilterTypeChange = e => {
-        let filter = {...this.state.filter};
-        filter.value = e.value;
-        this.setState({filter});
-    };
-
-    handleFilterNumberChange = e => {
-        let filter = {...this.state.filter};
-        filter[e.target.id] = e.target.value;
-        this.setState({filter});
-    };
+    //
+    // handleFilterTypeChange = e => {
+    //     let filter = {...this.state.filter};
+    //     filter.value = e.value;
+    //     this.setState({filter});
+    // };
+    //
+    // handleFilterNumberChange = e => {
+    //     let filter = {...this.state.filter};
+    //     filter[e.target.id] = e.target.value;
+    //     this.setState({filter});
+    // };
+    //
 
     handleAddWithoutFilter = () => {
-        this.props.onAddWithoutFilter(this.state.selectedDataID, this.state.selectedDataName);
+        this.props.updateLiveView();
         this.props.closeDataMenu();
-        this.setState({selectedDataID: ""});
+        this.setState({selectedDataName: ""});
     };
 
     render() {
@@ -79,7 +90,7 @@ class DataMenu extends Component {
                                 return (
                                     <DataPeriod
                                         key={period}
-                                        selectedPeriod={this.state.selectedDataID}
+                                        selectedDataName={this.state.selectedDataName}
                                         period_time={period * 60 * 60}
                                         period_name={period + timeframe_description}
                                         handleSetDataType={this.handleSetDataType}
@@ -95,7 +106,7 @@ class DataMenu extends Component {
                                 return (
                                     <DataPeriod
                                         key={period}
-                                        selectedPeriod={this.state.selectedDataID}
+                                        selectedDataName={this.state.selectedDataName}
                                         period_time={period * 60 * 60 * 24}
                                         period_name={period + timeframe_description}
                                         handleSetDataType={this.handleSetDataType}
@@ -111,7 +122,7 @@ class DataMenu extends Component {
                                 return (
                                     <DataPeriod
                                         key={period}
-                                        selectedPeriod={this.state.selectedDataID}
+                                        selectedDataName={this.state.selectedDataName}
                                         period_time={period * 60 * 60 * 24 * 7}
                                         period_name={period + timeframe_description}
                                         handleSetDataType={this.handleSetDataType}
@@ -122,7 +133,7 @@ class DataMenu extends Component {
 
                     </div>
                 </div>
-                {this.state.selectedDataID && (
+                {this.state.selectedDataName && (
                     <DataFilter
                         handleFilterTypeChange={this.handleFilterTypeChange}
                         handleFilterNumberChange={this.handleFilterNumberChange}
@@ -142,8 +153,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddWithoutFilter: (data_id, data_name) => dispatch(changeColumnData(data_id, data_name)),
-        closeDataMenu: () => dispatch(closeDataMenu())
+        processNewColumnData: (new_timeframe_name, new_column_data) =>
+            dispatch(processNewColumnData(new_timeframe_name, new_column_data)),
+        updateLiveView: () => dispatch(updateLiveColumnView()),
+        closeDataMenu: () => dispatch(closeDataMenu()),
     };
 };
 

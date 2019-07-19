@@ -10,7 +10,7 @@ class DataPeriod extends Component {
   render() {
     return (
       <div
-        onClick={this.props.handleSetDataType}
+        onClick={() => this.props.handleSetDataType(this.props.period_time, this.props.period_name)}
         className={classNames(styles.period)}
       >
         <div className={styles.arrow}>
@@ -19,7 +19,7 @@ class DataPeriod extends Component {
         <div
           className={classNames(
             styles.checkbox,
-            this.props.period_name === this.props.selectedPeriod
+            this.props.period_name === this.props.selectedDataName
               ? styles.selected
               : null
           )}

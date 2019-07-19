@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 
 import CryptoHeader from "./CryptoHeader/CryptoHeader";
 import AddNewColumnBtn from "./AddNewColumnBtn/AddNewColumnBtn";
-import {toggleDataMenu} from "../../../store/actions/actionCreators";
 
 const CryptoListHeader = props => {
   return (
@@ -26,7 +25,7 @@ const CryptoListHeader = props => {
 
 const mapStateToProps = state => {
   return {
-    crypto: state.cryptoData.data[0]
+    crypto: state.cryptoData.data["1182"]
   };
 };
 

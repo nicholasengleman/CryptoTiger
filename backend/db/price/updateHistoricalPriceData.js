@@ -1,9 +1,9 @@
 const db = require("../utilities/db");
 
 const getCryptoListTable = require("./../utilities/getCryptoListTable");
-const getHistoricalPrice = require("./utilities/getHistoricalPrice");
+const getHistoricalPrice = require("../utilities/getHistoricalPrice");
 
-function priceDataHealthCheck(callback) {
+function updateHistoricalPriceData(callback) {
     getCryptoListTable((err, CRYPTO_LIST_TABLE) => {
         let cryptoList = [];
         Object.keys(CRYPTO_LIST_TABLE).forEach(crypto => {
@@ -62,4 +62,4 @@ function priceDataHealthCheck(callback) {
     });
 }
 
-priceDataHealthCheck();
+updateHistoricalPriceData();

@@ -12,6 +12,10 @@ class DataFilter extends Component {
     }
 
 
+    handleFilterTypeChange = e => {
+        this.setState({value: e.value});
+    };
+
 
     numberView = (filtertype) => {
         switch (filtertype) {
@@ -92,14 +96,14 @@ class DataFilter extends Component {
         return (
             <div className={styles.container}>
                 <div className={styles.header}>
-                    Add filter to this data?
+                    Filter this data?
                     <span>X</span>
                 </div>
                 <div className={styles.body}>
                     <p className={styles.description}>Include data where price is:</p>
                     <div className={styles.filterContainer}>
                         <Select options={options} styles={customStyles}
-                                onChange={this.props.handleFilterTypeChange}
+                                onChange={this.handleFilterTypeChange}
                                 defaultValue={{ label: "in between", value: "in-between" }}/>
                         {this.numberView(this.state.value)}
                     </div>

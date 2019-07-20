@@ -1,7 +1,10 @@
-const db = require("../utilities/db");
+// this function is used for managing the bulk downloading of historical data going back to the date specified in the
+// getHistoricalDataPrice function
 
-const getCryptoListTable = require("./../utilities/getCryptoListTable");
-const getHistoricalPrice = require("./utilities/getHistoricalPrice");
+const db = require("../../utilities/db");
+
+const getCryptoListTable = require("../../utilities/getCryptoListTable");
+const getHistoricalPrice = require("../../utilities/getHistoricalPrice");
 
 
 function getHistoricalData(callback) {

@@ -1,4 +1,4 @@
-const api_key = require("./../../utilities/api_key");
+const api_key = require("./api_key");
 const get = require("axios");
 
 

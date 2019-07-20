@@ -1,10 +1,11 @@
-const api_key = require("../../utilities/api_key");
+const api_key = require("./api_key");
 const get = require("axios");
 
-const getCryptoListTable = require("../../utilities/getCryptoListTable");
+const getCryptoListTable = require("./getCryptoListTable");
 
 function getCurrentPrice(callback) {
     getCryptoListTable((err, CRYPTO_LIST_TABLE) => {
+
         let cryptoList = "";
         Object.keys(CRYPTO_LIST_TABLE).forEach((crypto) => {
             if (isNaN(crypto)) {
@@ -31,10 +32,13 @@ function getCurrentPrice(callback) {
                     shortname: historical_data.RAW[crypto].USD.FROMSYMBOL
                 })
             });
-            callback(null, processedCryptoList);
+
+
+           callback(null, processedCryptoList);
         });
     });
 }
+
 
 
 module.exports = getCurrentPrice;

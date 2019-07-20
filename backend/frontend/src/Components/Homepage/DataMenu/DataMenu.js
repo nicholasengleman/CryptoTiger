@@ -38,19 +38,6 @@ class DataMenu extends Component {
         }
     };
 
-    //
-    // handleFilterTypeChange = e => {
-    //     let filter = {...this.state.filter};
-    //     filter.value = e.value;
-    //     this.setState({filter});
-    // };
-    //
-    // handleFilterNumberChange = e => {
-    //     let filter = {...this.state.filter};
-    //     filter[e.target.id] = e.target.value;
-    //     this.setState({filter});
-    // };
-    //
 
     handleAddWithoutFilter = () => {
         this.props.updateLiveView();
@@ -135,8 +122,6 @@ class DataMenu extends Component {
                 </div>
                 {this.state.selectedDataName && (
                     <DataFilter
-                        handleFilterTypeChange={this.handleFilterTypeChange}
-                        handleFilterNumberChange={this.handleFilterNumberChange}
                         handleAddWithoutFilter={this.handleAddWithoutFilter}
                     />
                 )}

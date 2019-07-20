@@ -1,5 +1,5 @@
 const connection = require("../db/utilities/db");
-const timeframeList = require("../timeframeList");
+const timeframeList = require("../server_tables/timeframeList");
 
 function getDefaultData(callback) {
 

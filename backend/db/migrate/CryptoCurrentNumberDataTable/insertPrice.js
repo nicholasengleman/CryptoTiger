@@ -29,14 +29,14 @@ function insertDataInTable(cryptos, callback) {
             let cryptoList = [];
 
             cryptos.forEach(crypto => {
-                const data_id = DATA_INFO_OBJECT["Price"];
+               // const data_id = DATA_INFO_OBJECT["Price"];
                 const crypto_id = CRYPTO_LIST_TABLE[crypto.shortname].crypto_id;
+                const datetime = 0;
 
-                cryptoList.push([crypto_id, data_id, crypto.price]);
+                cryptoList.push([datetime, crypto_id, crypto.price]);
             });
 
-            let sql = `INSERT IGNORE INTO CryptoCurrentData (crypto_id, data_id, data_value)
-                       VALUES ?`;
+            let sql = `INSERT IGNORE INTO CryptoNumberDataValues (crypto_datetime, crypto_id, data_value) VALUES ?`;
             connection.query(sql, [cryptoList], function (error, results) {
                 if (error) callback(error);
                 console.log(`Finished inserting ${results.changedRows} rows of current ${data_type} data.`);

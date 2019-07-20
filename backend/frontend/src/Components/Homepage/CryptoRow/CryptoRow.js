@@ -21,6 +21,7 @@ const CryptoRow = props => {
           key={columnData.name}
           crypto_value={columnData.crypto_value}
           crypto_name={columnData.name}
+          crypto_period={columnData.period}
         />
       ))}
 

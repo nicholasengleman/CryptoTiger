@@ -24,16 +24,13 @@ function updateDataInTable(cryptos, callback) {
             let cryptoList = [];
 
             cryptos.forEach(crypto => {
-                const data_id = DATA_INFO_OBJECT["Price"];
+               // const data_id = DATA_INFO_OBJECT["Price"];
                 const crypto_id = CRYPTO_LIST_TABLE[crypto.shortname].crypto_id;
 
-                cryptoList.push([crypto.price, data_id, crypto_id]);
+                cryptoList.push([crypto.price, 0, crypto_id]);
             });
 
-            let sql = `UPDATE CryptoCurrentData
-                       SET data_value = ?
-                       WHERE data_id = ?
-                         AND crypto_id = ?`;
+            let sql = `UPDATE CryptoNumberDataValues SET data_value = ? WHERE crypto_datetime = ? AND crypto_id = ?`;
 
             for (let i = 0; i < cryptoList.length; i++) {
                 connection.query(sql, cryptoList[i], function (error, results) {

@@ -6,34 +6,43 @@ function getDefaultData(callback) {
     let data = {};
 
     let cryptoListPromise = getCryptoList()
-        .then(results => data[0] =  results )
+        .then(results => data[0] = results)
+        .catch(err => console.log("error:", err.message));
+
+    let getCurrentPricePromise = getCurrentPrice()
+        .then(results => data[1] = {
+            name: "Current Price",
+            period: 0,
+            data: results
+        })
         .catch(err => console.log("error:", err.message));
 
     let getDataPromise_1 = getData(timeframeList['1H'].seconds)
-        .then(results => data[1] = {
-            name : timeframeList['1H'].name,
+        .then(results => data[2] = {
+            name: timeframeList['1H'].name,
             period: timeframeList['1H'].period,
-            data : results
+            data: results
         })
         .catch(err => console.log("error:", err.message));
 
     let getDataPromise_2 = getData(timeframeList['3H'].seconds)
-        .then(results => data[2] =  {
-            name : timeframeList['3H'].name,
+        .then(results => data[3] = {
+            name: timeframeList['3H'].name,
             period: timeframeList['3H'].period,
-            data : results
+            data: results
         })
         .catch(err => console.log("error:", err.message));
 
     let getDataPromise_3 = getData(timeframeList['6H'].seconds)
-        .then(results => data[3] = {
-            name : timeframeList['6H'].name,
+        .then(results => data[4] = {
+            name: timeframeList['6H'].name,
             period: timeframeList['6H'].period,
-            data : results
+            data: results
         })
         .catch(err => console.log("error:", err.message));
 
-    Promise.all([cryptoListPromise, getDataPromise_1, getDataPromise_2, getDataPromise_3])
+
+    Promise.all([cryptoListPromise, getCurrentPricePromise, getDataPromise_1, getDataPromise_2, getDataPromise_3])
         .then(function (data) {
             callback(data)
         })
@@ -54,7 +63,24 @@ function getDefaultData(callback) {
                 }
             });
         })
-    };
+    }
+
+    function getCurrentPrice() {
+        return new Promise((resolve, reject) => {
+
+            var sql = `select *
+                       from CryptoNumberDataValues
+                       WHERE crypto_datetime = 0`;
+
+            connection.query(sql, function (err, results) {
+                if (err) {
+                    return reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        })
+    }
 
 
     function getData(timeframe) {

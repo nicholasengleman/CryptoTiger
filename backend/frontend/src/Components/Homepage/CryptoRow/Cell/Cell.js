@@ -7,7 +7,11 @@ import losing_normal from "../../../../img/losing-normal.png";
 class Cell extends Component {
 
     getValue = () => {
-        return this.props.crypto_value;
+        if(this.props.crypto_period === 0) {
+            return "$" + this.props.crypto_value;
+        } else {
+            return this.props.crypto_value + "%";
+        }
     };
 
     render() {
@@ -16,14 +20,14 @@ class Cell extends Component {
         <span
             className={classNames(
                 styles.priceData,
-                this.getValue() > 0 ? styles.up : styles.down
+                this.props.crypto_value > 0 ? styles.up : styles.down
             )}
         >
-          {this.getValue() + "%"}
+          {this.getValue()}
             <span className={styles.arrowContainer}>
             <img
                 className={styles.arrow}
-                src={this.getValue() > 0 ? winning_normal : losing_normal}
+                src={this.props.crypto_value > 0 ? winning_normal : losing_normal}
                 alt=""
             />
           </span>

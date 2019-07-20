@@ -15,6 +15,10 @@ import CryptoListHeader from "./CryptoListHeader/CryptoListHeader";
 import DataMenu from "./DataMenu/DataMenu";
 
 class Homepage extends Component {
+
+
+
+
     componentDidMount() {
         this.props.CryptosBegin();
         axios
@@ -28,6 +32,8 @@ class Homepage extends Component {
                 console.log("[Error]", error);
             });
     }
+
+
 
     render() {
         return (

@@ -8,7 +8,8 @@ const initialState = {
     loading: false,
     error: null,
     cryptoDataBuffer: [],
-    selectedColumn: ""
+    selectedColumn: "",
+    histogram_data: []
 };
 
 
@@ -21,7 +22,30 @@ const updateLiveCryptoView = (state, action) => {
 };
 
 const processNewColumnData = (state, action) => {
-    //console.log(action.payload.new_column_data);
+    // console.log(action.payload.new_column_data);
+
+    let histogram_data = [];
+
+    action.payload.new_column_data.forEach(crypto => {
+        const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
+        const change_percentage = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
+
+        histogram_data.push({y: change_percentage, id: crypto.crypto_id});
+    });
+
+    histogram_data.sort(function (a, b) {
+        return a.y - b.y;
+    });
+
+    let x0_count = 0;
+    let x_count = 1;
+
+    histogram_data.forEach(crypto => {
+        crypto["x0"] = x0_count;
+        crypto["x"] = x_count;
+        x0_count++;
+        x_count++;
+    });
 
     let crypto_data_buffer = _.cloneDeep(state.data);
     action.payload.new_column_data.forEach(crypto => {
@@ -30,7 +54,6 @@ const processNewColumnData = (state, action) => {
         let index_of_el_to_change = crypto_data_buffer[crypto.crypto_id].columns.findIndex(function (arr) {
             return arr.name === state.selectedColumn;
         });
-
         const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
         new_crypto_value = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
 
@@ -43,7 +66,8 @@ const processNewColumnData = (state, action) => {
     });
 
     const updatedState = {
-        cryptoDataBuffer: crypto_data_buffer
+        cryptoDataBuffer: crypto_data_buffer,
+        histogram_data
     };
 
     return updatedObject(state, updatedState);
@@ -63,57 +87,57 @@ const fetchCryptosBegin = (state, action) => {
     return updatedObject(state, updatedState);
 };
 const fetchCryptosSuccess = (state, action) => {
-        let default_data = {};
-        action.payload.data[0].forEach(crypto => {
-            default_data[crypto.crypto_id] = {
-                crypto_id: crypto.crypto_id,
-                crypto_name: crypto.crypto_name,
-                crypto_shortname: crypto.crypto_shortname,
-                crypto_icon_url: crypto.crypto_icon_url
+    let default_data = {};
+    action.payload.data[0].forEach(crypto => {
+        default_data[crypto.crypto_id] = {
+            crypto_id: crypto.crypto_id,
+            crypto_name: crypto.crypto_name,
+            crypto_shortname: crypto.crypto_shortname,
+            crypto_icon_url: crypto.crypto_icon_url
 
-            }
-        });
+        }
+    });
 
-        Object.keys(default_data).forEach(crypto => {
-            default_data[crypto].columns = [];
-            let new_crypto_value;
+    Object.keys(default_data).forEach(crypto => {
+        default_data[crypto].columns = [];
+        let new_crypto_value;
 
-            for (let i = 1; i < action.payload.data.length; i++) {
-                action.payload.data[i].data.forEach(crypto_tf => {
+        for (let i = 1; i < action.payload.data.length; i++) {
+            action.payload.data[i].data.forEach(crypto_tf => {
 
-                        if (crypto_tf.crypto_id === default_data[crypto].crypto_id) {
+                    if (crypto_tf.crypto_id === default_data[crypto].crypto_id) {
 
-                            if (i < 2) {
-                                new_crypto_value = crypto_tf.data_value;
-                            } else {
-                                const current_value = findCurrentValueOfCrypto(action.payload.data[1].data, crypto_tf.crypto_id);
-                                new_crypto_value = (((current_value - crypto_tf.data_value) / crypto_tf.data_value) * 100).toFixed(2);
-                            }
-
-                            default_data[crypto].columns.push(
-                                {
-                                    name: action.payload.data[i].name,
-                                    period: action.payload.data[i].period,
-                                    crypto_datetime: crypto_tf.crypto_datetime,
-                                    crypto_id: crypto_tf.crypto_id,
-                                    crypto_value: new_crypto_value
-                                }
-                            )
+                        if (i < 2) {
+                            new_crypto_value = crypto_tf.data_value;
+                        } else {
+                            const current_value = findCurrentValueOfCrypto(action.payload.data[1].data, crypto_tf.crypto_id);
+                            new_crypto_value = (((current_value - crypto_tf.data_value) / crypto_tf.data_value) * 100).toFixed(2);
                         }
+
+                        default_data[crypto].columns.push(
+                            {
+                                name: action.payload.data[i].name,
+                                period: action.payload.data[i].period,
+                                crypto_datetime: crypto_tf.crypto_datetime,
+                                crypto_id: crypto_tf.crypto_id,
+                                crypto_value: new_crypto_value
+                            }
+                        )
                     }
-                );
-            }
-        })
-        ;
+                }
+            );
+        }
+    })
+    ;
 
-        const updatedState = {
-            loading: false,
-            data: default_data,
-            currentData: action.payload.data[1]
-        };
-
-        return updatedObject(state, updatedState);
+    const updatedState = {
+        loading: false,
+        data: default_data,
+        currentData: action.payload.data[1]
     };
+
+    return updatedObject(state, updatedState);
+};
 
 const fetchCryptosFailure = (state, action) => {
     const updatedState = {

@@ -48,4 +48,3 @@ function updateDataInTable(cryptos, callback) {
 updateCurrentPriceData();
 
 
-module.exports = updateCurrentPriceData;

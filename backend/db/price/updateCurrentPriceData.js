@@ -3,12 +3,13 @@ const getCurrentPrice = require("./../utilities/getCurrentPrice");
 const DATA_INFO_OBJECT = require("./../utilities/DataInfoObject");
 const getCryptoListTable = require("./../utilities/getCryptoListTable");
 
-function updateCurrentPriceData() {
+function updateCurrentPriceData(callback) {
     getCurrentPrice((err, cryptos) => {
         if (err) throw err;
 
-        updateDataInTable(cryptos, err => {
+        updateDataInTable(cryptos, (err, cryptoList) => {
             if (err) throw err;
+            callback(cryptoList);
         });
     });
 }
@@ -41,10 +42,11 @@ function updateDataInTable(cryptos, callback) {
             }
 
             console.log(`Finished updating current ${data_type} data.`);
+            callback(null, cryptoList);
         });
     });
 }
 
-updateCurrentPriceData();
+module.exports = updateCurrentPriceData;
 
 

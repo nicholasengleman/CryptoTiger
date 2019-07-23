@@ -17,4 +17,11 @@ router.get("/getColumnData/:time", function (req, res) {
     });
 });
 
+router.get("/current_price_update", function(req, res) {
+    res.send({ response: "I am alive"}).status(200);
+});
+
+
+
+
 module.exports = router;

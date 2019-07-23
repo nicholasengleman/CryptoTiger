@@ -22,6 +22,13 @@ export const closeDataMenu = () => {
     type: actionTypes.CLOSE_DATA_MENU
   };
 };
+
+export const updateCurrentData = (new_data) => {
+  return {
+    type: actionTypes.UPDATE_CURRENT_DATA,
+    payload: { new_data }
+  }
+};
 export const processNewColumnData = (new_timeframe_name, new_column_data) => {
   return {
     type: actionTypes.PROCESS_NEW_COLUMN_DATA,

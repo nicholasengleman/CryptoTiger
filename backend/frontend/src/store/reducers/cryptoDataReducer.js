@@ -13,6 +13,13 @@ const initialState = {
 };
 
 
+const updateCurrentData = (state, action) => {
+    const updatedState = {
+        currentData: action.payload_new_data,
+    };
+    return updatedObject(state, updatedState);
+};
+
 const updateLiveCryptoView = (state, action) => {
     const updatedState = {
         data: state.cryptoDataBuffer,
@@ -138,7 +145,6 @@ const fetchCryptosSuccess = (state, action) => {
 
     return updatedObject(state, updatedState);
 };
-
 const fetchCryptosFailure = (state, action) => {
     const updatedState = {
         loading: false,
@@ -150,6 +156,8 @@ const fetchCryptosFailure = (state, action) => {
 
 const cryptoDataReducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.UPDATE_CURRENT_DATA:
+            return updateCurrentData(state, action);
         case actionTypes.GET_CURRENT_SELECTED_COLUMN:
             return getCurrentSelectedColumn(state, action);
         case actionTypes.PROCESS_NEW_COLUMN_DATA:

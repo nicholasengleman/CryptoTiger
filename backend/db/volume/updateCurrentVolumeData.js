@@ -1,10 +1,10 @@
 const connection = require("./../utilities/db");
-const getCurrentPrice = require("./../utilities/getCurrentPrice");
+const getCurrentVolume = require("./../utilities/getCurrentVolume");
 const DATA_INFO_OBJECT = require("./../utilities/DataInfoObject");
 const getCryptoListTable = require("./../utilities/getCryptoListTable");
 
-function updateCurrentPriceData(callback) {
-    getCurrentPrice((err, cryptos) => {
+function updateCurrentVolumeData(callback) {
+    getCurrentVolume((err, cryptos) => {
         if (err) throw err;
 
         updateDataInTable(cryptos, (err, cryptoList) => {
@@ -25,13 +25,17 @@ function updateDataInTable(cryptos, callback) {
             let cryptoList = [];
 
             cryptos.forEach(crypto => {
-               // const data_id = DATA_INFO_OBJECT["Price"];
+                // const data_id = DATA_INFO_OBJECT["Price"];
                 const crypto_id = CRYPTO_LIST_TABLE[crypto.shortname].crypto_id;
 
-                cryptoList.push([crypto.price, 0, crypto_id]);
+                cryptoList.push([crypto.volume, 0, crypto_id]);
             });
 
-            let sql = `UPDATE crypto_price_current SET data_value = ? WHERE data_id = ? AND crypto_id = ?`;
+
+            let sql = `UPDATE crypto_volume_current
+                       SET data_value = ?
+                       WHERE data_id = ?
+                         AND crypto_id = ?`;
 
             for (let i = 0; i < cryptoList.length; i++) {
                 connection.query(sql, cryptoList[i], function (error, results) {
@@ -47,6 +51,11 @@ function updateDataInTable(cryptos, callback) {
     });
 }
 
-module.exports = updateCurrentPriceData;
+
+updateCurrentVolumeData((data) => {
+    console.log(data);
+});
+
+module.exports = updateCurrentVolumeData;
 
 

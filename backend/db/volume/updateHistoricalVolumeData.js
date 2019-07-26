@@ -1,7 +1,7 @@
 const db = require("../utilities/db");
 
 const getCryptoListTable = require("./../utilities/getCryptoListTable");
-const getHistoricalPrice = require("../utilities/getHistoricalPrice");
+const getHistoricalVolume = require("../utilities/getHistoricalVolume");
 
 function updateHistoricalPriceData(callback) {
     getCryptoListTable((err, CRYPTO_LIST_TABLE) => {
@@ -21,7 +21,7 @@ function updateHistoricalPriceData(callback) {
         let i = 0;
 
         var sql = `SELECT crypto_datetime, crypto_id
-                   from crypto_price_historical
+                   from crypto_volume_historical
                    WHERE crypto_id = ?
                    ORDER BY crypto_datetime DESC
                    LIMIT 1`;
@@ -36,11 +36,11 @@ function updateHistoricalPriceData(callback) {
                 console.log(`${cryptoList[i].crypto_shortname}: updated ${data_age.toFixed(2)} hours ago`);
 
                 if (Math.floor(data_age) > 1) {
-                    getHistoricalPrice(cryptoList[i], parseInt(data_age), (err, cryptoData) => {
+                    getHistoricalVolume(cryptoList[i], parseInt(data_age), (err, cryptoData) => {
                         if (err) console.log(err);
                         console.log(cryptoData);
 
-                        var sql = `INSERT IGNORE INTO crypto_price_historical (crypto_datetime, crypto_id, data_value) VALUES ?`;
+                        var sql = `INSERT IGNORE INTO crypto_volume_historical (crypto_datetime, crypto_id, data_value) VALUES ?`;
                         db.query(sql, [cryptoData], function (error, results) {
                             if (error) throw error;
                             console.log(`#${i} ${cryptoList[i].crypto_shortname}: ${results.changedRows} rows changed.`);

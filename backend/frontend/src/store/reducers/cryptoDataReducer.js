@@ -14,9 +14,30 @@ const initialState = {
 
 
 const updateCurrentData = (state, action) => {
+    console.log(action.payload.new_data);
+
+    let crypto_data_buffer = _.cloneDeep(state.data);
+    action.payload.new_data.forEach(crypto => {
+
+        let new_crypto_value;
+
+        const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto[2]);
+        new_crypto_value = (((current_value - crypto[0]) / crypto[0]) * 100).toFixed(2);
+
+        crypto_data_buffer[crypto[2]].columns[0] = {
+            name: "Current Price",
+            period: 0,
+            crypto_datetime: 0,
+            crypto_id: crypto[2],
+            crypto_value: new_crypto_value
+        };
+    });
+
     const updatedState = {
-        currentData: action.payload_new_data,
+        data: crypto_data_buffer,
+        currentData: action.payload.new_data
     };
+
     return updatedObject(state, updatedState);
 };
 
@@ -61,6 +82,7 @@ const processNewColumnData = (state, action) => {
         let index_of_el_to_change = crypto_data_buffer[crypto.crypto_id].columns.findIndex(function (arr) {
             return arr.name === state.selectedColumn;
         });
+
         const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
         new_crypto_value = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
 

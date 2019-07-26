@@ -1,11 +1,11 @@
 const connection = require("./../../utilities/db");
-const getCurrentPrice = require("./../../utilities/getCurrentPrice");
+const getCurrentVolume = require("./../../utilities/getCurrentVolume");
 const DATA_INFO_OBJECT = require("./../../utilities/DataInfoObject");
 const getCryptoListTable = require("./../../utilities/getCryptoListTable");
 
 
-function insertPrice() {
-    getCurrentPrice((err, cryptos) => {
+function insertVolume() {
+    getCurrentVolume((err, cryptos) => {
         if (err) throw err;
 
         insertDataInTable(cryptos, err => {
@@ -29,14 +29,14 @@ function insertDataInTable(cryptos, callback) {
             let cryptoList = [];
 
             cryptos.forEach(crypto => {
-               // const data_id = DATA_INFO_OBJECT["Price"];
+                // const data_id = DATA_INFO_OBJECT["Price"];
                 const crypto_id = CRYPTO_LIST_TABLE[crypto.shortname].crypto_id;
                 const datetime = 0;
 
-                cryptoList.push([datetime, crypto_id, crypto.price]);
+                cryptoList.push([crypto_id, datetime, crypto.volume]);
             });
 
-            let sql = `INSERT IGNORE INTO CryptoNumberDataValues (crypto_datetime, crypto_id, data_value) VALUES ?`;
+            let sql = `INSERT IGNORE INTO crypto_volume_current (crypto_id, data_id, data_value) VALUES ?`;
             connection.query(sql, [cryptoList], function (error, results) {
                 if (error) callback(error);
                 console.log(`Finished inserting ${results.changedRows} rows of current ${data_type} data.`);
@@ -47,7 +47,7 @@ function insertDataInTable(cryptos, callback) {
 }
 
 
-insertPrice();
+insertVolume();
 
-module.exports = insertPrice;
+module.exports = insertVolume;
 

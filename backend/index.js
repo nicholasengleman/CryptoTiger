@@ -20,29 +20,29 @@ app.use("/api/crypto-data", cryptoData);
 
 const port = process.env.PORT || 5000;
 let server = app.listen(port, () => console.log(`Listening on port ${port}`));
-
-const io = socketIo.listen(server);
-
-const getApiAndEmit = async socket => {
-    try {
-        updateCurrentPriceData(cryptoList => {
-            socket.emit("FromAPI", cryptoList);
-        });
-    } catch (error) {
-        console.error(`Error: ${error.code}`);
-    }
-};
-
-io.on("connection", socket => {
-    console.log("New client connected"), setInterval(
-        () => getApiAndEmit(socket),
-        10000
-    );
-    socket.on("disconect", () => console.log("Client disconnected"));
-});
-
-app.get("/socket", (req, res) => {
-    res.send({ response: "I am alive" }).status(200);
-});
-
+//
+// const io = socketIo.listen(server);
+//
+// const getApiAndEmit = async socket => {
+//     try {
+//         updateCurrentPriceData(cryptoList => {
+//             socket.emit("FromAPI", cryptoList);
+//         });
+//     } catch (error) {
+//         console.error(`Error: ${error.code}`);
+//     }
+// };
+//
+// io.on("connection", socket => {
+//     console.log("New client connected"), setInterval(
+//         () => getApiAndEmit(socket),
+//         10000
+//     );
+//     socket.on("disconect", () => console.log("Client disconnected"));
+// });
+//
+// app.get("/socket", (req, res) => {
+//     res.send({ response: "I am alive" }).status(200);
+// });
+//
 

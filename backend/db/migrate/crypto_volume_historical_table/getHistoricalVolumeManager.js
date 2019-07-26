@@ -4,10 +4,10 @@
 const db = require("../../utilities/db");
 
 const getCryptoListTable = require("../../utilities/getCryptoListTable");
-const getHistoricalPrice = require("../../utilities/getHistoricalPrice");
+const getHistoricalVolume = require("../../utilities/getHistoricalVolume");
 
 
-function getHistoricalData(callback) {
+function getHistoricalPriceManager(callback) {
     getCryptoListTable((err, CRYPTO_LIST_TABLE) => {
         let cryptoList = [];
         Object.keys(CRYPTO_LIST_TABLE).forEach(crypto => {
@@ -21,12 +21,10 @@ function getHistoricalData(callback) {
         callNextCrypto(i);
 
         function callNextCrypto(i) {
-            getHistoricalPrice(cryptoList[i], 2000, (err, cryptoData) => {
+            getHistoricalVolume(cryptoList[i], 2000, (err, cryptoData) => {
                 if (err) throw err;
-                console.log(cryptoData.length);
 
-                var sql = "INSERT IGNORE INTO CryptoNumberDataValues (crypto_datetime, crypto_id, data_value)" +
-                    " VALUES ?";
+                var sql = `INSERT IGNORE INTO crypto_volume_historical (crypto_datetime, crypto_id, data_value) VALUES ?`;
                 db.query(sql, [cryptoData], function (error, results) {
                     if (error) throw error;
                     console.log(`#${i} ${cryptoList[i].crypto_shortname}: ${results.changedRows} rows changed.`);
@@ -40,6 +38,5 @@ function getHistoricalData(callback) {
     });
 }
 
-getHistoricalData();
+getHistoricalPriceManager();
 
-module.exports = getHistoricalPrice;

@@ -19,7 +19,7 @@ function getDefaultData(callback) {
 
     let getDataPromise_1 = getPriceData(timeframeList['1H'].seconds)
         .then(results => data[2] = {
-            name: timeframeList['1H'].name,
+            name: timeframeList['1H'].name + " Price",
             period: timeframeList['1H'].period,
             data: results
         })
@@ -27,7 +27,7 @@ function getDefaultData(callback) {
 
     let getDataPromise_2 = getPriceData(timeframeList['3H'].seconds)
         .then(results => data[3] = {
-            name: timeframeList['3H'].name,
+            name: timeframeList['3H'].name  + " Price",
             period: timeframeList['3H'].period,
             data: results
         })
@@ -35,16 +35,16 @@ function getDefaultData(callback) {
 
     let getDataPromise_3 = getVolumeData(timeframeList['3H'].seconds)
         .then(results => data[4] = {
-            name: timeframeList['6H'].name,
-            period: timeframeList['6H'].period,
+            name: timeframeList['3H'].name + " Volume",
+            period: timeframeList['3H'].period,
             data: results
         })
         .catch(err => console.log("error:", err.message));
 
 
-    let getDataPromise_4 = getVolumeData(timeframeList['6H'].seconds)
+    let getDataPromise_4 = getPriceData(timeframeList['6H'].seconds)
         .then(results => data[4] = {
-            name: timeframeList['6H'].name,
+            name: timeframeList['6H'].name  + " Price",
             period: timeframeList['6H'].period,
             data: results
         })
@@ -53,7 +53,7 @@ function getDefaultData(callback) {
 
     let getDataPromise_5 = getVolumeData(timeframeList['6H'].seconds)
         .then(results => data[4] = {
-            name: timeframeList['6H'].name,
+            name: timeframeList['6H'].name  + " Volume",
             period: timeframeList['6H'].period,
             data: results
         })

@@ -19,7 +19,8 @@
 
 .body {
     padding: 15px 30px;
-    background-color: rgb(124, 124, 124);
+    height: 400px;
+    width: 95%;
     .description {
         color: rgb(207, 207, 207);
     }
@@ -42,7 +43,7 @@
         color: white;
         font-weight: 600;
         margin-right: 20px;
-        transition: all 0.10s;
+        transition: all 0.1s;
 
         &:hover {
             cursor: pointer;
@@ -101,7 +102,6 @@ input::-webkit-inner-spin-button {
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
-input[type=number] {
-    -moz-appearance:textfield; /* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
 }
-

@@ -1,19 +1,19 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import styles from "./DataFilter.module.scss";
-import Histoslider1 from "../../../Histoslider/Histoslider1";
+import HistogramSlider from "./Histogram/Histogram";
 
 class DataFilter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: "in-between",
+            value: "in-between"
         };
     }
 
-
     handleFilterTypeChange = e => {
-        this.setState({value: e.value});
+        this.setState({ value: e.value });
     };
 
     render() {
@@ -24,12 +24,12 @@ class DataFilter extends Component {
                     <span>X</span>
                 </div>
                 <div className={styles.body}>
-                    <Histoslider1/>
+                    <HistogramSlider data={this.props.histogramData} barMargin={3} />
                 </div>
                 <div className={styles.footer}>
                     <button className={styles.addFilter}>Add Filter</button>
-                    <button className={styles.addFilter} onClick={this.props.handleAddWithoutFilter}>Add Without
-                        Filter
+                    <button className={styles.addFilter} onClick={this.props.handleAddWithoutFilter}>
+                        Add Without Filter
                     </button>
                 </div>
             </div>
@@ -37,4 +37,10 @@ class DataFilter extends Component {
     }
 }
 
-export default DataFilter;
+const mapStateToProps = state => {
+    return {
+        histogramData: state.cryptoData.histogramData
+    };
+};
+
+export default connect(mapStateToProps)(DataFilter);

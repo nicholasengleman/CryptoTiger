@@ -10,7 +10,7 @@ class DataPeriod extends Component {
   render() {
     return (
       <div
-        onClick={() => this.props.handleSetDataType(this.props.period_time, this.props.period_name)}
+        onClick={() => this.props.handleSetPeriod(this.props.period_time, this.props.period_name)}
         className={classNames(styles.period)}
       >
         <div className={styles.arrow}>

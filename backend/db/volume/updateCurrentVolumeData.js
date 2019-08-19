@@ -16,9 +16,8 @@ function updateCurrentVolumeData(callback) {
 
 function updateDataInTable(cryptos, callback) {
     getCryptoListTable((err, CRYPTO_LIST_TABLE) => {
-
         let data_types = Object.keys(cryptos[0]).filter(el => {
-            return el !== 'shortname';
+            return el !== "shortname";
         });
 
         data_types.forEach(data_type => {
@@ -31,14 +30,13 @@ function updateDataInTable(cryptos, callback) {
                 cryptoList.push([crypto.volume, 0, crypto_id]);
             });
 
-
             let sql = `UPDATE crypto_volume_current
                        SET data_value = ?
                        WHERE data_id = ?
                          AND crypto_id = ?`;
 
             for (let i = 0; i < cryptoList.length; i++) {
-                connection.query(sql, cryptoList[i], function (error, results) {
+                connection.query(sql, cryptoList[i], function(error, results) {
                     if (error) {
                         callback(error);
                     }
@@ -51,11 +49,8 @@ function updateDataInTable(cryptos, callback) {
     });
 }
 
-
-updateCurrentVolumeData((data) => {
-    console.log(data);
+updateCurrentVolumeData(data => {
+    // console.log(data);
 });
 
 module.exports = updateCurrentVolumeData;
-
-

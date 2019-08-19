@@ -1,24 +1,23 @@
 import * as actionTypes from "../actions/actionTypes";
-import {updatedObject, findCurrentValueOfCrypto} from "../../utilities/utilities";
+import { updatedObject, findCurrentValueOfCrypto } from "../../utilities/utilities";
 import _ from "lodash";
 
 const initialState = {
-    data: [],
+    allData: [],
     currentData: [],
     loading: false,
     error: null,
     cryptoDataBuffer: [],
     selectedColumn: "",
-    histogram_data: []
+    histogramData: []
 };
 
-
+// updates the store with the latest live data. This data is then matched with the relevant historical data to produce an up-to-date percentage change.
 const updateCurrentData = (state, action) => {
     console.log(action.payload.new_data);
 
-    let crypto_data_buffer = _.cloneDeep(state.data);
+    let crypto_data_buffer = _.cloneDeep(state.allData);
     action.payload.new_data.forEach(crypto => {
-
         let new_crypto_value;
 
         const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto[2]);
@@ -34,7 +33,7 @@ const updateCurrentData = (state, action) => {
     });
 
     const updatedState = {
-        data: crypto_data_buffer,
+        allData: crypto_data_buffer,
         currentData: action.payload.new_data
     };
 
@@ -43,43 +42,34 @@ const updateCurrentData = (state, action) => {
 
 const updateLiveCryptoView = (state, action) => {
     const updatedState = {
-        data: state.cryptoDataBuffer,
+        allData: state.cryptoDataBuffer,
         cryptoDataBuffer: []
     };
     return updatedObject(state, updatedState);
 };
 
+//////////////////////////////
+// Processes data retrieved from database when a period is selected in the Data Window
+// 1. Creates array of objects of crypto id and percentage change to pass to histogram slider component
+// 2. Builds new array of CryptoData that will replace the allData object once the selections from the histogram have been filtered
+//////////////////////////////
 const processNewColumnData = (state, action) => {
-    // console.log(action.payload.new_column_data);
+    let histogramData = [];
 
-    let histogram_data = [];
-
+    // 1. Calculates percentage and builds an array of objects of structure {id: cryptoid, value: percentage } to pass to the histogram slider component
     action.payload.new_column_data.forEach(crypto => {
         const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
-        const change_percentage = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
+        const percentage = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
 
-        histogram_data.push({y: change_percentage, id: crypto.crypto_id});
+        histogramData.push({ id: crypto.crypto_id, value: Number(percentage) });
     });
 
-    histogram_data.sort(function (a, b) {
-        return a.y - b.y;
-    });
-
-    let x0_count = 0;
-    let x_count = 1;
-
-    histogram_data.forEach(crypto => {
-        crypto["x0"] = x0_count;
-        crypto["x"] = x_count;
-        x0_count++;
-        x_count++;
-    });
-
-    let crypto_data_buffer = _.cloneDeep(state.data);
+    // 2. Builds new array of CryptoData that will replace the allData object once the selections from the histogram have been filtered
+    let crypto_data_buffer = _.cloneDeep(state.allData);
     action.payload.new_column_data.forEach(crypto => {
         let new_crypto_value;
 
-        let index_of_el_to_change = crypto_data_buffer[crypto.crypto_id].columns.findIndex(function (arr) {
+        let index_of_el_to_change = crypto_data_buffer[crypto.crypto_id].columns.findIndex(function(arr) {
             return arr.name === state.selectedColumn;
         });
 
@@ -96,11 +86,12 @@ const processNewColumnData = (state, action) => {
 
     const updatedState = {
         cryptoDataBuffer: crypto_data_buffer,
-        histogram_data
+        histogramData
     };
 
     return updatedObject(state, updatedState);
 };
+
 const getCurrentSelectedColumn = (state, action) => {
     const updatedState = {
         selectedColumn: action.payload.current_selected_column
@@ -115,16 +106,17 @@ const fetchCryptosBegin = (state, action) => {
     };
     return updatedObject(state, updatedState);
 };
+
 const fetchCryptosSuccess = (state, action) => {
     let default_data = {};
+
     action.payload.data[0].forEach(crypto => {
         default_data[crypto.crypto_id] = {
             crypto_id: crypto.crypto_id,
             crypto_name: crypto.crypto_name,
             crypto_shortname: crypto.crypto_shortname,
             crypto_icon_url: crypto.crypto_icon_url
-
-        }
+        };
     });
 
     Object.keys(default_data).forEach(crypto => {
@@ -133,35 +125,35 @@ const fetchCryptosSuccess = (state, action) => {
 
         for (let i = 1; i < action.payload.data.length; i++) {
             action.payload.data[i].data.forEach(crypto_tf => {
-
-                    if (crypto_tf.crypto_id === default_data[crypto].crypto_id) {
-
-                        if (i < 2) {
-                            new_crypto_value = crypto_tf.data_value;
-                        } else {
-                            const current_value = findCurrentValueOfCrypto(action.payload.data[1].data, crypto_tf.crypto_id);
-                            new_crypto_value = (((current_value - crypto_tf.data_value) / crypto_tf.data_value) * 100).toFixed(2);
-                        }
-
-                        default_data[crypto].columns.push(
-                            {
-                                name: action.payload.data[i].name,
-                                period: action.payload.data[i].period,
-                                crypto_datetime: crypto_tf.crypto_datetime,
-                                crypto_id: crypto_tf.crypto_id,
-                                crypto_value: new_crypto_value
-                            }
-                        )
+                if (crypto_tf.crypto_id === default_data[crypto].crypto_id) {
+                    if (i < 2) {
+                        new_crypto_value = crypto_tf.data_value;
+                    } else {
+                        const current_value = findCurrentValueOfCrypto(
+                            action.payload.data[1].data,
+                            crypto_tf.crypto_id
+                        );
+                        new_crypto_value = (
+                            ((current_value - crypto_tf.data_value) / crypto_tf.data_value) *
+                            100
+                        ).toFixed(2);
                     }
+
+                    default_data[crypto].columns.push({
+                        name: action.payload.data[i].name,
+                        period: action.payload.data[i].period,
+                        crypto_datetime: crypto_tf.crypto_datetime,
+                        crypto_id: crypto_tf.crypto_id,
+                        crypto_value: new_crypto_value
+                    });
                 }
-            );
+            });
         }
-    })
-    ;
+    });
 
     const updatedState = {
         loading: false,
-        data: default_data,
+        allData: default_data,
         currentData: action.payload.data[1]
     };
 
@@ -170,11 +162,10 @@ const fetchCryptosSuccess = (state, action) => {
 const fetchCryptosFailure = (state, action) => {
     const updatedState = {
         loading: false,
-        error: true,
+        error: true
     };
     return updatedObject(state, updatedState);
 };
-
 
 const cryptoDataReducer = (state = initialState, action) => {
     switch (action.type) {

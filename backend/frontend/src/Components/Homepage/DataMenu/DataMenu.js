@@ -1,14 +1,10 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import styles from "./DataMenu.module.scss";
 import classNames from "classnames";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import axios from "axios";
 
-import {
-    processNewColumnData,
-    updateLiveColumnView,
-    closeDataMenu
-} from "../../../store/actions/actionCreators";
+import { processNewColumnData, updateLiveColumnView, closeDataMenu } from "../../../store/actions/actionCreators";
 
 import DataPeriod from "./DataPeriod/DataPeriod";
 import DataFilter from "./DataFilter/DataFilter";
@@ -19,14 +15,17 @@ class DataMenu extends Component {
 
         this.state = {
             selectedDataType: "price",
-            selectedDataName: "",
+            selectedDataName: ""
         };
     }
 
+    handleSetDataType = selectedDataType => {
+        this.setState({ selectedDataType });
+    };
 
-    handleSetDataType = (new_timeframe_seconds, new_timeframe_name) => {
+    handleSetPeriod = (new_timeframe_seconds, new_timeframe_name) => {
         if (this.state.selectedDataName !== new_timeframe_name) {
-            this.setState({selectedDataName: new_timeframe_name});
+            this.setState({ selectedDataName: new_timeframe_name });
             axios
                 .get(`http://localhost:5000/api/crypto-data/getColumnData/${new_timeframe_seconds}`)
                 .then(response => {
@@ -38,41 +37,46 @@ class DataMenu extends Component {
         }
     };
 
-
     handleAddWithoutFilter = () => {
         this.props.updateLiveView();
         this.props.closeDataMenu();
-        this.setState({selectedDataName: ""});
+        this.setState({ selectedDataName: "" });
     };
 
     render() {
-
         //renders all the above above components
         return (
             <div className={styles.dataMenuContainer}>
                 <div
-                    className={classNames(
-                        styles.dataContainer,
-                        this.props.dataMenu.open ? styles.open : styles.closed
-                    )}
+                    className={classNames(styles.dataContainer, this.props.dataMenu.open ? styles.open : styles.closed)}
                 >
                     <div className={styles.dataTypeWindow}>
-                        <div className={classNames(
-                            styles.dataType,
-                            this.state.selectedDataType === "price"
-                                ? styles.dataTypeSelected
-                                : null
-                        )}
-                             onClick={this.handleSetDataType}
+                        <div
+                            className={classNames(
+                                styles.dataType,
+                                this.state.selectedDataType === "price" ? styles.dataTypeSelected : null
+                            )}
+                            onClick={() => this.handleSetDataType("price")}
                         >
                             <p>Price</p>
                         </div>
+
+                        <div
+                            className={classNames(
+                                styles.dataType,
+                                this.state.selectedDataType === "volume" ? styles.dataTypeSelected : null
+                            )}
+                            onClick={() => this.handleSetDataType("volume")}
+                        >
+                            <p>Volume</p>
+                        </div>
                     </div>
                     <div className={styles.dataPeriodsWindow}>
-
                         <div className={styles.dataPeriodType}>
                             <div className={styles.dataPeriodTypeHeader}>Hour</div>
-                            {Array.from({length: this.props.dataMenu.timeframes.hours}, (v, k) => k + 1).map(function (period) {
+                            {Array.from({ length: this.props.dataMenu.timeframes.hours }, (v, k) => k + 1).map(function(
+                                period
+                            ) {
                                 const timeframe_description = period === 1 ? " Hour" : " Hours";
                                 return (
                                     <DataPeriod
@@ -80,15 +84,18 @@ class DataMenu extends Component {
                                         selectedDataName={this.state.selectedDataName}
                                         period_time={period * 60 * 60}
                                         period_name={period + timeframe_description}
-                                        handleSetDataType={this.handleSetDataType}
+                                        handleSetPeriod={this.handleSetPeriod}
                                     />
                                 );
-                            }, this)}
+                            },
+                            this)}
                         </div>
 
                         <div className={styles.dataPeriodType}>
                             <div className={styles.dataPeriodTypeHeader}>Day</div>
-                            {Array.from({length: this.props.dataMenu.timeframes.days}, (v, k) => k + 1).map(function (period) {
+                            {Array.from({ length: this.props.dataMenu.timeframes.days }, (v, k) => k + 1).map(function(
+                                period
+                            ) {
                                 const timeframe_description = period === 1 ? " Day" : " Days";
                                 return (
                                     <DataPeriod
@@ -96,15 +103,18 @@ class DataMenu extends Component {
                                         selectedDataName={this.state.selectedDataName}
                                         period_time={period * 60 * 60 * 24}
                                         period_name={period + timeframe_description}
-                                        handleSetDataType={this.handleSetDataType}
+                                        handleSetPeriod={this.handleSetPeriod}
                                     />
                                 );
-                            }, this)}
+                            },
+                            this)}
                         </div>
 
                         <div className={styles.dataPeriodType}>
                             <div className={styles.dataPeriodTypeHeader}>Weeks</div>
-                            {Array.from({length: this.props.dataMenu.timeframes.weeks}, (v, k) => k + 1).map(function (period) {
+                            {Array.from({ length: this.props.dataMenu.timeframes.weeks }, (v, k) => k + 1).map(function(
+                                period
+                            ) {
                                 const timeframe_description = period === 1 ? " Week" : " Weeks";
                                 return (
                                     <DataPeriod
@@ -112,19 +122,15 @@ class DataMenu extends Component {
                                         selectedDataName={this.state.selectedDataName}
                                         period_time={period * 60 * 60 * 24 * 7}
                                         period_name={period + timeframe_description}
-                                        handleSetDataType={this.handleSetDataType}
+                                        handleSetPeriod={this.handleSetPeriod}
                                     />
                                 );
-                            }, this)}
+                            },
+                            this)}
                         </div>
-
                     </div>
                 </div>
-                {this.state.selectedDataName && (
-                    <DataFilter
-                        handleAddWithoutFilter={this.handleAddWithoutFilter}
-                    />
-                )}
+                {this.state.selectedDataName && <DataFilter handleAddWithoutFilter={this.handleAddWithoutFilter} />}
             </div>
         );
     }
@@ -132,7 +138,7 @@ class DataMenu extends Component {
 
 const mapStateToProps = state => {
     return {
-        dataMenu: state.dataMenu.dataMenu,
+        dataMenu: state.dataMenu.dataMenu
     };
 };
 
@@ -141,7 +147,7 @@ const mapDispatchToProps = dispatch => {
         processNewColumnData: (new_timeframe_name, new_column_data) =>
             dispatch(processNewColumnData(new_timeframe_name, new_column_data)),
         updateLiveView: () => dispatch(updateLiveColumnView()),
-        closeDataMenu: () => dispatch(closeDataMenu()),
+        closeDataMenu: () => dispatch(closeDataMenu())
     };
 };
 

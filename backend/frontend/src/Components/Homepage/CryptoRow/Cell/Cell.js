@@ -7,7 +7,7 @@ import losing_normal from "../../../../img/losing-normal.png";
 class Cell extends Component {
 
     getValue = () => {
-        if(this.props.crypto_period === 0) {
+        if (this.props.crypto_period === 0) {
             return "$" + this.props.crypto_value;
         } else {
             return this.props.crypto_value + "%";

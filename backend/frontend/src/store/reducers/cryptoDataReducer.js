@@ -9,7 +9,8 @@ const initialState = {
     error: null,
     cryptoDataBuffer: [],
     selectedColumn: "",
-    histogramData: []
+    histogramData: [],
+    filterParameters: []
 };
 
 // updates the store with the latest live data. This data is then matched with the relevant historical data to produce an up-to-date percentage change.
@@ -167,6 +168,21 @@ const fetchCryptosFailure = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
+//Reducers for managing the Filter Parameters
+const addFilterParameter = (state, action) => {
+    let newFilterParameters = _.cloneDeep(state.filterParameters);
+    newFilterParameters.push({
+        column: state.selectedColumn,
+        parameters: action.payload.parameters
+    });
+
+    const updatedState = {
+        filterParameters: newFilterParameters
+    };
+
+    return updatedObject(state, updatedState);
+};
+
 const cryptoDataReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.UPDATE_CURRENT_DATA:
@@ -183,6 +199,8 @@ const cryptoDataReducer = (state = initialState, action) => {
             return fetchCryptosSuccess(state, action);
         case actionTypes.FETCH_CRYPTOS_FAILURE:
             return fetchCryptosFailure(state, action);
+        case actionTypes.ADD_FILTER_PARAMETER:
+            return addFilterParameter(state, action);
         default:
             return state;
     }

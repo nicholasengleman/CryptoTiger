@@ -5,13 +5,13 @@ import {connect} from "react-redux";
 
 
 const AddNewColumnBtn = props => {
-    return(
-       <button
-           className={styles.btn_add_new}
-           onClick={() => props.onToggleDataMenu()}
-       >
-           Add
-       </button>
+    return (
+        <button
+            className={styles.btn_add_new}
+            onClick={() => props.onToggleDataMenu()}
+        >
+            Add
+        </button>
     )
 };
 

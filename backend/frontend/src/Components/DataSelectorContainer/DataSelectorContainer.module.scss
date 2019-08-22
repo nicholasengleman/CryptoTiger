@@ -1,0 +1,52 @@
+@import "./../../scss/variables";
+
+.RowOne {
+  display: flex;
+  justify-content: space-between;
+}
+
+.DataPresets {
+  width: 29%;
+  height: 225px;
+  padding: 2% 2% 2% 3%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.25), 0 3px 3px rgba(0, 0, 0, 0.22);
+}
+
+.Preset {
+  width: 34%;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 6% 8% 0;
+  &:hover {
+    cursor: pointer;
+  }
+  h2 {
+    font-size: 14px;
+    font-weight: 800;
+    margin: 0;
+  }
+
+  h3 {
+    font-size: 12px;
+    font-weight: 600;
+    margin: 0;
+    font-style: italic;
+  }
+}
+
+.open {
+  opacity: 1;
+}
+
+.closed {
+  display: none;
+  opacity: 0;
+  top: -300px;
+}

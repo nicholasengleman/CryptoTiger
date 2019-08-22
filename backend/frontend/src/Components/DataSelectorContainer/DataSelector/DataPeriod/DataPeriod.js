@@ -6,11 +6,15 @@ import arrow from "../../../../img/arrow_cute.png";
 import styles from "./DataPeriod.module.scss";
 
 class DataPeriod extends Component {
-
   render() {
     return (
       <div
-        onClick={() => this.props.handleSetPeriod(this.props.period_time, this.props.period_name)}
+        onClick={() =>
+          this.props.handleSetPeriod(
+            this.props.period_time,
+            this.props.period_name
+          )
+        }
         className={classNames(styles.period)}
       >
         <div className={styles.arrow}>

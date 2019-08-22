@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import styles from "./CryptoHeader.module.scss";
 import sort_icon from "../../../../img/data_menu.png";
 import {connect} from "react-redux";
-import {toggleDataMenu, getCurrentSelectedColumn} from "../../../../store/actions/actionCreators";
+import {getCurrentSelectedColumn, toggleDataMenu} from "../../../../store/actions/actionCreators";
 
 class CryptoHeader extends Component {
 

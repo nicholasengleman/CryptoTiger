@@ -7,7 +7,8 @@ import axios from "axios";
 import {
   processNewColumnData,
   updateLiveColumnView,
-  closeDataMenu
+  closeDataMenu,
+    emptyHistogramData
 } from "../../../store/actions/actionCreators";
 
 import DataPeriod from "./DataPeriod/DataPeriod";
@@ -28,6 +29,7 @@ class DataMenu extends Component {
 
   handleSetPeriod = (new_timeframe_seconds, new_timeframe_name) => {
     if (this.state.selectedDataName !== new_timeframe_name) {
+      this.props.emptyHistogramData();
       this.setState({ selectedDataName: new_timeframe_name });
       axios
         .get(
@@ -152,7 +154,8 @@ const mapDispatchToProps = dispatch => {
     processNewColumnData: (new_timeframe_name, new_column_data) =>
       dispatch(processNewColumnData(new_timeframe_name, new_column_data)),
     updateLiveView: () => dispatch(updateLiveColumnView()),
-    closeDataMenu: () => dispatch(closeDataMenu())
+    closeDataMenu: () => dispatch(closeDataMenu()),
+    emptyHistogramData: () => dispatch(emptyHistogramData())
   };
 };
 

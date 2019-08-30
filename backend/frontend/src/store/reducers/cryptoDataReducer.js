@@ -15,7 +15,6 @@ const initialState = {
 
 // updates the store with the latest live data. This data is then matched with the relevant historical data to produce an up-to-date percentage change.
 const updateCurrentData = (state, action) => {
-    console.log(action.payload.new_data);
 
     let crypto_data_buffer = _.cloneDeep(state.allData);
     action.payload.new_data.forEach(crypto => {
@@ -45,6 +44,13 @@ const updateLiveCryptoView = (state, action) => {
     const updatedState = {
         allData: state.cryptoDataBuffer,
         cryptoDataBuffer: []
+    };
+    return updatedObject(state, updatedState);
+};
+
+const emptyHistogramData = (state, action) => {
+    const updatedState = {
+        histogramData: []
     };
     return updatedObject(state, updatedState);
 };
@@ -185,6 +191,8 @@ const addFilterParameter = (state, action) => {
 
 const cryptoDataReducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.EMPTY_HISTOGRAM_DATA:
+            return emptyHistogramData(state, action);
         case actionTypes.UPDATE_CURRENT_DATA:
             return updateCurrentData(state, action);
         case actionTypes.GET_CURRENT_SELECTED_COLUMN:

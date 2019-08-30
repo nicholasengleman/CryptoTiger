@@ -1,6 +1,8 @@
 import * as actionTypes from "./actionTypes";
 
+//////////////////////////////////////
 // Data Menu action creators
+//////////////////////////////////////
 export const loadInitialColumnData = data => {
     return {
         type: actionTypes.LOAD_INITIAL_COLUMN_DATA,
@@ -14,7 +16,9 @@ export const toggleDataMenu = column_id => {
     };
 };
 
+///////////////////////////////
 //Crypto Data Managing creators
+/////////////////////////////////
 export const closeDataMenu = () => {
     return {
         type: actionTypes.CLOSE_DATA_MENU
@@ -27,6 +31,13 @@ export const updateCurrentData = new_data => {
         payload: { new_data }
     };
 };
+
+export const emptyHistogramData = () => {
+   return {
+       type: actionTypes.EMPTY_HISTOGRAM_DATA
+   }  ;
+};
+
 export const processNewColumnData = (new_timeframe_name, new_column_data) => {
     return {
         type: actionTypes.PROCESS_NEW_COLUMN_DATA,

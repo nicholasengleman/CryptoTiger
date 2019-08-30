@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import styles from "./HistogramContainer.module.scss";
-import HistogramSlider from "./Histogram/Histogram";
+import Histogram from "./Histogram/Histogram";
+import { ClipLoader } from "react-spinners";
 
 import { addFilterParameter } from "../../../store/actions/actionCreators";
 
@@ -24,11 +25,8 @@ class HistogramContainer extends Component {
   render() {
     return (
       <div className={styles.HistogramContainer}>
-        <HistogramSlider
-          data={this.props.histogramData}
-          barMargin={3}
-          getBoundries={this.handleFilterParametersChange}
-        />
+        <ClipLoader/>
+        <Histogram data={this.props.histogramData.length > 0 ? this.props.histogramData : [1] } />
       </div>
     );
   }

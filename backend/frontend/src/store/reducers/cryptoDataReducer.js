@@ -62,7 +62,7 @@ const processNewColumnData = (state, action) => {
         const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
         const percentage = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
 
-        histogramData.push({ id: crypto.crypto_id, value: Number(percentage) });
+        histogramData.push({ id: crypto.crypto_id, value: Number(percentage), tooltip: [String(percentage)] });
     });
 
     // 2. Builds new array of CryptoData that will replace the allData object once the selections from the histogram have been filtered

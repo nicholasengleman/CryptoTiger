@@ -40,7 +40,7 @@ class Slider extends Component {
                 <div className="sliderBar" ref={this.sliderBar}>
                     <div
                         style={{
-                            right: "calc(" + this.props.sliderContainerWidth + "px - " + this.props.buttonLeft + "px)",
+                            right: "calc(" + this.props.sliderContainerWidth + "px - 25px - " + this.props.buttonLeft + "px)",
                             left: 0
                         }}
                         className="sliderBarOverlay"

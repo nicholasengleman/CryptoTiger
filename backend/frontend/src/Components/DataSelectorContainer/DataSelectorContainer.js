@@ -5,11 +5,10 @@ import styles from "./DataSelectorContainer.module.scss";
 
 import DataSelector from "./DataSelector/DataSelector";
 import HistogramContainer from "./HistogramContainer/HistogramContainer";
+//import PresetsContainer from "./PresetsContainer/PresetsContainer";
 
 class DataSelectorContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
+
 
   render() {
     return (
@@ -18,37 +17,10 @@ class DataSelectorContainer extends Component {
           this.props.dataMenu.open ? styles.open : styles.closed
         )}
       >
-        <div className={styles.RowOne}>
-          <div className={styles.DataPresets}>
-            <div className={styles.Preset}>
-              <h2>1 Hour</h2>
-              <h3>30 Saves</h3>
-            </div>
-            <div className={styles.Preset}>
-              <h2>4 Hour</h2>
-              <h3>20 Saves</h3>
-            </div>
-            <div className={styles.Preset}>
-              <h2>3 Days</h2>
-              <h3>14 Saves</h3>
-            </div>
-            <div className={styles.Preset}>
-              <h2>4 Weeks</h2>
-              <h3>11 Saves</h3>
-            </div>
-            <div className={styles.Preset}>
-              <h2>14 Days</h2>
-              <h3>14 Saves</h3>
-            </div>
-            <div className={styles.Preset}>
-              <h2>2 Weeks</h2>
-              <h3>11 Saves</h3>
-            </div>
-          </div>
-          <DataSelector />
-        </div>
-        <div className={styles.RowTwo}>
-          <HistogramContainer />
+        <DataSelector />
+        <HistogramContainer />
+        <div className={styles.btnContainer}>
+          <button className="btn">Cancel</button><button className="btn">Apply</button>
         </div>
       </div>
     );

@@ -35,7 +35,7 @@ const defaultProps = {
             value: 7
         }
     ],
-    getBoundries: function(e) {
+    getBoundries: function (e) {
 
     }
 };
@@ -46,7 +46,7 @@ class Histogram extends Component {
 
         this.histogram = React.createRef();
 
-        if(this.props.data.length > 0) {
+        if (this.props.data.length > 0) {
             for (let e = 0; e < this.props.data.length; e++) {
                 this.ref = {
                     ...this.ref,
@@ -110,9 +110,7 @@ class Histogram extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        let timeout;
-
-        if(Object.keys(this.ref).length === 1 && this.props.data.length > 1) {
+        if (Object.keys(this.ref).length === 1 && this.props.data.length > 1) {
             for (let e = 0; e < this.props.data.length; e++) {
                 this.ref = {
                     ...this.ref,
@@ -175,9 +173,9 @@ class Histogram extends Component {
         //normalize the data
         if (this.dataSetMinValue < 0 && this.dataSetMaxValue > 0) {
             normalizedValue = (this.histogram.current.offsetHeight - 2) / (Math.abs(this.dataSetMaxValue) + Math.abs(this.dataSetMinValue));
-        } else if(this.dataSetMinValue > 0) {
+        } else if (this.dataSetMinValue > 0) {
             normalizedValue = (this.histogram.current.offsetHeight - 2) / Math.abs(this.dataSetMaxValue);
-        } else if(this.dataSetMaxValue < 0) {
+        } else if (this.dataSetMaxValue < 0) {
             normalizedValue = (this.histogram.current.offsetHeight - 2) / Math.abs(this.dataSetMinValue);
         }
 
@@ -326,7 +324,7 @@ class Histogram extends Component {
                 }
             } else if (clientX < this.state.sliderContainerLeftPosition + (this.buttonWidth / 2)) {
                 this.setState({[`bar${btn_id}Location`]: 0});
-            } else if (this.state.sliderContainerRightPosition - (this.buttonWidth / 2) < clientX) {
+            } else if (this.state.sliderContainerRightPosition - this.buttonWidth< clientX) {
                 this.setState({
                     [`bar${btn_id}Location`]: this.state.sliderContainerWidth - this.buttonWidth
                 });
@@ -338,11 +336,11 @@ class Histogram extends Component {
         if (this.state.normalizedData.length > 0) {
             let adjustment = 0;
 
-            if(this.dataSetMinValue < 0 && this.dataSetMaxValue > 0) {
+            if (this.dataSetMinValue < 0 && this.dataSetMaxValue > 0) {
                 adjustment = Math.abs(this.state.normalizedData[0].normalizedValue);
             }
 
-            if(this.dataSetMaxValue < 0) {
+            if (this.dataSetMaxValue < 0) {
                 adjustment = Math.abs(this.state.normalizedData[0].normalizedValue);
             }
 
@@ -358,8 +356,8 @@ class Histogram extends Component {
             scaleSteps.push(parseInt(scaleSteps[i - 1] + scaleStep));
         }
         return (
-            <div className="histogram-container">
-                <div className="scale-container">
+            <div className="histogramComponent">
+                <div className="scaleContainer">
                     {scaleSteps.map(step => {
                         return (
                             <div key={Math.random()} className="scale-step">
@@ -368,106 +366,109 @@ class Histogram extends Component {
                         );
                     })}
                 </div>
-                <div ref={this.histogram} className="histogram">
-                    <div className="bar-container" style={{marginTop: this.barContainerVerticalAdjust()}}>
-                        {this.state.normalizedData.map((bar, index) => {
-                            let barMarginTop, barMarginBottom, color, barHeight, directionalClass;
-                            if (bar.normalizedValue > 0) {
-                                barMarginTop = 0;
-                                barMarginBottom = Math.abs(bar.normalizedValue);
-                            } else {
-                                barMarginTop = Math.abs(bar.normalizedValue);
-                                barMarginBottom = 0;
-                            }
 
-                            if (
-                                (this.state.barMinLocation <= this.barLocations[index] + this.buttonWidth - (this.buttonWidth / 2) &&
-                                    this.barLocations[index] + this.buttonWidth - (this.buttonWidth / 2)  <= this.state.barMaxLocation - this.state.computedBarWidth)
-                                    || this.barLocations.length === 0
-                            ) {
+                <div className="mainSection">
+                    <div ref={this.histogram} className="histogram">
+                        <div className="bar-container" style={{marginTop: this.barContainerVerticalAdjust()}}>
+                            {this.state.normalizedData.map((bar, index) => {
+                                let barMarginTop, barMarginBottom, color, barHeight, directionalClass;
                                 if (bar.normalizedValue > 0) {
-                                    color = "green";
+                                    barMarginTop = 0;
+                                    barMarginBottom = Math.abs(bar.normalizedValue);
                                 } else {
-                                    color = "red";
+                                    barMarginTop = Math.abs(bar.normalizedValue);
+                                    barMarginBottom = 0;
                                 }
-                            } else {
-                                color = "lightgrey";
-                            }
 
-                            if (Math.abs(bar.normalizedValue) < 1) {
-                                barHeight = 1;
-                            } else {
-                                barHeight = Math.abs(bar.normalizedValue);
-                            }
+                                if (
+                                    (this.state.barMinLocation <= this.barLocations[index] + this.buttonWidth - (this.buttonWidth / 2) &&
+                                        this.barLocations[index] + this.buttonWidth - (this.buttonWidth / 2) <= this.state.barMaxLocation - this.state.computedBarWidth)
+                                    || this.barLocations.length === 0
+                                ) {
+                                    if (bar.normalizedValue > 0) {
+                                        color = "green";
+                                    } else {
+                                        color = "red";
+                                    }
+                                } else {
+                                    color = "lightgrey";
+                                }
 
-                            // if (this.state.attachAnimationClasses) {
-                            //     if (color === "green") {
-                            //         directionalClass = "positiveBar";
-                            //     } else {
-                            //         directionalClass = "negativeBar";
-                            //     }
-                            // }
+                                if (Math.abs(bar.normalizedValue) < 1) {
+                                    barHeight = 1;
+                                } else {
+                                    barHeight = Math.abs(bar.normalizedValue);
+                                }
 
-                            return (
-                                <Bar
-                                    key={index}
-                                    height={barHeight}
-                                    marginBottom={barMarginBottom}
-                                    marginTop={barMarginTop}
-                                    backgroundColor={color}
-                                    width={this.state.barWidth}
-                                    ref={this.ref[`ref_${index}`]}
-                                    directionalClass={directionalClass}
-                                    tooltip={bar.tooltip}
-                                />
-                            );
-                        })}
+                                // if (this.state.attachAnimationClasses) {
+                                //     if (color === "green") {
+                                //         directionalClass = "positiveBar";
+                                //     } else {
+                                //         directionalClass = "negativeBar";
+                                //     }
+                                // }
+
+                                return (
+                                    <Bar
+                                        key={index}
+                                        height={barHeight}
+                                        marginBottom={barMarginBottom}
+                                        marginTop={barMarginTop}
+                                        backgroundColor={color}
+                                        width={this.state.barWidth}
+                                        ref={this.ref[`ref_${index}`]}
+                                        directionalClass={directionalClass}
+                                        tooltip={bar.tooltip}
+                                    />
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
-                <Slider
-                    getSliderBarDimensions={this.getSliderBarDimensions}
-                    sliderContainerWidth={this.state.sliderContainerWidth}
-                    sliderContainerLeftPosition={this.state.sliderContainerLeftPosition}
-                    sliderContainerRightPosition={this.state.sliderContainerRightPosition}
-                    handleButtonMovement={this.handleButtonMovement}
-                    buttonLeft={this.state.barMinLocation}
-                    buttonRight={this.state.barMaxLocation}
-                />
-                <div className="input-section">
-                    <div
-                        className={`input-container ${
-                            this.state.input_with_focus === "left_boundry" ? "selected" : ""
-                        }`}
-                    >
-                        <input
-                            name="left_boundry"
-                            min="-999"
-                            max="999"
-                            onChange={e => this.findLeftBarFromInput(e)}
-                            onFocus={this.handleInputFocus}
-                            onBlur={this.handleInputFocus}
-                            value={!this.state.inputFocus ? parseInt(this.state.leftInputValue) : null}
-                            type="number"
-                        />
-                        %
-                    </div>
-                    to
-                    <div
-                        className={`input-container ${
-                            this.state.input_with_focus === "right_boundry" ? "selected" : ""
-                        }`}
-                    >
-                        <input
-                            name="right_boundry"
-                            min="-999"
-                            max="999"
-                            onChange={e => this.findRightBarFromInput(e)}
-                            onFocus={this.handleInputFocus}
-                            onBlur={this.handleInputFocus}
-                            value={!this.state.inputFocus ? parseInt(this.state.rightInputValue) : null}
-                            type="number"
-                        />
-                        %
+                    <Slider
+                        getSliderBarDimensions={this.getSliderBarDimensions}
+                        sliderContainerWidth={this.state.sliderContainerWidth}
+                        sliderContainerLeftPosition={this.state.sliderContainerLeftPosition}
+                        sliderContainerRightPosition={this.state.sliderContainerRightPosition}
+                        handleButtonMovement={this.handleButtonMovement}
+                        buttonLeft={this.state.barMinLocation}
+                        buttonRight={this.state.barMaxLocation}
+                    />
+                    <div className="input-section">
+                        <div
+                            className={`input-container ${
+                                this.state.input_with_focus === "left_boundry" ? "selected" : ""
+                            }`}
+                        >
+                            <input
+                                name="left_boundry"
+                                min="-999"
+                                max="999"
+                                onChange={e => this.findLeftBarFromInput(e)}
+                                onFocus={this.handleInputFocus}
+                                onBlur={this.handleInputFocus}
+                                value={!this.state.inputFocus && !isNaN(this.state.leftInputValue) ? parseInt(this.state.leftInputValue) : undefined}
+                                type="number"
+                            />
+                            %
+                        </div>
+                        to
+                        <div
+                            className={`input-container ${
+                                this.state.input_with_focus === "right_boundry" ? "selected" : ""
+                            }`}
+                        >
+                            <input
+                                name="right_boundry"
+                                min="-999"
+                                max="999"
+                                onChange={e => this.findRightBarFromInput(e)}
+                                onFocus={this.handleInputFocus}
+                                onBlur={this.handleInputFocus}
+                                value={!this.state.inputFocus && !isNaN(this.state.rightInputValue) ? parseInt(this.state.rightInputValue) : undefined}
+                                type="number"
+                            />
+                            %
+                        </div>
                     </div>
                 </div>
             </div>

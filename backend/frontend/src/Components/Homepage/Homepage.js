@@ -29,7 +29,7 @@ class Homepage extends Component {
     axios
       .get("http://localhost:5000/api/crypto-data/getDefaultData")
       .then(response => {
-        console.log(response.data);
+        // console.log(response.data);
         this.props.CryptosSuccess(response.data);
       })
       .catch(error => {
@@ -37,9 +37,6 @@ class Homepage extends Component {
         console.log("[Error]", error);
       });
 
-    const update = message => {
-      this.props.updateCurrentData(message);
-    };
 
     // const { endpoint } = this.state;
     // const socket = socketIOClient(endpoint);

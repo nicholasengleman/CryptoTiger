@@ -12,8 +12,8 @@ const CryptoListHeader = props => {
             <div className={styles.spacer}/>
 
             {props.crypto &&
-            props.crypto.columns.map(timeframe => (
-                <CryptoHeader key={timeframe.period} column_name={timeframe.name}/>
+            props.crypto.columns.map((timeframe, index) => (
+                <CryptoHeader key={index} column_name={timeframe.name}/>
             ))}
             <AddNewColumnBtn/>
         </div>

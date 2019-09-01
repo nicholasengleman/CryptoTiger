@@ -25,12 +25,14 @@ class DataMenu extends Component {
 
   handleSetDataType = selectedDataType => {
     this.setState({ selectedDataType });
+    this.props.handleSetFilterPeriod(this.state.selectedDataName, selectedDataType);
   };
 
   handleSetPeriod = (new_timeframe_seconds, new_timeframe_name) => {
     if (this.state.selectedDataName !== new_timeframe_name) {
       this.props.emptyHistogramData();
-      this.setState({ selectedDataName: new_timeframe_name });
+      this.setState({ selectedDataName: new_timeframe_name  });
+      this.props.handleSetFilterPeriod(new_timeframe_name, this.state.selectedDataType);
       axios
         .get(
           `http://localhost:5000/api/crypto-data/getColumnData/${new_timeframe_seconds}`
@@ -44,11 +46,6 @@ class DataMenu extends Component {
     }
   };
 
-  handleAddWithoutFilter = () => {
-    this.props.updateLiveView();
-    this.props.closeDataMenu();
-    this.setState({ selectedDataName: "" });
-  };
 
   render() {
     return (

@@ -57,9 +57,6 @@ export const getCurrentSelectedColumn = current_selected_column => {
 };
 
 // Crypto Menu action creators
-export const fetchCryptosBegin = () => ({
-    type: actionTypes.FETCH_CRYPTOS_BEGIN
-});
 export const fetchCryptosSuccess = data => ({
     type: actionTypes.FETCH_CRYPTOS_SUCCESS,
     payload: { data }
@@ -72,7 +69,7 @@ export const fetchCryptosFailure = error => ({
 ///////////////////////////////
 //Filter action creators
 //////////////////////////////////
-export const addFilterParameter = parameters => ({
-    type: actionTypes.ADD_FILTER_PARAMETER,
-    payload: { parameters }
+export const addFilter = (parameters, periodName) => ({
+    type: actionTypes.ADD_FILTER,
+    payload: { parameters, periodName  }
 });

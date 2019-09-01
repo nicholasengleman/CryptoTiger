@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import axios from "axios";
 
 import {
-  fetchCryptosBegin,
   fetchCryptosFailure,
   fetchCryptosSuccess,
   updateCurrentData
@@ -25,7 +24,6 @@ class Homepage extends Component {
   }
 
   componentDidMount() {
-    this.props.CryptosBegin();
     axios
       .get("http://localhost:5000/api/crypto-data/getDefaultData")
       .then(response => {
@@ -79,7 +77,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     updateCurrentData: data => dispatch(updateCurrentData(data)),
-    CryptosBegin: () => dispatch(fetchCryptosBegin()),
     CryptosSuccess: data => dispatch(fetchCryptosSuccess(data)),
     CryptosFailure: error => dispatch(fetchCryptosFailure(error))
   };

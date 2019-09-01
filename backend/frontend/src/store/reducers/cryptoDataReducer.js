@@ -1,5 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
-import { updatedObject, findCurrentValueOfCrypto } from "../../utilities/utilities";
+import { updatedObject, findCurrentValueOfCrypto, filterCryptos } from "../../utilities/utilities";
 import _ from "lodash";
 
 const initialState = {
@@ -12,43 +12,108 @@ const initialState = {
     histogramData: [],
     filterParameters: []
 };
-/////////////////////////////////////
-// updates the store with the latest live data. This data is then matched with the relevant historical data to produce an up-to-date percentage change.
-////////////////////////////////////
-const updateCurrentData = (state, action) => {
 
-    let crypto_data_buffer = _.cloneDeep(state.allData);
-    action.payload.new_data.forEach(crypto => {
-        let new_crypto_value;
 
-        const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto[2]);
-        new_crypto_value = (((current_value - crypto[0]) / crypto[0]) * 100).toFixed(2);
 
-        crypto_data_buffer[crypto[2]].columns[0] = {
-            name: "Current Price",
-            period: 0,
-            crypto_datetime: 0,
-            crypto_id: crypto[2],
-            crypto_value: new_crypto_value
+/////////////////////
+// Processes data retrieved from the database on initial page load
+///////////////////////
+const fetchCryptosSuccess = (state, action) => {
+    let default_data = {};
+
+
+    action.payload.data[0].forEach(crypto => {
+        default_data[crypto.crypto_id] = {
+            crypto_id: crypto.crypto_id,
+            crypto_name: crypto.crypto_name,
+            crypto_shortname: crypto.crypto_shortname,
+            crypto_icon_url: crypto.crypto_icon_url
         };
     });
 
+    //creates an array of crypto objects, with each object having:
+    // 1) the crypto id
+    // 2) crypto name
+    // 3) crypto symbol
+    // 4) link to crypto icon
+    // 5) array containing objects for each default column. Each of these objects contains:
+    //      a) the name of the column
+    //      b) the period
+    //      c) the crypto id
+    //      d) the value to display for this cell
+
+    Object.keys(default_data).forEach(crypto => {
+        default_data[crypto].columns = [];
+        let new_crypto_value;
+
+        for (let i = 1; i < action.payload.data.length; i++) {
+            action.payload.data[i].data.forEach(crypto_tf => {
+                if (crypto_tf.crypto_id === default_data[crypto].crypto_id) {
+                    if (i < 2) {
+                        new_crypto_value = crypto_tf.data_value;
+                    } else {
+                        const current_value = findCurrentValueOfCrypto(
+                            action.payload.data[1].data,
+                            crypto_tf.crypto_id
+                        );
+                        new_crypto_value = (
+                            ((current_value - crypto_tf.data_value) / crypto_tf.data_value) *
+                            100
+                        ).toFixed(2);
+                    }
+
+                    default_data[crypto].columns.push({
+                        name: action.payload.data[i].name,
+                        period: action.payload.data[i].period,
+                        crypto_datetime: crypto_tf.crypto_datetime,
+                        crypto_id: crypto_tf.crypto_id,
+                        crypto_value: new_crypto_value
+                    });
+                }
+            });
+        }
+    });
+
+
+    //filters the default_data array to only include cryptos that pass all filters in the filter array
+
+
     const updatedState = {
-        allData: crypto_data_buffer,
-        currentData: action.payload.new_data
+        loading: false,
+        allData: default_data,
+        currentData: action.payload.data[1]
     };
 
     return updatedObject(state, updatedState);
 };
 
-const updateLiveCryptoView = (state, action) => {
+/////////////////////
+// Fires if there was a failure when retrieving data on page load
+///////////////////////
+const fetchCryptosFailure = (state, action) => {
     const updatedState = {
-        allData: state.cryptoDataBuffer,
-        cryptoDataBuffer: []
+        loading: false,
+        error: true
     };
     return updatedObject(state, updatedState);
 };
 
+
+
+
+//////////////////////
+/// Passes the name of the column selected to the opening Data Window so it know which column to added the data to
+/////////////////////
+const getCurrentSelectedColumn = (state, action) => {
+    const updatedState = {
+        selectedColumn: action.payload.current_selected_column
+    };
+    return updatedObject(state, updatedState);
+};
+
+///////////////////
+//Empties the Histogram Array when a new period is selected
+//////////////////
 const emptyHistogramData = (state, action) => {
     const updatedState = {
         histogramData: []
@@ -100,96 +165,57 @@ const processNewColumnData = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
-const getCurrentSelectedColumn = (state, action) => {
-    const updatedState = {
-        selectedColumn: action.payload.current_selected_column
-    };
-    return updatedObject(state, updatedState);
-};
-
-const fetchCryptosBegin = (state, action) => {
-    const updatedState = {
-        loading: true,
-        error: null
-    };
-    return updatedObject(state, updatedState);
-};
-
-const fetchCryptosSuccess = (state, action) => {
-    let default_data = {};
-
-    action.payload.data[0].forEach(crypto => {
-        default_data[crypto.crypto_id] = {
-            crypto_id: crypto.crypto_id,
-            crypto_name: crypto.crypto_name,
-            crypto_shortname: crypto.crypto_shortname,
-            crypto_icon_url: crypto.crypto_icon_url
-        };
-    });
-
-    Object.keys(default_data).forEach(crypto => {
-        default_data[crypto].columns = [];
-        let new_crypto_value;
-
-        for (let i = 1; i < action.payload.data.length; i++) {
-            action.payload.data[i].data.forEach(crypto_tf => {
-                if (crypto_tf.crypto_id === default_data[crypto].crypto_id) {
-                    if (i < 2) {
-                        new_crypto_value = crypto_tf.data_value;
-                    } else {
-                        const current_value = findCurrentValueOfCrypto(
-                            action.payload.data[1].data,
-                            crypto_tf.crypto_id
-                        );
-                        new_crypto_value = (
-                            ((current_value - crypto_tf.data_value) / crypto_tf.data_value) *
-                            100
-                        ).toFixed(2);
-                    }
-
-                    default_data[crypto].columns.push({
-                        name: action.payload.data[i].name,
-                        period: action.payload.data[i].period,
-                        crypto_datetime: crypto_tf.crypto_datetime,
-                        crypto_id: crypto_tf.crypto_id,
-                        crypto_value: new_crypto_value
-                    });
-                }
-            });
-        }
-    });
-
-    const updatedState = {
-        loading: false,
-        allData: default_data,
-        currentData: action.payload.data[1]
-    };
-
-    return updatedObject(state, updatedState);
-};
-const fetchCryptosFailure = (state, action) => {
-    const updatedState = {
-        loading: false,
-        error: true
-    };
-    return updatedObject(state, updatedState);
-};
-
-
 
 
 ////////////////////////////////////////////
-//Reducers for managing the Filter Parameters
+//Adds a filter from the histogram to the filter array
 /////////////////////////////////////////
-const addFilterParameter = (state, action) => {
+const addFilter = (state, action) => {
     let newFilterParameters = _.cloneDeep(state.filterParameters);
     newFilterParameters.push({
-        column: state.selectedColumn,
+        column: action.payload.periodName,
         parameters: action.payload.parameters
     });
 
+    filterCryptos(state.allData, newFilterParameters);
+
     const updatedState = {
         filterParameters: newFilterParameters
+    };
+
+    return updatedObject(state, updatedState);
+};
+
+
+
+
+// Reducers not being used
+
+/////////////////////////////////////
+// updates the store with the latest live data. This data is then matched with the relevant historical data to
+// produce an up-to-date percentage to display.
+////////////////////////////////////
+const updateCurrentData = (state, action) => {
+
+    let crypto_data_buffer = _.cloneDeep(state.allData);
+    action.payload.new_data.forEach(crypto => {
+        let new_crypto_value;
+
+        const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto[2]);
+        new_crypto_value = (((current_value - crypto[0]) / crypto[0]) * 100).toFixed(2);
+
+        crypto_data_buffer[crypto[2]].columns[0] = {
+            name: "Current Price",
+            period: 0,
+            crypto_datetime: 0,
+            crypto_id: crypto[2],
+            crypto_value: new_crypto_value
+        };
+    });
+
+    const updatedState = {
+        allData: crypto_data_buffer,
+        currentData: action.payload.new_data
     };
 
     return updatedObject(state, updatedState);
@@ -207,16 +233,12 @@ const cryptoDataReducer = (state = initialState, action) => {
             return getCurrentSelectedColumn(state, action);
         case actionTypes.PROCESS_NEW_COLUMN_DATA:
             return processNewColumnData(state, action);
-        case actionTypes.UPDATE_LIVE_COLUMN_VIEW:
-            return updateLiveCryptoView(state, action);
-        case actionTypes.FETCH_CRYPTOS_BEGIN:
-            return fetchCryptosBegin(state, action);
         case actionTypes.FETCH_CRYPTOS_SUCCESS:
             return fetchCryptosSuccess(state, action);
         case actionTypes.FETCH_CRYPTOS_FAILURE:
             return fetchCryptosFailure(state, action);
-        case actionTypes.ADD_FILTER_PARAMETER:
-            return addFilterParameter(state, action);
+        case actionTypes.ADD_FILTER:
+            return addFilter(state, action);
         default:
             return state;
     }

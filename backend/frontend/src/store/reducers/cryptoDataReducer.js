@@ -199,10 +199,21 @@ const processNewColumnData = (state, action) => {
 const addFilter = (state, action) => {
     let newFilterParameters = _.cloneDeep(state.filterParameters);
 
-    newFilterParameters.push({
-        column: state.selectedColumn,
-        parameters: action.payload.parameters
+    let indexOfExistingFilter = newFilterParameters.findIndex(filter => {
+        return filter.column === state.selectedColumn;
     });
+
+    if(indexOfExistingFilter === -1) {
+        newFilterParameters.push({
+            column: state.selectedColumn,
+            parameters: action.payload.parameters
+        });
+    } else {
+        newFilterParameters[indexOfExistingFilter] = {
+            ...newFilterParameters[indexOfExistingFilter],
+            parameters: action.payload.parameters
+        };
+    }
 
     const updatedState = {
         filterParameters: newFilterParameters,

@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import styles from "./CryptoHeader.module.scss";
-import sort_icon from "../../../../img/data_menu.png";
+import "./CryptoHeader.scss";
 import {connect} from "react-redux";
 import { processDataFromStoreForHistogram, toggleDataMenu} from "../../../../store/actions/actionCreators";
 
@@ -16,12 +15,17 @@ class CryptoHeader extends Component {
         return (
             <div
                 onClick={() => this.onToggleDataMenu(this.props.column_name)}
-                className={styles.column}
+                className="column"
             >
+                {this.props.filter
+                    ? <div className="filter-description">only showing {parseInt(this.props.filter.parameters.selectionMin)}% to {parseInt(this.props.filter.parameters.selectionMax)}%</div>
+                    : <div className="filter-description"></div>}
+                <div className="column-name">
                 {this.props.column_name}
-                <img className={styles.sort_icon} src={sort_icon} alt=""/>
+                {this.props.column_name !== "Current Price" ? <i className="far fa-edit"></i> : null}
+                </div>
             </div>
-        );
+        )
     }
 }
 

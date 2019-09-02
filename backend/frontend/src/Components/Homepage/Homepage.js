@@ -70,7 +70,7 @@ class Homepage extends Component {
 
 const mapStateToProps = state => {
   return {
-    cryptosData: state.cryptoData.allData
+    cryptosData: state.cryptoData.displayedData
   };
 };
 

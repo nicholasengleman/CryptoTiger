@@ -19,6 +19,14 @@ export const toggleDataMenu = column_id => {
 ///////////////////////////////
 //Crypto Data Managing creators
 /////////////////////////////////
+export const setSelectedColumn = selectedColumn => {
+    return {
+        type: actionTypes.SET_SELECTED_COLUMN,
+        payload: { selectedColumn }
+    };
+};
+
+
 export const closeDataMenu = () => {
     return {
         type: actionTypes.CLOSE_DATA_MENU
@@ -49,9 +57,9 @@ export const updateLiveColumnView = () => {
         type: actionTypes.UPDATE_LIVE_COLUMN_VIEW
     };
 };
-export const getCurrentSelectedColumn = current_selected_column => {
+export const processDataFromStoreForHistogram = current_selected_column => {
     return {
-        type: actionTypes.GET_CURRENT_SELECTED_COLUMN,
+        type: actionTypes.PROCESS_DATA_FROM_STORE_FOR_HISTOGRAM,
         payload: { current_selected_column }
     };
 };

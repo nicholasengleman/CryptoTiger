@@ -3,14 +3,22 @@ import { updatedObject, findCurrentValueOfCrypto, filterCryptos } from "../../ut
 import _ from "lodash";
 
 const initialState = {
+    // master copy of data
     allData: [],
+    // buffer that will replace the allData object once the selections from the histogram have been filtered
+    cryptoDataBuffer: [],
+    // contains only 1 column of data for each crypto. This is the data that is passed to the histogram component
+    histogramData: [],
+    // contains the latest live data for each crypto
     currentData: [],
+    // allData array with all filters applied. Data that is actually shown on the page.
+    displayedData: [],
+
     loading: false,
     error: null,
-    cryptoDataBuffer: [],
     selectedColumn: "",
-    histogramData: [],
-    filterParameters: []
+
+    filterParameters: [],
 };
 
 
@@ -74,13 +82,10 @@ const fetchCryptosSuccess = (state, action) => {
         }
     });
 
-
-    //filters the default_data array to only include cryptos that pass all filters in the filter array
-
-
     const updatedState = {
         loading: false,
         allData: default_data,
+        displayedData:  default_data,
         currentData: action.payload.data[1]
     };
 
@@ -100,14 +105,35 @@ const fetchCryptosFailure = (state, action) => {
 
 
 
-
 //////////////////////
-/// Passes the name of the column selected to the opening Data Window so it know which column to added the data to
+/// Processes Data for Histogram when a Column Header is clicked
 /////////////////////
-const getCurrentSelectedColumn = (state, action) => {
+const processDataFromStoreForHistogram = (state, action) => {
+    let histogramData = [];
+    const name_of_selected_column = action.payload.current_selected_column;
+
+    for(let crypto in state.allData) {
+       state.allData[crypto].columns.forEach(column => {
+           if(column.name === name_of_selected_column) {
+               histogramData.push({ id: column.crypto_id, value: Number(column.crypto_value), tooltip: [column.crypto_value] });
+           }
+       })
+    }
+
     const updatedState = {
-        selectedColumn: action.payload.current_selected_column
+        selectedColumn: action.payload.current_selected_column,
+        histogramData
     };
+
+    return updatedObject(state, updatedState);
+};
+
+
+const setSelectedColumn = (state, action) => {
+    const updatedState = {
+        selectedColumn: action.payload.selectedColumn
+    };
+
     return updatedObject(state, updatedState);
 };
 
@@ -172,20 +198,19 @@ const processNewColumnData = (state, action) => {
 /////////////////////////////////////////
 const addFilter = (state, action) => {
     let newFilterParameters = _.cloneDeep(state.filterParameters);
+
     newFilterParameters.push({
-        column: action.payload.periodName,
+        column: state.selectedColumn,
         parameters: action.payload.parameters
     });
 
-    filterCryptos(state.allData, newFilterParameters);
-
     const updatedState = {
-        filterParameters: newFilterParameters
+        filterParameters: newFilterParameters,
+        displayedData: filterCryptos(state.allData, newFilterParameters)
     };
 
     return updatedObject(state, updatedState);
 };
-
 
 
 
@@ -229,8 +254,10 @@ const cryptoDataReducer = (state = initialState, action) => {
             return emptyHistogramData(state, action);
         case actionTypes.UPDATE_CURRENT_DATA:
             return updateCurrentData(state, action);
-        case actionTypes.GET_CURRENT_SELECTED_COLUMN:
-            return getCurrentSelectedColumn(state, action);
+        case actionTypes.SET_SELECTED_COLUMN:
+            return setSelectedColumn(state, action);
+        case actionTypes.PROCESS_DATA_FROM_STORE_FOR_HISTOGRAM:
+            return processDataFromStoreForHistogram(state, action);
         case actionTypes.PROCESS_NEW_COLUMN_DATA:
             return processNewColumnData(state, action);
         case actionTypes.FETCH_CRYPTOS_SUCCESS:

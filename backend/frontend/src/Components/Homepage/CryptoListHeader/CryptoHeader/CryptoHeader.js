@@ -2,12 +2,12 @@ import React, {Component} from "react";
 import styles from "./CryptoHeader.module.scss";
 import sort_icon from "../../../../img/data_menu.png";
 import {connect} from "react-redux";
-import {getCurrentSelectedColumn, toggleDataMenu} from "../../../../store/actions/actionCreators";
+import { processDataFromStoreForHistogram, toggleDataMenu} from "../../../../store/actions/actionCreators";
 
 class CryptoHeader extends Component {
 
     onToggleDataMenu = columnName => {
-        this.props.currentSelectedColumn(columnName);
+        this.props.processDataFromStoreForHistogram(columnName);
         this.props.toggleDataMenu(columnName);
     };
 
@@ -28,7 +28,7 @@ class CryptoHeader extends Component {
 const mapDispatchToProps = dispatch => {
     return {
         toggleDataMenu: (current_column_name) => dispatch(toggleDataMenu(current_column_name)),
-        currentSelectedColumn: (current_column_name) => dispatch(getCurrentSelectedColumn(current_column_name))
+        processDataFromStoreForHistogram: (current_column_name) => dispatch(processDataFromStoreForHistogram(current_column_name))
     };
 };
 

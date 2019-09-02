@@ -102,10 +102,6 @@ class Histogram extends Component {
             }
 
             that.calculateBarWidth();
-            that.setState({
-                barMinLocation: 0,
-                barMaxLocation: that.state.sliderContainerWidth - this.buttonWidth
-            });
         });
     }
 
@@ -137,13 +133,6 @@ class Histogram extends Component {
             this.dataSetMaxValue = this.findMaxValue(this.props.data);
             this.calculateBarWidth(this.props.data);
             this.normalizeData(this.props.data);
-            this.setState({
-                barMinLocation: 0,
-                barMaxLocation: this.state.sliderContainerWidth - this.buttonWidth,
-                attachAnimationClasses: true
-            });
-
-
         }
     }
 
@@ -228,6 +217,7 @@ class Histogram extends Component {
             sliderContainerWidth,
             sliderContainerRightPosition,
             sliderContainerLeftPosition,
+            barMinLocation: 0,
             barMaxLocation: sliderContainerWidth - this.buttonWidth
         });
     };
@@ -417,7 +407,6 @@ class Histogram extends Component {
                                         backgroundColor={color}
                                         width={this.state.barWidth}
                                         ref={this.ref[`ref_${index}`]}
-                                        directionalClass={directionalClass}
                                         tooltip={bar.tooltip}
                                     />
                                 );

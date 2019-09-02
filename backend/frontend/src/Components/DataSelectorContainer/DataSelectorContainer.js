@@ -13,22 +13,17 @@ class DataSelectorContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            filterPeriod: "",
             filterParameters: {}
         };
     }
 
-    handleAddFilter = () => {
-        this.props.addFilter(this.state.filterParameters, this.state.filterPeriod);
-    };
-
-    handleSetFilterPeriod = (filterPeriod, filterName) => {
-        let name = filterName.charAt(0).toUpperCase() + filterName.slice(1);
-        this.setState({ filterPeriod: `${filterPeriod} ${name}`});
-    };
-
     handleSetBoundries = (boundries) => {
         this.setState({filterParameters: boundries});
+    };
+
+
+    handleAddFilter = () => {
+        this.props.addFilter(this.state.filterParameters);
     };
 
     render() {
@@ -38,7 +33,7 @@ class DataSelectorContainer extends Component {
                     this.props.dataMenu.open ? styles.open : styles.closed
                 )}
             >
-                <DataSelector handleSetFilterPeriod={this.handleSetFilterPeriod}/>
+                <DataSelector/>
                 <HistogramContainer handleSetBoundries={this.handleSetBoundries}/>
                 <div className={styles.btnContainer}>
                     <button className="btn">Cancel</button>

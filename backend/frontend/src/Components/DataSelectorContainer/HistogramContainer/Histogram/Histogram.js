@@ -133,6 +133,14 @@ class Histogram extends Component {
             this.dataSetMaxValue = this.findMaxValue(this.props.data);
             this.calculateBarWidth(this.props.data);
             this.normalizeData(this.props.data);
+            if(this.props.buttonPresets) {
+                this.setState({
+                    leftInputValue: this.props.buttonPresets.parameters.selectionMin,
+                    rightInputValue: this.props.buttonPresets.parameters.selectionMax
+                });
+                this.findLeftBarFromInput(Number(this.props.buttonPresets.parameters.selectionMin));
+                this.findRightBarFromInput(Number(this.props.buttonPresets.parameters.selectionMax));
+            }
         }
     }
 
@@ -238,21 +246,37 @@ class Histogram extends Component {
         }));
     };
 
-    findLeftBarFromInput = e => {
+    handleLeftInput = e => {
         this.setState({leftInputValue: e.target.value}, () => this.getBoundries());
-
-        let index = this.state.normalizedData.findIndex(el => {
-            return el.value >= e.target.value;
-        });
-
-        this.setState({barMinLocation: this.barLocations[index]});
+        this.findLeftBarFromInput(e.target.value);
     };
 
-    findRightBarFromInput = e => {
-        let index = 0;
+    findLeftBarFromInput = (input) => {
+        let index = this.state.normalizedData.findIndex(el => {
+            return el.value >= input;
+        });
+        //
+        // if(this.barLocations.length > 0) {
+        //
+        // }
+        //
+        if(this.barLocations[index]) {
+            console.log("barMinLocation array: ", this.barLocations);
+            console.log("barMinLocation index: ", index);
+
+            this.setState({barMinLocation: this.barLocations[index]});
+        }
+    };
+
+    handleRightInput = e => {
         this.setState({rightInputValue: e.target.value}, () => this.getBoundries());
+        this.findRightBarFromInput(e.target.value);
+    };
+
+    findRightBarFromInput = input => {
+        let index = 0;
         for (let i = this.state.normalizedData.length - 1; i > 0; i--) {
-            if (this.state.normalizedData[i].value <= e.target.value) {
+            if (this.state.normalizedData[i].value <= input) {
                 index = i;
                 break;
             }
@@ -373,7 +397,6 @@ class Histogram extends Component {
                                 if (
                                     (this.state.barMinLocation <= this.barLocations[index] + this.buttonWidth - (this.buttonWidth / 2) &&
                                         this.barLocations[index] + this.buttonWidth - (this.buttonWidth / 2) <= this.state.barMaxLocation - this.state.computedBarWidth)
-                                    || this.barLocations.length === 0
                                 ) {
                                     if (bar.normalizedValue > 0) {
                                         color = "green";
@@ -432,7 +455,7 @@ class Histogram extends Component {
                                 name="left_boundry"
                                 min="-999"
                                 max="999"
-                                onChange={e => this.findLeftBarFromInput(e)}
+                                onChange={e => this.handleLeftInput(e)}
                                 onFocus={this.handleInputFocus}
                                 onBlur={this.handleInputFocus}
                                 value={!this.state.inputFocus && !isNaN(this.state.leftInputValue) ? parseInt(this.state.leftInputValue) : undefined}
@@ -450,7 +473,7 @@ class Histogram extends Component {
                                 name="right_boundry"
                                 min="-999"
                                 max="999"
-                                onChange={e => this.findRightBarFromInput(e)}
+                                onChange={e => this.handleRightInput(e)}
                                 onFocus={this.handleInputFocus}
                                 onBlur={this.handleInputFocus}
                                 value={!this.state.inputFocus && !isNaN(this.state.rightInputValue) ? parseInt(this.state.rightInputValue) : undefined}

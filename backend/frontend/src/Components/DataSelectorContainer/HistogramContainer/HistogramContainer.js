@@ -7,8 +7,6 @@ import { css} from '@emotion/core'
 
 import {ClipLoader} from "react-spinners";
 
-import {addFilterParameter} from "../../../store/actions/actionCreators";
-
 const override = css`
     position: absolute;
     top: 50px;
@@ -16,6 +14,12 @@ const override = css`
 `;
 
 class HistogramContainer extends Component {
+
+    findFilter = timeframe_name => {
+        return this.props.filterParameters.find(filter => {
+            return filter.column === timeframe_name;
+        });
+    };
 
     render() {
         return (
@@ -29,6 +33,7 @@ class HistogramContainer extends Component {
                 <Histogram
                     data={this.props.histogramData.length > 0 ? this.props.histogramData : [1]}
                     getBoundries={this.props.handleSetBoundries}
+                    buttonPresets={this.findFilter(this.props.selectedColumn)}
                 />
             </div>
         );
@@ -38,6 +43,8 @@ class HistogramContainer extends Component {
 const mapStateToProps = state => {
     return {
         histogramData: state.cryptoData.histogramData,
+        filterParameters: state.cryptoData.filterParameters,
+        selectedColumn: state.cryptoData.selectedColumn,
         dataMenu: state.dataMenu.dataMenu
     };
 };

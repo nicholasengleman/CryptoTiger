@@ -7,46 +7,35 @@ function updateCurrentPriceData(callback) {
     getCurrentPrice((err, cryptos) => {
         if (err) throw err;
 
-        updateDataInTable(cryptos, (err, cryptoList) => {
-            if (err) throw err;
-            callback(cryptoList);
-        });
-    });
-}
-
-function updateDataInTable(cryptos, callback) {
-    getCryptoListTable((err, CRYPTO_LIST_TABLE) => {
-
-        let data_types = Object.keys(cryptos[0]).filter(el => {
-            return el !== 'shortname';
-        });
-
-        data_types.forEach(data_type => {
-            let cryptoList = [];
-
-            cryptos.forEach(crypto => {
-               // const data_id = DATA_INFO_OBJECT["Price"];
-                const crypto_id = CRYPTO_LIST_TABLE[crypto.shortname].crypto_id;
-
-                cryptoList.push([crypto.price, 0, crypto_id]);
+        getCryptoListTable((err, CRYPTO_LIST_TABLE) => {
+            let data_types = Object.keys(cryptos[0]).filter(el => {
+                return el !== "shortname";
             });
 
-            let sql = `UPDATE crypto_price_current SET data_value = ? WHERE data_id = ? AND crypto_id = ?`;
+            data_types.forEach(data_type => {
+                let i = 0;
+                let cryptoList = [];
 
-            for (let i = 0; i < cryptoList.length; i++) {
-                connection.query(sql, cryptoList[i], function (error, results) {
-                    if (error) {
-                        callback(error);
-                    }
+                //creates array of of arrays for inserting into db
+                cryptos.forEach(crypto => {
+                    const crypto_id = CRYPTO_LIST_TABLE[crypto.shortname].crypto_id;
+                    cryptoList.push([crypto.price, 0, crypto_id]);
                 });
-            }
 
-            console.log(`Finished updating current ${data_type} data.`);
-            callback(null, cryptoList);
+                let sql = `UPDATE crypto_price_current SET data_value = ? WHERE data_id = ? AND crypto_id = ?`;
+
+                for (i = 0; i < cryptoList.length; i++) {
+                    connection.query(sql, cryptoList[i], function(error, results) {
+                        if (error) {
+                            callback(error);
+                        }
+                    });
+                }
+
+                console.log(`Finished updating ${i} cryptos with their current ${data_type} data.`);
+            });
         });
     });
 }
 
-module.exports = updateCurrentPriceData;
-
-
+updateCurrentPriceData();

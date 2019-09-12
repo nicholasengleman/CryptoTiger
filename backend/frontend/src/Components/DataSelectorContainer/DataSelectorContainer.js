@@ -1,11 +1,11 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import classNames from "classnames";
 import styles from "./DataSelectorContainer.module.scss";
 
 import DataSelector from "./DataSelector/DataSelector";
 import HistogramContainer from "./HistogramContainer/HistogramContainer";
-import {addFilter} from "../../store/actions/actionCreators";
+import { addCrypto, toggleDataMenu } from "../../store/actions/actionCreators";
 
 //import PresetsContainer from "./PresetsContainer/PresetsContainer";
 
@@ -17,27 +17,26 @@ class DataSelectorContainer extends Component {
         };
     }
 
-    handleSetBoundries = (boundries) => {
-        this.setState({filterParameters: boundries});
+    handleSetBoundries = boundries => {
+        this.setState({ filterParameters: boundries });
     };
 
-
-    handleAddFilter = () => {
-        this.props.addFilter(this.state.filterParameters);
+    handleAddCrypto = () => {
+        this.props.addCrypto(this.state.filterParameters);
     };
 
     render() {
         return (
-            <div
-                className={classNames(
-                    this.props.dataMenu.open ? styles.open : styles.closed
-                )}
-            >
-                <DataSelector/>
-                <HistogramContainer handleSetBoundries={this.handleSetBoundries}/>
+            <div className={classNames(this.props.dataMenu.open ? styles.open : styles.closed)}>
+                <DataSelector />
+                <HistogramContainer handleSetBoundries={this.handleSetBoundries} />
                 <div className={styles.btnContainer}>
-                    <button className="btn">Cancel</button>
-                    <button onClick={this.handleAddFilter} className="btn">Apply</button>
+                    <button className="btn" onClick={() => this.props.onToggleDataMenu(this.props.dataMenu.column_id)}>
+                        Cancel
+                    </button>
+                    <button onClick={this.handleAddCrypto} className="btn">
+                        Add Crypto
+                    </button>
                 </div>
             </div>
         );
@@ -51,10 +50,13 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    addFilter: (filterParameters, periodName) =>
-        dispatch(addFilter(filterParameters, periodName ))
-  };
+    return {
+        onToggleDataMenu: column_name => dispatch(toggleDataMenu(column_name)),
+        addCrypto: (filterParameters, periodName) => dispatch(addCrypto(filterParameters, periodName))
+    };
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(DataSelectorContainer);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(DataSelectorContainer);

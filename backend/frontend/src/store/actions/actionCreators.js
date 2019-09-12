@@ -26,7 +26,6 @@ export const setSelectedColumn = selectedColumn => {
     };
 };
 
-
 export const closeDataMenu = () => {
     return {
         type: actionTypes.CLOSE_DATA_MENU
@@ -41,9 +40,9 @@ export const updateCurrentData = new_data => {
 };
 
 export const emptyHistogramData = () => {
-   return {
-       type: actionTypes.EMPTY_HISTOGRAM_DATA
-   }  ;
+    return {
+        type: actionTypes.EMPTY_HISTOGRAM_DATA
+    };
 };
 
 export const processNewColumnData = (new_timeframe_name, new_column_data) => {
@@ -77,7 +76,7 @@ export const fetchCryptosFailure = error => ({
 ///////////////////////////////
 //Filter action creators
 //////////////////////////////////
-export const addFilter = (parameters, periodName) => ({
-    type: actionTypes.ADD_FILTER,
-    payload: { parameters, periodName  }
+export const addCrypto = (parameters, periodName) => ({
+    type: actionTypes.ADD_CRYPTO,
+    payload: { parameters, periodName }
 });

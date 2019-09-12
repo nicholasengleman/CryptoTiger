@@ -90,7 +90,7 @@ class Histogram extends Component {
 
         let that = this;
         window.addEventListener("resize", function() {
-            this.findBarLocations();
+            that.findBarLocations();
             that.calculateBarWidth();
         });
     }

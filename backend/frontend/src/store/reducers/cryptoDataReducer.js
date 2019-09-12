@@ -18,17 +18,14 @@ const initialState = {
     error: null,
     selectedColumn: "",
 
-    filterParameters: [],
+    filterParameters: []
 };
-
-
 
 /////////////////////
 // Processes data retrieved from the database on initial page load
 ///////////////////////
 const fetchCryptosSuccess = (state, action) => {
     let default_data = {};
-
 
     action.payload.data[0].forEach(crypto => {
         default_data[crypto.crypto_id] = {
@@ -85,7 +82,7 @@ const fetchCryptosSuccess = (state, action) => {
     const updatedState = {
         loading: false,
         allData: default_data,
-        displayedData:  default_data,
+        displayedData: default_data,
         currentData: action.payload.data[1]
     };
 
@@ -103,8 +100,6 @@ const fetchCryptosFailure = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
-
-
 //////////////////////
 /// Processes Data for Histogram when a Column Header is clicked
 /////////////////////
@@ -112,12 +107,16 @@ const processDataFromStoreForHistogram = (state, action) => {
     let histogramData = [];
     const name_of_selected_column = action.payload.current_selected_column;
 
-    for(let crypto in state.allData) {
-       state.allData[crypto].columns.forEach(column => {
-           if(column.name === name_of_selected_column) {
-               histogramData.push({ id: column.crypto_id, value: Number(column.crypto_value), tooltip: [column.crypto_value] });
-           }
-       })
+    for (let crypto in state.allData) {
+        state.allData[crypto].columns.forEach(column => {
+            if (column.name === name_of_selected_column) {
+                histogramData.push({
+                    id: column.crypto_id,
+                    value: Number(column.crypto_value),
+                    tooltip: [column.crypto_value]
+                });
+            }
+        });
     }
 
     const updatedState = {
@@ -127,7 +126,6 @@ const processDataFromStoreForHistogram = (state, action) => {
 
     return updatedObject(state, updatedState);
 };
-
 
 const setSelectedColumn = (state, action) => {
     const updatedState = {
@@ -191,19 +189,17 @@ const processNewColumnData = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
-
-
 ////////////////////////////////////////////
 //Adds a filter from the histogram to the filter array
 /////////////////////////////////////////
-const addFilter = (state, action) => {
+const addCrypto = (state, action) => {
     let newFilterParameters = _.cloneDeep(state.filterParameters);
 
     let indexOfExistingFilter = newFilterParameters.findIndex(filter => {
         return filter.column === state.selectedColumn;
     });
 
-    if(indexOfExistingFilter === -1) {
+    if (indexOfExistingFilter === -1) {
         newFilterParameters.push({
             column: state.selectedColumn,
             parameters: action.payload.parameters
@@ -223,8 +219,6 @@ const addFilter = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
-
-
 // Reducers not being used
 
 /////////////////////////////////////
@@ -232,7 +226,6 @@ const addFilter = (state, action) => {
 // produce an up-to-date percentage to display.
 ////////////////////////////////////
 const updateCurrentData = (state, action) => {
-
     let crypto_data_buffer = _.cloneDeep(state.allData);
     action.payload.new_data.forEach(crypto => {
         let new_crypto_value;
@@ -257,8 +250,6 @@ const updateCurrentData = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
-
-
 const cryptoDataReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.EMPTY_HISTOGRAM_DATA:
@@ -275,8 +266,8 @@ const cryptoDataReducer = (state = initialState, action) => {
             return fetchCryptosSuccess(state, action);
         case actionTypes.FETCH_CRYPTOS_FAILURE:
             return fetchCryptosFailure(state, action);
-        case actionTypes.ADD_FILTER:
-            return addFilter(state, action);
+        case actionTypes.ADD_CRYPTO:
+            return addCrypto(state, action);
         default:
             return state;
     }

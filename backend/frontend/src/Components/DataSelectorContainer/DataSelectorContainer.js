@@ -5,7 +5,7 @@ import styles from "./DataSelectorContainer.module.scss";
 
 import DataSelector from "./DataSelector/DataSelector";
 import HistogramContainer from "./HistogramContainer/HistogramContainer";
-import { addCrypto, toggleDataMenu } from "../../store/actions/actionCreators";
+import { addCrypto, closeDataMenu } from "../../store/actions/actionCreators";
 
 //import PresetsContainer from "./PresetsContainer/PresetsContainer";
 
@@ -23,6 +23,7 @@ class DataSelectorContainer extends Component {
 
     handleAddCrypto = () => {
         this.props.addCrypto(this.state.filterParameters);
+        this.props.closeDataMenu();
     };
 
     render() {
@@ -31,7 +32,7 @@ class DataSelectorContainer extends Component {
                 <DataSelector />
                 <HistogramContainer handleSetBoundries={this.handleSetBoundries} />
                 <div className={styles.btnContainer}>
-                    <button className="btn" onClick={() => this.props.onToggleDataMenu(this.props.dataMenu.column_id)}>
+                    <button className="btn" onClick={() => this.props.closeDataMenu()}>
                         Cancel
                     </button>
                     <button onClick={this.handleAddCrypto} className="btn">
@@ -51,7 +52,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onToggleDataMenu: column_name => dispatch(toggleDataMenu(column_name)),
+        closeDataMenu: () => dispatch(closeDataMenu()),
         addCrypto: (filterParameters, periodName) => dispatch(addCrypto(filterParameters, periodName))
     };
 };

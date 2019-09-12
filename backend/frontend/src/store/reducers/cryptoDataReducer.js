@@ -17,6 +17,7 @@ const initialState = {
     loading: false,
     error: null,
     selectedColumn: "",
+    selectedTimeframe: "",
 
     filterParameters: []
 };
@@ -57,14 +58,8 @@ const fetchCryptosSuccess = (state, action) => {
                     if (i < 2) {
                         new_crypto_value = crypto_tf.data_value;
                     } else {
-                        const current_value = findCurrentValueOfCrypto(
-                            action.payload.data[1].data,
-                            crypto_tf.crypto_id
-                        );
-                        new_crypto_value = (
-                            ((current_value - crypto_tf.data_value) / crypto_tf.data_value) *
-                            100
-                        ).toFixed(2);
+                        const current_value = findCurrentValueOfCrypto(action.payload.data[1].data, crypto_tf.crypto_id);
+                        new_crypto_value = (((current_value - crypto_tf.data_value) / crypto_tf.data_value) * 100).toFixed(2);
                     }
 
                     default_data[crypto].columns.push({
@@ -119,10 +114,7 @@ const processDataFromStoreForHistogram = (state, action) => {
         });
     }
 
-    const updatedState = {
-        selectedColumn: action.payload.current_selected_column,
-        histogramData
-    };
+    const updatedState = { histogramData };
 
     return updatedObject(state, updatedState);
 };
@@ -130,6 +122,14 @@ const processDataFromStoreForHistogram = (state, action) => {
 const setSelectedColumn = (state, action) => {
     const updatedState = {
         selectedColumn: action.payload.selectedColumn
+    };
+
+    return updatedObject(state, updatedState);
+};
+
+const setSelectedTimeframe = (state, action) => {
+    const updatedState = {
+        selectedTimeframe: action.payload.selectedTimeframe
     };
 
     return updatedObject(state, updatedState);
@@ -194,14 +194,15 @@ const processNewColumnData = (state, action) => {
 /////////////////////////////////////////
 const addCrypto = (state, action) => {
     let newFilterParameters = _.cloneDeep(state.filterParameters);
+    let data;
 
     let indexOfExistingFilter = newFilterParameters.findIndex(filter => {
-        return filter.column === state.selectedColumn;
+        return filter.column === state.selectedTimeframe;
     });
 
     if (indexOfExistingFilter === -1) {
         newFilterParameters.push({
-            column: state.selectedColumn,
+            column: state.selectedTimeframe,
             parameters: action.payload.parameters
         });
     } else {
@@ -211,9 +212,16 @@ const addCrypto = (state, action) => {
         };
     }
 
+    if (Object.entries(state.cryptoDataBuffer).length) {
+        data = _.cloneDeep(state.cryptoDataBuffer);
+    } else {
+        data = _.cloneDeep(state.allData);
+    }
+
     const updatedState = {
         filterParameters: newFilterParameters,
-        displayedData: filterCryptos(state.allData, newFilterParameters)
+        displayedData: filterCryptos(data, newFilterParameters),
+        allData: data
     };
 
     return updatedObject(state, updatedState);
@@ -258,6 +266,8 @@ const cryptoDataReducer = (state = initialState, action) => {
             return updateCurrentData(state, action);
         case actionTypes.SET_SELECTED_COLUMN:
             return setSelectedColumn(state, action);
+        case actionTypes.SET_SELECTED_TIMEFRAME:
+            return setSelectedTimeframe(state, action);
         case actionTypes.PROCESS_DATA_FROM_STORE_FOR_HISTOGRAM:
             return processDataFromStoreForHistogram(state, action);
         case actionTypes.PROCESS_NEW_COLUMN_DATA:

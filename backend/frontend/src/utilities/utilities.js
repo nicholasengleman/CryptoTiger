@@ -12,34 +12,28 @@ export const findCurrentValueOfCrypto = (data, crypto_id) => {
     return row.data_value;
 };
 
-export const filterCryptos = (crypto_all_data, filterParameters) => {
+export const filterCryptos = (crypto_data, filterParameters) => {
     let filtered_cryptos = [];
 
     filterParameters.forEach((filterParameter, filterIndex) => {
-
-        Object.keys(crypto_all_data).forEach(crypto => {
-          // For filtering data that is already loaded.
-
-          // Each position in the filter array is for it's applicable column
-          // example: filter object at filterParameters[0] is for the 1st column(column count starts at the column
-          // after the "current price" column because it is not editable)
-
-            for(let col = 0; col < crypto_all_data[crypto].columns.length; col++) {
-                if (filterParameter.column === crypto_all_data[crypto].columns[col].name) {
-                    if (filterParameter.parameters.selectionMin < parseFloat(crypto_all_data[crypto].columns[filterIndex + 1].crypto_value) &&
-                        parseFloat(crypto_all_data[crypto].columns[col].crypto_value) < filterParameter.parameters.selectionMax) {
-                        if(!filtered_cryptos.find(el => el.crypto_id === crypto_all_data[crypto].columns[filterIndex + 1].crypto_id)) {
-                            filtered_cryptos.push(crypto_all_data[crypto]);
+        Object.keys(crypto_data).forEach(crypto => {
+            for (let col = 0; col < crypto_data[crypto].columns.length; col++) {
+                if (filterParameter.column === crypto_data[crypto].columns[col].name) {
+                    if (Object.entries(filterParameter.parameters).length === 0) {
+                        filtered_cryptos.push(crypto_data[crypto]);
+                    } else {
+                        if (
+                            filterParameter.parameters.selectionMin < parseFloat(crypto_data[crypto].columns[filterIndex + 1].crypto_value) &&
+                            parseFloat(crypto_data[crypto].columns[col].crypto_value) < filterParameter.parameters.selectionMax
+                        ) {
+                            if (!filtered_cryptos.find(el => el.crypto_id === crypto_data[crypto].columns[filterIndex + 1].crypto_id)) {
+                                filtered_cryptos.push(crypto_data[crypto]);
+                            }
                         }
                     }
                 }
             }
         });
     });
-
-    console.log(filtered_cryptos);
     return filtered_cryptos;
 };
-
-
-

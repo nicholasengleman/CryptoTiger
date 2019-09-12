@@ -1,38 +1,41 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import "./CryptoHeader.scss";
-import {connect} from "react-redux";
-import { processDataFromStoreForHistogram, toggleDataMenu} from "../../../../store/actions/actionCreators";
+import { connect } from "react-redux";
+import { processDataFromStoreForHistogram, setSelectedColumn, setSelectedTimeframe, toggleDataMenu } from "../../../../store/actions/actionCreators";
 
 class CryptoHeader extends Component {
-
     onToggleDataMenu = columnName => {
         this.props.processDataFromStoreForHistogram(columnName);
+        this.props.setSelectedColumn(columnName);
+        this.props.setSelectedTimeframe(columnName);
         this.props.toggleDataMenu(columnName);
     };
 
-
     render() {
         return (
-            <div
-                onClick={() => this.onToggleDataMenu(this.props.column_name)}
-                className="column"
-            >
-                {this.props.filter
-                    ? <div className="filter-description">only showing {parseInt(this.props.filter.parameters.selectionMin)}% to {parseInt(this.props.filter.parameters.selectionMax)}%</div>
-                    : <div className="filter-description"></div>}
+            <div onClick={() => this.onToggleDataMenu(this.props.column_name)} className="column">
+                {this.props.filter && Object.entries(this.props.filter.parameters).length > 0 ? (
+                    <div className="filter-description">
+                        only showing {parseInt(this.props.filter.parameters.selectionMin)}% to {parseInt(this.props.filter.parameters.selectionMax)}%
+                    </div>
+                ) : (
+                    <div className="filter-description"></div>
+                )}
                 <div className="column-name">
-                {this.props.column_name}
-                {this.props.column_name !== "Current Price" ? <i className="far fa-edit"></i> : null}
+                    {this.props.column_name}
+                    {this.props.column_name !== "Current Price" ? <i className="far fa-edit"></i> : null}
                 </div>
             </div>
-        )
+        );
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleDataMenu: (current_column_name) => dispatch(toggleDataMenu(current_column_name)),
-        processDataFromStoreForHistogram: (current_column_name) => dispatch(processDataFromStoreForHistogram(current_column_name))
+        toggleDataMenu: current_column_name => dispatch(toggleDataMenu(current_column_name)),
+        setSelectedColumn: current_column_name => dispatch(setSelectedColumn(current_column_name)),
+        setSelectedTimeframe: current_column_name => dispatch(setSelectedTimeframe(current_column_name)),
+        processDataFromStoreForHistogram: current_column_name => dispatch(processDataFromStoreForHistogram(current_column_name))
     };
 };
 

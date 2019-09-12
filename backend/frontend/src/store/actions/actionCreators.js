@@ -26,6 +26,13 @@ export const setSelectedColumn = selectedColumn => {
     };
 };
 
+export const setSelectedTimeframe = selectedTimeframe => {
+    return {
+        type: actionTypes.SET_SELECTED_TIMEFRAME,
+        payload: { selectedTimeframe }
+    };
+};
+
 export const closeDataMenu = () => {
     return {
         type: actionTypes.CLOSE_DATA_MENU

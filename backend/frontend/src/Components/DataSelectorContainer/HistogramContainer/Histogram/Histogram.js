@@ -101,8 +101,6 @@ class Histogram extends Component {
         }
 
         if (prevProps.data !== this.props.data) {
-            console.log("received");
-
             for (let e = 0; e < this.props.data.length; e++) {
                 this.ref = {
                     ...this.ref,

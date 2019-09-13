@@ -153,7 +153,10 @@ const emptyHistogramData = (state, action) => {
 const processNewColumnData = (state, action) => {
     let histogramData = [];
 
-    // 1. Calculates percentage and builds an array of objects of structure {id: cryptoid, value: percentage } to pass to the histogram slider component
+    //////////
+    // 1. Calculates percentage and builds an array of objects of structure {id: cryptoid, value: percentage } to
+    // pass to the histogram slider component
+    //////////
     action.payload.new_column_data.forEach(crypto => {
         const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
         const percentage = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
@@ -161,24 +164,48 @@ const processNewColumnData = (state, action) => {
         histogramData.push({ id: crypto.crypto_id, value: Number(percentage), tooltip: [String(percentage)] });
     });
 
+    ////////
     // 2. Builds new array of CryptoData that will replace the allData object once the selections from the histogram have been filtered
+    ///////
     let crypto_data_buffer = _.cloneDeep(state.allData);
     action.payload.new_column_data.forEach(crypto => {
-        let new_crypto_value;
+        let new_crypto_value, index_of_el_to_change;
 
-        let index_of_el_to_change = crypto_data_buffer[crypto.crypto_id].columns.findIndex(function(arr) {
-            return arr.name === state.selectedColumn;
-        });
-
+        // gets the current value of the crypto
         const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
+        // calculates the percentage change of the crypto between now and the timeframe of the selected column
         new_crypto_value = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
 
-        crypto_data_buffer[crypto.crypto_id].columns[index_of_el_to_change] = {
-            name: action.payload.new_timeframe_name,
-            crypto_datetime: crypto.crypto_datetime,
-            crypto_id: crypto.crypto_id,
-            crypto_value: new_crypto_value
-        };
+        if(state.selectedColumn) {
+            ///////
+            //we are changing the data for an existing column
+            ///////
+
+            index_of_el_to_change = crypto_data_buffer[crypto.crypto_id].columns.findIndex(function (arr) {
+                return arr.name === state.selectedColumn;
+            });
+
+            crypto_data_buffer[crypto.crypto_id].columns[index_of_el_to_change] = {
+                name: action.payload.new_timeframe_name,
+                crypto_datetime: crypto.crypto_datetime,
+                crypto_id: crypto.crypto_id,
+                crypto_value: new_crypto_value
+            };
+
+        } else {
+            ////////
+            //we are adding a new column
+            ////////
+
+            crypto_data_buffer[crypto.crypto_id].columns.push({
+                name: action.payload.new_timeframe_name,
+                crypto_datetime: crypto.crypto_datetime,
+                crypto_id: crypto.crypto_id,
+                crypto_value: new_crypto_value
+            });
+
+        }
+
     });
 
     const updatedState = {

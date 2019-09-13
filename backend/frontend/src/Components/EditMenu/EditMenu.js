@@ -19,7 +19,7 @@ const EditMenu = (props) => {
         [styles.hideMenu]: props.applyHideMenuClasses
     });
 
-    const onToggleDataMenu = columnName => {
+    const onOpenDataMenu = columnName => {
         props.processDataFromStoreForHistogram(columnName);
         props.setSelectedColumn(columnName);
         props.setSelectedTimeframe(columnName);
@@ -27,9 +27,10 @@ const EditMenu = (props) => {
         props.toggleEditMenu();
     };
 
+
     return (
         <div className={classes}>
-            <button className={styles.button} onClick={() => onToggleDataMenu(props.column_name)}>Edit</button>
+            <button className={styles.button} onClick={() => onOpenDataMenu(props.column_name)}>Edit</button>
             <button className={styles.button}>Delete</button>
         </div>
     )

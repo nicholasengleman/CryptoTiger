@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import "./CryptoColumnHeader.scss";
 import EditMenu from "./../EditMenu/EditMenu";
-import { connect } from "react-redux";
-import { processDataFromStoreForHistogram, setSelectedColumn, setSelectedTimeframe, toggleDataMenu } from "./../../store/actions/actionCreators";
 
 class CryptoColumnHeader extends Component {
     constructor(props) {
@@ -12,13 +10,6 @@ class CryptoColumnHeader extends Component {
             applyHideMenuClasses: false
         }
     }
-
-    onToggleDataMenu = columnName => {
-        this.props.processDataFromStoreForHistogram(columnName);
-        this.props.setSelectedColumn(columnName);
-        this.props.setSelectedTimeframe(columnName);
-        this.props.toggleDataMenu(columnName);
-    };
 
     onToggleEditMenu = () => {
         if(!this.state.applyShowMenuClasses) {
@@ -54,6 +45,8 @@ class CryptoColumnHeader extends Component {
                     <EditMenu
                         applyShowMenuClasses={this.state.applyShowMenuClasses}
                         applyHideMenuClasses={this.state.applyHideMenuClasses}
+                        column_name={this.props.column_name}
+                        toggleEditMenu={this.onToggleEditMenu}
                     />
                     : null}
                 <div className="column-name">
@@ -65,16 +58,5 @@ class CryptoColumnHeader extends Component {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        toggleDataMenu: current_column_name => dispatch(toggleDataMenu(current_column_name)),
-        setSelectedColumn: current_column_name => dispatch(setSelectedColumn(current_column_name)),
-        setSelectedTimeframe: current_column_name => dispatch(setSelectedTimeframe(current_column_name)),
-        processDataFromStoreForHistogram: current_column_name => dispatch(processDataFromStoreForHistogram(current_column_name))
-    };
-};
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(CryptoColumnHeader);
+export default CryptoColumnHeader;

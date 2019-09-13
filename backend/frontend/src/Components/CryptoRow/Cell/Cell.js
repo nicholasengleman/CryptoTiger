@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import styles from "./Cell.module.scss";
 import classNames from "classnames";
-import winning_normal from "../../../../img/winning-normal.png";
-import losing_normal from "../../../../img/losing-normal.png";
+import winning_normal from "../../../img/winning-normal.png";
+import losing_normal from "../../../img/losing-normal.png";
 
 class Cell extends Component {
 

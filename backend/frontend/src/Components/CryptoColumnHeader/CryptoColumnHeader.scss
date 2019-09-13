@@ -7,6 +7,7 @@
     text-transform:uppercase;
     flex-direction:column;
     align-items:flex-start;
+    position: relative;
 
     &:hover {
         cursor:pointer;
@@ -30,5 +31,5 @@
 
 .fa-edit {
     margin: 5px 0 0 5px;
-    font-size:10px;
+    font-size:14px;
     }

@@ -3,8 +3,8 @@ import styles from "./CryptoListHeader.module.scss";
 
 import {connect} from "react-redux";
 
-import CryptoHeader from "./CryptoHeader/CryptoHeader";
-import AddNewColumnBtn from "./AddNewColumnBtn/AddNewColumnBtn";
+import CryptoHeader from "../CryptoColumnHeader/CryptoColumnHeader";
+import AddNewColumnBtn from "../AddNewColumnBtn/AddNewColumnBtn";
 
 const CryptoListHeader = props => {
 

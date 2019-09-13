@@ -10,12 +10,13 @@ import {
     closeDataMenu,
     emptyHistogramData,
     setSelectedTimeframe
-} from "../../../store/actions/actionCreators";
+} from "../../store/actions/actionCreators";
 
-import DataPeriod from "./DataPeriod/DataPeriod";
+import DataPeriod from "../DataPeriod/DataPeriod";
 
 class DataMenu extends Component {
     handleSetPeriod = (new_timeframe_seconds, new_timeframe_name) => {
+
         if (this.props.selectedColumn !== new_timeframe_name) {
             this.props.emptyHistogramData();
             this.props.setSelectedTimeframe(new_timeframe_name);

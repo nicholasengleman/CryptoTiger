@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import checkmark from "../../../../img/checkmark_white.png";
-import arrow from "../../../../img/arrow_cute.png";
+import checkmark from "../../img/checkmark_white.png";
+import arrow from "../../img/arrow_cute.png";
 
 import styles from "./DataPeriod.module.scss";
 

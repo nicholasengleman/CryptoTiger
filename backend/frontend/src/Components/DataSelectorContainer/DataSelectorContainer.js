@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import classNames from "classnames";
 import styles from "./DataSelectorContainer.module.scss";
 
-import DataSelector from "./DataSelector/DataSelector";
-import HistogramContainer from "./HistogramContainer/HistogramContainer";
+import DataSelector from "../DataSelector/DataSelector";
+import HistogramContainer from "../HistogramContainer/HistogramContainer";
 import { addCrypto, closeDataMenu } from "../../store/actions/actionCreators";
 
 //import PresetsContainer from "./PresetsContainer/PresetsContainer";

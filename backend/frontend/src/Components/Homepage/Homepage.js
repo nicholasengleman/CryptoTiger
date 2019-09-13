@@ -6,8 +6,8 @@ import { fetchCryptosFailure, fetchCryptosSuccess, updateCurrentData } from "../
 
 import styles from "./Homepage.module.scss";
 
-import CryptoRow from "./CryptoRow/CryptoRow";
-import CryptoListHeader from "./CryptoListHeader/CryptoListHeader";
+import CryptoRow from "../CryptoRow/CryptoRow";
+import CryptoListHeader from "../CryptoListHeader/CryptoListHeader";
 import DataSelectorContainer from "./../DataSelectorContainer/DataSelectorContainer";
 
 class Homepage extends Component {

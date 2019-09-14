@@ -87,3 +87,8 @@ export const addCrypto = (parameters, periodName) => ({
     type: actionTypes.ADD_CRYPTO,
     payload: { parameters, periodName }
 });
+
+export const removeCrypto = (periodName) => ({
+    type: actionTypes.REMOVE_CRYPTO,
+    payload: { periodName }
+});

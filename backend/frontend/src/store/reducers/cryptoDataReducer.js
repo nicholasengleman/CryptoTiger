@@ -176,12 +176,12 @@ const processNewColumnData = (state, action) => {
         // calculates the percentage change of the crypto between now and the timeframe of the selected column
         new_crypto_value = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
 
-        if(state.selectedColumn) {
+        if (state.selectedColumn) {
             ///////
             //we are changing the data for an existing column
             ///////
 
-            index_of_el_to_change = crypto_data_buffer[crypto.crypto_id].columns.findIndex(function (arr) {
+            index_of_el_to_change = crypto_data_buffer[crypto.crypto_id].columns.findIndex(function(arr) {
                 return arr.name === state.selectedColumn;
             });
 
@@ -191,7 +191,6 @@ const processNewColumnData = (state, action) => {
                 crypto_id: crypto.crypto_id,
                 crypto_value: new_crypto_value
             };
-
         } else {
             ////////
             //we are adding a new column
@@ -203,9 +202,7 @@ const processNewColumnData = (state, action) => {
                 crypto_id: crypto.crypto_id,
                 crypto_value: new_crypto_value
             });
-
         }
-
     });
 
     const updatedState = {
@@ -249,6 +246,40 @@ const addCrypto = (state, action) => {
         filterParameters: newFilterParameters,
         displayedData: filterCryptos(data, newFilterParameters),
         allData: data
+    };
+
+    return updatedObject(state, updatedState);
+};
+
+////////////////////////////////////////////
+//Removes a crypto/column from the table
+/////////////////////////////////////////
+const removeCrypto = (state, action) => {
+    const timeframe_to_remove = action.payload.periodName;
+
+    // removes timeframe from data
+    let crypto_data_buffer = _.cloneDeep(state.allData);
+
+    Object.keys(crypto_data_buffer).forEach(crypto => {
+        crypto_data_buffer[crypto].columns.forEach((column, index) => {
+            if (column.name === timeframe_to_remove) {
+                crypto_data_buffer[crypto].columns.splice(index, 1);
+            }
+        });
+    });
+
+    //removes any filters the timeframe had
+    let parameters_buffer = _.cloneDeep(state.filterParameters);
+    parameters_buffer.forEach((parameter, index) => {
+        if (parameter.column === timeframe_to_remove) {
+            parameters_buffer.splice(index, 1);
+        }
+    });
+
+    const updatedState = {
+        filterParameters: parameters_buffer,
+        displayedData: filterCryptos(crypto_data_buffer, parameters_buffer),
+        allData: crypto_data_buffer
     };
 
     return updatedObject(state, updatedState);
@@ -305,6 +336,8 @@ const cryptoDataReducer = (state = initialState, action) => {
             return fetchCryptosFailure(state, action);
         case actionTypes.ADD_CRYPTO:
             return addCrypto(state, action);
+        case actionTypes.REMOVE_CRYPTO:
+            return removeCrypto(state, action);
         default:
             return state;
     }

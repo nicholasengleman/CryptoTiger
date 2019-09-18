@@ -3,9 +3,25 @@ import classNames from "classnames";
 import checkmark from "../../img/checkmark_white.png";
 import arrow from "../../img/arrow_cute.png";
 
+import axios from "axios";
 import styles from "./DataPeriod.module.scss";
 
 class DataPeriod extends Component {
+
+  handleSetPeriod = (new_timeframe_seconds, new_timeframe_name) => {
+    if (this.props.selectedColumn !== new_timeframe_name) {
+        this.props.emptyHistogramData();
+        this.props.setSelectedTimeframe(new_timeframe_name);
+        axios
+            .get(`http://localhost:5000/api/crypto-data/getColumnData/${new_timeframe_seconds}`)
+            .then(response => {
+                this.props.processNewColumnData(new_timeframe_name, response.data);
+            })
+            .catch(error => {
+                console.log("[Error]", error);
+            });
+    }
+};
   render() {
     return (
       <div

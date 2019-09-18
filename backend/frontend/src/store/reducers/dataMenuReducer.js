@@ -6,7 +6,7 @@ const initialState = {
         open: false,
         column_id: "",
         timeframes: {
-            hours: 18,
+            hours: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12],
             days: 30,
             weeks: 52
         }

@@ -36,7 +36,7 @@ class DataSelectorContainer extends Component {
                         Cancel
                     </button>
                     <button onClick={this.handleAddCrypto} className="btn">
-                        Add Crypto
+                        Add Timeframe
                     </button>
                 </div>
             </div>

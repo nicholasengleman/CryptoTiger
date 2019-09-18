@@ -1,97 +1,44 @@
 import React, { Component } from "react";
 import styles from "./DataSelector.module.scss";
-import classNames from "classnames";
+
+import DataPeriodContainer from "./../DataPeriodContainer/DataPeriodContainer";
 import { connect } from "react-redux";
-import axios from "axios";
+import { processNewColumnData, updateLiveColumnView, closeDataMenu, emptyHistogramData, setSelectedTimeframe } from "../../store/actions/actionCreators";
 
-import {
-    processNewColumnData,
-    updateLiveColumnView,
-    closeDataMenu,
-    emptyHistogramData,
-    setSelectedTimeframe
-} from "../../store/actions/actionCreators";
-
-import DataPeriod from "../DataPeriod/DataPeriod";
+import ButtonLarge from "../generic/ButtonLarge/ButtonLarge";
 
 class DataMenu extends Component {
-    handleSetPeriod = (new_timeframe_seconds, new_timeframe_name) => {
-
-        if (this.props.selectedColumn !== new_timeframe_name) {
-            this.props.emptyHistogramData();
-            this.props.setSelectedTimeframe(new_timeframe_name);
-            axios
-                .get(`http://localhost:5000/api/crypto-data/getColumnData/${new_timeframe_seconds}`)
-                .then(response => {
-                    this.props.processNewColumnData(new_timeframe_name, response.data);
-                })
-                .catch(error => {
-                    console.log("[Error]", error);
-                });
-        }
-    };
-
     render() {
         return (
             <div className={styles.dataMenuContainer}>
-                <div className={classNames(styles.dataContainer)}>
-                    <div className={styles.dataPeriodsWindow}>
-                        <div className={styles.dataPeriodType}>
-                            <div className={styles.dataPeriodTypeHeader}>Hour</div>
-                            {Array.from({ length: this.props.dataMenu.timeframes.hours }, (v, k) => k + 1).map(function(
-                                period
-                            ) {
-                                const timeframe_description = period === 1 ? " Hour" : " Hours";
-                                return (
-                                    <DataPeriod
-                                        key={period}
-                                        selectedDataName={this.props.selectedTimeframe}
-                                        period_time={period * 60 * 60}
-                                        period_name={`${period}${timeframe_description} Price`}
-                                        handleSetPeriod={this.handleSetPeriod}
-                                    />
-                                );
-                            },
-                            this)}
-                        </div>
+                <div className={styles.section}>
+                    <div className={styles.sectionHeader}>
+                        <h2>Select a Data Type:</h2>
+                    </div>
+                    <div className={styles.sectionBody}>
+                        <ButtonLarge fontAwesomeCode="fas fa-dollar-sign" name="Price" selected={true} />
+                        <ButtonLarge fontAwesomeCode="fas fas fa-water" name="Volume" />
+                        <ButtonLarge fontAwesomeCode="fas fa-poll" name="Market Cap" />
+                    </div>
+                </div>
 
-                        <div className={styles.dataPeriodType}>
-                            <div className={styles.dataPeriodTypeHeader}>Day</div>
-                            {Array.from({ length: this.props.dataMenu.timeframes.days }, (v, k) => k + 1).map(function(
-                                period
-                            ) {
-                                const timeframe_description = period === 1 ? " Day" : " Days";
-                                return (
-                                    <DataPeriod
-                                        key={period}
-                                        selectedDataName={this.props.selectedTimeframe}
-                                        period_time={period * 60 * 60 * 24}
-                                        period_name={`${period}${timeframe_description} Price`}
-                                        handleSetPeriod={this.handleSetPeriod}
-                                    />
-                                );
-                            },
-                            this)}
-                        </div>
+                <div className={styles.section}>
+                    <div className={styles.sectionHeader}>
+                        <h2>Select a Data Group:</h2>
+                    </div>
+                    <div className={styles.sectionBody}>
+                        <ButtonLarge fontAwesomeCode="fas fa-dollar-sign" name="Hours" />
+                        <ButtonLarge fontAwesomeCode="fas fas fa-water" name="Days" />
+                        <ButtonLarge fontAwesomeCode="fas fa-poll" name="Weeks" />
+                    </div>
+                </div>
 
-                        <div className={styles.dataPeriodType}>
-                            <div className={styles.dataPeriodTypeHeader}>Weeks</div>
-                            {Array.from({ length: this.props.dataMenu.timeframes.weeks }, (v, k) => k + 1).map(function(
-                                period
-                            ) {
-                                const timeframe_description = period === 1 ? " Week" : " Weeks";
-                                return (
-                                    <DataPeriod
-                                        key={period}
-                                        selectedDataName={this.props.selectedTimeframe}
-                                        period_time={period * 60 * 60 * 24 * 7}
-                                        period_name={`${period}${timeframe_description} Price`}
-                                        handleSetPeriod={this.handleSetPeriod}
-                                    />
-                                );
-                            },
-                            this)}
-                        </div>
+                <div className={styles.section}>
+                    <div className={styles.sectionHeader}>
+                        <h2>Select a Period:</h2>
+                    </div>
+                    <div className={styles.sectionBody}>
+                        <DataPeriodContainer periods={this.props.timeframes.hours} selectedTimeframe={"hours"} />
                     </div>
                 </div>
             </div>
@@ -101,7 +48,7 @@ class DataMenu extends Component {
 
 const mapStateToProps = state => {
     return {
-        dataMenu: state.dataMenu.dataMenu,
+        timeframes: state.dataMenu.dataMenu.timeframes,
         selectedTimeframe: state.cryptoData.selectedTimeframe,
         selectedColumn: state.cryptoData.selectedColumn
     };
@@ -109,8 +56,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        processNewColumnData: (new_timeframe_name, new_column_data) =>
-            dispatch(processNewColumnData(new_timeframe_name, new_column_data)),
+        processNewColumnData: (new_timeframe_name, new_column_data) => dispatch(processNewColumnData(new_timeframe_name, new_column_data)),
         updateLiveView: () => dispatch(updateLiveColumnView()),
         closeDataMenu: () => dispatch(closeDataMenu()),
         emptyHistogramData: () => dispatch(emptyHistogramData()),

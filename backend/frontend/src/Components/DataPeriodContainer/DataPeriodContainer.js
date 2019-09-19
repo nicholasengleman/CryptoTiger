@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./DataPeriodContainer.module.scss";
 import DataPeriod from "./../DataPeriod/DataPeriod";
+import { connect } from "react-redux";
 
 class DataPeriodContainer extends Component {
     constructor(props) {
@@ -18,7 +19,9 @@ class DataPeriodContainer extends Component {
                             selectedDataName={this.props.selectedTimeframe}
                             period_time={period * 60 * 60}
                             period_name={`${period} ${this.props.selectedTimeframe} Price`}
-                            // handleSetPeriod={this.handleSetPeriod}
+                            selected={
+                                this.props.selected.dataPeriod === `${period} ${this.props.selectedTimeframe} Price`
+                            }
                         />
                     );
                 }, this)}
@@ -27,4 +30,10 @@ class DataPeriodContainer extends Component {
     }
 }
 
-export default DataPeriodContainer;
+const mapStateToProps = state => {
+    return {
+        selected: state.cryptoData.selected
+    };
+};
+
+export default connect(mapStateToProps)(DataPeriodContainer);

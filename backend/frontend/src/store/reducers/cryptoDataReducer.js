@@ -152,6 +152,7 @@ const setSelectedDataGroup = (state, action) => {
 const setSelectedDataPeriod = (state, action) => {
     const updatedState = {
         selected: {
+            ...state.selected,
             dataPeriod: action.payload.dataPeriod
         }
     };

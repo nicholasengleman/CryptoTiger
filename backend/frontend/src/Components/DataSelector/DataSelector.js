@@ -74,7 +74,7 @@ class DataMenu extends Component {
                     </div>
                     <div className={styles.sectionBody}>
                         <DataPeriodContainer
-                            periods={this.props.timeframes[this.props.selected.dataGroup]}
+                            periods={this.props.timeframes[this.props.selected.dataGroup] || [1]}
                             selectedTimeframe={this.props.selected.dataGroup}
                         />
                     </div>

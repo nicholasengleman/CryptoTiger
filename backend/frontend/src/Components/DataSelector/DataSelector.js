@@ -3,7 +3,12 @@ import styles from "./DataSelector.module.scss";
 
 import DataPeriodContainer from "./../DataPeriodContainer/DataPeriodContainer";
 import { connect } from "react-redux";
-import { processNewColumnData, updateLiveColumnView, closeDataMenu, emptyHistogramData, setSelectedTimeframe } from "../../store/actions/actionCreators";
+import {
+    closeDataMenu,
+    setSelectedDataGroup,
+    setSelectedDataPeriod,
+    setSelectedDataType
+} from "../../store/actions/actionCreators";
 
 import ButtonLarge from "../generic/ButtonLarge/ButtonLarge";
 
@@ -16,9 +21,21 @@ class DataMenu extends Component {
                         <h2>Select a Data Type:</h2>
                     </div>
                     <div className={styles.sectionBody}>
-                        <ButtonLarge fontAwesomeCode="fas fa-dollar-sign" name="Price" selected={true} />
-                        <ButtonLarge fontAwesomeCode="fas fas fa-water" name="Volume" />
-                        <ButtonLarge fontAwesomeCode="fas fa-poll" name="Market Cap" />
+                        <ButtonLarge
+                            fontawesomecode="fas fa-dollar-sign"
+                            name="Price"
+                            onClick={() => this.props.setSelectedDataType("price")}
+                        />
+                        <ButtonLarge
+                            fontawesomecode="fas fas fa-water"
+                            name="Volume"
+                            onClick={() => this.props.setSelectedDataType("volume")}
+                        />
+                        <ButtonLarge
+                            fontawesomecode="fas fa-poll"
+                            name="Market Cap"
+                            onClick={() => this.props.setSelectedDataType("market cap")}
+                        />
                     </div>
                 </div>
 
@@ -27,9 +44,21 @@ class DataMenu extends Component {
                         <h2>Select a Data Group:</h2>
                     </div>
                     <div className={styles.sectionBody}>
-                        <ButtonLarge fontAwesomeCode="fas fa-dollar-sign" name="Hours" />
-                        <ButtonLarge fontAwesomeCode="fas fas fa-water" name="Days" />
-                        <ButtonLarge fontAwesomeCode="fas fa-poll" name="Weeks" />
+                        <ButtonLarge
+                            fontawesomecode="fas fa-dollar-sign"
+                            name="Hours"
+                            onClick={() => this.props.setSelectedDataGroup("hours")}
+                        />
+                        <ButtonLarge
+                            fontawesomecode="fas fas fa-water"
+                            name="Days"
+                            onClick={() => this.props.setSelectedDataGroup("days")}
+                        />
+                        <ButtonLarge
+                            fontawesomecode="fas fa-poll"
+                            name="Weeks"
+                            onClick={() => this.props.setSelectedDataGroup("weeks")}
+                        />
                     </div>
                 </div>
 
@@ -56,11 +85,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        processNewColumnData: (new_timeframe_name, new_column_data) => dispatch(processNewColumnData(new_timeframe_name, new_column_data)),
-        updateLiveView: () => dispatch(updateLiveColumnView()),
         closeDataMenu: () => dispatch(closeDataMenu()),
-        emptyHistogramData: () => dispatch(emptyHistogramData()),
-        setSelectedTimeframe: timeframe => dispatch(setSelectedTimeframe(timeframe))
+        setSelectedDataType: DataType => dispatch(setSelectedDataType(DataType)),
+        setSelectedDataGroup: DataGroup => dispatch(setSelectedDataGroup(DataGroup))
     };
 };
 

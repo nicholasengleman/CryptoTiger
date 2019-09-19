@@ -1,14 +1,11 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import styles from "./AddNewColumnBtn.module.scss";
-import {toggleDataMenu, setSelectedTimeframe, emptyHistogramData, processNewColumnData} from "../../store/actions/actionCreators";
-import {connect} from "react-redux";
+import { toggleDataMenu, emptyHistogramData, processNewColumnData } from "../../store/actions/actionCreators";
+import { connect } from "react-redux";
 import axios from "axios";
 
-
 class AddNewColumnBtn extends Component {
-
     handleClick = () => {
-
         this.props.emptyHistogramData();
         this.props.onSetSelectedTimeframe("1 Hour Price");
 
@@ -28,21 +25,20 @@ class AddNewColumnBtn extends Component {
         return (
             <button
                 className={styles.btn_add_new}
-                onClick={() => this.handleClick()}
+                // onClick={() => this.handleClick()}
             >
                 Add
             </button>
-        )
+        );
     }
-};
+}
 
 const mapDispatchToProps = dispatch => {
     return {
         onToggleDataMenu: () => dispatch(toggleDataMenu()),
-        onSetSelectedTimeframe: (timeframe) => dispatch(setSelectedTimeframe(timeframe)),
+        // onSetSelectedTimeframe: (timeframe) => dispatch(setSelectedTimeframe(timeframe)),
         emptyHistogramData: () => dispatch(emptyHistogramData()),
-        processNewColumnData: (new_timeframe_name, new_column_data) =>
-            dispatch(processNewColumnData(new_timeframe_name, new_column_data)),
+        processNewColumnData: (new_timeframe_name, new_column_data) => dispatch(processNewColumnData(new_timeframe_name, new_column_data))
     };
 };
 

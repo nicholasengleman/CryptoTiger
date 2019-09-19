@@ -3,10 +3,10 @@ import styles from "./buttonLarge.module.scss";
 
 import className from "classnames";
 
-const ButtonLarge = props => {
+const ButtonLarge = ({ ...props }) => {
     return (
-        <button className={styles.btn}>
-            <i class={`${props.fontAwesomeCode}`}></i>
+        <button className={styles.btn} {...props}>
+            <i className={`${props.fontawesomecode}`}></i>
             {props.name}
         </button>
     );

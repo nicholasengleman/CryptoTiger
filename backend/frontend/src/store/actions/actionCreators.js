@@ -19,17 +19,23 @@ export const toggleDataMenu = column_id => {
 ///////////////////////////////
 //Crypto Data Managing creators
 /////////////////////////////////
-export const setSelectedColumn = selectedColumn => {
+export const setSelectedDataType = dataType => {
     return {
-        type: actionTypes.SET_SELECTED_COLUMN,
-        payload: { selectedColumn }
+        type: actionTypes.SET_SELECTED_DATA_TYPE,
+        payload: { dataType }
+    };
+};
+export const setSelectedDataGroup = dataGroup => {
+    return {
+        type: actionTypes.SET_SELECTED_DATA_GROUP,
+        payload: { dataGroup }
     };
 };
 
-export const setSelectedTimeframe = selectedTimeframe => {
+export const setSelectedDataPeriod = dataPeriod => {
     return {
-        type: actionTypes.SET_SELECTED_TIMEFRAME,
-        payload: { selectedTimeframe }
+        type: actionTypes.SET_SELECTED_DATA_PERIOD,
+        payload: { dataPeriod }
     };
 };
 
@@ -88,7 +94,7 @@ export const addCrypto = (parameters, periodName) => ({
     payload: { parameters, periodName }
 });
 
-export const removeCrypto = (periodName) => ({
+export const removeCrypto = periodName => ({
     type: actionTypes.REMOVE_CRYPTO,
     payload: { periodName }
 });

@@ -25,16 +25,19 @@ class DataMenu extends Component {
                             fontawesomecode="fas fa-dollar-sign"
                             name="Price"
                             onClick={() => this.props.setSelectedDataType("price")}
+                            selected={this.props.selected.dataType === "price"}
                         />
                         <ButtonLarge
                             fontawesomecode="fas fas fa-water"
                             name="Volume"
                             onClick={() => this.props.setSelectedDataType("volume")}
+                            selected={this.props.selected.dataType === "volume"}
                         />
                         <ButtonLarge
                             fontawesomecode="fas fa-poll"
                             name="Market Cap"
                             onClick={() => this.props.setSelectedDataType("market cap")}
+                            selected={this.props.selected.dataType === "market cap"}
                         />
                     </div>
                 </div>
@@ -48,26 +51,32 @@ class DataMenu extends Component {
                             fontawesomecode="fas fa-dollar-sign"
                             name="Hours"
                             onClick={() => this.props.setSelectedDataGroup("hours")}
+                            selected={this.props.selected.dataGroup === "hours"}
                         />
                         <ButtonLarge
                             fontawesomecode="fas fas fa-water"
                             name="Days"
                             onClick={() => this.props.setSelectedDataGroup("days")}
+                            selected={this.props.selected.dataGroup === "days"}
                         />
                         <ButtonLarge
                             fontawesomecode="fas fa-poll"
                             name="Weeks"
                             onClick={() => this.props.setSelectedDataGroup("weeks")}
+                            selected={this.props.selected.dataGroup === "weeks"}
                         />
                     </div>
                 </div>
 
                 <div className={styles.section}>
                     <div className={styles.sectionHeader}>
-                        <h2>Select a Period:</h2>
+                        <h2>Select a Data Period:</h2>
                     </div>
                     <div className={styles.sectionBody}>
-                        <DataPeriodContainer periods={this.props.timeframes.hours} selectedTimeframe={"hours"} />
+                        <DataPeriodContainer
+                            periods={this.props.timeframes[this.props.selected.dataGroup]}
+                            selectedTimeframe={this.props.selected.dataGroup}
+                        />
                     </div>
                 </div>
             </div>
@@ -78,8 +87,7 @@ class DataMenu extends Component {
 const mapStateToProps = state => {
     return {
         timeframes: state.dataMenu.dataMenu.timeframes,
-        selectedTimeframe: state.cryptoData.selectedTimeframe,
-        selectedColumn: state.cryptoData.selectedColumn
+        selected: state.cryptoData.selected
     };
 };
 

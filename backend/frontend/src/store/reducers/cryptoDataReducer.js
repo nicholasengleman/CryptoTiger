@@ -17,9 +17,9 @@ const initialState = {
     loading: false,
     error: null,
     selected: {
-        dataType: "",
-        dataGroup: "",
-        dataPeriod: ""
+        dataType: "price",
+        dataGroup: "hours",
+        dataPeriod: "1"
     },
     filterParameters: []
 };

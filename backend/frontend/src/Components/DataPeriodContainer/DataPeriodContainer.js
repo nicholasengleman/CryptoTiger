@@ -17,14 +17,14 @@ class DataPeriodContainer extends Component {
                             key={period}
                             selectedDataName={this.props.selectedTimeframe}
                             period_time={period * 60 * 60}
-                            period_name={`${period}${timeframe_description} Price`}
+                            period_name={`${period} ${this.props.selectedTimeframe} Price`}
                             // handleSetPeriod={this.handleSetPeriod}
                         />
                     );
                 }, this)}
             </div>
-        )
+        );
     }
-};
+}
 
 export default DataPeriodContainer;

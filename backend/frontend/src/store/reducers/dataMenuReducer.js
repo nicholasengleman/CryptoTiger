@@ -1,14 +1,14 @@
 import * as actionTypes from "../actions/actionTypes";
-import {updatedObject} from "../../utilities/utilities";
+import { updatedObject } from "../../utilities/utilities";
 
 const initialState = {
     dataMenu: {
         open: false,
         column_id: "",
         timeframes: {
-            hours: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12],
-            days: 30,
-            weeks: 52
+            hours: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18],
+            days: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            weeks: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 16, 20]
         }
     }
 };
@@ -41,7 +41,6 @@ const closeDataMenu = (state, action) => {
     };
     return updatedObject(state, updatedState);
 };
-
 
 const dataMenuReducer = (state = initialState, action) => {
     switch (action.type) {

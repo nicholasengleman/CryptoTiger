@@ -1,1 +1,21 @@
-$blue:#4050b9;
+$blue: #4050b9;
+
+//breakpoints
+$less-than-desktop: 1200px;
+$less-than-tablet: 775px;
+
+@mixin breakpoint($point) {
+    @if $point == $less-than-desktop {
+        @media (max-width: $less-than-desktop) {
+            @content;
+        }
+    }
+}
+
+@mixin breakpoint($point) {
+    @if $point == $less-than-tablet {
+        @media (max-width: $less-than-tablet) {
+            @content;
+        }
+    }
+}

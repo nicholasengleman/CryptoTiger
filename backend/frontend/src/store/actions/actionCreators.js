@@ -25,6 +25,7 @@ export const setSelectedDataType = dataType => {
         payload: { dataType }
     };
 };
+
 export const setSelectedDataGroup = dataGroup => {
     return {
         type: actionTypes.SET_SELECTED_DATA_GROUP,

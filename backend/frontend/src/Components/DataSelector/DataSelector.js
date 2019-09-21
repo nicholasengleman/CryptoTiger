@@ -16,9 +16,9 @@ class DataMenu extends Component {
     render() {
         return (
             <div className={styles.dataMenuContainer}>
-                <div className={styles.section}>
+                <div className={`${styles.section} ${styles.section1}`}>
                     <div className={styles.sectionHeader}>
-                        <h2>Select a Data Type:</h2>
+                        <h2>1) Select a Data Type</h2>
                     </div>
                     <div className={styles.sectionBody}>
                         <ButtonLarge
@@ -42,9 +42,9 @@ class DataMenu extends Component {
                     </div>
                 </div>
 
-                <div className={styles.section}>
+                <div className={`${styles.section} ${styles.section2}`}>
                     <div className={styles.sectionHeader}>
-                        <h2>Select a Data Group:</h2>
+                        <h2>2) Select a Data Group</h2>
                     </div>
                     <div className={styles.sectionBody}>
                         <ButtonLarge
@@ -68,9 +68,9 @@ class DataMenu extends Component {
                     </div>
                 </div>
 
-                <div className={styles.section}>
+                <div className={`${styles.section} ${styles.section3}`}>
                     <div className={styles.sectionHeader}>
-                        <h2>Select a Data Period:</h2>
+                        <h2>3) Select a Data Period</h2>
                     </div>
                     <div className={styles.sectionBody}>
                         <DataPeriodContainer

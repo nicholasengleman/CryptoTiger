@@ -7,7 +7,7 @@ const CryptoRow = props => {
     return (
         <div className={styles.cryptoContainer}>
             <div className={styles.logoContainer}>
-                <img className={styles.logo} src={"https://www.cryptocompare.com".concat(props.crypto_icon)} alt="" />
+                <img className={styles.logo} src={"https://www.cryptocompare.com".concat(props.crypto_icon)} alt=""/>
             </div>
 
             <div className={styles.dataContainer}>
@@ -16,7 +16,8 @@ const CryptoRow = props => {
             </div>
 
             {props.columns.map(columnData => (
-                <Cell key={columnData.name} crypto_value={columnData.crypto_value} crypto_name={columnData.name} crypto_period={columnData.period} />
+                <Cell key={columnData.name} crypto_value={columnData.crypto_value} crypto_name={columnData.name}
+                      crypto_period={columnData.period}/>
             ))}
         </div>
     );

@@ -1,19 +1,29 @@
+@import "./../../scss/variables.scss";
+
 .dataMenuContainer {
     width: 100%;
-    height: 250px;
+    height: auto;
     width: 100%;
     margin: 0 auto;
     display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
     transition: all 0.5s;
     z-index: 1;
     position: relative;
-    border: 1px solid black;
 }
 
 .section {
-    border-right: 1px solid lightgray;
     height: 100%;
-    width: 30%;
+    min-width: 230px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 15px;
+    height: 250px;
+    margin-bottom: 50px;
+    h2 {
+        margin: 0;
+    }
     .sectionHeader {
         height: 20%;
     }
@@ -21,6 +31,38 @@
         height: 80%;
         display: flex;
         flex-direction: column;
+    }
+    &.section1 {
+        margin-right: 50px;
+    }
+    &.section2 {
+        margin-right: 50px;
+    }
+    &.section3 {
+        width: 400px;
+    }
+
+    @include breakpoint($less-than-desktop) {
+        &.section1, .section2 {
+            width: auto;
+        }
+        &.section3 {
+            width: 75%;
+        }
+    }
+
+    @include breakpoint($less-than-tablet) {
+        &.section1 {
+            width: 100%;
+            margin-right: 0;
+        }
+        &.section2 {
+            width: 100%;
+            margin-right: 0;
+        }
+        &.section3 {
+            width: 100%;
+        }
     }
 }
 

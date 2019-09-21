@@ -1,3 +1,5 @@
+@import "./../../scss/variables.scss";
+
 .filterColumnsHeader {
     width: 100%;
     display: flex;
@@ -8,4 +10,6 @@
 
 .spacer {
     width: 250px;
+    min-width: 250px;
 }
+

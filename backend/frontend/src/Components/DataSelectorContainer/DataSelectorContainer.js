@@ -7,6 +7,8 @@ import DataSelector from "../DataSelector/DataSelector";
 import HistogramContainer from "../HistogramContainer/HistogramContainer";
 import { addCrypto, closeDataMenu } from "../../store/actions/actionCreators";
 
+import Button from "./../Button/Button";
+
 //import PresetsContainer from "./PresetsContainer/PresetsContainer";
 
 class DataSelectorContainer extends Component {
@@ -32,12 +34,8 @@ class DataSelectorContainer extends Component {
                 <DataSelector />
                 <HistogramContainer handleSetBoundries={this.handleSetBoundries} />
                 <div className={styles.btnContainer}>
-                    <button className="btn" onClick={() => this.props.closeDataMenu()}>
-                        Cancel
-                    </button>
-                    <button onClick={this.handleAddCrypto} className="btn">
-                        Add Timeframe
-                    </button>
+                    <Button onClick={() => this.props.closeDataMenu()} name="Cancel" />
+                    <Button onClick={this.handleAddCrypto} name="Add" />
                 </div>
             </div>
         );

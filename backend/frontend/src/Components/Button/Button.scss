@@ -1,0 +1,105 @@
+@import "./../../scss/variables.scss";
+
+.btn {
+    margin: 5px 10px;
+    min-width: 100px;
+    text-align: center;
+    border: none;
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    .fas {
+        margin-right: 10px;
+        font-size: 20px;
+    }
+
+    //btn shapes
+    &.square {
+        //default
+        border-radius: 3px;
+        box-shadow: 0px 5px 5px -2px rgba(179, 179, 179, 1);
+    }
+    &.pill {
+        border-radius: 15px;
+        box-shadow: 0px 6px 5px -3px rgba(194, 194, 194, 1), inset 0px 6px 5px -5px rgba(237, 237, 237, 1);
+    }
+
+    //btn text-alignment
+    &.centerText {
+        //default
+        justify-content: center;
+    }
+    &.leftText {
+        justify-content: flex-start;
+    }
+
+    //btn sizes
+    &.small {
+        padding: 7px 20px;
+        font-size: 14px;
+        min-width: 50px;
+    }
+    &.medium {
+        //default
+        padding: 10px 20px;
+        font-size: 15px;
+    }
+    &.large {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
+
+    //btn color themes
+    &.white {
+        //default
+        background-color: white;
+        color: $blue;
+        .fas {
+            color: $blue;
+        }
+    }
+    &.white.selected,
+    &.white:hover {
+        background-color: $blue;
+        color: white;
+        .fas {
+            color: white;
+        }
+    }
+
+    &.blue {
+        //default
+        background-color: $blue;
+        color: white;
+        .fas {
+            color: white;
+        }
+    }
+    &.blue.selected,
+    &.blue:hover {
+        background-color: darken($blue, 30%);
+        color: white;
+        .fas {
+            color: white;
+        }
+    }
+
+    &.red {
+        background-color: red;
+        color: white;
+        .fas {
+            color: white;
+        }
+    }
+    &.red.selected,
+    &.red:hover {
+        background-color: red;
+        color: white;
+        .fas {
+            color: white;
+        }
+    }
+}

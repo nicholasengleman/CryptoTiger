@@ -7,8 +7,6 @@
     border: none;
     display: flex;
     align-items: center;
-
-    cursor: pointer;
     font-size: 14px;
     text-transform: uppercase;
     .fas {
@@ -63,6 +61,7 @@
     }
     &.white.selected,
     &.white:hover {
+        cursor: pointer;
         background-color: $blue;
         color: white;
         .fas {
@@ -80,6 +79,7 @@
     }
     &.blue.selected,
     &.blue:hover {
+        cursor: pointer;
         background-color: darken($blue, 20%);
         color: white;
         .fas {
@@ -96,6 +96,7 @@
     }
     &.red.selected,
     &.red:hover {
+        cursor: pointer;
         background-color: darken(red, 20%);
         color: white;
         .fas {

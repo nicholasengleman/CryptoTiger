@@ -1,34 +1,44 @@
 @import "./../../scss/variables.scss";
 
 .column {
-    width:155px;
     min-width: 155px;
-    margin-right:15px;
-    color:#888;
-    font-size:16px;
-    display:flex;
-    text-transform:uppercase;
-    flex-direction:column;
-    align-items:flex-start;
+    margin-right: 15px;
+    color: #888;
+    font-size: 16px;
+    display: flex;
+    text-transform: uppercase;
     position: relative;
 
     &:hover {
-        cursor:pointer;
-        }
+        cursor: pointer;
+    }
     .filter-description {
-        color:black;
-        font-size:10px;
+        color: black;
+        font-size: 10px;
         height: 15px;
         text-transform: lowercase;
-        }
+    }
     .column-name {
-        display:flex;
-        justify-content:flex-start;
-        align-items:flex-start;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        @media (max-width: 1200px) {
+            font-size: 14px;
+        }
+        @media (max-width: 700px) {
+            font-size: 12px;
         }
     }
 
+    @media (max-width: 1200px) {
+        min-width: 115px;
+    }
+    @media (max-width: 700px) {
+        min-width: 90px;
+    }
+}
+
 .fa-edit {
     margin: 5px 0 0 5px;
-    font-size:14px;
-    }
+    font-size: 14px;
+}

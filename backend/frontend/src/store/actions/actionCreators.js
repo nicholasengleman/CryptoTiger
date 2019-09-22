@@ -118,3 +118,11 @@ export const setColumnsThatAreVisible = visibleColumns => ({
     type: actionTypes.SET_COLUMNS_THAT_ARE_VISIBLE,
     payload: { visibleColumns }
 });
+
+export const shiftVisibleColumnsForward = () => ({
+    type: actionTypes.SHIFT_VISIBLE_COLUMNS_FORWARD
+});
+
+export const shiftVisibleColumnsBackwards = () => ({
+    type: actionTypes.SHIFT_VISIBLE_COLUMNS_BACKWARDS
+});

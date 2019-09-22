@@ -1,5 +1,12 @@
 .viewport {
     display: flex;
-    border: 1px solid black;
-    width: 100%;
+    align-items: center;
+    position: relative;
+    width: calc(100% - 275px);
+    @media (max-width: 1200px) {
+        width: calc(100% - 180px);
+    }
+    @media (max-width: 1200px) {
+        width: calc(100% - 150px);
+    }
 }

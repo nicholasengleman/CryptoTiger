@@ -8,7 +8,8 @@ Button.defaultProps = {
     shape: "square",
     size: "medium",
     textAlign: "center",
-    theme: "blue"
+    theme: "blue",
+    name: "button"
 };
 
 //created Button with regular function so default props could be defined above the function

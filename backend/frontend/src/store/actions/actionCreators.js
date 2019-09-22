@@ -99,3 +99,22 @@ export const removeCrypto = periodName => ({
     type: actionTypes.REMOVE_CRYPTO,
     payload: { periodName }
 });
+
+//////////////////////////////////////
+// Column Action Creators
+/////////////////////////////////////
+export const addColumn = () => ({
+    type: actionTypes.ADD_COLUMN
+});
+
+export const removeColumn = () => ({
+    type: actionTypes.REMOVE_COLUMN
+});
+export const setColumns = columns => ({
+    type: actionTypes.SET_COLUMNS,
+    payload: { columns }
+});
+export const setColumnsThatAreVisible = visibleColumns => ({
+    type: actionTypes.SET_COLUMNS_THAT_ARE_VISIBLE,
+    payload: { visibleColumns }
+});

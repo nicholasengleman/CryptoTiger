@@ -1,5 +1,5 @@
 const connection = require("../db/utilities/db");
-const timeframeList = require("../server_tables/timeframeList");
+const DATA_INFO_TABLE = require("../db/utilities/dataInfoTable");
 
 function getDefaultData(callback) {
     let data = {};
@@ -19,40 +19,82 @@ function getDefaultData(callback) {
         )
         .catch(err => console.log("error:", err.message));
 
-    let getDataPromise_1 = getPriceData(timeframeList["1H"].seconds)
+    let getDataPromise_1 = getPriceData(DATA_INFO_TABLE["1H"].seconds)
         .then(
             results =>
                 (data[2] = {
-                    name: timeframeList["1H"].name + " Price",
-                    period: timeframeList["1H"].period,
+                    name: DATA_INFO_TABLE["1H"].name + " Price",
+                    period: DATA_INFO_TABLE["1H"].period,
                     data: results
                 })
         )
         .catch(err => console.log("error:", err.message));
 
-    let getDataPromise_2 = getPriceData(timeframeList["3H"].seconds)
+    let getDataPromise_2 = getPriceData(DATA_INFO_TABLE["2H"].seconds)
         .then(
             results =>
                 (data[3] = {
-                    name: timeframeList["3H"].name + " Price",
-                    period: timeframeList["3H"].period,
+                    name: DATA_INFO_TABLE["2H"].name + " Price",
+                    period: DATA_INFO_TABLE["2H"].period,
                     data: results
                 })
         )
         .catch(err => console.log("error:", err.message));
 
-    let getDataPromise_3 = getPriceData(timeframeList["6H"].seconds)
+    let getDataPromise_3 = getPriceData(DATA_INFO_TABLE["3H"].seconds)
         .then(
             results =>
                 (data[4] = {
-                    name: timeframeList["6H"].name + " Price",
-                    period: timeframeList["6H"].period,
+                    name: DATA_INFO_TABLE["3H"].name + " Price",
+                    period: DATA_INFO_TABLE["3H"].period,
                     data: results
                 })
         )
         .catch(err => console.log("error:", err.message));
 
-    Promise.all([cryptoListPromise, getCurrentPricePromise, getDataPromise_1, getDataPromise_2, getDataPromise_3])
+    let getDataPromise_4 = getPriceData(DATA_INFO_TABLE["4H"].seconds)
+        .then(
+            results =>
+                (data[5] = {
+                    name: DATA_INFO_TABLE["4H"].name + " Price",
+                    period: DATA_INFO_TABLE["4H"].period,
+                    data: results
+                })
+        )
+        .catch(err => console.log("error:", err.message));
+
+    let getDataPromise_5 = getPriceData(DATA_INFO_TABLE["5H"].seconds)
+        .then(
+            results =>
+                (data[6] = {
+                    name: DATA_INFO_TABLE["5H"].name + " Price",
+                    period: DATA_INFO_TABLE["5H"].period,
+                    data: results
+                })
+        )
+        .catch(err => console.log("error:", err.message));
+
+    let getDataPromise_6 = getPriceData(DATA_INFO_TABLE["6H"].seconds)
+        .then(
+            results =>
+                (data[7] = {
+                    name: DATA_INFO_TABLE["6H"].name + " Price",
+                    period: DATA_INFO_TABLE["6H"].period,
+                    data: results
+                })
+        )
+        .catch(err => console.log("error:", err.message));
+
+    Promise.all([
+        cryptoListPromise,
+        getCurrentPricePromise,
+        getDataPromise_1,
+        getDataPromise_2,
+        getDataPromise_3,
+        getDataPromise_4,
+        getDataPromise_5,
+        getDataPromise_6
+    ])
         .then(function(data) {
             callback(data);
         })

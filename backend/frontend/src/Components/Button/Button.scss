@@ -80,7 +80,7 @@
     }
     &.blue.selected,
     &.blue:hover {
-        background-color: darken($blue, 30%);
+        background-color: darken($blue, 20%);
         color: white;
         .fas {
             color: white;
@@ -96,7 +96,7 @@
     }
     &.red.selected,
     &.red:hover {
-        background-color: red;
+        background-color: darken(red, 20%);
         color: white;
         .fas {
             color: white;

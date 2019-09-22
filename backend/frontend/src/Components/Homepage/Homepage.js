@@ -2,7 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 
-import { fetchCryptosFailure, fetchCryptosSuccess, updateCurrentData } from "../../store/actions/actionCreators";
+import {
+    fetchCryptosFailure,
+    fetchCryptosSuccess,
+    updateCurrentData,
+    setColumns
+} from "../../store/actions/actionCreators";
 
 import styles from "./Homepage.module.scss";
 
@@ -23,8 +28,8 @@ class Homepage extends Component {
         axios
             .get("http://localhost:5000/api/crypto-data/getDefaultData")
             .then(response => {
-                console.log(response.data);
                 this.props.CryptosSuccess(response.data);
+                this.props.setColumns(response.data.length);
             })
             .catch(error => {
                 this.props.CryptosFailure(error);
@@ -73,7 +78,8 @@ const mapDispatchToProps = dispatch => {
     return {
         updateCurrentData: data => dispatch(updateCurrentData(data)),
         CryptosSuccess: data => dispatch(fetchCryptosSuccess(data)),
-        CryptosFailure: error => dispatch(fetchCryptosFailure(error))
+        CryptosFailure: error => dispatch(fetchCryptosFailure(error)),
+        setColumns: columns => dispatch(setColumns(columns))
     };
 };
 

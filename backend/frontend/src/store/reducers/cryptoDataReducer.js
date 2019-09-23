@@ -16,10 +16,12 @@ const initialState = {
 
     loading: false,
     error: null,
-    selected: {
+    selectedColumn: "",
+    selectedPeriod: {
         dataType: "price",
         dataGroup: "hours",
-        dataPeriod: "1"
+        dataPeriod: "1",
+        dataName: "1 hour price"
     },
     filterParameters: []
 };
@@ -127,10 +129,10 @@ const processDataFromStoreForHistogram = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
-const setSelectedDataType = (state, action) => {
+const setSelectedPeriodDataType = (state, action) => {
     const updatedState = {
-        selected: {
-            ...state.selected,
+        selectedPeriod: {
+            ...state.selectedPeriod,
             dataType: action.payload.dataType
         }
     };
@@ -138,10 +140,10 @@ const setSelectedDataType = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
-const setSelectedDataGroup = (state, action) => {
+const setSelectedPeriodDataGroup = (state, action) => {
     const updatedState = {
-        selected: {
-            ...state.selected,
+        selectedPeriod: {
+            ...state.selectedPeriod,
             dataGroup: action.payload.dataGroup
         }
     };
@@ -149,11 +151,22 @@ const setSelectedDataGroup = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
-const setSelectedDataPeriod = (state, action) => {
+const setSelectedPeriodDataPeriod = (state, action) => {
     const updatedState = {
-        selected: {
-            ...state.selected,
+        selectedPeriod: {
+            ...state.selectedPeriod,
             dataPeriod: action.payload.dataPeriod
+        }
+    };
+
+    return updatedObject(state, updatedState);
+};
+
+const setSelectedPeriodDataName = (state, action) => {
+    const updatedState = {
+        selectedPeriod: {
+            ...state.selectedPeriod,
+            dataName: action.payload.dataName
         }
     };
 
@@ -198,29 +211,14 @@ const processNewColumnData = (state, action) => {
     ///////
     let crypto_data_buffer = _.cloneDeep(state.allData);
     action.payload.new_column_data.forEach(crypto => {
-        let new_crypto_value, index_of_el_to_change;
+        let index_of_el_to_change;
 
         // gets the current value of the crypto
-        const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
+        let current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
         // calculates the percentage change of the crypto between now and the timeframe of the selected column
-        new_crypto_value = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
+        let new_crypto_value = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
 
-        if (state.selectedColumn) {
-            ///////
-            //we are changing the data for an existing column
-            ///////
-
-            index_of_el_to_change = crypto_data_buffer[crypto.crypto_id].columns.findIndex(function(arr) {
-                return arr.name === state.selectedColumn;
-            });
-
-            crypto_data_buffer[crypto.crypto_id].columns[index_of_el_to_change] = {
-                name: action.payload.new_timeframe_name,
-                crypto_datetime: crypto.crypto_datetime,
-                crypto_id: crypto.crypto_id,
-                crypto_value: new_crypto_value
-            };
-        } else {
+        if (state.addingNewColumn) {
             ////////
             //we are adding a new column
             ////////
@@ -231,6 +229,21 @@ const processNewColumnData = (state, action) => {
                 crypto_id: crypto.crypto_id,
                 crypto_value: new_crypto_value
             });
+        } else {
+            ///////
+            //we are changing the data for an existing column
+            ///////
+
+            index_of_el_to_change = crypto_data_buffer[crypto.crypto_id].columns.findIndex(function(arr) {
+                return arr.name === state.selected.dataName;
+            });
+
+            crypto_data_buffer[crypto.crypto_id].columns[index_of_el_to_change] = {
+                name: action.payload.new_timeframe_name,
+                crypto_datetime: crypto.crypto_datetime,
+                crypto_id: crypto.crypto_id,
+                crypto_value: new_crypto_value
+            };
         }
     });
 
@@ -347,24 +360,29 @@ const updateCurrentData = (state, action) => {
 
 const cryptoDataReducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.SET_SELECTED_PERIOD_DATA_TYPE:
+            return setSelectedPeriodDataType(state, action);
+        case actionTypes.SET_SELECTED_PERIOD_DATA_GROUP:
+            return setSelectedPeriodDataGroup(state, action);
+        case actionTypes.SET_SELECTED_PERIOD_DATA_PERIOD:
+            return setSelectedPeriodDataPeriod(state, action);
+        case actionTypes.SET_SELECTED_PERIOD_DATA_NAME:
+            return setSelectedPeriodDataName(state, action);
+
         case actionTypes.EMPTY_HISTOGRAM_DATA:
             return emptyHistogramData(state, action);
         case actionTypes.UPDATE_CURRENT_DATA:
             return updateCurrentData(state, action);
-        case actionTypes.SET_SELECTED_DATA_TYPE:
-            return setSelectedDataType(state, action);
-        case actionTypes.SET_SELECTED_DATA_GROUP:
-            return setSelectedDataGroup(state, action);
-        case actionTypes.SET_SELECTED_DATA_PERIOD:
-            return setSelectedDataPeriod(state, action);
         case actionTypes.PROCESS_DATA_FROM_STORE_FOR_HISTOGRAM:
             return processDataFromStoreForHistogram(state, action);
         case actionTypes.PROCESS_NEW_COLUMN_DATA:
             return processNewColumnData(state, action);
+
         case actionTypes.FETCH_CRYPTOS_SUCCESS:
             return fetchCryptosSuccess(state, action);
         case actionTypes.FETCH_CRYPTOS_FAILURE:
             return fetchCryptosFailure(state, action);
+
         case actionTypes.ADD_CRYPTO:
             return addCrypto(state, action);
         case actionTypes.REMOVE_CRYPTO:

@@ -17,10 +17,11 @@ class DataPeriodContainer extends Component {
                         <DataPeriod
                             key={period}
                             selectedDataName={this.props.selectedTimeframe}
-                            period_time={period * 60 * 60}
-                            period_name={`${period} ${this.props.selectedTimeframe} Price`}
+                            periodTime={period * 60 * 60}
+                            periodNumber={period}
+                            periodName={`${period} ${this.props.selectedTimeframe} Price`}
                             selected={
-                                this.props.selected.dataPeriod === `${period} ${this.props.selectedTimeframe} Price`
+                                this.props.selected.dataName === `${period} ${this.props.selectedTimeframe} Price`
                             }
                         />
                     );
@@ -32,7 +33,7 @@ class DataPeriodContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        selected: state.cryptoData.selected
+        selected: state.cryptoData.selectedPeriod
     };
 };
 

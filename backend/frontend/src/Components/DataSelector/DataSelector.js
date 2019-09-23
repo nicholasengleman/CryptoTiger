@@ -3,7 +3,11 @@ import styles from "./DataSelector.module.scss";
 
 import DataPeriodContainer from "./../DataPeriodContainer/DataPeriodContainer";
 import { connect } from "react-redux";
-import { closeDataMenu, setSelectedDataGroup, setSelectedDataType } from "../../store/actions/actionCreators";
+import {
+    closeDataMenu,
+    setSelectedPeriodDataGroup,
+    setSelectedPeriodDataType
+} from "../../store/actions/actionCreators";
 
 import Button from "../Button/Button";
 
@@ -19,7 +23,7 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fa-dollar-sign"
                             name="Price"
-                            onClick={() => this.props.setSelectedDataType("price")}
+                            onClick={() => this.props.setSelectedPeriodDataType("price")}
                             selected={this.props.selected.dataType === "price"}
                             shape={"pill"}
                             theme={"white"}
@@ -29,18 +33,8 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fas fa-water"
                             name="Volume"
-                            onClick={() => this.props.setSelectedDataType("volume")}
+                            onClick={() => this.props.setSelectedPeriodDataType("volume")}
                             selected={this.props.selected.dataType === "volume"}
-                            shape={"pill"}
-                            theme={"white"}
-                            textAlign={"left"}
-                            size={"large"}
-                        />
-                        <Button
-                            fontawesomecode="fas fa-poll"
-                            name="Market Cap"
-                            onClick={() => this.props.setSelectedDataType("market cap")}
-                            selected={this.props.selected.dataType === "market cap"}
                             shape={"pill"}
                             theme={"white"}
                             textAlign={"left"}
@@ -57,7 +51,7 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fa-dollar-sign"
                             name="Hours"
-                            onClick={() => this.props.setSelectedDataGroup("hours")}
+                            onClick={() => this.props.setSelectedPeriodDataGroup("hours")}
                             selected={this.props.selected.dataGroup === "hours"}
                             shape={"pill"}
                             theme={"white"}
@@ -67,7 +61,7 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fas fa-water"
                             name="Days"
-                            onClick={() => this.props.setSelectedDataGroup("days")}
+                            onClick={() => this.props.setSelectedPeriodDataGroup("days")}
                             selected={this.props.selected.dataGroup === "days"}
                             shape={"pill"}
                             theme={"white"}
@@ -77,7 +71,7 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fa-poll"
                             name="Weeks"
-                            onClick={() => this.props.setSelectedDataGroup("weeks")}
+                            onClick={() => this.props.setSelectedPeriodDataGroup("weeks")}
                             selected={this.props.selected.dataGroup === "weeks"}
                             shape={"pill"}
                             theme={"white"}
@@ -106,15 +100,15 @@ class DataMenu extends Component {
 const mapStateToProps = state => {
     return {
         timeframes: state.dataMenu.dataMenu.timeframes,
-        selected: state.cryptoData.selected
+        selected: state.cryptoData.selectedPeriod
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         closeDataMenu: () => dispatch(closeDataMenu()),
-        setSelectedDataType: DataType => dispatch(setSelectedDataType(DataType)),
-        setSelectedDataGroup: DataGroup => dispatch(setSelectedDataGroup(DataGroup))
+        setSelectedPeriodDataType: DataType => dispatch(setSelectedPeriodDataType(DataType)),
+        setSelectedPeriodDataGroup: DataGroup => dispatch(setSelectedPeriodDataGroup(DataGroup))
     };
 };
 

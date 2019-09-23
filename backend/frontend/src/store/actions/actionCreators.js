@@ -19,24 +19,31 @@ export const toggleDataMenu = column_id => {
 ///////////////////////////////
 //Crypto Data Managing creators
 /////////////////////////////////
-export const setSelectedDataType = dataType => {
+export const setSelectedPeriodDataType = dataType => {
     return {
-        type: actionTypes.SET_SELECTED_DATA_TYPE,
+        type: actionTypes.SET_SELECTED_PERIOD_DATA_TYPE,
         payload: { dataType }
     };
 };
 
-export const setSelectedDataGroup = dataGroup => {
+export const setSelectedPeriodDataGroup = dataGroup => {
     return {
-        type: actionTypes.SET_SELECTED_DATA_GROUP,
+        type: actionTypes.SET_SELECTED_PERIOD_DATA_GROUP,
         payload: { dataGroup }
     };
 };
 
-export const setSelectedDataPeriod = dataPeriod => {
+export const setSelectedPeriodDataPeriod = dataPeriod => {
     return {
-        type: actionTypes.SET_SELECTED_DATA_PERIOD,
+        type: actionTypes.SET_SELECTED_PERIOD_DATA_PERIOD,
         payload: { dataPeriod }
+    };
+};
+
+export const setSelectedPeriodDataName = dataName => {
+    return {
+        type: actionTypes.SET_SELECTED_PERIOD_DATA_NAME,
+        payload: { dataName }
     };
 };
 

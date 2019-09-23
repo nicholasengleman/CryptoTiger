@@ -1,8 +1,10 @@
 @import "./../../scss/variables";
 
 .header {
-    height: 40px;
+    height: 100px;
     width: 100%;
-    background-color: $blue;
-    color: white;
+    overflow: hidden;
+    svg {
+        max-height: 100%;
     }
+}

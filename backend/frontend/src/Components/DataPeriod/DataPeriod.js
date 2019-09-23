@@ -7,16 +7,22 @@ import axios from "axios";
 import styles from "./DataPeriod.module.scss";
 
 import { connect } from "react-redux";
-import { emptyHistogramData, setSelectedDataPeriod, processNewColumnData } from "../../store/actions/actionCreators";
+import {
+    emptyHistogramData,
+    setSelectedPeriodDataPeriod,
+    setSelectedPeriodDataName,
+    processNewColumnData
+} from "../../store/actions/actionCreators";
 
 class DataPeriod extends Component {
-    handleSetPeriod = (new_timeframe_seconds, new_timeframe_name) => {
+    handleSetPeriod = (newTimeframeSeconds, newTimeframeName, newTimeframePeriod) => {
         this.props.emptyHistogramData();
-        this.props.setSelectedDataPeriod(new_timeframe_name);
+        this.props.setSelectedPeriodDataPeriod(newTimeframePeriod);
+        this.props.setSelectedPeriodDataName(newTimeframeName);
         axios
-            .get(`http://localhost:5000/api/crypto-data/getColumnData/${new_timeframe_seconds}`)
+            .get(`http://localhost:5000/api/crypto-data/getColumnData/${newTimeframeSeconds}`)
             .then(response => {
-                this.props.processNewColumnData(new_timeframe_name, response.data);
+                this.props.processNewColumnData(newTimeframeName, response.data);
             })
             .catch(error => {
                 console.log("[Error]", error);
@@ -25,7 +31,9 @@ class DataPeriod extends Component {
     render() {
         return (
             <div
-                onClick={() => this.handleSetPeriod(this.props.period_time, this.props.period_name)}
+                onClick={() =>
+                    this.handleSetPeriod(this.props.periodTime, this.props.periodName, this.props.periodNumber)
+                }
                 className={classNames(styles.period)}
             >
                 <div className={styles.arrow}>
@@ -34,7 +42,7 @@ class DataPeriod extends Component {
                 <div className={classNames(styles.checkbox, this.props.selected ? styles.selected : null)}>
                     <img src={checkmark} alt="" />
                 </div>
-                <p> {this.props.period_name}</p>
+                <p> {this.props.periodName}</p>
             </div>
         );
     }
@@ -43,9 +51,10 @@ class DataPeriod extends Component {
 const mapDispatchToProps = dispatch => {
     return {
         emptyHistogramData: () => dispatch(emptyHistogramData()),
-        setSelectedDataPeriod: DataPeriod => dispatch(setSelectedDataPeriod(DataPeriod)),
-        processNewColumnData: (new_timeframe_name, responseData) =>
-            dispatch(processNewColumnData(new_timeframe_name, responseData))
+        setSelectedPeriodDataPeriod: dataPeriod => dispatch(setSelectedPeriodDataPeriod(dataPeriod)),
+        setSelectedPeriodDataName: dataName => dispatch(setSelectedPeriodDataName(dataName)),
+        processNewColumnData: (newTimeframeName, responseData) =>
+            dispatch(processNewColumnData(newTimeframeName, responseData))
     };
 };
 

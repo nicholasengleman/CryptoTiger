@@ -136,7 +136,6 @@ const setSelectedPeriodDataType = (state, action) => {
             dataType: action.payload.dataType
         }
     };
-
     return updatedObject(state, updatedState);
 };
 
@@ -147,7 +146,6 @@ const setSelectedPeriodDataGroup = (state, action) => {
             dataGroup: action.payload.dataGroup
         }
     };
-
     return updatedObject(state, updatedState);
 };
 
@@ -158,7 +156,6 @@ const setSelectedPeriodDataPeriod = (state, action) => {
             dataPeriod: action.payload.dataPeriod
         }
     };
-
     return updatedObject(state, updatedState);
 };
 
@@ -169,7 +166,13 @@ const setSelectedPeriodDataName = (state, action) => {
             dataName: action.payload.dataName
         }
     };
+    return updatedObject(state, updatedState);
+};
 
+const setSelectedColumn = (state, action) => {
+    const updatedState = {
+        selectedColumn: action.payload.columnName
+    };
     return updatedObject(state, updatedState);
 };
 
@@ -235,7 +238,7 @@ const processNewColumnData = (state, action) => {
             ///////
 
             index_of_el_to_change = crypto_data_buffer[crypto.crypto_id].columns.findIndex(function(arr) {
-                return arr.name === state.selected.dataName;
+                return arr.name === state.selectedColumn;
             });
 
             crypto_data_buffer[crypto.crypto_id].columns[index_of_el_to_change] = {
@@ -368,6 +371,8 @@ const cryptoDataReducer = (state = initialState, action) => {
             return setSelectedPeriodDataPeriod(state, action);
         case actionTypes.SET_SELECTED_PERIOD_DATA_NAME:
             return setSelectedPeriodDataName(state, action);
+        case actionTypes.SET_SELECTED_COLUMN:
+            return setSelectedColumn(state, action);
 
         case actionTypes.EMPTY_HISTOGRAM_DATA:
             return emptyHistogramData(state, action);

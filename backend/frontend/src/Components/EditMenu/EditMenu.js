@@ -3,7 +3,12 @@ import classNames from "classnames";
 import styles from "./EditMenu.module.scss";
 
 import { connect } from "react-redux";
-import { processDataFromStoreForHistogram, toggleDataMenu, removeCrypto } from "../../store/actions/actionCreators";
+import {
+    processDataFromStoreForHistogram,
+    toggleDataMenu,
+    removeCrypto,
+    setSelectedColumn
+} from "../../store/actions/actionCreators";
 
 const EditMenu = props => {
     let classes = classNames({
@@ -14,7 +19,7 @@ const EditMenu = props => {
 
     const handleOpenDataMenu = columnName => {
         props.processDataFromStoreForHistogram(columnName);
-        //  props.setSelectedColumn(columnName);
+        props.setSelectedColumn(columnName);
         //  props.setSelectedTimeframe(columnName);
         props.toggleDataMenu(columnName);
         props.toggleEditMenu();
@@ -38,11 +43,11 @@ const EditMenu = props => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleDataMenu: current_column_name => dispatch(toggleDataMenu(current_column_name)),
-        // setSelectedColumn: current_column_name => dispatch(setSelectedColumn(current_column_name)),
+        toggleDataMenu: columnName => dispatch(toggleDataMenu(columnName)),
+        setSelectedColumn: columnName => dispatch(setSelectedColumn(columnName)),
         // setSelectedTimeframe: current_column_name => dispatch(setSelectedTimeframe(current_column_name)),
-        processDataFromStoreForHistogram: current_column_name => dispatch(processDataFromStoreForHistogram(current_column_name)),
-        removeCrypto: current_column_name => dispatch(removeCrypto(current_column_name))
+        processDataFromStoreForHistogram: columnName => dispatch(processDataFromStoreForHistogram(columnName)),
+        removeCrypto: columnName => dispatch(removeCrypto(columnName))
     };
 };
 

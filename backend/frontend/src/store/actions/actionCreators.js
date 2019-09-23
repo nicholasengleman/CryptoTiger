@@ -46,6 +46,12 @@ export const setSelectedPeriodDataName = dataName => {
         payload: { dataName }
     };
 };
+export const setSelectedColumn = columnName => {
+    return {
+        type: actionTypes.SET_SELECTED_COLUMN,
+        payload: { columnName }
+    };
+};
 
 export const closeDataMenu = () => {
     return {

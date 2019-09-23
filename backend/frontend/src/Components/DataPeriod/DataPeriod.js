@@ -16,6 +16,8 @@ import {
 
 class DataPeriod extends Component {
     handleSetPeriod = (newTimeframeSeconds, newTimeframeName, newTimeframePeriod) => {
+        console.log(newTimeframeName);
+
         this.props.emptyHistogramData();
         this.props.setSelectedPeriodDataPeriod(newTimeframePeriod);
         this.props.setSelectedPeriodDataName(newTimeframeName);

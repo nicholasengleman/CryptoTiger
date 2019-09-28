@@ -118,7 +118,10 @@ const processDataFromStoreForHistogram = (state, action) => {
                 histogramData.push({
                     id: column.crypto_id,
                     value: Number(column.crypto_value),
-                    tooltip: [column.crypto_value]
+                    tooltip: {
+                        name: state.allData[crypto].crypto_name,
+                        value: column.crypto_value
+                    }
                 });
             }
         });
@@ -205,7 +208,10 @@ const processNewColumnData = (state, action) => {
         histogramData.push({
             id: crypto.crypto_id,
             value: Number(percentage),
-            tooltip: [String(percentage)]
+            tooltip: {
+                name: crypto.crypto_name,
+                value: String(percentage)
+            }
         });
     });
 
@@ -401,7 +407,6 @@ const cryptoDataReducer = (state = initialState, action) => {
 
         case actionTypes.ADD_FILTER:
             return addFilter(state, action);
-
         case actionTypes.REMOVE_COLUMN_DATA:
             return removeColumnData(state, action);
         case actionTypes.ADD_COLUMN_DATA:

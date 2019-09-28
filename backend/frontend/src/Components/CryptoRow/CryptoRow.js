@@ -6,9 +6,7 @@ import { connect } from "react-redux";
 import Cell from "./Cell/Cell";
 
 class CryptoRow extends Component {
-    constructor(props) {
-        super(props);
-    }
+
     render() {
         return (
             <div className={styles.cryptoContainer}>

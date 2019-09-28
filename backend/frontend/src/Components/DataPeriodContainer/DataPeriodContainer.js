@@ -4,9 +4,6 @@ import DataPeriod from "./../DataPeriod/DataPeriod";
 import { connect } from "react-redux";
 
 class DataPeriodContainer extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (

@@ -27,7 +27,7 @@ class DataMenu extends Component {
                             selected={this.props.selected.dataType === "price"}
                             shape={"pill"}
                             theme={"white"}
-                            textAlign={"left"}
+                            textalign={"left"}
                             size={"large"}
                         />
                         <Button
@@ -37,7 +37,7 @@ class DataMenu extends Component {
                             selected={this.props.selected.dataType === "volume"}
                             shape={"pill"}
                             theme={"white"}
-                            textAlign={"left"}
+                            textalign={"left"}
                             size={"large"}
                         />
                     </div>
@@ -55,7 +55,7 @@ class DataMenu extends Component {
                             selected={this.props.selected.dataGroup === "hours"}
                             shape={"pill"}
                             theme={"white"}
-                            textAlign={"left"}
+                            textalign={"left"}
                             size={"large"}
                         />
                         <Button
@@ -65,7 +65,7 @@ class DataMenu extends Component {
                             selected={this.props.selected.dataGroup === "days"}
                             shape={"pill"}
                             theme={"white"}
-                            textAlign={"left"}
+                            textalign={"left"}
                             size={"large"}
                         />
                         <Button
@@ -75,7 +75,7 @@ class DataMenu extends Component {
                             selected={this.props.selected.dataGroup === "weeks"}
                             shape={"pill"}
                             theme={"white"}
-                            textAlign={"left"}
+                            textalign={"left"}
                             size={"large"}
                         />
                     </div>

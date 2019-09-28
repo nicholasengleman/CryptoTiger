@@ -8,7 +8,8 @@ import {
     toggleDataMenu,
     removeColumnData,
     removeColumn,
-    setSelectedColumn
+    setSelectedColumn,
+    setSelectedPeriodDataName
 } from "../../store/actions/actionCreators";
 
 const EditMenu = props => {
@@ -21,7 +22,7 @@ const EditMenu = props => {
     const handleOpenDataMenu = columnName => {
         props.processDataFromStoreForHistogram(columnName);
         props.setSelectedColumn(columnName);
-        //  props.setSelectedTimeframe(columnName);
+        props.setSelectedPeriodDataName(columnName);
         props.toggleDataMenu(columnName);
         props.toggleEditMenu();
     };
@@ -29,6 +30,7 @@ const EditMenu = props => {
     const handleRemoveColumn = (columnName, columnIndex) => {
         props.removeColumnData(columnName);
         props.removeColumn(columnIndex);
+        props.toggleEditMenu();
     };
 
     return (
@@ -47,7 +49,7 @@ const mapDispatchToProps = dispatch => {
     return {
         toggleDataMenu: columnName => dispatch(toggleDataMenu(columnName)),
         setSelectedColumn: columnName => dispatch(setSelectedColumn(columnName)),
-        // setSelectedTimeframe: current_column_name => dispatch(setSelectedTimeframe(current_column_name)),
+        setSelectedPeriodDataName: columnName => dispatch(setSelectedPeriodDataName(columnName)),
         processDataFromStoreForHistogram: columnName => dispatch(processDataFromStoreForHistogram(columnName)),
         removeColumnData: columnName => dispatch(removeColumnData(columnName)),
         removeColumn: columnIndex => dispatch(removeColumn(columnIndex))

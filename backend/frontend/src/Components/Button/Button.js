@@ -4,10 +4,10 @@ import "./Button.scss";
 import classNames from "classnames";
 
 Button.defaultProps = {
-    selected: "false",
+    selected: false,
     shape: "square",
     size: "medium",
-    textAlign: "center",
+    textalign: "center",
     theme: "blue",
     name: "button"
 };
@@ -23,8 +23,8 @@ function Button({ ...props }) {
         pill: props.shape === "pill",
 
         //btn text-alignment
-        centerText: props.textAlign === "center", //default
-        leftText: props.textAlign === "left",
+        centerText: props.textalign === "center", //default
+        leftText: props.textalign === "left",
 
         //btn sizes
         small: props.size === "small",

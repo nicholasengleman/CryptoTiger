@@ -1,6 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updatedObject } from "../../utilities/utilities";
-import _ from "lodash";
 
 const initialState = {
     column_visibility: []

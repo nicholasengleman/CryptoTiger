@@ -16,11 +16,8 @@ const Bar = React.forwardRef((props, ref) => {
             ref={ref}
         >
             <div className="tooltip">
-                {props.tooltip &&
-                    props.tooltip.map((el, index) => {
-                        return <p key={index}>{el}</p>;
-                    })}
-
+                <p>{props.tooltip && props.tooltip.name}</p>
+                <p>{props.tooltip && props.tooltip.value}%</p>
                 <div className="tooltipArrow"></div>
             </div>
         </div>

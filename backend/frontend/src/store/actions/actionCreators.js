@@ -103,14 +103,18 @@ export const fetchCryptosFailure = error => ({
 ///////////////////////////////
 //Filter action creators
 //////////////////////////////////
-export const addCrypto = (parameters, periodName) => ({
-    type: actionTypes.ADD_CRYPTO,
+export const addFilter = (parameters, periodName) => ({
+    type: actionTypes.ADD_FILTER,
     payload: { parameters, periodName }
 });
 
-export const removeCrypto = periodName => ({
-    type: actionTypes.REMOVE_CRYPTO,
-    payload: { periodName }
+export const addColumnData = () => ({
+    type: actionTypes.ADD_COLUMN_DATA
+});
+
+export const removeColumnData = columnName => ({
+    type: actionTypes.REMOVE_COLUMN_DATA,
+    payload: { columnName }
 });
 
 //////////////////////////////////////
@@ -119,10 +123,11 @@ export const removeCrypto = periodName => ({
 export const addColumn = () => ({
     type: actionTypes.ADD_COLUMN
 });
-
-export const removeColumn = () => ({
-    type: actionTypes.REMOVE_COLUMN
+export const removeColumn = columnIndex => ({
+    type: actionTypes.REMOVE_COLUMN,
+    payload: { columnIndex }
 });
+
 export const setColumns = columns => ({
     type: actionTypes.SET_COLUMNS,
     payload: { columns }

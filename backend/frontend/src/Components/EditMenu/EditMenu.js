@@ -6,7 +6,8 @@ import { connect } from "react-redux";
 import {
     processDataFromStoreForHistogram,
     toggleDataMenu,
-    removeCrypto,
+    removeColumnData,
+    removeColumn,
     setSelectedColumn
 } from "../../store/actions/actionCreators";
 
@@ -25,8 +26,9 @@ const EditMenu = props => {
         props.toggleEditMenu();
     };
 
-    const handleRemoveCrypto = columnName => {
-        props.removeCrypto(columnName);
+    const handleRemoveColumn = (columnName, columnIndex) => {
+        props.removeColumnData(columnName);
+        props.removeColumn(columnIndex);
     };
 
     return (
@@ -34,7 +36,7 @@ const EditMenu = props => {
             <button className={styles.button} onClick={() => handleOpenDataMenu(props.column_name)}>
                 Edit
             </button>
-            <button className={styles.button} onClick={() => handleRemoveCrypto(props.column_name)}>
+            <button className={styles.button} onClick={() => handleRemoveColumn(props.column_name, props.columnIndex)}>
                 Delete
             </button>
         </div>
@@ -47,7 +49,8 @@ const mapDispatchToProps = dispatch => {
         setSelectedColumn: columnName => dispatch(setSelectedColumn(columnName)),
         // setSelectedTimeframe: current_column_name => dispatch(setSelectedTimeframe(current_column_name)),
         processDataFromStoreForHistogram: columnName => dispatch(processDataFromStoreForHistogram(columnName)),
-        removeCrypto: columnName => dispatch(removeCrypto(columnName))
+        removeColumnData: columnName => dispatch(removeColumnData(columnName)),
+        removeColumn: columnIndex => dispatch(removeColumn(columnIndex))
     };
 };
 

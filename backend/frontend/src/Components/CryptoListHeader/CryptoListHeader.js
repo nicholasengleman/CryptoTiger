@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import styles from "./CryptoListHeader.module.scss";
 
 import { connect } from "react-redux";
@@ -6,7 +7,12 @@ import {
     setColumns,
     setColumnsThatAreVisible,
     shiftVisibleColumnsForward,
-    shiftVisibleColumnsBackwards
+    shiftVisibleColumnsBackwards,
+    toggleDataMenu,
+    emptyHistogramData,
+    setSelectedPeriodDataPeriod,
+    setSelectedPeriodDataName,
+    processNewColumnData
 } from "../../store/actions/actionCreators";
 
 import CryptoColumnHeader from "../CryptoColumnHeader/CryptoColumnHeader";
@@ -36,7 +42,9 @@ class CryptoListHeader extends Component {
         });
 
         if (redux_visible_columns && redux_visible_columns !== this.columnsToShow()) {
-            this.props.setColumnsThatAreVisible(this.columnsToShow());
+            window.setTimeout(() => {
+                this.props.setColumnsThatAreVisible(this.columnsToShow());
+            }, 500);
         }
     }
 
@@ -64,6 +72,22 @@ class CryptoListHeader extends Component {
             return filter.column === timeframe_name;
         });
     };
+
+    handleAddColumn = () => {
+        this.props.toggleDataMenu();
+        this.props.emptyHistogramData();
+        this.props.setSelectedPeriodDataPeriod(1);
+        this.props.setSelectedPeriodDataName("1 hours price");
+        axios
+            .get(`http://localhost:5000/api/crypto-data/getColumnData/${3600}`)
+            .then(response => {
+                this.props.processNewColumnData("1 hours price", response.data);
+            })
+            .catch(error => {
+                console.log("[Error]", error);
+            });
+    };
+
     prevBtnStyles = {
         position: "absolute",
         left: "-100px",
@@ -76,9 +100,21 @@ class CryptoListHeader extends Component {
         margin: "0"
     };
 
+    addColumnBtnStyles = {
+        position: "absolute",
+        left: "100px",
+        margin: "0"
+    };
+
     render() {
         return (
             <div className={styles.filterColumnsHeader}>
+                <Button
+                    name={"Add Column"}
+                    size={"small"}
+                    style={this.addColumnBtnStyles}
+                    onClick={() => this.handleAddColumn()}
+                />
                 <div className={styles.spacer} />
 
                 <div ref={this.Viewport} className="viewport">
@@ -97,6 +133,7 @@ class CryptoListHeader extends Component {
                                     <CryptoColumnHeader
                                         ref={this.Column}
                                         key={index}
+                                        index={index}
                                         column_name={timeframe.name}
                                         filter={this.findFilter(timeframe.name)}
                                     />
@@ -129,7 +166,13 @@ const mapDispatchToProps = dispatch => {
         setColumns: columns => dispatch(setColumns(columns)),
         setColumnsThatAreVisible: visibleColumns => dispatch(setColumnsThatAreVisible(visibleColumns)),
         shiftVisibleColumnsForward: () => dispatch(shiftVisibleColumnsForward()),
-        shiftVisibleColumnsBackwards: () => dispatch(shiftVisibleColumnsBackwards())
+        shiftVisibleColumnsBackwards: () => dispatch(shiftVisibleColumnsBackwards()),
+        toggleDataMenu: () => dispatch(toggleDataMenu()),
+        emptyHistogramData: () => dispatch(emptyHistogramData()),
+        setSelectedPeriodDataPeriod: dataPeriod => dispatch(setSelectedPeriodDataPeriod(dataPeriod)),
+        setSelectedPeriodDataName: dataName => dispatch(setSelectedPeriodDataName(dataName)),
+        processNewColumnData: (newTimeframeName, responseData) =>
+            dispatch(processNewColumnData(newTimeframeName, responseData))
     };
 };
 

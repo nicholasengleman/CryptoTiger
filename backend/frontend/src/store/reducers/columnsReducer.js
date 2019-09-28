@@ -29,12 +29,23 @@ const setColumnsThatAreVisible = (state, action) => {
 };
 
 const addColumn = (state, action) => {
-    const updatedState = {};
+    let newColumn_visibility = state.column_visibility.slice(0);
+    newColumn_visibility.push(true);
+
+    const updatedState = {
+        column_visibility: newColumn_visibility
+    };
+
     return updatedObject(state, updatedState);
 };
 
 const removeColumn = (state, action) => {
-    const updatedState = {};
+    let newColumn_visibility = state.column_visibility.slice(0);
+    newColumn_visibility.splice(action.payload.columnIndex, 1);
+
+    const updatedState = {
+        column_visibility: newColumn_visibility
+    };
     return updatedObject(state, updatedState);
 };
 

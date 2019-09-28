@@ -46,6 +46,7 @@ class CryptoColumnHeader extends Component {
                     <EditMenu
                         applyShowMenuClasses={this.state.applyShowMenuClasses}
                         applyHideMenuClasses={this.state.applyHideMenuClasses}
+                        columnIndex={this.props.index}
                         column_name={this.props.column_name}
                         toggleEditMenu={this.onToggleEditMenu}
                     />

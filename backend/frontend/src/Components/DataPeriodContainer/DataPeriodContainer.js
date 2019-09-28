@@ -21,7 +21,8 @@ class DataPeriodContainer extends Component {
                             periodNumber={period}
                             periodName={`${period} ${this.props.selectedTimeframe} Price`}
                             selected={
-                                this.props.selected.dataName === `${period} ${this.props.selectedTimeframe} Price`
+                                this.props.selected.dataName.toLowerCase() ===
+                                `${period} ${this.props.selectedTimeframe} price`
                             }
                         />
                     );

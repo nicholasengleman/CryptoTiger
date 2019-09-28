@@ -221,13 +221,14 @@ const processNewColumnData = (state, action) => {
         // calculates the percentage change of the crypto between now and the timeframe of the selected column
         let new_crypto_value = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
 
-        if (state.addingNewColumn) {
+        if (state.selectedColumn === "") {
             ////////
             //we are adding a new column
             ////////
 
             crypto_data_buffer[crypto.crypto_id].columns.push({
                 name: action.payload.new_timeframe_name,
+                period: state.selectedPeriod.dataPeriod,
                 crypto_datetime: crypto.crypto_datetime,
                 crypto_id: crypto.crypto_id,
                 crypto_value: new_crypto_value
@@ -258,27 +259,30 @@ const processNewColumnData = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
-////////////////////////////////////////////
 //Adds a filter from the histogram to the filter array
 /////////////////////////////////////////
-const addCrypto = (state, action) => {
+const addFilter = (state, action) => {
     let newFilterParameters = _.cloneDeep(state.filterParameters);
     let data;
 
-    let indexOfExistingFilter = newFilterParameters.findIndex(filter => {
-        return filter.column === state.selectedTimeframe;
-    });
+    console.log(action.payload.parameters);
 
-    if (indexOfExistingFilter === -1) {
+    if (action.payload.parameters && newFilterParameters.length > 0) {
+        let indexOfExistingFilter = newFilterParameters.findIndex(filter => {
+            return filter.column === state.selectedColumn;
+        });
+
+        if (indexOfExistingFilter === -1) {
+            newFilterParameters.push({
+                column: state.selectedColumn,
+                parameters: action.payload.parameters
+            });
+        }
+    } else if (action.payload.parameters && newFilterParameters.length === 0) {
         newFilterParameters.push({
-            column: state.selectedTimeframe,
+            column: state.selectedColumn,
             parameters: action.payload.parameters
         });
-    } else {
-        newFilterParameters[indexOfExistingFilter] = {
-            ...newFilterParameters[indexOfExistingFilter],
-            parameters: action.payload.parameters
-        };
     }
 
     if (Object.entries(state.cryptoDataBuffer).length) {
@@ -288,19 +292,25 @@ const addCrypto = (state, action) => {
     }
 
     const updatedState = {
-        filterParameters: newFilterParameters,
-        displayedData: filterCryptos(data, newFilterParameters),
+        filterParameters: newFilterParameters.length ? newFilterParameters : [],
+        displayedData: newFilterParameters.length > 0 ? filterCryptos(data, newFilterParameters) : data,
         allData: data
     };
 
     return updatedObject(state, updatedState);
 };
 
+const addColumnData = (state, action) => {
+    const updatedState = {};
+
+    return updatedObject(state, updatedState);
+};
+
 ////////////////////////////////////////////
-//Removes a crypto/column from the table
+//Removes a column from the table
 /////////////////////////////////////////
-const removeCrypto = (state, action) => {
-    const timeframe_to_remove = action.payload.periodName;
+const removeColumnData = (state, action) => {
+    const timeframe_to_remove = action.payload.columnName;
 
     // removes timeframe from data
     let crypto_data_buffer = _.cloneDeep(state.allData);
@@ -322,8 +332,9 @@ const removeCrypto = (state, action) => {
     });
 
     const updatedState = {
-        filterParameters: parameters_buffer,
-        displayedData: filterCryptos(crypto_data_buffer, parameters_buffer),
+        filterParameters: parameters_buffer.length ? parameters_buffer : [],
+        displayedData:
+            crypto_data_buffer.length > 0 ? filterCryptos(crypto_data_buffer, parameters_buffer) : crypto_data_buffer,
         allData: crypto_data_buffer
     };
 
@@ -388,10 +399,13 @@ const cryptoDataReducer = (state = initialState, action) => {
         case actionTypes.FETCH_CRYPTOS_FAILURE:
             return fetchCryptosFailure(state, action);
 
-        case actionTypes.ADD_CRYPTO:
-            return addCrypto(state, action);
-        case actionTypes.REMOVE_CRYPTO:
-            return removeCrypto(state, action);
+        case actionTypes.ADD_FILTER:
+            return addFilter(state, action);
+
+        case actionTypes.REMOVE_COLUMN_DATA:
+            return removeColumnData(state, action);
+        case actionTypes.ADD_COLUMN_DATA:
+            return addColumnData(state, action);
         default:
             return state;
     }

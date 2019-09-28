@@ -5,7 +5,7 @@ import styles from "./DataSelectorContainer.module.scss";
 
 import DataSelector from "../DataSelector/DataSelector";
 import HistogramContainer from "../HistogramContainer/HistogramContainer";
-import { addCrypto, closeDataMenu } from "../../store/actions/actionCreators";
+import { addFilter, closeDataMenu, addColumn } from "../../store/actions/actionCreators";
 
 import Button from "./../Button/Button";
 
@@ -23,8 +23,17 @@ class DataSelectorContainer extends Component {
         this.setState({ filterParameters: boundries });
     };
 
-    handleAddCrypto = () => {
-        this.props.addCrypto(this.state.filterParameters);
+    handleAdd = () => {
+        if (Object.keys(this.state.filterParameters).length > 0) {
+            this.props.addFilter(this.state.filterParameters);
+        } else {
+            this.props.addFilter();
+        }
+
+        if (this.props.selectedColumn === "") {
+            this.props.addColumn();
+        }
+
         this.props.closeDataMenu();
     };
 
@@ -35,7 +44,7 @@ class DataSelectorContainer extends Component {
                 <HistogramContainer handleSetBoundries={this.handleSetBoundries} />
                 <div className={styles.btnContainer}>
                     <Button onClick={() => this.props.closeDataMenu()} name="Cancel" />
-                    <Button onClick={this.handleAddCrypto} name="Add" />
+                    <Button onClick={this.handleAdd} name="Save" />
                 </div>
             </div>
         );
@@ -44,14 +53,16 @@ class DataSelectorContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        dataMenu: state.dataMenu.dataMenu
+        dataMenu: state.dataMenu.dataMenu,
+        selectedColumn: state.cryptoData.selectedColumn
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         closeDataMenu: () => dispatch(closeDataMenu()),
-        addCrypto: (filterParameters, periodName) => dispatch(addCrypto(filterParameters, periodName))
+        addFilter: (filterParameters, periodName) => dispatch(addFilter(filterParameters, periodName)),
+        addColumn: () => dispatch(addColumn())
     };
 };
 

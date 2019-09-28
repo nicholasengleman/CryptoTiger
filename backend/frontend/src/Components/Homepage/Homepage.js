@@ -56,9 +56,16 @@ class Homepage extends Component {
                         Object.keys(this.props.cryptosData).map(crypto => (
                             <CryptoRow
                                 key={this.props.cryptosData[crypto].crypto_id}
-                                cryptoInfo={this.props.cryptosData[crypto].crypto_id}
-                                crypto_icon={this.props.cryptosData[crypto].crypto_icon_url}
-                                crypto_name={this.props.cryptosData[crypto].crypto_name}
+                                cryptoInfo={
+                                    this.props.cryptosData[crypto].crypto_id
+                                }
+                                crypto_icon={
+                                    this.props.cryptosData[crypto]
+                                        .crypto_icon_url
+                                }
+                                crypto_name={
+                                    this.props.cryptosData[crypto].crypto_name
+                                }
                                 columns={this.props.cryptosData[crypto].columns}
                             />
                         ))}

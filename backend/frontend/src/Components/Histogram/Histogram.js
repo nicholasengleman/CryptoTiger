@@ -43,7 +43,6 @@ class Histogram extends Component {
         super(props);
 
         this.histogram = React.createRef();
-        this.ref = {};
 
         this.state = {
             normalizedData: [],
@@ -61,7 +60,9 @@ class Histogram extends Component {
             inputFocus: false,
             leftInputValue: 0,
             rightInputValue: 0,
-            attachAnimationClasses: true
+            attachAnimationClasses: true,
+
+            barLocations: {}
         };
 
         this.dataSetMinValue = 0;
@@ -69,7 +70,6 @@ class Histogram extends Component {
         this.buttonWidth = 25.125;
         this.leftButtonAdjustment = 50;
         this.rightButtonAdjustment = -this.buttonWidth;
-        this.barLocations = [];
     }
 
     componentWillMount() {
@@ -81,40 +81,13 @@ class Histogram extends Component {
         this.normalizeData(this.props.data);
         this.calculateBarWidth(this.props.data);
 
-        for (let e = 0; e < this.props.data.length; e++) {
-            this.ref = {
-                ...this.ref,
-                [`ref_${e}`]: React.createRef()
-            };
-        }
-
-        let that = this;
-        window.addEventListener("resize", function() {
-            that.findBarLocations();
-            that.calculateBarWidth();
+        window.addEventListener("resize", () => {
+            this.calculateBarWidth();
         });
     }
 
     componentDidUpdate(prevProps) {
-        if (this.ref.ref_0.current && this.barLocations.length === 0) {
-            this.findBarLocations();
-        }
-
         if (prevProps.data !== this.props.data) {
-            for (let e = 0; e < this.props.data.length; e++) {
-                this.ref = {
-                    ...this.ref,
-                    [`ref_${e}`]: React.createRef()
-                };
-            }
-
-            this.barLocations.length = 0;
-            this.findBarLocations();
-
-            if (this.ref.ref_0.current) {
-                this.setState({ computedBarWidth: this.ref.ref_0.current.offsetWidth });
-            }
-
             this.dataSetMinValue = this.findMinValue(this.props.data);
             this.dataSetMaxValue = this.findMaxValue(this.props.data);
             this.calculateBarWidth(this.props.data);
@@ -122,29 +95,36 @@ class Histogram extends Component {
 
             if (this.props.buttonPresets) {
                 this.setState({
-                    leftInputValue: this.props.buttonPresets.parameters.selectionMin,
-                    rightInputValue: this.props.buttonPresets.parameters.selectionMax
+                    leftInputValue: this.props.buttonPresets.parameters
+                        .selectionMin,
+                    rightInputValue: this.props.buttonPresets.parameters
+                        .selectionMax
                 });
-                this.findLeftBarFromInput(Number(this.props.buttonPresets.parameters.selectionMin));
-                this.findRightBarFromInput(Number(this.props.buttonPresets.parameters.selectionMax));
+                this.findLeftBarFromInput(
+                    Number(this.props.buttonPresets.parameters.selectionMin)
+                );
+                this.findRightBarFromInput(
+                    Number(this.props.buttonPresets.parameters.selectionMax)
+                );
             } else {
                 if (this.state.sliderContainerWidth !== 0) {
                     this.setState({
                         barMinLocation: 0,
-                        barMaxLocation: this.state.sliderContainerWidth - this.buttonWidth
+                        barMaxLocation:
+                            this.state.sliderContainerWidth - this.buttonWidth
                     });
                 }
             }
         }
     }
 
-    findBarLocations = () => {
-        for (let ref in this.ref) {
-            if (this.ref[ref].current) {
-                this.barLocations.push(this.ref[ref].current.offsetLeft);
+    setBarLocation = (bar, location) => {
+        this.setState(prevState => ({
+            barLocations: {
+                ...prevState.barLocations,
+                [bar]: location
             }
-        }
-        this.forceUpdate();
+        }));
     };
 
     getBoundries = () => {
@@ -174,11 +154,16 @@ class Histogram extends Component {
         if (this.dataSetMinValue < 0 && this.dataSetMaxValue > 0) {
             normalizedValue =
                 (this.histogram.current.offsetHeight - 2) /
-                (Math.abs(this.dataSetMaxValue) + Math.abs(this.dataSetMinValue));
+                (Math.abs(this.dataSetMaxValue) +
+                    Math.abs(this.dataSetMinValue));
         } else if (this.dataSetMinValue > 0) {
-            normalizedValue = (this.histogram.current.offsetHeight - 2) / Math.abs(this.dataSetMaxValue);
+            normalizedValue =
+                (this.histogram.current.offsetHeight - 2) /
+                Math.abs(this.dataSetMaxValue);
         } else if (this.dataSetMaxValue < 0) {
-            normalizedValue = (this.histogram.current.offsetHeight - 2) / Math.abs(this.dataSetMinValue);
+            normalizedValue =
+                (this.histogram.current.offsetHeight - 2) /
+                Math.abs(this.dataSetMinValue);
         }
 
         sortedData.forEach(data => {
@@ -201,7 +186,8 @@ class Histogram extends Component {
     calculateBarWidth = () => {
         let histogramWidth = this.histogram.current.offsetWidth - 2;
 
-        let barWidth = histogramWidth / this.props.data.length - this.props.barMargin * 2;
+        let barWidth =
+            histogramWidth / this.props.data.length - this.props.barMargin * 2;
         this.setState({ barWidth });
     };
 
@@ -225,7 +211,11 @@ class Histogram extends Component {
         return min;
     };
 
-    getSliderBarDimensions = (sliderContainerWidth, sliderContainerRightPosition, sliderContainerLeftPosition) => {
+    getSliderBarDimensions = (
+        sliderContainerWidth,
+        sliderContainerRightPosition,
+        sliderContainerLeftPosition
+    ) => {
         this.setState({
             sliderContainerWidth,
             sliderContainerRightPosition,
@@ -252,7 +242,9 @@ class Histogram extends Component {
     };
 
     handleLeftInput = e => {
-        this.setState({ leftInputValue: e.target.value }, () => this.getBoundries());
+        this.setState({ leftInputValue: e.target.value }, () =>
+            this.getBoundries()
+        );
         this.findLeftBarFromInput(e.target.value);
     };
 
@@ -262,12 +254,14 @@ class Histogram extends Component {
         });
 
         if (index !== -1) {
-            this.setState({ barMinLocation: this.barLocations[index] });
+            this.setState({ barMinLocation: this.state.barLocations[index] });
         }
     };
 
     handleRightInput = e => {
-        this.setState({ rightInputValue: e.target.value }, () => this.getBoundries());
+        this.setState({ rightInputValue: e.target.value }, () =>
+            this.getBoundries()
+        );
         console.log("fired");
         this.findRightBarFromInput(e.target.value);
     };
@@ -282,7 +276,7 @@ class Histogram extends Component {
         }
 
         if (index !== 0) {
-            this.setState({ barMaxLocation: this.barLocations[index] });
+            this.setState({ barMaxLocation: this.state.barLocations[index] });
         }
     };
 
@@ -293,7 +287,7 @@ class Histogram extends Component {
         let index = 0;
 
         if (bar_id === "Min") {
-            index = this.barLocations.findIndex(el => {
+            index = Object.values(this.state.barLocations).findIndex(el => {
                 return mouse_location - this.buttonWidth <= el;
             });
 
@@ -301,8 +295,15 @@ class Histogram extends Component {
                 index = 0;
             }
         } else {
-            for (let i = this.barLocations.length; i > 0; i--) {
-                if (mouse_location - this.buttonWidth >= this.barLocations[i]) {
+            for (
+                let i = Object.keys(this.state.barLocations).length;
+                i > 0;
+                i--
+            ) {
+                if (
+                    mouse_location - this.buttonWidth >=
+                    this.state.barLocations[i]
+                ) {
                     index = i;
                     break;
                 }
@@ -311,22 +312,31 @@ class Histogram extends Component {
         if (this.state.normalizedData[index]) {
             return this.state.normalizedData[index].value;
         } else {
-            return this.state.normalizedData[this.state.normalizedData.length - 1].value;
+            return this.state.normalizedData[
+                this.state.normalizedData.length - 1
+            ].value;
         }
     };
 
     handleButtonMovement = ({ clientX }, btn_id) => {
         if (this.state.normalizedData.length > 0) {
             if (
-                this.state.sliderContainerLeftPosition + this.buttonWidth / 2 < clientX &&
-                clientX < this.state.sliderContainerRightPosition - this.buttonWidth / 2
+                this.state.sliderContainerLeftPosition + this.buttonWidth / 2 <
+                    clientX &&
+                clientX <
+                    this.state.sliderContainerRightPosition -
+                        this.buttonWidth / 2
             ) {
                 if (btn_id === "Min") {
                     this.setState(
                         {
-                            barMinLocation: clientX - this.state.sliderContainerLeftPosition - this.buttonWidth / 2,
+                            barMinLocation:
+                                clientX -
+                                this.state.sliderContainerLeftPosition -
+                                this.buttonWidth / 2,
                             leftInputValue: this.findInputValueFromButtonLocation(
-                                clientX - this.state.sliderContainerLeftPosition,
+                                clientX -
+                                    this.state.sliderContainerLeftPosition,
                                 btn_id
                             )
                         },
@@ -335,20 +345,31 @@ class Histogram extends Component {
                 } else {
                     this.setState(
                         {
-                            barMaxLocation: clientX - this.state.sliderContainerLeftPosition - this.buttonWidth / 2,
+                            barMaxLocation:
+                                clientX -
+                                this.state.sliderContainerLeftPosition -
+                                this.buttonWidth / 2,
                             rightInputValue: this.findInputValueFromButtonLocation(
-                                clientX - this.state.sliderContainerLeftPosition,
+                                clientX -
+                                    this.state.sliderContainerLeftPosition,
                                 btn_id
                             )
                         },
                         () => this.getBoundries()
                     );
                 }
-            } else if (clientX < this.state.sliderContainerLeftPosition + this.buttonWidth / 2) {
+            } else if (
+                clientX <
+                this.state.sliderContainerLeftPosition + this.buttonWidth / 2
+            ) {
                 this.setState({ [`bar${btn_id}Location`]: 0 });
-            } else if (this.state.sliderContainerRightPosition - this.buttonWidth < clientX) {
+            } else if (
+                this.state.sliderContainerRightPosition - this.buttonWidth <
+                clientX
+            ) {
                 this.setState({
-                    [`bar${btn_id}Location`]: this.state.sliderContainerWidth - this.buttonWidth
+                    [`bar${btn_id}Location`]:
+                        this.state.sliderContainerWidth - this.buttonWidth
                 });
             }
         }
@@ -359,11 +380,15 @@ class Histogram extends Component {
             let adjustment = 0;
 
             if (this.dataSetMinValue < 0 && this.dataSetMaxValue > 0) {
-                adjustment = Math.abs(this.state.normalizedData[0].normalizedValue);
+                adjustment = Math.abs(
+                    this.state.normalizedData[0].normalizedValue
+                );
             }
 
             if (this.dataSetMaxValue < 0) {
-                adjustment = Math.abs(this.state.normalizedData[0].normalizedValue);
+                adjustment = Math.abs(
+                    this.state.normalizedData[0].normalizedValue
+                );
             }
 
             let diff = this.histogram.current.offsetHeight - 2 - adjustment;
@@ -372,7 +397,9 @@ class Histogram extends Component {
     };
 
     render() {
-        let scaleStep = (parseInt(this.dataSetMaxValue) - parseInt(this.dataSetMinValue)) / 4;
+        let scaleStep =
+            (parseInt(this.dataSetMaxValue) - parseInt(this.dataSetMinValue)) /
+            4;
         let scaleSteps = [parseInt(this.dataSetMinValue)];
         for (let i = 1; i <= 4; i++) {
             scaleSteps.push(parseInt(scaleSteps[i - 1] + scaleStep));
@@ -391,22 +418,40 @@ class Histogram extends Component {
 
                 <div className="mainSection">
                     <div ref={this.histogram} className="histogram">
-                        <div className="bar-container" style={{ marginTop: this.barContainerVerticalAdjust() }}>
+                        <div
+                            className="bar-container"
+                            style={{
+                                marginTop: this.barContainerVerticalAdjust()
+                            }}
+                        >
                             {this.state.normalizedData.map((bar, index) => {
-                                let barMarginTop, barMarginBottom, color, barHeight, directionalClass;
+                                let barMarginTop,
+                                    barMarginBottom,
+                                    color,
+                                    barHeight,
+                                    directionalClass;
                                 if (bar.normalizedValue > 0) {
                                     barMarginTop = 0;
-                                    barMarginBottom = Math.abs(bar.normalizedValue);
+                                    barMarginBottom = Math.abs(
+                                        bar.normalizedValue
+                                    );
                                 } else {
-                                    barMarginTop = Math.abs(bar.normalizedValue);
+                                    barMarginTop = Math.abs(
+                                        bar.normalizedValue
+                                    );
                                     barMarginBottom = 0;
                                 }
 
                                 if (
                                     this.state.barMinLocation <=
-                                        this.barLocations[index] + this.buttonWidth - this.buttonWidth / 2 &&
-                                    this.barLocations[index] + this.buttonWidth - this.buttonWidth / 2 <=
-                                        this.state.barMaxLocation - this.state.barWidth
+                                        this.state.barLocations[index] +
+                                            this.buttonWidth -
+                                            this.buttonWidth / 2 &&
+                                    this.state.barLocations[index] +
+                                        this.buttonWidth -
+                                        this.buttonWidth / 2 <=
+                                        this.state.barMaxLocation -
+                                            this.state.barWidth
                                 ) {
                                     if (bar.normalizedValue > 0) {
                                         color = "green";
@@ -423,24 +468,26 @@ class Histogram extends Component {
                                     barHeight = Math.abs(bar.normalizedValue);
                                 }
 
-                                // if (this.state.attachAnimationClasses) {
-                                //     if (color === "green") {
-                                //         directionalClass = "positiveBar";
-                                //     } else {
-                                //         directionalClass = "negativeBar";
-                                //     }
-                                // }
+                                if (this.state.attachAnimationClasses) {
+                                    if (color === "green") {
+                                        directionalClass = "positiveBar";
+                                    } else {
+                                        directionalClass = "negativeBar";
+                                    }
+                                }
 
                                 return (
                                     <Bar
                                         key={index}
+                                        index={index}
                                         height={barHeight}
                                         marginBottom={barMarginBottom}
                                         marginTop={barMarginTop}
                                         backgroundColor={color}
                                         width={this.state.barWidth}
-                                        ref={this.ref[`ref_${index}`]}
                                         tooltip={bar.tooltip}
+                                        setBarLocation={this.setBarLocation}
+                                        directionalClass={directionalClass}
                                     />
                                 );
                             })}
@@ -449,8 +496,12 @@ class Histogram extends Component {
                     <Slider
                         getSliderBarDimensions={this.getSliderBarDimensions}
                         sliderContainerWidth={this.state.sliderContainerWidth}
-                        sliderContainerLeftPosition={this.state.sliderContainerLeftPosition}
-                        sliderContainerRightPosition={this.state.sliderContainerRightPosition}
+                        sliderContainerLeftPosition={
+                            this.state.sliderContainerLeftPosition
+                        }
+                        sliderContainerRightPosition={
+                            this.state.sliderContainerRightPosition
+                        }
                         handleButtonMovement={this.handleButtonMovement}
                         buttonLeft={this.state.barMinLocation}
                         buttonRight={this.state.barMaxLocation}
@@ -458,7 +509,9 @@ class Histogram extends Component {
                     <div className="input-section">
                         <div
                             className={`input-container ${
-                                this.state.input_with_focus === "left_boundry" ? "selected" : ""
+                                this.state.input_with_focus === "left_boundry"
+                                    ? "selected"
+                                    : ""
                             }`}
                         >
                             <input
@@ -469,7 +522,8 @@ class Histogram extends Component {
                                 onFocus={this.handleInputFocus}
                                 onBlur={this.handleInputFocus}
                                 value={
-                                    !this.state.inputFocus && !isNaN(this.state.leftInputValue)
+                                    !this.state.inputFocus &&
+                                    !isNaN(this.state.leftInputValue)
                                         ? parseInt(this.state.leftInputValue)
                                         : undefined
                                 }
@@ -480,7 +534,9 @@ class Histogram extends Component {
                         to
                         <div
                             className={`input-container ${
-                                this.state.input_with_focus === "right_boundry" ? "selected" : ""
+                                this.state.input_with_focus === "right_boundry"
+                                    ? "selected"
+                                    : ""
                             }`}
                         >
                             <input
@@ -491,7 +547,8 @@ class Histogram extends Component {
                                 onFocus={this.handleInputFocus}
                                 onBlur={this.handleInputFocus}
                                 value={
-                                    !this.state.inputFocus && !isNaN(this.state.rightInputValue)
+                                    !this.state.inputFocus &&
+                                    !isNaN(this.state.rightInputValue)
                                         ? parseInt(this.state.rightInputValue)
                                         : undefined
                                 }

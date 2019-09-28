@@ -6,20 +6,23 @@ import { connect } from "react-redux";
 import Cell from "./Cell/Cell";
 
 class CryptoRow extends Component {
-
     render() {
         return (
             <div className={styles.cryptoContainer}>
                 <div className={styles.logoContainer}>
                     <img
                         className={styles.logo}
-                        src={"https://www.cryptocompare.com".concat(this.props.crypto_icon)}
+                        src={"https://www.cryptocompare.com".concat(
+                            this.props.crypto_icon
+                        )}
                         alt=""
                     />
                 </div>
 
                 <div className={styles.dataContainer}>
-                    <div className={styles.cryptoName}>{this.props.crypto_name}</div>
+                    <div className={styles.cryptoName}>
+                        {this.props.crypto_name}
+                    </div>
                     {/*<div className={styles.description}>{props.industry}</div>*/}
                 </div>
 

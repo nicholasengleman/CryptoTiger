@@ -5,7 +5,11 @@ import styles from "./DataSelectorContainer.module.scss";
 
 import DataSelector from "../DataSelector/DataSelector";
 import HistogramContainer from "../HistogramContainer/HistogramContainer";
-import { addFilter, closeDataMenu, addColumn } from "../../store/actions/actionCreators";
+import {
+    addFilter,
+    closeDataMenu,
+    addColumn
+} from "../../store/actions/actionCreators";
 
 import Button from "./../Button/Button";
 
@@ -39,11 +43,20 @@ class DataSelectorContainer extends Component {
 
     render() {
         return (
-            <div className={classNames(this.props.dataMenu.open ? styles.open : styles.closed)}>
+            <div
+                className={classNames(
+                    this.props.dataMenu.open ? styles.open : styles.closed
+                )}
+            >
                 <DataSelector />
-                <HistogramContainer handleSetBoundries={this.handleSetBoundries} />
+                <HistogramContainer
+                    handleSetBoundries={this.handleSetBoundries}
+                />
                 <div className={styles.btnContainer}>
-                    <Button onClick={() => this.props.closeDataMenu()} name="Cancel" />
+                    <Button
+                        onClick={() => this.props.closeDataMenu()}
+                        name="Cancel"
+                    />
                     <Button onClick={this.handleAdd} name="Save" />
                 </div>
             </div>
@@ -61,7 +74,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         closeDataMenu: () => dispatch(closeDataMenu()),
-        addFilter: (filterParameters, periodName) => dispatch(addFilter(filterParameters, periodName)),
+        addFilter: (filterParameters, periodName) =>
+            dispatch(addFilter(filterParameters, periodName)),
         addColumn: () => dispatch(addColumn())
     };
 };

@@ -1,5 +1,9 @@
 import * as actionTypes from "../actions/actionTypes";
-import { updatedObject, findCurrentValueOfCrypto, filterCryptos } from "../../utilities/utilities";
+import {
+    updatedObject,
+    findCurrentValueOfCrypto,
+    filterCryptos
+} from "../../utilities/utilities";
 import _ from "lodash";
 
 const initialState = {
@@ -67,7 +71,8 @@ const fetchCryptosSuccess = (state, action) => {
                             crypto_tf.crypto_id
                         );
                         new_crypto_value = (
-                            ((current_value - crypto_tf.data_value) / crypto_tf.data_value) *
+                            ((current_value - crypto_tf.data_value) /
+                                crypto_tf.data_value) *
                             100
                         ).toFixed(2);
                     }
@@ -202,8 +207,14 @@ const processNewColumnData = (state, action) => {
     // pass to the histogram slider component
     //////////
     action.payload.new_column_data.forEach(crypto => {
-        const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
-        const percentage = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
+        const current_value = findCurrentValueOfCrypto(
+            state.currentData.data,
+            crypto.crypto_id
+        );
+        const percentage = (
+            ((current_value - crypto.data_value) / crypto.data_value) *
+            100
+        ).toFixed(2);
 
         histogramData.push({
             id: crypto.crypto_id,
@@ -223,9 +234,15 @@ const processNewColumnData = (state, action) => {
         let index_of_el_to_change;
 
         // gets the current value of the crypto
-        let current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
+        let current_value = findCurrentValueOfCrypto(
+            state.currentData.data,
+            crypto.crypto_id
+        );
         // calculates the percentage change of the crypto between now and the timeframe of the selected column
-        let new_crypto_value = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
+        let new_crypto_value = (
+            ((current_value - crypto.data_value) / crypto.data_value) *
+            100
+        ).toFixed(2);
 
         if (state.selectedColumn === "") {
             ////////
@@ -244,11 +261,15 @@ const processNewColumnData = (state, action) => {
             //we are changing the data for an existing column
             ///////
 
-            index_of_el_to_change = crypto_data_buffer[crypto.crypto_id].columns.findIndex(function(arr) {
+            index_of_el_to_change = crypto_data_buffer[
+                crypto.crypto_id
+            ].columns.findIndex(function(arr) {
                 return arr.name === state.selectedColumn;
             });
 
-            crypto_data_buffer[crypto.crypto_id].columns[index_of_el_to_change] = {
+            crypto_data_buffer[crypto.crypto_id].columns[
+                index_of_el_to_change
+            ] = {
                 name: action.payload.new_timeframe_name,
                 crypto_datetime: crypto.crypto_datetime,
                 crypto_id: crypto.crypto_id,
@@ -299,7 +320,10 @@ const addFilter = (state, action) => {
 
     const updatedState = {
         filterParameters: newFilterParameters.length ? newFilterParameters : [],
-        displayedData: newFilterParameters.length > 0 ? filterCryptos(data, newFilterParameters) : data,
+        displayedData:
+            newFilterParameters.length > 0
+                ? filterCryptos(data, newFilterParameters)
+                : data,
         allData: data
     };
 
@@ -340,7 +364,9 @@ const removeColumnData = (state, action) => {
     const updatedState = {
         filterParameters: parameters_buffer.length ? parameters_buffer : [],
         displayedData:
-            crypto_data_buffer.length > 0 ? filterCryptos(crypto_data_buffer, parameters_buffer) : crypto_data_buffer,
+            crypto_data_buffer.length > 0
+                ? filterCryptos(crypto_data_buffer, parameters_buffer)
+                : crypto_data_buffer,
         allData: crypto_data_buffer
     };
 
@@ -358,8 +384,14 @@ const updateCurrentData = (state, action) => {
     action.payload.new_data.forEach(crypto => {
         let new_crypto_value;
 
-        const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto[2]);
-        new_crypto_value = (((current_value - crypto[0]) / crypto[0]) * 100).toFixed(2);
+        const current_value = findCurrentValueOfCrypto(
+            state.currentData.data,
+            crypto[2]
+        );
+        new_crypto_value = (
+            ((current_value - crypto[0]) / crypto[0]) *
+            100
+        ).toFixed(2);
 
         crypto_data_buffer[crypto[2]].columns[0] = {
             name: "Current Price",

@@ -20,10 +20,10 @@ const initialState = {
 
     loading: false,
     error: null,
-    selectedColumn: "",
+    selectedColumnId: 0,
     selectedPeriod: {
         dataType: "price",
-        dataGroup: "hours",
+        dataGroup: "hour",
         dataPeriod: "1",
         dataName: "1 hour price"
     },
@@ -34,7 +34,12 @@ const initialState = {
 // Processes data retrieved from the database on initial page load
 ///////////////////////
 const fetchCryptosSuccess = (state, action) => {
-    let default_data = {};
+    let default_data = {},
+        columnIds = [];
+
+    for (let i = 1; i <= 100; i++) {
+        columnIds.push(Math.floor(Math.random() * 10000000) + 1);
+    }
 
     action.payload.data[0].forEach(crypto => {
         default_data[crypto.crypto_id] = {
@@ -79,6 +84,7 @@ const fetchCryptosSuccess = (state, action) => {
 
                     default_data[crypto].columns.push({
                         name: action.payload.data[i].name,
+                        columnId: columnIds[i],
                         period: action.payload.data[i].period,
                         crypto_datetime: crypto_tf.crypto_datetime,
                         crypto_id: crypto_tf.crypto_id,
@@ -90,6 +96,7 @@ const fetchCryptosSuccess = (state, action) => {
     });
 
     const updatedState = {
+        columnIds,
         loading: false,
         allData: default_data,
         displayedData: default_data,
@@ -177,9 +184,9 @@ const setSelectedPeriodDataName = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
-const setSelectedColumn = (state, action) => {
+const setSelectedColumnId = (state, action) => {
     const updatedState = {
-        selectedColumn: action.payload.columnName
+        selectedColumnId: action.payload.columnId
     };
     return updatedObject(state, updatedState);
 };
@@ -263,13 +270,16 @@ const processNewColumnData = (state, action) => {
 
             index_of_el_to_change = crypto_data_buffer[
                 crypto.crypto_id
-            ].columns.findIndex(function(arr) {
-                return arr.name === state.selectedColumn;
+            ].columns.findIndex(function(column) {
+                return column.columnId === state.selectedColumnId;
             });
 
             crypto_data_buffer[crypto.crypto_id].columns[
                 index_of_el_to_change
             ] = {
+                ...crypto_data_buffer[crypto.crypto_id].columns[
+                    index_of_el_to_change
+                ],
                 name: action.payload.new_timeframe_name,
                 crypto_datetime: crypto.crypto_datetime,
                 crypto_id: crypto.crypto_id,
@@ -292,25 +302,10 @@ const addFilter = (state, action) => {
     let newFilterParameters = _.cloneDeep(state.filterParameters);
     let data;
 
-    console.log(action.payload.parameters);
-
-    if (action.payload.parameters && newFilterParameters.length > 0) {
-        let indexOfExistingFilter = newFilterParameters.findIndex(filter => {
-            return filter.column === state.selectedColumn;
-        });
-
-        if (indexOfExistingFilter === -1) {
-            newFilterParameters.push({
-                column: state.selectedColumn,
-                parameters: action.payload.parameters
-            });
-        }
-    } else if (action.payload.parameters && newFilterParameters.length === 0) {
-        newFilterParameters.push({
-            column: state.selectedColumn,
-            parameters: action.payload.parameters
-        });
-    }
+    newFilterParameters.push({
+        columnId: action.payload.columnId,
+        parameters: action.payload.parameters
+    });
 
     if (Object.entries(state.cryptoDataBuffer).length) {
         data = _.cloneDeep(state.cryptoDataBuffer);
@@ -330,8 +325,49 @@ const addFilter = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
-const addColumnData = (state, action) => {
-    const updatedState = {};
+const editFilter = (state, action) => {
+    let newFilterParameters = _.cloneDeep(state.filterParameters);
+    let data;
+
+    let indexOfFilter = newFilterParameters.findIndex(filter => {
+        return filter.columnId === action.payload.columnId;
+    });
+
+    newFilterParameters[indexOfFilter] = {
+        ...newFilterParameters[indexOfFilter],
+        parameters: action.payload.parameters
+    };
+
+    if (Object.entries(state.cryptoDataBuffer).length) {
+        data = _.cloneDeep(state.cryptoDataBuffer);
+    } else {
+        data = _.cloneDeep(state.allData);
+    }
+
+    const updatedState = {
+        filterParameters: newFilterParameters,
+        displayedData:
+            newFilterParameters.length > 0
+                ? filterCryptos(data, newFilterParameters)
+                : data,
+        allData: data
+    };
+
+    return updatedObject(state, updatedState);
+};
+
+const removeFilter = (state, action) => {
+    let newFilterParameters = _.cloneDeep(state.filterParameters);
+
+    let indexOfFilter = newFilterParameters.findIndex(filter => {
+        return filter.columnId === action.payload.columnId;
+    });
+
+    newFilterParameters.splice(indexOfFilter, 1);
+
+    const updatedState = {
+        filterParameters: newFilterParameters
+    };
 
     return updatedObject(state, updatedState);
 };
@@ -339,41 +375,40 @@ const addColumnData = (state, action) => {
 ////////////////////////////////////////////
 //Removes a column from the table
 /////////////////////////////////////////
-const removeColumnData = (state, action) => {
-    const timeframe_to_remove = action.payload.columnName;
+const addColumnData = (state, action) => {
+    const updatedState = {};
 
+    return updatedObject(state, updatedState);
+};
+
+const editColumnData = (state, action) => {
+    const updatedState = {};
+
+    return updatedObject(state, updatedState);
+};
+
+const removeColumnData = (state, action) => {
     // removes timeframe from data
     let crypto_data_buffer = _.cloneDeep(state.allData);
 
     Object.keys(crypto_data_buffer).forEach(crypto => {
         crypto_data_buffer[crypto].columns.forEach((column, index) => {
-            if (column.name === timeframe_to_remove) {
+            if (column.columnId === action.payload.columnId) {
                 crypto_data_buffer[crypto].columns.splice(index, 1);
             }
         });
     });
 
-    //removes any filters the timeframe had
-    let parameters_buffer = _.cloneDeep(state.filterParameters);
-    parameters_buffer.forEach((parameter, index) => {
-        if (parameter.column === timeframe_to_remove) {
-            parameters_buffer.splice(index, 1);
-        }
-    });
-
     const updatedState = {
-        filterParameters: parameters_buffer.length ? parameters_buffer : [],
         displayedData:
             crypto_data_buffer.length > 0
-                ? filterCryptos(crypto_data_buffer, parameters_buffer)
+                ? filterCryptos(crypto_data_buffer, state.filterParameters)
                 : crypto_data_buffer,
         allData: crypto_data_buffer
     };
 
     return updatedObject(state, updatedState);
 };
-
-// Reducers not being used
 
 /////////////////////////////////////
 // updates the store with the latest live data. This data is then matched with the relevant historical data to
@@ -420,8 +455,8 @@ const cryptoDataReducer = (state = initialState, action) => {
             return setSelectedPeriodDataPeriod(state, action);
         case actionTypes.SET_SELECTED_PERIOD_DATA_NAME:
             return setSelectedPeriodDataName(state, action);
-        case actionTypes.SET_SELECTED_COLUMN:
-            return setSelectedColumn(state, action);
+        case actionTypes.SET_SELECTED_COLUMN_ID:
+            return setSelectedColumnId(state, action);
 
         case actionTypes.EMPTY_HISTOGRAM_DATA:
             return emptyHistogramData(state, action);
@@ -439,10 +474,17 @@ const cryptoDataReducer = (state = initialState, action) => {
 
         case actionTypes.ADD_FILTER:
             return addFilter(state, action);
-        case actionTypes.REMOVE_COLUMN_DATA:
-            return removeColumnData(state, action);
+        case actionTypes.EDIT_FILTER:
+            return editFilter(state, action);
+        case actionTypes.REMOVE_FILTER:
+            return removeFilter(state, action);
+
         case actionTypes.ADD_COLUMN_DATA:
             return addColumnData(state, action);
+        case actionTypes.EDIT_COLUMN_DATA:
+            return editColumnData(state, action);
+        case actionTypes.REMOVE_COLUMN_DATA:
+            return removeColumnData(state, action);
         default:
             return state;
     }

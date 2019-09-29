@@ -23,7 +23,9 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fa-dollar-sign"
                             name="Price"
-                            onClick={() => this.props.setSelectedPeriodDataType("price")}
+                            onClick={() =>
+                                this.props.setSelectedPeriodDataType("price")
+                            }
                             selected={this.props.selected.dataType === "price"}
                             shape={"pill"}
                             theme={"white"}
@@ -33,7 +35,9 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fas fa-water"
                             name="Volume"
-                            onClick={() => this.props.setSelectedPeriodDataType("volume")}
+                            onClick={() =>
+                                this.props.setSelectedPeriodDataType("volume")
+                            }
                             selected={this.props.selected.dataType === "volume"}
                             shape={"pill"}
                             theme={"white"}
@@ -51,8 +55,10 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fa-dollar-sign"
                             name="Hours"
-                            onClick={() => this.props.setSelectedPeriodDataGroup("hours")}
-                            selected={this.props.selected.dataGroup === "hours"}
+                            onClick={() =>
+                                this.props.setSelectedPeriodDataGroup("hour")
+                            }
+                            selected={this.props.selected.dataGroup === "hour"}
                             shape={"pill"}
                             theme={"white"}
                             textalign={"left"}
@@ -61,8 +67,10 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fas fa-water"
                             name="Days"
-                            onClick={() => this.props.setSelectedPeriodDataGroup("days")}
-                            selected={this.props.selected.dataGroup === "days"}
+                            onClick={() =>
+                                this.props.setSelectedPeriodDataGroup("day")
+                            }
+                            selected={this.props.selected.dataGroup === "day"}
                             shape={"pill"}
                             theme={"white"}
                             textalign={"left"}
@@ -71,8 +79,10 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fa-poll"
                             name="Weeks"
-                            onClick={() => this.props.setSelectedPeriodDataGroup("weeks")}
-                            selected={this.props.selected.dataGroup === "weeks"}
+                            onClick={() =>
+                                this.props.setSelectedPeriodDataGroup("week")
+                            }
+                            selected={this.props.selected.dataGroup === "week"}
                             shape={"pill"}
                             theme={"white"}
                             textalign={"left"}
@@ -87,8 +97,11 @@ class DataMenu extends Component {
                     </div>
                     <div className={styles.sectionBody}>
                         <DataPeriodContainer
-                            periods={this.props.timeframes[this.props.selected.dataGroup] || [1]}
-                            selectedTimeframe={this.props.selected.dataGroup}
+                            periods={
+                                this.props.timeframes[
+                                    this.props.selected.dataGroup
+                                ] || [1]
+                            }
                         />
                     </div>
                 </div>
@@ -107,8 +120,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         closeDataMenu: () => dispatch(closeDataMenu()),
-        setSelectedPeriodDataType: DataType => dispatch(setSelectedPeriodDataType(DataType)),
-        setSelectedPeriodDataGroup: DataGroup => dispatch(setSelectedPeriodDataGroup(DataGroup))
+        setSelectedPeriodDataType: DataType =>
+            dispatch(setSelectedPeriodDataType(DataType)),
+        setSelectedPeriodDataGroup: DataGroup =>
+            dispatch(setSelectedPeriodDataGroup(DataGroup))
     };
 };
 

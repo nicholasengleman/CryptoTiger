@@ -7,6 +7,7 @@ import DataSelector from "../DataSelector/DataSelector";
 import HistogramContainer from "../HistogramContainer/HistogramContainer";
 import {
     addFilter,
+    editFilter,
     closeDataMenu,
     addColumn
 } from "../../store/actions/actionCreators";
@@ -27,11 +28,35 @@ class DataSelectorContainer extends Component {
         this.setState({ filterParameters: boundries });
     };
 
-    handleAdd = () => {
-        if (Object.keys(this.state.filterParameters).length > 0) {
-            this.props.addFilter(this.state.filterParameters);
-        } else {
-            this.props.addFilter();
+    handleSave = () => {
+        if (this.props.cryptoData.filterParameters.length === 0) {
+            this.props.addFilter(
+                this.props.cryptoData.selectedColumnId,
+                this.state.filterParameters
+            );
+        }
+
+        if (this.props.cryptoData.filterParameters.length > 0) {
+            let indexOfFilter = this.props.cryptoData.filterParameters.findIndex(
+                filter => {
+                    return (
+                        filter.columnId ===
+                        this.props.cryptoData.selectedColumnId
+                    );
+                }
+            );
+
+            if (indexOfFilter === -1) {
+                this.props.addFilter(
+                    this.props.cryptoData.selectedColumnId,
+                    this.state.filterParameters
+                );
+            } else {
+                this.props.editFilter(
+                    this.props.cryptoData.selectedColumnId,
+                    this.state.filterParameters
+                );
+            }
         }
 
         if (this.props.selectedColumn === "") {
@@ -57,7 +82,7 @@ class DataSelectorContainer extends Component {
                         onClick={() => this.props.closeDataMenu()}
                         name="Cancel"
                     />
-                    <Button onClick={this.handleAdd} name="Save" />
+                    <Button onClick={this.handleSave} name="Save" />
                 </div>
             </div>
         );
@@ -67,7 +92,7 @@ class DataSelectorContainer extends Component {
 const mapStateToProps = state => {
     return {
         dataMenu: state.dataMenu.dataMenu,
-        selectedColumn: state.cryptoData.selectedColumn
+        cryptoData: state.cryptoData
     };
 };
 
@@ -76,6 +101,8 @@ const mapDispatchToProps = dispatch => {
         closeDataMenu: () => dispatch(closeDataMenu()),
         addFilter: (filterParameters, periodName) =>
             dispatch(addFilter(filterParameters, periodName)),
+        editFilter: (filterParameters, periodName) =>
+            dispatch(editFilter(filterParameters, periodName)),
         addColumn: () => dispatch(addColumn())
     };
 };

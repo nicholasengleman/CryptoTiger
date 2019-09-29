@@ -85,7 +85,10 @@ const shiftVisibleColumnsBackwards = (state, action) => {
     }
 
     for (let i = 0; i <= column_visibility.length; i++) {
-        if ((column_visibility[i] === false && leftIndex < i) || i === column_visibility.length) {
+        if (
+            (column_visibility[i] === false && leftIndex < i) ||
+            i === column_visibility.length
+        ) {
             column_visibility[i - 1] = false;
             break;
         }

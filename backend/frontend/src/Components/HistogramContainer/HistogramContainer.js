@@ -14,9 +14,9 @@ const override = css`
 `;
 
 class HistogramContainer extends Component {
-    findFilter = timeframe_name => {
+    findFilter = columnId => {
         return this.props.filterParameters.find(filter => {
-            return filter.column === timeframe_name;
+            return filter.columnId === columnId;
         });
     };
 
@@ -42,7 +42,7 @@ class HistogramContainer extends Component {
                             : [1]
                     }
                     getBoundries={this.props.handleSetBoundries}
-                    buttonPresets={this.findFilter(this.props.selectedColumn)}
+                    buttonPresets={this.findFilter(this.props.selectedColumnId)}
                 />
             </div>
         );
@@ -53,7 +53,7 @@ const mapStateToProps = state => {
     return {
         histogramData: state.cryptoData.histogramData,
         filterParameters: state.cryptoData.filterParameters,
-        selectedColumn: state.cryptoData.selectedColumn,
+        selectedColumnId: state.cryptoData.selectedColumnId,
         dataMenu: state.dataMenu.dataMenu
     };
 };

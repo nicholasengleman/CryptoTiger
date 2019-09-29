@@ -1,6 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
-import {updatedObject} from "../../utilities/utilities";
-
+import { updatedObject } from "../../utilities/utilities";
 
 const initialState = {
     dataMenu: {
@@ -14,10 +13,7 @@ const initialState = {
     }
 };
 
-const getPresets = (state, action) => {
-
-}
-
+const getPresets = (state, action) => {};
 
 const dataMenuReducer = (state = initialState, action) => {
     switch (action.type) {

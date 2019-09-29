@@ -46,10 +46,11 @@ export const setSelectedPeriodDataName = dataName => {
         payload: { dataName }
     };
 };
-export const setSelectedColumn = columnName => {
+
+export const setSelectedColumnId = columnId => {
     return {
-        type: actionTypes.SET_SELECTED_COLUMN,
-        payload: { columnName }
+        type: actionTypes.SET_SELECTED_COLUMN_ID,
+        payload: { columnId }
     };
 };
 
@@ -103,18 +104,32 @@ export const fetchCryptosFailure = error => ({
 ///////////////////////////////
 //Filter action creators
 //////////////////////////////////
-export const addFilter = (parameters, periodName) => ({
+export const addFilter = (columnId, parameters) => ({
     type: actionTypes.ADD_FILTER,
-    payload: { parameters, periodName }
+    payload: { columnId, parameters }
+});
+
+export const editFilter = (columnId, parameters) => ({
+    type: actionTypes.EDIT_FILTER,
+    payload: { columnId, parameters }
+});
+
+export const removeFilter = columnId => ({
+    type: actionTypes.REMOVE_FILTER,
+    payload: { columnId }
 });
 
 export const addColumnData = () => ({
     type: actionTypes.ADD_COLUMN_DATA
 });
 
-export const removeColumnData = columnName => ({
+export const editColumnData = () => ({
+    type: actionTypes.EDIT_COLUMN_DATA
+});
+
+export const removeColumnData = columnId => ({
     type: actionTypes.REMOVE_COLUMN_DATA,
-    payload: { columnName }
+    payload: { columnId }
 });
 
 //////////////////////////////////////

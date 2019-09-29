@@ -15,18 +15,36 @@ export const findCurrentValueOfCrypto = (data, crypto_id) => {
 export const filterCryptos = (crypto_data, filterParameters) => {
     let filtered_cryptos = [];
 
-    filterParameters.forEach((filterParameter, filterIndex) => {
+    filterParameters.forEach((filter, filterIndex) => {
         Object.keys(crypto_data).forEach(crypto => {
             for (let col = 0; col < crypto_data[crypto].columns.length; col++) {
-                if (filterParameter.column === crypto_data[crypto].columns[col].name) {
-                    if (Object.entries(filterParameter.parameters).length === 0) {
+                if (
+                    filter.columnId ===
+                    crypto_data[crypto].columns[col].columnId
+                ) {
+                    console.log("fired");
+                    if (Object.entries(filter.parameters).length === 0) {
                         filtered_cryptos.push(crypto_data[crypto]);
                     } else {
                         if (
-                            filterParameter.parameters.selectionMin < parseFloat(crypto_data[crypto].columns[filterIndex + 1].crypto_value) &&
-                            parseFloat(crypto_data[crypto].columns[col].crypto_value) < filterParameter.parameters.selectionMax
+                            filter.parameters.selectionMin <
+                                parseFloat(
+                                    crypto_data[crypto].columns[filterIndex + 1]
+                                        .crypto_value
+                                ) &&
+                            parseFloat(
+                                crypto_data[crypto].columns[col].crypto_value
+                            ) < filter.parameters.selectionMax
                         ) {
-                            if (!filtered_cryptos.find(el => el.crypto_id === crypto_data[crypto].columns[filterIndex + 1].crypto_id)) {
+                            if (
+                                !filtered_cryptos.find(
+                                    el =>
+                                        el.crypto_id ===
+                                        crypto_data[crypto].columns[
+                                            filterIndex + 1
+                                        ].crypto_id
+                                )
+                            ) {
                                 filtered_cryptos.push(crypto_data[crypto]);
                             }
                         }

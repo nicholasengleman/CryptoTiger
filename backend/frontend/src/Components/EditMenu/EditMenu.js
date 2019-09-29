@@ -8,7 +8,8 @@ import {
     toggleDataMenu,
     removeColumnData,
     removeColumn,
-    setSelectedColumn,
+    removeFilter,
+    setSelectedColumnId,
     setSelectedPeriodDataName
 } from "../../store/actions/actionCreators";
 
@@ -19,26 +20,37 @@ const EditMenu = props => {
         [styles.hideMenu]: props.applyHideMenuClasses
     });
 
-    const handleOpenDataMenu = columnName => {
+    const handleOpenDataMenu = (columnName, columnId) => {
         props.processDataFromStoreForHistogram(columnName);
-        props.setSelectedColumn(columnName);
         props.setSelectedPeriodDataName(columnName);
+        props.setSelectedColumnId(columnId);
         props.toggleDataMenu(columnName);
         props.toggleEditMenu();
     };
 
-    const handleRemoveColumn = (columnName, columnIndex) => {
-        props.removeColumnData(columnName);
+    const handleRemoveColumn = (columnId, columnIndex) => {
+        props.removeColumnData(columnId);
         props.removeColumn(columnIndex);
+        props.removeFilter(columnId);
         props.toggleEditMenu();
     };
 
     return (
         <div className={classes}>
-            <button className={styles.button} onClick={() => handleOpenDataMenu(props.column_name)}>
+            <button
+                className={styles.button}
+                onClick={() =>
+                    handleOpenDataMenu(props.columnName, props.columnId)
+                }
+            >
                 Edit
             </button>
-            <button className={styles.button} onClick={() => handleRemoveColumn(props.column_name, props.columnIndex)}>
+            <button
+                className={styles.button}
+                onClick={() =>
+                    handleRemoveColumn(props.columnId, props.columnIndex)
+                }
+            >
                 Delete
             </button>
         </div>
@@ -48,11 +60,15 @@ const EditMenu = props => {
 const mapDispatchToProps = dispatch => {
     return {
         toggleDataMenu: columnName => dispatch(toggleDataMenu(columnName)),
-        setSelectedColumn: columnName => dispatch(setSelectedColumn(columnName)),
-        setSelectedPeriodDataName: columnName => dispatch(setSelectedPeriodDataName(columnName)),
-        processDataFromStoreForHistogram: columnName => dispatch(processDataFromStoreForHistogram(columnName)),
+        setSelectedPeriodDataName: columnName =>
+            dispatch(setSelectedPeriodDataName(columnName)),
+        setSelectedColumnId: columnId =>
+            dispatch(setSelectedColumnId(columnId)),
+        processDataFromStoreForHistogram: columnName =>
+            dispatch(processDataFromStoreForHistogram(columnName)),
         removeColumnData: columnName => dispatch(removeColumnData(columnName)),
-        removeColumn: columnIndex => dispatch(removeColumn(columnIndex))
+        removeColumn: columnIndex => dispatch(removeColumn(columnIndex)),
+        removeFilter: columnId => dispatch(removeFilter(columnId))
     };
 };
 

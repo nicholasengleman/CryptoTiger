@@ -10,7 +10,8 @@ import {
     removeColumn,
     removeFilter,
     setSelectedColumnId,
-    setSelectedPeriodDataName
+    setSelectedDataName,
+    setSelectedDataPeriod
 } from "../../store/actions/actionCreators";
 
 const EditMenu = props => {
@@ -22,7 +23,8 @@ const EditMenu = props => {
 
     const handleOpenDataMenu = (columnName, columnId) => {
         props.processDataFromStoreForHistogram(columnName);
-        props.setSelectedPeriodDataName(columnName);
+        props.setSelectedDataName(columnName);
+        props.setSelectedDataPeriod(null, columnId);
         props.setSelectedColumnId(columnId);
         props.toggleDataMenu(columnName);
         props.toggleEditMenu();
@@ -37,20 +39,10 @@ const EditMenu = props => {
 
     return (
         <div className={classes}>
-            <button
-                className={styles.button}
-                onClick={() =>
-                    handleOpenDataMenu(props.columnName, props.columnId)
-                }
-            >
+            <button className={styles.button} onClick={() => handleOpenDataMenu(props.columnName, props.columnId)}>
                 Edit
             </button>
-            <button
-                className={styles.button}
-                onClick={() =>
-                    handleRemoveColumn(props.columnId, props.columnIndex)
-                }
-            >
+            <button className={styles.button} onClick={() => handleRemoveColumn(props.columnId, props.columnIndex)}>
                 Delete
             </button>
         </div>
@@ -60,12 +52,10 @@ const EditMenu = props => {
 const mapDispatchToProps = dispatch => {
     return {
         toggleDataMenu: columnName => dispatch(toggleDataMenu(columnName)),
-        setSelectedPeriodDataName: columnName =>
-            dispatch(setSelectedPeriodDataName(columnName)),
-        setSelectedColumnId: columnId =>
-            dispatch(setSelectedColumnId(columnId)),
-        processDataFromStoreForHistogram: columnName =>
-            dispatch(processDataFromStoreForHistogram(columnName)),
+        setSelectedDataName: columnName => dispatch(setSelectedDataName(columnName)),
+        setSelectedDataPeriod: (dataPeriod, columnId) => dispatch(setSelectedDataPeriod(dataPeriod, columnId)),
+        setSelectedColumnId: columnId => dispatch(setSelectedColumnId(columnId)),
+        processDataFromStoreForHistogram: columnName => dispatch(processDataFromStoreForHistogram(columnName)),
         removeColumnData: columnName => dispatch(removeColumnData(columnName)),
         removeColumn: columnIndex => dispatch(removeColumn(columnIndex)),
         removeFilter: columnId => dispatch(removeFilter(columnId))

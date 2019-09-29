@@ -9,7 +9,10 @@ import {
     addFilter,
     editFilter,
     closeDataMenu,
-    addColumn
+    addColumn,
+    addColumnData,
+    editColumnData,
+    removeSelectedColumnId
 } from "../../store/actions/actionCreators";
 
 import Button from "./../Button/Button";
@@ -28,60 +31,47 @@ class DataSelectorContainer extends Component {
         this.setState({ filterParameters: boundries });
     };
 
+    handleClose = () => {
+        this.props.closeDataMenu();
+        this.props.removeSelectedColumnId();
+    };
+
     handleSave = () => {
-        if (this.props.cryptoData.filterParameters.length === 0) {
-            this.props.addFilter(
-                this.props.cryptoData.selectedColumnId,
-                this.state.filterParameters
-            );
+        if (this.props.cryptoData.selectedColumnId === 0) {
+            this.props.addColumn();
+            this.props.addColumnData();
         }
 
-        if (this.props.cryptoData.filterParameters.length > 0) {
-            let indexOfFilter = this.props.cryptoData.filterParameters.findIndex(
-                filter => {
-                    return (
-                        filter.columnId ===
-                        this.props.cryptoData.selectedColumnId
-                    );
-                }
-            );
+        if (this.props.cryptoData.selectedColumnId !== 0) {
+            this.props.editColumnData();
+        }
 
-            if (indexOfFilter === -1) {
-                this.props.addFilter(
-                    this.props.cryptoData.selectedColumnId,
-                    this.state.filterParameters
-                );
-            } else {
-                this.props.editFilter(
-                    this.props.cryptoData.selectedColumnId,
-                    this.state.filterParameters
-                );
+        if (this.state.filterParameters.selectionMax) {
+            if (this.props.cryptoData.filterParameters.length === 0) {
+                this.props.addFilter(this.props.cryptoData.selectedColumnId, this.state.filterParameters);
+            }
+            if (this.props.cryptoData.filterParameters.length > 0) {
+                let indexOfFilter = this.props.cryptoData.filterParameters.findIndex(filter => {
+                    return filter.columnId === this.props.cryptoData.selectedColumnId;
+                });
+                if (indexOfFilter === -1) {
+                    this.props.addFilter(this.props.cryptoData.selectedColumnId, this.state.filterParameters);
+                } else {
+                    this.props.editFilter(this.props.cryptoData.selectedColumnId, this.state.filterParameters);
+                }
             }
         }
 
-        if (this.props.selectedColumn === "") {
-            this.props.addColumn();
-        }
-
-        this.props.closeDataMenu();
+        this.handleClose();
     };
 
     render() {
         return (
-            <div
-                className={classNames(
-                    this.props.dataMenu.open ? styles.open : styles.closed
-                )}
-            >
+            <div className={classNames(this.props.dataMenu.open ? styles.open : styles.closed)}>
                 <DataSelector />
-                <HistogramContainer
-                    handleSetBoundries={this.handleSetBoundries}
-                />
+                <HistogramContainer handleSetBoundries={this.handleSetBoundries} />
                 <div className={styles.btnContainer}>
-                    <Button
-                        onClick={() => this.props.closeDataMenu()}
-                        name="Cancel"
-                    />
+                    <Button onClick={() => this.handleClose()} name="Cancel" />
                     <Button onClick={this.handleSave} name="Save" />
                 </div>
             </div>
@@ -99,11 +89,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         closeDataMenu: () => dispatch(closeDataMenu()),
-        addFilter: (filterParameters, periodName) =>
-            dispatch(addFilter(filterParameters, periodName)),
-        editFilter: (filterParameters, periodName) =>
-            dispatch(editFilter(filterParameters, periodName)),
-        addColumn: () => dispatch(addColumn())
+        addFilter: (filterParameters, periodName) => dispatch(addFilter(filterParameters, periodName)),
+        editFilter: (filterParameters, periodName) => dispatch(editFilter(filterParameters, periodName)),
+        addColumn: () => dispatch(addColumn()),
+        addColumnData: () => dispatch(addColumnData()),
+        editColumnData: () => dispatch(editColumnData()),
+        removeSelectedColumnId: () => dispatch(removeSelectedColumnId())
     };
 };
 

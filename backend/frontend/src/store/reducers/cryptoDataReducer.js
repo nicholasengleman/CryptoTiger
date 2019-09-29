@@ -1,9 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
-import {
-    updatedObject,
-    findCurrentValueOfCrypto,
-    filterCryptos
-} from "../../utilities/utilities";
+import { updatedObject, findCurrentValueOfCrypto, filterCryptos } from "../../utilities/utilities";
 import _ from "lodash";
 
 const initialState = {
@@ -76,8 +72,7 @@ const fetchCryptosSuccess = (state, action) => {
                             crypto_tf.crypto_id
                         );
                         new_crypto_value = (
-                            ((current_value - crypto_tf.data_value) /
-                                crypto_tf.data_value) *
+                            ((current_value - crypto_tf.data_value) / crypto_tf.data_value) *
                             100
                         ).toFixed(2);
                     }
@@ -120,6 +115,79 @@ const fetchCryptosFailure = (state, action) => {
 //////////////////////
 /// Processes Data for Histogram when a Column Header is clicked
 /////////////////////
+const setSelectedDataType = (state, action) => {
+    const updatedState = {
+        selectedPeriod: {
+            ...state.selectedPeriod,
+            dataType: action.payload.dataType
+        }
+    };
+    return updatedObject(state, updatedState);
+};
+
+const setSelectedDataGroup = (state, action) => {
+    const updatedState = {
+        selectedPeriod: {
+            ...state.selectedPeriod,
+            dataGroup: action.payload.dataGroup
+        }
+    };
+    return updatedObject(state, updatedState);
+};
+
+const setSelectedDataPeriod = (state, action) => {
+    let updatedState = {};
+
+    if (action.payload.dataPeriod) {
+        updatedState = {
+            selectedPeriod: {
+                ...state.selectedPeriod,
+                dataPeriod: action.payload.dataPeriod
+            }
+        };
+    } else {
+        let index = state.allData["1182"].columns.findIndex(column => {
+            return column.columnId === action.payload.columnId;
+        });
+
+        updatedState = {
+            selectedPeriod: {
+                ...state.selectedPeriod,
+                dataPeriod: state.allData["1182"].columns[index].period
+            }
+        };
+    }
+
+    return updatedObject(state, updatedState);
+};
+
+const setSelectedDataName = (state, action) => {
+    const updatedState = {
+        selectedPeriod: {
+            ...state.selectedPeriod,
+            dataName: action.payload.dataName
+        }
+    };
+    return updatedObject(state, updatedState);
+};
+
+const setSelectedColumnId = (state, action) => {
+    const updatedState = {
+        selectedColumnId: action.payload.columnId
+    };
+    return updatedObject(state, updatedState);
+};
+
+const removeSelectedColumnId = (state, action) => {
+    const updatedState = {
+        selectedColumnId: 0
+    };
+    return updatedObject(state, updatedState);
+};
+
+///////////////////
+//Empties the Histogram Array when a new period is selected
+//////////////////
 const processDataFromStoreForHistogram = (state, action) => {
     let histogramData = [];
     const name_of_selected_column = action.payload.current_selected_column;
@@ -144,56 +212,6 @@ const processDataFromStoreForHistogram = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
-const setSelectedPeriodDataType = (state, action) => {
-    const updatedState = {
-        selectedPeriod: {
-            ...state.selectedPeriod,
-            dataType: action.payload.dataType
-        }
-    };
-    return updatedObject(state, updatedState);
-};
-
-const setSelectedPeriodDataGroup = (state, action) => {
-    const updatedState = {
-        selectedPeriod: {
-            ...state.selectedPeriod,
-            dataGroup: action.payload.dataGroup
-        }
-    };
-    return updatedObject(state, updatedState);
-};
-
-const setSelectedPeriodDataPeriod = (state, action) => {
-    const updatedState = {
-        selectedPeriod: {
-            ...state.selectedPeriod,
-            dataPeriod: action.payload.dataPeriod
-        }
-    };
-    return updatedObject(state, updatedState);
-};
-
-const setSelectedPeriodDataName = (state, action) => {
-    const updatedState = {
-        selectedPeriod: {
-            ...state.selectedPeriod,
-            dataName: action.payload.dataName
-        }
-    };
-    return updatedObject(state, updatedState);
-};
-
-const setSelectedColumnId = (state, action) => {
-    const updatedState = {
-        selectedColumnId: action.payload.columnId
-    };
-    return updatedObject(state, updatedState);
-};
-
-///////////////////
-//Empties the Histogram Array when a new period is selected
-//////////////////
 const emptyHistogramData = (state, action) => {
     const updatedState = {
         histogramData: []
@@ -201,11 +219,6 @@ const emptyHistogramData = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
-//////////////////////////////
-// Processes data retrieved from database when a period is selected in the Data Window
-// 1. Creates array of objects of crypto id and percentage change to pass to histogram slider component
-// 2. Builds new array of CryptoData that will replace the allData object once the selections from the histogram have been filtered
-//////////////////////////////
 const processNewColumnData = (state, action) => {
     let histogramData = [];
 
@@ -213,51 +226,41 @@ const processNewColumnData = (state, action) => {
     // 1. Calculates percentage and builds an array of objects of structure {id: cryptoid, value: percentage } to
     // pass to the histogram slider component
     //////////
+
     action.payload.new_column_data.forEach(crypto => {
-        const current_value = findCurrentValueOfCrypto(
-            state.currentData.data,
-            crypto.crypto_id
-        );
-        const percentage = (
-            ((current_value - crypto.data_value) / crypto.data_value) *
-            100
-        ).toFixed(2);
+        const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
+        const percentage = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
 
         histogramData.push({
             id: crypto.crypto_id,
             value: Number(percentage),
             tooltip: {
-                name: crypto.crypto_name,
+                name: state.allData[crypto.crypto_id].crypto_name,
                 value: String(percentage)
             }
         });
     });
 
-    ////////
+    ////////////////////////////////
     // 2. Builds new array of CryptoData that will replace the allData object once the selections from the histogram have been filtered
-    ///////
+    /////////////////////////////////
     let crypto_data_buffer = _.cloneDeep(state.allData);
     action.payload.new_column_data.forEach(crypto => {
         let index_of_el_to_change;
 
         // gets the current value of the crypto
-        let current_value = findCurrentValueOfCrypto(
-            state.currentData.data,
-            crypto.crypto_id
-        );
+        let current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
         // calculates the percentage change of the crypto between now and the timeframe of the selected column
-        let new_crypto_value = (
-            ((current_value - crypto.data_value) / crypto.data_value) *
-            100
-        ).toFixed(2);
+        let new_crypto_value = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
 
-        if (state.selectedColumn === "") {
+        if (state.selectedColumnId === 0) {
             ////////
             //we are adding a new column
             ////////
 
             crypto_data_buffer[crypto.crypto_id].columns.push({
                 name: action.payload.new_timeframe_name,
+                columnId: state.columnIds[state.allData["1182"].columns.length + 1],
                 period: state.selectedPeriod.dataPeriod,
                 crypto_datetime: crypto.crypto_datetime,
                 crypto_id: crypto.crypto_id,
@@ -268,18 +271,12 @@ const processNewColumnData = (state, action) => {
             //we are changing the data for an existing column
             ///////
 
-            index_of_el_to_change = crypto_data_buffer[
-                crypto.crypto_id
-            ].columns.findIndex(function(column) {
+            index_of_el_to_change = crypto_data_buffer[crypto.crypto_id].columns.findIndex(function(column) {
                 return column.columnId === state.selectedColumnId;
             });
 
-            crypto_data_buffer[crypto.crypto_id].columns[
-                index_of_el_to_change
-            ] = {
-                ...crypto_data_buffer[crypto.crypto_id].columns[
-                    index_of_el_to_change
-                ],
+            crypto_data_buffer[crypto.crypto_id].columns[index_of_el_to_change] = {
+                ...crypto_data_buffer[crypto.crypto_id].columns[index_of_el_to_change],
                 name: action.payload.new_timeframe_name,
                 crypto_datetime: crypto.crypto_datetime,
                 crypto_id: crypto.crypto_id,
@@ -290,7 +287,7 @@ const processNewColumnData = (state, action) => {
 
     const updatedState = {
         cryptoDataBuffer: crypto_data_buffer,
-        histogramData
+        histogramData: histogramData
     };
 
     return updatedObject(state, updatedState);
@@ -303,7 +300,7 @@ const addFilter = (state, action) => {
     let data;
 
     newFilterParameters.push({
-        columnId: action.payload.columnId,
+        columnId: action.payload.columnId || state.columnIds[state.allData["1182"].columns.length],
         parameters: action.payload.parameters
     });
 
@@ -315,10 +312,7 @@ const addFilter = (state, action) => {
 
     const updatedState = {
         filterParameters: newFilterParameters.length ? newFilterParameters : [],
-        displayedData:
-            newFilterParameters.length > 0
-                ? filterCryptos(data, newFilterParameters)
-                : data,
+        displayedData: newFilterParameters.length > 0 ? filterCryptos(data, newFilterParameters) : data,
         allData: data
     };
 
@@ -346,10 +340,7 @@ const editFilter = (state, action) => {
 
     const updatedState = {
         filterParameters: newFilterParameters,
-        displayedData:
-            newFilterParameters.length > 0
-                ? filterCryptos(data, newFilterParameters)
-                : data,
+        displayedData: newFilterParameters.length > 0 ? filterCryptos(data, newFilterParameters) : data,
         allData: data
     };
 
@@ -363,7 +354,9 @@ const removeFilter = (state, action) => {
         return filter.columnId === action.payload.columnId;
     });
 
-    newFilterParameters.splice(indexOfFilter, 1);
+    if (indexOfFilter !== -1) {
+        newFilterParameters.splice(indexOfFilter, 1);
+    }
 
     const updatedState = {
         filterParameters: newFilterParameters
@@ -376,13 +369,29 @@ const removeFilter = (state, action) => {
 //Removes a column from the table
 /////////////////////////////////////////
 const addColumnData = (state, action) => {
-    const updatedState = {};
+    let allData = _.cloneDeep(state.cryptoDataBuffer);
+    let cryptoDataBuffer = _.cloneDeep(state.cryptoDataBuffer);
+
+    const updatedState = {
+        allData,
+        displayedData:
+            cryptoDataBuffer.length > 0 ? filterCryptos(cryptoDataBuffer, state.filterParameters) : cryptoDataBuffer,
+        cryptoDataBuffer: {}
+    };
 
     return updatedObject(state, updatedState);
 };
 
 const editColumnData = (state, action) => {
-    const updatedState = {};
+    let allData = _.cloneDeep(state.cryptoDataBuffer);
+    let cryptoDataBuffer = _.cloneDeep(state.cryptoDataBuffer);
+
+    const updatedState = {
+        allData,
+        displayedData:
+            cryptoDataBuffer.length > 0 ? filterCryptos(cryptoDataBuffer, state.filterParameters) : cryptoDataBuffer,
+        cryptoDataBuffer: {}
+    };
 
     return updatedObject(state, updatedState);
 };
@@ -419,14 +428,8 @@ const updateCurrentData = (state, action) => {
     action.payload.new_data.forEach(crypto => {
         let new_crypto_value;
 
-        const current_value = findCurrentValueOfCrypto(
-            state.currentData.data,
-            crypto[2]
-        );
-        new_crypto_value = (
-            ((current_value - crypto[0]) / crypto[0]) *
-            100
-        ).toFixed(2);
+        const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto[2]);
+        new_crypto_value = (((current_value - crypto[0]) / crypto[0]) * 100).toFixed(2);
 
         crypto_data_buffer[crypto[2]].columns[0] = {
             name: "Current Price",
@@ -447,16 +450,19 @@ const updateCurrentData = (state, action) => {
 
 const cryptoDataReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.SET_SELECTED_PERIOD_DATA_TYPE:
-            return setSelectedPeriodDataType(state, action);
-        case actionTypes.SET_SELECTED_PERIOD_DATA_GROUP:
-            return setSelectedPeriodDataGroup(state, action);
-        case actionTypes.SET_SELECTED_PERIOD_DATA_PERIOD:
-            return setSelectedPeriodDataPeriod(state, action);
-        case actionTypes.SET_SELECTED_PERIOD_DATA_NAME:
-            return setSelectedPeriodDataName(state, action);
+        case actionTypes.SET_SELECTED_DATA_TYPE:
+            return setSelectedDataType(state, action);
+        case actionTypes.SET_SELECTED_DATA_GROUP:
+            return setSelectedDataGroup(state, action);
+        case actionTypes.SET_SELECTED_DATA_PERIOD:
+            return setSelectedDataPeriod(state, action);
+        case actionTypes.SET_SELECTED_DATA_NAME:
+            return setSelectedDataName(state, action);
+
         case actionTypes.SET_SELECTED_COLUMN_ID:
             return setSelectedColumnId(state, action);
+        case actionTypes.REMOVE_SELECTED_COLUMN_ID:
+            return removeSelectedColumnId(state, action);
 
         case actionTypes.EMPTY_HISTOGRAM_DATA:
             return emptyHistogramData(state, action);

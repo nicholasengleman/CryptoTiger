@@ -33,13 +33,10 @@ class CryptoColumnHeader extends Component {
     render() {
         return (
             <div className="column">
-                {this.props.filter &&
-                Object.entries(this.props.filter.parameters).length > 0 ? (
+                {this.props.filter && Object.entries(this.props.filter.parameters).length > 0 ? (
                     <div className="filter-description">
-                        only showing{" "}
-                        {parseInt(this.props.filter.parameters.selectionMin)}%
-                        to {parseInt(this.props.filter.parameters.selectionMax)}
-                        %
+                        only showing {parseInt(this.props.filter.parameters.selectionMin)}% to{" "}
+                        {parseInt(this.props.filter.parameters.selectionMax)}%
                     </div>
                 ) : (
                     <div className="filter-description"></div>
@@ -58,10 +55,7 @@ class CryptoColumnHeader extends Component {
                 <div className="column-name">
                     {this.props.columnName}
                     {this.props.columnName !== "Current Price" ? (
-                        <i
-                            className="far fa-edit"
-                            onClick={() => this.onToggleEditMenu()}
-                        ></i>
+                        <i className="far fa-edit" onClick={() => this.onToggleEditMenu()}></i>
                     ) : null}
                 </div>
             </div>

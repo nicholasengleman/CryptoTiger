@@ -10,8 +10,8 @@ import {
     shiftVisibleColumnsBackwards,
     toggleDataMenu,
     emptyHistogramData,
-    setSelectedPeriodDataPeriod,
-    setSelectedPeriodDataName,
+    setSelectedDataPeriod,
+    setSelectedDataName,
     processNewColumnData
 } from "../../store/actions/actionCreators";
 
@@ -41,10 +41,7 @@ class CryptoListHeader extends Component {
             }
         });
 
-        if (
-            redux_visible_columns &&
-            redux_visible_columns !== this.columnsToShow()
-        ) {
+        if (redux_visible_columns && redux_visible_columns !== this.columnsToShow()) {
             window.setTimeout(() => {
                 this.props.setColumnsThatAreVisible(this.columnsToShow());
             }, 500);
@@ -63,10 +60,7 @@ class CryptoListHeader extends Component {
 
         let viewport_width = this.Viewport.current.clientWidth;
 
-        if (
-            this.props.column_visibility.length * column_width >
-            viewport_width
-        ) {
+        if (this.props.column_visibility.length * column_width > viewport_width) {
             return Math.floor((viewport_width - 100) / column_width);
         } else {
             return Math.floor(viewport_width / column_width);
@@ -83,11 +77,11 @@ class CryptoListHeader extends Component {
         this.props.toggleDataMenu();
         this.props.emptyHistogramData();
         this.props.setSelectedPeriodDataPeriod(1);
-        this.props.setSelectedPeriodDataName("1 hours price");
+        this.props.setSelectedPeriodDataName("1 hour price");
         axios
             .get(`http://localhost:5000/api/crypto-data/getColumnData/${3600}`)
             .then(response => {
-                this.props.processNewColumnData("1 hours price", response.data);
+                this.props.processNewColumnData("1 hour price", response.data);
             })
             .catch(error => {
                 console.log("[Error]", error);
@@ -129,9 +123,7 @@ class CryptoListHeader extends Component {
                             name={"Prev"}
                             size={"small"}
                             style={this.prevBtnStyles}
-                            onClick={() =>
-                                this.props.shiftVisibleColumnsBackwards()
-                            }
+                            onClick={() => this.props.shiftVisibleColumnsBackwards()}
                         /> //shows the "Prev" button if at least the first column is set to not show
                     )}
                     {this.props.crypto &&
@@ -144,22 +136,16 @@ class CryptoListHeader extends Component {
                                         index={index}
                                         columnId={column.columnId}
                                         columnName={column.name}
-                                        filter={this.findFilter(
-                                            column.columnId
-                                        )}
+                                        filter={this.findFilter(column.columnId)}
                                     />
                                 )
                         )}
-                    {this.props.column_visibility[
-                        this.props.column_visibility.length - 1
-                    ] === false && (
+                    {this.props.column_visibility[this.props.column_visibility.length - 1] === false && (
                         <Button
                             name={"Next"}
                             size={"small"}
                             style={this.nextBtnStyles}
-                            onClick={() =>
-                                this.props.shiftVisibleColumnsForward()
-                            }
+                            onClick={() => this.props.shiftVisibleColumnsForward()}
                         /> //shows the "Next" button if at least the last column is set to not show
                     )}
                 </div>
@@ -179,18 +165,13 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         setColumns: columns => dispatch(setColumns(columns)),
-        setColumnsThatAreVisible: visibleColumns =>
-            dispatch(setColumnsThatAreVisible(visibleColumns)),
-        shiftVisibleColumnsForward: () =>
-            dispatch(shiftVisibleColumnsForward()),
-        shiftVisibleColumnsBackwards: () =>
-            dispatch(shiftVisibleColumnsBackwards()),
+        setColumnsThatAreVisible: visibleColumns => dispatch(setColumnsThatAreVisible(visibleColumns)),
+        shiftVisibleColumnsForward: () => dispatch(shiftVisibleColumnsForward()),
+        shiftVisibleColumnsBackwards: () => dispatch(shiftVisibleColumnsBackwards()),
         toggleDataMenu: () => dispatch(toggleDataMenu()),
         emptyHistogramData: () => dispatch(emptyHistogramData()),
-        setSelectedPeriodDataPeriod: dataPeriod =>
-            dispatch(setSelectedPeriodDataPeriod(dataPeriod)),
-        setSelectedPeriodDataName: dataName =>
-            dispatch(setSelectedPeriodDataName(dataName)),
+        setSelectedDataPeriod: dataPeriod => dispatch(setSelectedDataPeriod(dataPeriod)),
+        setSelectedDataName: dataName => dispatch(setSelectedDataName(dataName)),
         processNewColumnData: (newTimeframeName, responseData) =>
             dispatch(processNewColumnData(newTimeframeName, responseData))
     };

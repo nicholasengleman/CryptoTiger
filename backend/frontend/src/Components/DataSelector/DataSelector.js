@@ -3,11 +3,7 @@ import styles from "./DataSelector.module.scss";
 
 import DataPeriodContainer from "./../DataPeriodContainer/DataPeriodContainer";
 import { connect } from "react-redux";
-import {
-    closeDataMenu,
-    setSelectedPeriodDataGroup,
-    setSelectedPeriodDataType
-} from "../../store/actions/actionCreators";
+import { closeDataMenu, setSelectedDataGroup, setSelectedDataType } from "../../store/actions/actionCreators";
 
 import Button from "../Button/Button";
 
@@ -23,9 +19,7 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fa-dollar-sign"
                             name="Price"
-                            onClick={() =>
-                                this.props.setSelectedPeriodDataType("price")
-                            }
+                            onClick={() => this.props.setSelectedPeriodDataType("price")}
                             selected={this.props.selected.dataType === "price"}
                             shape={"pill"}
                             theme={"white"}
@@ -35,9 +29,7 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fas fa-water"
                             name="Volume"
-                            onClick={() =>
-                                this.props.setSelectedPeriodDataType("volume")
-                            }
+                            onClick={() => this.props.setSelectedPeriodDataType("volume")}
                             selected={this.props.selected.dataType === "volume"}
                             shape={"pill"}
                             theme={"white"}
@@ -55,9 +47,7 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fa-dollar-sign"
                             name="Hours"
-                            onClick={() =>
-                                this.props.setSelectedPeriodDataGroup("hour")
-                            }
+                            onClick={() => this.props.setSelectedPeriodDataGroup("hour")}
                             selected={this.props.selected.dataGroup === "hour"}
                             shape={"pill"}
                             theme={"white"}
@@ -67,9 +57,7 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fas fa-water"
                             name="Days"
-                            onClick={() =>
-                                this.props.setSelectedPeriodDataGroup("day")
-                            }
+                            onClick={() => this.props.setSelectedPeriodDataGroup("day")}
                             selected={this.props.selected.dataGroup === "day"}
                             shape={"pill"}
                             theme={"white"}
@@ -79,9 +67,7 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fa-poll"
                             name="Weeks"
-                            onClick={() =>
-                                this.props.setSelectedPeriodDataGroup("week")
-                            }
+                            onClick={() => this.props.setSelectedPeriodDataGroup("week")}
                             selected={this.props.selected.dataGroup === "week"}
                             shape={"pill"}
                             theme={"white"}
@@ -96,13 +82,7 @@ class DataMenu extends Component {
                         <h2>3) Select a Data Period</h2>
                     </div>
                     <div className={styles.sectionBody}>
-                        <DataPeriodContainer
-                            periods={
-                                this.props.timeframes[
-                                    this.props.selected.dataGroup
-                                ] || [1]
-                            }
-                        />
+                        <DataPeriodContainer periods={this.props.timeframes[this.props.selected.dataGroup] || [1]} />
                     </div>
                 </div>
             </div>
@@ -120,10 +100,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         closeDataMenu: () => dispatch(closeDataMenu()),
-        setSelectedPeriodDataType: DataType =>
-            dispatch(setSelectedPeriodDataType(DataType)),
-        setSelectedPeriodDataGroup: DataGroup =>
-            dispatch(setSelectedPeriodDataGroup(DataGroup))
+        setSelectedDataType: DataType => dispatch(setSelectedDataType(DataType)),
+        setSelectedDataGroup: DataGroup => dispatch(setSelectedDataGroup(DataGroup))
     };
 };
 

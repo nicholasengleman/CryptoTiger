@@ -19,30 +19,31 @@ export const toggleDataMenu = column_id => {
 ///////////////////////////////
 //Crypto Data Managing creators
 /////////////////////////////////
-export const setSelectedPeriodDataType = dataType => {
+
+export const setSelectedDataType = dataType => {
     return {
-        type: actionTypes.SET_SELECTED_PERIOD_DATA_TYPE,
+        type: actionTypes.SET_SELECTED_DATA_TYPE,
         payload: { dataType }
     };
 };
 
-export const setSelectedPeriodDataGroup = dataGroup => {
+export const setSelectedDataGroup = dataGroup => {
     return {
-        type: actionTypes.SET_SELECTED_PERIOD_DATA_GROUP,
+        type: actionTypes.SET_SELECTED_DATA_GROUP,
         payload: { dataGroup }
     };
 };
 
-export const setSelectedPeriodDataPeriod = dataPeriod => {
+export const setSelectedDataPeriod = (dataPeriod, columnId) => {
     return {
-        type: actionTypes.SET_SELECTED_PERIOD_DATA_PERIOD,
-        payload: { dataPeriod }
+        type: actionTypes.SET_SELECTED_DATA_PERIOD,
+        payload: { dataPeriod, columnId }
     };
 };
 
-export const setSelectedPeriodDataName = dataName => {
+export const setSelectedDataName = dataName => {
     return {
-        type: actionTypes.SET_SELECTED_PERIOD_DATA_NAME,
+        type: actionTypes.SET_SELECTED_DATA_NAME,
         payload: { dataName }
     };
 };
@@ -51,6 +52,12 @@ export const setSelectedColumnId = columnId => {
     return {
         type: actionTypes.SET_SELECTED_COLUMN_ID,
         payload: { columnId }
+    };
+};
+
+export const removeSelectedColumnId = () => {
+    return {
+        type: actionTypes.REMOVE_SELECTED_COLUMN_ID
     };
 };
 

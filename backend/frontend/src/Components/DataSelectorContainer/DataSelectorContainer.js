@@ -37,14 +37,15 @@ class DataSelectorContainer extends Component {
     };
 
     handleSave = () => {
+        this.props.addColumnData();
+
         if (this.props.cryptoData.selectedColumnId === 0) {
             this.props.addColumn();
-            this.props.addColumnData();
         }
 
-        if (this.props.cryptoData.selectedColumnId !== 0) {
-            this.props.editColumnData();
-        }
+        // if (this.props.cryptoData.selectedColumnId !== 0) {
+        //     this.props.editColumnData();
+        // }
 
         if (this.state.filterParameters.selectionMax) {
             if (this.props.cryptoData.filterParameters.length === 0) {

@@ -12,46 +12,27 @@ export const findCurrentValueOfCrypto = (data, crypto_id) => {
     return row.data_value;
 };
 
-export const filterCryptos = (crypto_data, filterParameters) => {
-    let filtered_cryptos = [];
+export const filterCryptos = (cryptoData, filterParameters) => {
+    let cryptos = [];
+    Object.keys(cryptoData).forEach(crypto => {
+        let filterPasses = 0;
 
-    filterParameters.forEach((filter, filterIndex) => {
-        Object.keys(crypto_data).forEach(crypto => {
-            for (let col = 0; col < crypto_data[crypto].columns.length; col++) {
-                if (
-                    filter.columnId ===
-                    crypto_data[crypto].columns[col].columnId
-                ) {
-                    console.log("fired");
-                    if (Object.entries(filter.parameters).length === 0) {
-                        filtered_cryptos.push(crypto_data[crypto]);
-                    } else {
-                        if (
-                            filter.parameters.selectionMin <
-                                parseFloat(
-                                    crypto_data[crypto].columns[filterIndex + 1]
-                                        .crypto_value
-                                ) &&
-                            parseFloat(
-                                crypto_data[crypto].columns[col].crypto_value
-                            ) < filter.parameters.selectionMax
-                        ) {
-                            if (
-                                !filtered_cryptos.find(
-                                    el =>
-                                        el.crypto_id ===
-                                        crypto_data[crypto].columns[
-                                            filterIndex + 1
-                                        ].crypto_id
-                                )
-                            ) {
-                                filtered_cryptos.push(crypto_data[crypto]);
-                            }
-                        }
+        filterParameters.forEach(filter => {
+            cryptoData[crypto].columns.forEach(column => {
+                if (column.columnId === filter.columnId) {
+                    if (
+                        filter.parameters.selectionMin < parseFloat(column.crypto_value) &&
+                        parseFloat(column.crypto_value) < filter.parameters.selectionMax
+                    ) {
+                        filterPasses++;
                     }
                 }
-            }
+            });
         });
+
+        if (filterPasses === filterParameters.length) {
+            cryptos.push(cryptoData[crypto]);
+        }
     });
-    return filtered_cryptos;
+    return cryptos;
 };

@@ -19,7 +19,7 @@ function updateCurrentPriceData(callback) {
                 //creates array of of arrays for inserting into db
                 cryptos.forEach(crypto => {
                     const crypto_id = CRYPTO_LIST_TABLE[crypto.shortname].crypto_id;
-                    cryptoList.push([crypto.price, 0, crypto_id]);
+                    cryptoList.push([crypto.price, 1, crypto_id]);
                 });
 
                 let sql = `UPDATE crypto_price_current SET data_value = ? WHERE data_id = ? AND crypto_id = ?`;
@@ -31,7 +31,6 @@ function updateCurrentPriceData(callback) {
                         }
                     });
                 }
-
                 console.log(`Finished updating ${i} cryptos with their current ${data_type} data.`);
             });
         });

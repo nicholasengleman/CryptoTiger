@@ -33,6 +33,8 @@ const fetchCryptosSuccess = (state, action) => {
     let default_data = {},
         columnIds = [];
 
+    console.log(action.payload.data);
+
     for (let i = 1; i <= 100; i++) {
         columnIds.push(Math.floor(Math.random() * 10000000) + 1);
     }
@@ -59,22 +61,23 @@ const fetchCryptosSuccess = (state, action) => {
 
     Object.keys(default_data).forEach(crypto => {
         default_data[crypto].columns = [];
-        let new_crypto_value;
+        let cryptoValue, currentValue, percentage;
 
         for (let i = 1; i < action.payload.data.length; i++) {
-            action.payload.data[i].data.forEach(crypto_tf => {
+            action.payload.data[i].data.forEach((crypto_tf, index) => {
                 if (crypto_tf.crypto_id === default_data[crypto].crypto_id) {
                     if (i < 2) {
-                        new_crypto_value = crypto_tf.data_value;
+                        cryptoValue = crypto_tf.data_value;
+                        currentValue = crypto_tf.data_value;
                     } else {
-                        const current_value = findCurrentValueOfCrypto(
-                            action.payload.data[1].data,
-                            crypto_tf.crypto_id
-                        );
-                        new_crypto_value = (
-                            ((current_value - crypto_tf.data_value) / crypto_tf.data_value) *
-                            100
-                        ).toFixed(2);
+                        if (crypto_tf.data_value) {
+                            cryptoValue = (
+                                ((currentValue - crypto_tf.data_value) / crypto_tf.data_value) *
+                                100
+                            ).toFixed(2);
+                        } else {
+                            cryptoValue = 0;
+                        }
                     }
 
                     default_data[crypto].columns.push({
@@ -83,7 +86,7 @@ const fetchCryptosSuccess = (state, action) => {
                         period: action.payload.data[i].period,
                         crypto_datetime: crypto_tf.crypto_datetime,
                         crypto_id: crypto_tf.crypto_id,
-                        crypto_value: new_crypto_value
+                        crypto_value: parseFloat(cryptoValue)
                     });
                 }
             });
@@ -228,15 +231,21 @@ const processNewColumnData = (state, action) => {
     //////////
 
     action.payload.new_column_data.forEach(crypto => {
+        let percentage;
+
         const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
-        const percentage = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
+        if (crypto.data_value) {
+            percentage = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
+        } else {
+            percentage = 0;
+        }
 
         histogramData.push({
             id: crypto.crypto_id,
             value: Number(percentage),
             tooltip: {
                 name: state.allData[crypto.crypto_id].crypto_name,
-                value: String(percentage)
+                value: parseFloat(percentage)
             }
         });
     });
@@ -246,12 +255,14 @@ const processNewColumnData = (state, action) => {
     /////////////////////////////////
     let crypto_data_buffer = _.cloneDeep(state.allData);
     action.payload.new_column_data.forEach(crypto => {
-        let index_of_el_to_change;
+        let index_of_el_to_change, percentage;
 
-        // gets the current value of the crypto
-        let current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
-        // calculates the percentage change of the crypto between now and the timeframe of the selected column
-        let new_crypto_value = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
+        const current_value = findCurrentValueOfCrypto(state.currentData.data, crypto.crypto_id);
+        if (crypto.data_value) {
+            percentage = (((current_value - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
+        } else {
+            percentage = 0;
+        }
 
         if (state.selectedColumnId === 0) {
             ////////
@@ -264,7 +275,7 @@ const processNewColumnData = (state, action) => {
                 period: state.selectedPeriod.dataPeriod,
                 crypto_datetime: crypto.crypto_datetime,
                 crypto_id: crypto.crypto_id,
-                crypto_value: new_crypto_value
+                crypto_value: parseFloat(percentage)
             });
         } else {
             ///////
@@ -280,7 +291,7 @@ const processNewColumnData = (state, action) => {
                 name: action.payload.new_timeframe_name,
                 crypto_datetime: crypto.crypto_datetime,
                 crypto_id: crypto.crypto_id,
-                crypto_value: new_crypto_value
+                crypto_value: String(percentage)
             };
         }
     });
@@ -369,15 +380,21 @@ const removeFilter = (state, action) => {
 //Removes a column from the table
 /////////////////////////////////////////
 const addColumnData = (state, action) => {
-    let allData = _.cloneDeep(state.cryptoDataBuffer);
-    let cryptoDataBuffer = _.cloneDeep(state.cryptoDataBuffer);
+    let updatedState = {};
 
-    const updatedState = {
-        allData,
-        displayedData:
-            cryptoDataBuffer.length > 0 ? filterCryptos(cryptoDataBuffer, state.filterParameters) : cryptoDataBuffer,
-        cryptoDataBuffer: {}
-    };
+    if (Object.keys(state.cryptoDataBuffer).length > 0) {
+        let allData = _.cloneDeep(state.cryptoDataBuffer);
+        let cryptoDataBuffer = _.cloneDeep(state.cryptoDataBuffer);
+
+        updatedState = {
+            allData,
+            displayedData:
+                cryptoDataBuffer.length > 0
+                    ? filterCryptos(cryptoDataBuffer, state.filterParameters)
+                    : cryptoDataBuffer,
+            cryptoDataBuffer: {}
+        };
+    }
 
     return updatedObject(state, updatedState);
 };

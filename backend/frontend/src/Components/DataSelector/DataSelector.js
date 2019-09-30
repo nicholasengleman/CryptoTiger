@@ -47,7 +47,7 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fa-dollar-sign"
                             name="Hours"
-                            onClick={() => this.props.setSelectedPeriodDataGroup("hour")}
+                            onClick={() => this.props.setSelectedDataGroup("hour")}
                             selected={this.props.selected.dataGroup === "hour"}
                             shape={"pill"}
                             theme={"white"}
@@ -57,7 +57,7 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fas fa-water"
                             name="Days"
-                            onClick={() => this.props.setSelectedPeriodDataGroup("day")}
+                            onClick={() => this.props.setSelectedDataGroup("day")}
                             selected={this.props.selected.dataGroup === "day"}
                             shape={"pill"}
                             theme={"white"}
@@ -67,7 +67,7 @@ class DataMenu extends Component {
                         <Button
                             fontawesomecode="fas fa-poll"
                             name="Weeks"
-                            onClick={() => this.props.setSelectedPeriodDataGroup("week")}
+                            onClick={() => this.props.setSelectedDataGroup("week")}
                             selected={this.props.selected.dataGroup === "week"}
                             shape={"pill"}
                             theme={"white"}

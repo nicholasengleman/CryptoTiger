@@ -19,6 +19,8 @@ class DataPeriod extends Component {
         this.props.emptyHistogramData();
         this.props.setSelectedDataPeriod(newTimeframePeriod);
         this.props.setSelectedDataName(newTimeframeName);
+        console.log("Time since 1970: ", new Date().getTime() / 1000);
+        console.log("Seconds: ", newTimeframeSeconds);
         axios
             .get(`http://localhost:5000/api/crypto-data/getColumnData/${newTimeframeSeconds}`)
             .then(response => {

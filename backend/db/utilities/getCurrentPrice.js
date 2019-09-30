@@ -5,11 +5,10 @@ const getCryptoListTable = require("./getCryptoListTable");
 
 function getCurrentPrice(callback) {
     getCryptoListTable((err, CRYPTO_LIST_TABLE) => {
-
         let cryptoList = "";
-        Object.keys(CRYPTO_LIST_TABLE).forEach((crypto) => {
+        Object.keys(CRYPTO_LIST_TABLE).forEach(crypto => {
             if (isNaN(crypto)) {
-                cryptoList += (cryptoList.length !== 0 ? "," + crypto : crypto);
+                cryptoList += cryptoList.length !== 0 ? "," + crypto : crypto;
             }
         });
         const request = get(
@@ -26,19 +25,16 @@ function getCurrentPrice(callback) {
         request.then(historical_data => {
             let processedCryptoList = [];
 
-            Object.keys(historical_data.RAW).forEach(function (crypto) {
+            Object.keys(historical_data.RAW).forEach(function(crypto) {
                 processedCryptoList.push({
                     price: historical_data.RAW[crypto].USD.PRICE,
                     shortname: historical_data.RAW[crypto].USD.FROMSYMBOL
-                })
+                });
             });
 
-
-           callback(null, processedCryptoList);
+            callback(null, processedCryptoList);
         });
     });
 }
-
-
 
 module.exports = getCurrentPrice;

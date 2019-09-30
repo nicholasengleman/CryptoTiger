@@ -76,8 +76,8 @@ class CryptoListHeader extends Component {
     handleAddColumn = () => {
         this.props.toggleDataMenu();
         this.props.emptyHistogramData();
-        this.props.setSelectedPeriodDataPeriod(1);
-        this.props.setSelectedPeriodDataName("1 hour price");
+        this.props.setSelectedDataPeriod(1);
+        this.props.setSelectedDataName("1 hour price");
         axios
             .get(`http://localhost:5000/api/crypto-data/getColumnData/${3600}`)
             .then(response => {

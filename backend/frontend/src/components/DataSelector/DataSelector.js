@@ -93,7 +93,7 @@ class DataMenu extends Component {
 const mapStateToProps = state => {
     return {
         timeframes: state.dataMenu.dataMenu.timeframes,
-        selected: state.cryptoData.selectedPeriod
+        selected: state.selectedData.selectedPeriod
     };
 };
 

@@ -49,6 +49,7 @@ class CryptoColumnHeader extends Component {
                         columnId={this.props.columnId}
                         columnName={this.props.columnName}
                         columnIndex={this.props.index}
+                        columnPeriod={this.props.period}
                         toggleEditMenu={this.onToggleEditMenu}
                     />
                 ) : null}

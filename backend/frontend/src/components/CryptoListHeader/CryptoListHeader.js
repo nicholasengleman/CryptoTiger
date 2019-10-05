@@ -135,6 +135,7 @@ class CryptoListHeader extends Component {
                                         key={index}
                                         index={index}
                                         columnId={column.columnId}
+                                        period={column.period}
                                         columnName={column.name}
                                         filter={this.findFilter(column.columnId)}
                                     />
@@ -157,7 +158,7 @@ class CryptoListHeader extends Component {
 const mapStateToProps = state => {
     return {
         crypto: state.cryptoData.allData["1182"],
-        filters: state.cryptoData.filterParameters,
+        filters: state.filterData.filterParameters,
         column_visibility: state.columns.column_visibility
     };
 };

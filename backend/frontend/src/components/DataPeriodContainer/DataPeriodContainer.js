@@ -36,7 +36,7 @@ class DataPeriodContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        selectedPeriod: state.cryptoData.selectedPeriod
+        selectedPeriod: state.selectedData.selectedPeriod
     };
 };
 

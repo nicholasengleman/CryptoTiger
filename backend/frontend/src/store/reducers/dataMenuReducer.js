@@ -1,5 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
-import { updatedObject } from "../../utilities/utilities";
+import { updatedObject } from "../utilities/utilities";
 
 const initialState = {
     dataMenu: {

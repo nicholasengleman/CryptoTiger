@@ -21,10 +21,10 @@ const EditMenu = props => {
         [styles.hideMenu]: props.applyHideMenuClasses
     });
 
-    const handleOpenDataMenu = (columnName, columnId) => {
+    const handleOpenDataMenu = (columnName, columnId, columnPeriod) => {
         props.processDataFromStoreForHistogram(columnName);
         props.setSelectedDataName(columnName);
-        props.setSelectedDataPeriod(null, columnId);
+        props.setSelectedDataPeriod(columnPeriod);
         props.setSelectedColumnId(columnId);
         props.toggleDataMenu(columnName);
         props.toggleEditMenu();
@@ -39,7 +39,7 @@ const EditMenu = props => {
 
     return (
         <div className={classes}>
-            <button className={styles.button} onClick={() => handleOpenDataMenu(props.columnName, props.columnId)}>
+            <button className={styles.button} onClick={() => handleOpenDataMenu(props.columnName, props.columnId, props.columnPeriod)}>
                 Edit
             </button>
             <button className={styles.button} onClick={() => handleRemoveColumn(props.columnId, props.columnIndex)}>
@@ -53,7 +53,7 @@ const mapDispatchToProps = dispatch => {
     return {
         toggleDataMenu: columnName => dispatch(toggleDataMenu(columnName)),
         setSelectedDataName: columnName => dispatch(setSelectedDataName(columnName)),
-        setSelectedDataPeriod: (dataPeriod, columnId) => dispatch(setSelectedDataPeriod(dataPeriod, columnId)),
+        setSelectedDataPeriod: (dataPeriod) => dispatch(setSelectedDataPeriod(dataPeriod)),
         setSelectedColumnId: columnId => dispatch(setSelectedColumnId(columnId)),
         processDataFromStoreForHistogram: columnName => dispatch(processDataFromStoreForHistogram(columnName)),
         removeColumnData: columnName => dispatch(removeColumnData(columnName)),

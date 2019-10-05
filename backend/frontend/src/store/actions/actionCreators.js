@@ -34,10 +34,10 @@ export const setSelectedDataGroup = dataGroup => {
     };
 };
 
-export const setSelectedDataPeriod = (dataPeriod, columnId) => {
+export const setSelectedDataPeriod = (dataPeriod) => {
     return {
         type: actionTypes.SET_SELECTED_DATA_PERIOD,
-        payload: { dataPeriod, columnId }
+        payload: { dataPeriod }
     };
 };
 
@@ -132,6 +132,10 @@ export const addColumnData = () => ({
 
 export const editColumnData = () => ({
     type: actionTypes.EDIT_COLUMN_DATA
+});
+
+export const moveCryptoBufferToData = () => ({
+    type: actionTypes.MOVE_CRYPTOBUFFER_TO_DATA
 });
 
 export const removeColumnData = columnId => ({

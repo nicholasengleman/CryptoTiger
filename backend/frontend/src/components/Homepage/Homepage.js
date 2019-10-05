@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import selectFilteredCryptos from "./../../store/selectors/selectFilteredCryptos"
 
 import {
     fetchCryptosFailure,
@@ -70,7 +71,7 @@ class Homepage extends Component {
 
 const mapStateToProps = state => {
     return {
-        cryptosData: state.cryptoData.displayedData
+        cryptosData: selectFilteredCryptos(state.cryptoData.allData, state.filterData.filterParameters)
     };
 };
 

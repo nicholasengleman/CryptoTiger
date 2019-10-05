@@ -12,7 +12,8 @@ import {
     addColumn,
     addColumnData,
     editColumnData,
-    removeSelectedColumnId
+    removeSelectedColumnId,
+    moveCryptoBufferToData
 } from "../../store/actions/actionCreators";
 
 import Button from "./../Button/Button";
@@ -50,6 +51,7 @@ class DataSelectorContainer extends Component {
         if (this.state.filterParameters.selectionMax) {
             if (this.props.cryptoData.filterParameters.length === 0) {
                 this.props.addFilter(this.props.cryptoData.selectedColumnId, this.state.filterParameters);
+                this.props.moveCryptoBufferToData();
             }
             if (this.props.cryptoData.filterParameters.length > 0) {
                 let indexOfFilter = this.props.cryptoData.filterParameters.findIndex(filter => {
@@ -57,8 +59,10 @@ class DataSelectorContainer extends Component {
                 });
                 if (indexOfFilter === -1) {
                     this.props.addFilter(this.props.cryptoData.selectedColumnId, this.state.filterParameters);
+                    this.props.moveCryptoBufferToData();
                 } else {
                     this.props.editFilter(this.props.cryptoData.selectedColumnId, this.state.filterParameters);
+                    this.props.moveCryptoBufferToData();
                 }
             }
         }
@@ -95,6 +99,7 @@ const mapDispatchToProps = dispatch => {
         addColumn: () => dispatch(addColumn()),
         addColumnData: () => dispatch(addColumnData()),
         editColumnData: () => dispatch(editColumnData()),
+        moveCryptoBufferToData: () => dispatch(moveCryptoBufferToData()),
         removeSelectedColumnId: () => dispatch(removeSelectedColumnId())
     };
 };

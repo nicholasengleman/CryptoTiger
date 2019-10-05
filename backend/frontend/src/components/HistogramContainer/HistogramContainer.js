@@ -52,7 +52,7 @@ class HistogramContainer extends Component {
 const mapStateToProps = state => {
     return {
         histogramData: state.cryptoData.histogramData,
-        filterParameters: state.cryptoData.filterParameters,
+        filterParameters: state.filterData.filterParameters,
         selectedColumnId: state.cryptoData.selectedColumnId,
         dataMenu: state.dataMenu.dataMenu
     };

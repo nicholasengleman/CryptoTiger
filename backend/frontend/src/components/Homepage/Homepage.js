@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import selectFilteredCryptos from "./../../store/selectors/selectFilteredCryptos"
+import selectFilteredCryptos from "./../../store/selectors/selectFilteredCryptos";
+import socketIOClient from "socket.io-client";
 
 import {
     fetchCryptosFailure,
@@ -39,9 +40,8 @@ class Homepage extends Component {
 
         // const { endpoint } = this.state;
         // const socket = socketIOClient(endpoint);
-        // socket.on('FromAPI', function (message) {
-        //   //console.log(message);
-        //  update(message);
+        // socket.on("currentDataUpdate", message => {
+        //     this.props.updateCurrentData(message);
         // });
     }
 
@@ -71,7 +71,7 @@ class Homepage extends Component {
 
 const mapStateToProps = state => {
     return {
-        cryptosData: selectFilteredCryptos(state.cryptoData.allData, state.filterData.filterParameters)
+        cryptosData: selectFilteredCryptos(state.cryptoData.data, state.filterData.filterParameters)
     };
 };
 

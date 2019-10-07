@@ -12,17 +12,13 @@ class CryptoRow extends Component {
                 <div className={styles.logoContainer}>
                     <img
                         className={styles.logo}
-                        src={"https://www.cryptocompare.com".concat(
-                            this.props.crypto_icon
-                        )}
+                        src={"https://www.cryptocompare.com".concat(this.props.crypto_icon)}
                         alt=""
                     />
                 </div>
 
                 <div className={styles.dataContainer}>
-                    <div className={styles.cryptoName}>
-                        {this.props.crypto_name}
-                    </div>
+                    <div className={styles.cryptoName}>{this.props.crypto_name}</div>
                     {/*<div className={styles.description}>{props.industry}</div>*/}
                 </div>
 
@@ -31,9 +27,10 @@ class CryptoRow extends Component {
                         this.props.column_visibility[index] && (
                             <Cell
                                 key={columnData.name}
-                                crypto_value={columnData.crypto_value}
-                                crypto_name={columnData.name}
-                                crypto_period={columnData.period}
+                                rawValue={columnData.rawValue}
+                                percentChange={columnData.percentChange}
+                                name={columnData.name}
+                                period={columnData.period}
                             />
                         )
                 )}

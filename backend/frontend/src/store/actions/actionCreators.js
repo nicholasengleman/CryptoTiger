@@ -34,7 +34,7 @@ export const setSelectedDataGroup = dataGroup => {
     };
 };
 
-export const setSelectedDataPeriod = (dataPeriod) => {
+export const setSelectedDataPeriod = dataPeriod => {
     return {
         type: actionTypes.SET_SELECTED_DATA_PERIOD,
         payload: { dataPeriod }
@@ -80,10 +80,10 @@ export const emptyHistogramData = () => {
     };
 };
 
-export const processNewColumnData = (new_timeframe_name, new_column_data) => {
+export const processNewColumnData = (new_timeframe_name, new_column_data, selectedColumnId) => {
     return {
         type: actionTypes.PROCESS_NEW_COLUMN_DATA,
-        payload: { new_timeframe_name, new_column_data }
+        payload: { new_timeframe_name, new_column_data, selectedColumnId }
     };
 };
 export const updateLiveColumnView = () => {
@@ -99,10 +99,16 @@ export const processDataFromStoreForHistogram = current_selected_column => {
 };
 
 // Crypto Menu action creators
-export const fetchCryptosSuccess = data => ({
-    type: actionTypes.FETCH_CRYPTOS_SUCCESS,
-    payload: { data }
-});
+export const fetchCryptosSuccess = data => {
+    let columnIds = [];
+    for (let i = 1; i <= 100; i++) {
+        columnIds.push(Math.floor(Math.random() * 10000000) + 1);
+    }
+    return {
+        type: actionTypes.FETCH_CRYPTOS_SUCCESS,
+        payload: { data, columnIds }
+    };
+};
 export const fetchCryptosFailure = error => ({
     type: actionTypes.FETCH_CRYPTOS_FAILURE,
     payload: { error }

@@ -10,12 +10,12 @@ const addFilter = (state, action) => {
     let newFilterParameters = _.cloneDeep(state.filterParameters);
 
     newFilterParameters.push({
-        columnId: action.payload.columnId || state.columnIds[state.allData["1182"].columns.length],
+        columnId: action.payload.columnId,
         parameters: action.payload.parameters
     });
 
     const updatedState = {
-        filterParameters: newFilterParameters.length ? newFilterParameters : [],
+        filterParameters: newFilterParameters.length ? newFilterParameters : []
     };
 
     return updatedObject(state, updatedState);
@@ -34,7 +34,7 @@ const editFilter = (state, action) => {
     };
 
     const updatedState = {
-        filterParameters: newFilterParameters,
+        filterParameters: newFilterParameters
     };
 
     return updatedObject(state, updatedState);
@@ -58,9 +58,8 @@ const removeFilter = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
-
 const filterReducer = (state = initialState, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case actionTypes.ADD_FILTER:
             return addFilter(state, action);
         case actionTypes.EDIT_FILTER:

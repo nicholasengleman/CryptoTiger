@@ -6,6 +6,7 @@ import Histogram from "../Histogram/Histogram";
 import { css } from "@emotion/core";
 
 import { ClipLoader } from "react-spinners";
+import selectHistogramCryptos from "./../../store/selectors/selectHistogramCryptos";
 
 const override = css`
     position: absolute;
@@ -29,18 +30,11 @@ class HistogramContainer extends Component {
                     size={100}
                     color={"#123abc"}
                     loading={
-                        !Array.isArray(this.props.histogramData) ||
-                        !this.props.histogramData.length
-                            ? true
-                            : false
+                        !Array.isArray(this.props.histogramData) || !this.props.histogramData.length ? true : false
                     }
                 />
                 <Histogram
-                    data={
-                        this.props.histogramData.length > 0
-                            ? this.props.histogramData
-                            : [1]
-                    }
+                    data={this.props.histogramData.length > 0 ? this.props.histogramData : [1]}
                     getBoundries={this.props.handleSetBoundries}
                     buttonPresets={this.findFilter(this.props.selectedColumnId)}
                 />
@@ -51,7 +45,7 @@ class HistogramContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        histogramData: state.cryptoData.histogramData,
+        histogramData: selectHistogramCryptos(state.cryptoData.dataBuffer, state.selectedData.selectedPeriod.dataName),
         filterParameters: state.filterData.filterParameters,
         selectedColumnId: state.cryptoData.selectedColumnId,
         dataMenu: state.dataMenu.dataMenu

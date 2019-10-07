@@ -40,29 +40,29 @@ class DataSelectorContainer extends Component {
     handleSave = () => {
         this.props.addColumnData();
 
-        if (this.props.cryptoData.selectedColumnId === 0) {
+        if (this.props.selectedData.selectedColumnId === 0) {
             this.props.addColumn();
         }
 
-        // if (this.props.cryptoData.selectedColumnId !== 0) {
-        //     this.props.editColumnData();
-        // }
+        if (this.props.selectedData.selectedColumnId !== 0) {
+            this.props.editColumnData();
+        }
 
         if (this.state.filterParameters.selectionMax) {
-            if (this.props.cryptoData.filterParameters.length === 0) {
-                this.props.addFilter(this.props.cryptoData.selectedColumnId, this.state.filterParameters);
+            if (this.props.filterData.filterParameters.length === 0) {
                 this.props.moveCryptoBufferToData();
+                this.props.addFilter(this.props.selectedData.selectedColumnId, this.state.filterParameters);
             }
-            if (this.props.cryptoData.filterParameters.length > 0) {
-                let indexOfFilter = this.props.cryptoData.filterParameters.findIndex(filter => {
-                    return filter.columnId === this.props.cryptoData.selectedColumnId;
+            if (this.props.filterData.filterParameters.length > 0) {
+                let indexOfFilter = this.props.filterData.filterParameters.findIndex(filter => {
+                    return filter.columnId === this.props.selectedData.selectedColumnId;
                 });
                 if (indexOfFilter === -1) {
-                    this.props.addFilter(this.props.cryptoData.selectedColumnId, this.state.filterParameters);
                     this.props.moveCryptoBufferToData();
+                    this.props.addFilter(this.props.selectedData.selectedColumnId, this.state.filterParameters);
                 } else {
-                    this.props.editFilter(this.props.cryptoData.selectedColumnId, this.state.filterParameters);
                     this.props.moveCryptoBufferToData();
+                    this.props.editFilter(this.props.selectedData.selectedColumnId, this.state.filterParameters);
                 }
             }
         }
@@ -87,7 +87,9 @@ class DataSelectorContainer extends Component {
 const mapStateToProps = state => {
     return {
         dataMenu: state.dataMenu.dataMenu,
-        cryptoData: state.cryptoData
+        cryptoData: state.cryptoData,
+        filterData: state.filterData,
+        selectedData: state.selectedData
     };
 };
 

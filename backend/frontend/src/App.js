@@ -7,7 +7,7 @@ class App extends Component {
         return (
             <div>
                 <Header />
-                {/* <Homepage /> */}
+                <Homepage />
             </div>
         );
     }

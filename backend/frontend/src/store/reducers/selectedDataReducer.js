@@ -1,6 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updatedObject } from "../utilities/utilities";
-import _ from "lodash";
 
 const initialDtate = {
     selectedColumnId: 0,
@@ -35,7 +34,7 @@ const setSelectedDataGroup = (state, action) => {
 };
 
 const setSelectedDataPeriod = (state, action) => {
-   const updatedState = {
+    const updatedState = {
         selectedPeriod: {
             ...state.selectedPeriod,
             dataPeriod: action.payload.dataPeriod

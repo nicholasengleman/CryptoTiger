@@ -9,7 +9,6 @@ import {
     shiftVisibleColumnsForward,
     shiftVisibleColumnsBackwards,
     toggleDataMenu,
-    emptyHistogramData,
     setSelectedDataPeriod,
     setSelectedDataName,
     processNewColumnData
@@ -75,7 +74,6 @@ class CryptoListHeader extends Component {
 
     handleAddColumn = () => {
         this.props.toggleDataMenu();
-        this.props.emptyHistogramData();
         this.props.setSelectedDataPeriod(1);
         this.props.setSelectedDataName("1 hour price");
         axios
@@ -157,7 +155,7 @@ class CryptoListHeader extends Component {
 
 const mapStateToProps = state => {
     return {
-        crypto: state.cryptoData.allData["1182"],
+        crypto: state.cryptoData.data["1182"],
         filters: state.filterData.filterParameters,
         column_visibility: state.columns.column_visibility
     };
@@ -170,7 +168,6 @@ const mapDispatchToProps = dispatch => {
         shiftVisibleColumnsForward: () => dispatch(shiftVisibleColumnsForward()),
         shiftVisibleColumnsBackwards: () => dispatch(shiftVisibleColumnsBackwards()),
         toggleDataMenu: () => dispatch(toggleDataMenu()),
-        emptyHistogramData: () => dispatch(emptyHistogramData()),
         setSelectedDataPeriod: dataPeriod => dispatch(setSelectedDataPeriod(dataPeriod)),
         setSelectedDataName: dataName => dispatch(setSelectedDataName(dataName)),
         processNewColumnData: (newTimeframeName, responseData) =>

@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import styles from "./Cell.module.scss";
 import classNames from "classnames";
-import winning_normal from "../../../img/winning-normal.png";
-import losing_normal from "../../../img/losing-normal.png";
+import winningNormal from "../../../img/winning-normal.png";
+import losingNormal from "../../../img/losing-normal.png";
 
 class Cell extends React.PureComponent {
     getValue = () => {
-        if (this.props.period === 0) {
-            return "$" + this.props.rawValue;
+        if (this.props.columnPeriod === 0) {
+            return "$" + this.props.cryptoRawValue;
         } else {
-            return this.props.percentChange + "%";
+            return this.props.cryptoPercentChange + "%";
         }
     };
 
@@ -19,22 +19,22 @@ class Cell extends React.PureComponent {
                 <span
                     className={classNames(
                         styles.priceData,
-                        this.props.period !== 0 && this.props.percentChange > 0 ? styles.up : styles.down
+                        this.props.columnPeriod !== 0 && this.props.cryptoPercentChange > 0 ? styles.up : styles.down
                     )}
                 >
                     {this.getValue()}
-                    {this.props.period !== 0 && (
+                    {this.props.columnPeriod !== 0 && (
                         <span className={styles.arrowContainer}>
                             <img
                                 className={styles.arrow}
-                                src={this.props.percentChange > 0 ? winning_normal : losing_normal}
+                                src={this.props.cryptoPercentChange > 0 ? winningNormal : losingNormal}
                                 alt=""
                             />
                         </span>
                     )}
                 </span>
 
-                <div className={styles.description}> {this.props.name} </div>
+                <div className={styles.description}> {this.props.columnName} </div>
             </div>
         );
     }

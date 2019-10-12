@@ -1,20 +1,21 @@
-const selectHistogramCryptos = (data, nameOfSelectedColumn) => {
+const selectHistogramCryptos = (data, selectedColumnId) => {
     let histogramData = [];
 
     for (let crypto in data) {
         Object.keys(data[crypto].columns).forEach(column => {
-            if (column.name === nameOfSelectedColumn) {
+            if (data[crypto].columns[column].columnId === selectedColumnId) {
                 histogramData.push({
-                    id: column.crypto_id,
-                    value: Number(column.crypto_value),
+                    id: data[crypto].cryptoId,
+                    value: Number(data[crypto].columns[column].cryptoPercentChange),
                     tooltip: {
-                        name: data[crypto].crypto_name,
-                        value: column.crypto_value
+                        name: data[crypto].cryptoName,
+                        value: data[crypto].columns[column].cryptoPercentChange
                     }
                 });
             }
         });
     }
+
     return histogramData;
 };
 

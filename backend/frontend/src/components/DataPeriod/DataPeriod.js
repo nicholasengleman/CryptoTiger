@@ -7,20 +7,24 @@ import axios from "axios";
 import styles from "./DataPeriod.module.scss";
 
 import { connect } from "react-redux";
-import { setSelectedDataPeriod, setSelectedDataName, processNewColumnData } from "../../store/actions/actionCreators";
+import {
+    setSelectedDataPeriod,
+    setSelectedDataName,
+    processNewColumnData,
+    resetCryptoBuffer
+} from "../../store/actions/actionCreators";
 
 class DataPeriod extends Component {
-    handleSetPeriod = (newTimeframeSeconds, newTimeframeName, newTimeframePeriod) => {
-        this.props.setSelectedDataPeriod(newTimeframePeriod);
-        this.props.setSelectedDataName(newTimeframeName);
-        console.log("Time since 1970: ", new Date().getTime() / 1000);
-        console.log("Seconds: ", newTimeframeSeconds);
-        console.log(this.props.selectedData.selectedColumnId);
+    handleSetPeriod = (periodTime, periodName, periodNumber) => {
+        this.props.resetCryptoBuffer();
+        this.props.setSelectedDataPeriod(periodNumber);
+        this.props.setSelectedDataName(periodName);
         axios
-            .get(`http://localhost:5000/api/crypto-data/getColumnData/${newTimeframeSeconds}`)
+            .get(`http://localhost:5000/api/crypto-data/getColumnData/${periodTime}`)
             .then(response => {
                 this.props.processNewColumnData(
-                    newTimeframeName,
+                    periodName,
+                    periodNumber,
                     response.data,
                     this.props.selectedData.selectedColumnId
                 );
@@ -57,10 +61,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        resetCryptoBuffer: () => dispatch(resetCryptoBuffer()),
         setSelectedDataPeriod: dataPeriod => dispatch(setSelectedDataPeriod(dataPeriod)),
         setSelectedDataName: dataName => dispatch(setSelectedDataName(dataName)),
-        processNewColumnData: (newTimeframeName, responseData, selectedColumnId) =>
-            dispatch(processNewColumnData(newTimeframeName, responseData, selectedColumnId))
+        processNewColumnData: (periodName, periodNumber, responseData, selectedColumnId) =>
+            dispatch(processNewColumnData(periodName, periodNumber, responseData, selectedColumnId))
     };
 };
 

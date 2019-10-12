@@ -42,14 +42,14 @@ class CryptoColumnHeader extends Component {
                     <div className="filter-description"></div>
                 )}
 
-                {this.props.column_name !== "Current Price" ? (
+                {this.props.columnName !== "Current Price" ? (
                     <EditMenu
                         applyShowMenuClasses={this.state.applyShowMenuClasses}
                         applyHideMenuClasses={this.state.applyHideMenuClasses}
                         columnId={this.props.columnId}
                         columnName={this.props.columnName}
                         columnIndex={this.props.index}
-                        columnPeriod={this.props.period}
+                        columnPeriod={this.props.columnPeriod}
                         toggleEditMenu={this.onToggleEditMenu}
                     />
                 ) : null}

@@ -12,25 +12,25 @@ class CryptoRow extends Component {
                 <div className={styles.logoContainer}>
                     <img
                         className={styles.logo}
-                        src={"https://www.cryptocompare.com".concat(this.props.crypto_icon)}
+                        src={"https://www.cryptocompare.com".concat(this.props.cryptoIcon)}
                         alt=""
                     />
                 </div>
 
                 <div className={styles.dataContainer}>
-                    <div className={styles.cryptoName}>{this.props.crypto_name}</div>
+                    <div className={styles.cryptoName}>{this.props.cryptoName}</div>
                     {/*<div className={styles.description}>{props.industry}</div>*/}
                 </div>
 
-                {this.props.columns.map(
+                {Object.keys(this.props.columns).map(
                     (columnData, index) =>
-                        this.props.column_visibility[index] && (
+                        this.props.columnVisibility[index] && (
                             <Cell
-                                key={columnData.name}
-                                rawValue={columnData.rawValue}
-                                percentChange={columnData.percentChange}
-                                name={columnData.name}
-                                period={columnData.period}
+                                key={this.props.columns[columnData].columnName}
+                                cryptoRawValue={this.props.columns[columnData].cryptoRawValue}
+                                cryptoPercentChange={this.props.columns[columnData].cryptoPercentChange}
+                                columnName={this.props.columns[columnData].columnName}
+                                columnPeriod={this.props.columns[columnData].columnPeriod}
                             />
                         )
                 )}
@@ -41,7 +41,7 @@ class CryptoRow extends Component {
 
 const mapStateToProps = state => {
     return {
-        column_visibility: state.columns.column_visibility
+        columnVisibility: state.columns.columnVisibility
     };
 };
 

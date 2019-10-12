@@ -4,7 +4,7 @@ import { updatedObject } from "../utilities/utilities";
 const initialState = {
     dataMenu: {
         open: false,
-        column_id: "",
+        columnId: "",
         timeframes: {
             hour: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18],
             day: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -14,18 +14,18 @@ const initialState = {
 };
 
 const toggleDataMenu = (state, action) => {
-    let menu_state = "";
-    if (state.dataMenu.column_id === action.column_id) {
-        menu_state = !state.dataMenu.open;
+    let menuState = "";
+    if (state.dataMenu.columnId === action.columnId) {
+        menuState = !state.dataMenu.open;
     } else {
-        menu_state = true;
+        menuState = true;
     }
 
     const updatedState = {
         dataMenu: {
             ...state.dataMenu,
-            open: menu_state,
-            column_id: action.column_id ? action.column_id : "ADD_NEW_COLUMN"
+            open: menuState,
+            columnId: action.columnId ? action.columnId : "ADD_NEW_COLUMN"
         }
     };
     return updatedObject(state, updatedState);
@@ -36,7 +36,7 @@ const closeDataMenu = (state, action) => {
         dataMenu: {
             ...state.dataMenu,
             open: false,
-            column_id: 0
+            columnId: 0
         }
     };
     return updatedObject(state, updatedState);

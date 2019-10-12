@@ -54,15 +54,27 @@ class Homepage extends Component {
                 <div className={styles.cryptoListContainer}>
                     <CryptoListHeader />
                     {this.props.cryptosData &&
-                        Object.keys(this.props.cryptosData).map(crypto => (
-                            <CryptoRow
-                                key={this.props.cryptosData[crypto].crypto_id}
-                                cryptoInfo={this.props.cryptosData[crypto].crypto_id}
-                                crypto_icon={this.props.cryptosData[crypto].crypto_icon_url}
-                                crypto_name={this.props.cryptosData[crypto].crypto_name}
-                                columns={this.props.cryptosData[crypto].columns}
-                            />
-                        ))}
+                        Object.keys(this.props.cryptosData)
+                            .sort((a, b) => {
+                                let nameA = this.props.cryptosData[a].cryptoName.toLowerCase();
+                                let nameB = this.props.cryptosData[b].cryptoName.toLowerCase();
+                                if (nameA < nameB) {
+                                    return -1;
+                                }
+                                if (nameA > nameB) {
+                                    return 1;
+                                }
+                                return 0;
+                            })
+                            .map(crypto => (
+                                <CryptoRow
+                                    key={this.props.cryptosData[crypto].cryptoId}
+                                    cryptoInfo={this.props.cryptosData[crypto].cryptoId}
+                                    cryptoIcon={this.props.cryptosData[crypto].cryptoIconUrl}
+                                    cryptoName={this.props.cryptosData[crypto].cryptoName}
+                                    columns={this.props.cryptosData[crypto].columns}
+                                />
+                            ))}
                 </div>
             </div>
         );

@@ -9,10 +9,10 @@ export const loadInitialColumnData = data => {
         payload: { data }
     };
 };
-export const toggleDataMenu = column_id => {
+export const toggleDataMenu = columnId => {
     return {
         type: actionTypes.TOGGLE_DATA_MENU,
-        column_id: column_id
+        columnId: columnId
     };
 };
 
@@ -67,23 +67,23 @@ export const closeDataMenu = () => {
     };
 };
 
-export const updateCurrentData = new_data => {
+export const updateCurrentData = newData => {
     return {
         type: actionTypes.UPDATE_CURRENT_DATA,
-        payload: { new_data }
+        payload: { newData }
     };
 };
 
-export const emptyHistogramData = () => {
+export const resetCryptoBuffer = () => {
     return {
-        type: actionTypes.EMPTY_HISTOGRAM_DATA
+        type: actionTypes.RESET_CRYPTO_BUFFER
     };
 };
 
-export const processNewColumnData = (new_timeframe_name, new_column_data, selectedColumnId) => {
+export const processNewColumnData = (periodName, periodNumber, responseData, selectedColumnId) => {
     return {
         type: actionTypes.PROCESS_NEW_COLUMN_DATA,
-        payload: { new_timeframe_name, new_column_data, selectedColumnId }
+        payload: { periodName, periodNumber, responseData, selectedColumnId }
     };
 };
 export const updateLiveColumnView = () => {
@@ -91,18 +91,22 @@ export const updateLiveColumnView = () => {
         type: actionTypes.UPDATE_LIVE_COLUMN_VIEW
     };
 };
-export const processDataFromStoreForHistogram = current_selected_column => {
+export const processDataFromStoreForHistogram = currentSelectedColumn => {
     return {
         type: actionTypes.PROCESS_DATA_FROM_STORE_FOR_HISTOGRAM,
-        payload: { current_selected_column }
+        payload: { currentSelectedColumn }
     };
 };
 
 // Crypto Menu action creators
 export const fetchCryptosSuccess = data => {
     let columnIds = [];
-    for (let i = 1; i <= 100; i++) {
-        columnIds.push(Math.floor(Math.random() * 10000000) + 1);
+    for (let i = 0; i <= 100; i++) {
+        if (i === 0) {
+            columnIds.push(1);
+        } else {
+            columnIds.push(columnIds[i - 1] + 1);
+        }
     }
     return {
         type: actionTypes.FETCH_CRYPTOS_SUCCESS,

@@ -45,9 +45,9 @@ class HistogramContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        histogramData: selectHistogramCryptos(state.cryptoData.dataBuffer, state.selectedData.selectedPeriod.dataName),
+        histogramData: selectHistogramCryptos(state.cryptoData.dataBuffer, state.selectedData.selectedColumnId),
         filterParameters: state.filterData.filterParameters,
-        selectedColumnId: state.cryptoData.selectedColumnId,
+        selectedColumnId: state.selectedData.selectedColumnId,
         dataMenu: state.dataMenu.dataMenu
     };
 };

@@ -5,7 +5,8 @@ import _ from "lodash";
 const initialState = {
     data: [],
     dataBuffer: [],
-    loading: false
+    loading: false,
+    columnIds: []
 };
 
 /////////////////////
@@ -13,13 +14,12 @@ const initialState = {
 ///////////////////////
 const fetchCryptosSuccess = (state, action) => {
     let data = {};
-
     action.payload.data[0].forEach(crypto => {
         data[crypto.crypto_id] = {
-            crypto_id: crypto.crypto_id,
-            crypto_name: crypto.crypto_name,
-            crypto_shortname: crypto.crypto_shortname,
-            crypto_icon_url: crypto.crypto_icon_url
+            cryptoId: crypto.crypto_id,
+            cryptoName: crypto.crypto_name,
+            cryptoShortname: crypto.crypto_shortname,
+            cryptoIconUrl: crypto.crypto_icon_url
         };
     });
 
@@ -35,45 +35,45 @@ const fetchCryptosSuccess = (state, action) => {
     //      d) the raw value
     //      e) the percent change
 
-    //  console.log(data);
-
     Object.keys(data).forEach(cryptoBase => {
-        data[cryptoBase].columns = [];
-        let percentChange, currentValue;
+        data[cryptoBase].columns = {};
+        let cryptoPercentChange, currentValue;
 
         for (let i = 1; i < action.payload.data.length; i++) {
             action.payload.data[i].data.forEach(crypto => {
                 if (cryptoBase == crypto.crypto_id) {
                     if (i >= 2 && crypto.data_value) {
-                        currentValue = data[cryptoBase].columns[0].rawValue;
-                        percentChange = (((currentValue - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
+                        currentValue = data[cryptoBase].columns["2"].cryptoRawValue;
+                        cryptoPercentChange = (((currentValue - crypto.data_value) / crypto.data_value) * 100).toFixed(
+                            2
+                        );
                     } else {
-                        percentChange = 0;
+                        cryptoPercentChange = 0;
                     }
 
-                    data[cryptoBase].columns.push({
-                        name: action.payload.data[i].name,
+                    data[cryptoBase].columns[action.payload.columnIds[i]] = {
                         columnId: action.payload.columnIds[i],
-                        period: action.payload.data[i].period,
-                        crypto_datetime: crypto.crypto_datetime,
-                        crypto_id: crypto.crypto_id,
-                        rawValue: crypto.data_value.toFixed(2),
-                        percentChange: parseFloat(percentChange),
+                        columnName: action.payload.data[i].name,
+                        columnPeriod: action.payload.data[i].period,
+                        cryptoDatetime: crypto.crypto_datetime,
+                        cryptoId: crypto.crypto_id,
+                        cryptoRawValue: parseFloat(crypto.data_value.toFixed(2)),
+                        cryptoPercentChange: parseFloat(cryptoPercentChange),
                         tooltip: {
-                            name: action.payload.data[i].name,
-                            percentChange
+                            cryptoName: data[crypto.crypto_id].cryptoName,
+                            cryptoPercentChange
                         }
-                    });
+                    };
                 }
             });
         }
     });
 
     const updatedState = {
-        columnIds: action.payload.data.columnIds,
-        loading: false,
         data,
-        dataBuffer: data
+        dataBuffer: data,
+        loading: false,
+        columnIds: action.payload.columnIds
     };
 
     return updatedObject(state, updatedState);
@@ -94,58 +94,31 @@ const processNewColumnData = (state, action) => {
     //Builds new array of CryptoData that will replace the data object once the selections from the histogram have been filtered
     /////////////////////////////////
     let dataBuffer = _.cloneDeep(state.data);
+    let id = action.payload.selectedColumnId;
 
-    action.payload.new_column_data.forEach(crypto => {
-        let indexToChange, percentChange, currentValue;
+    action.payload.responseData.forEach(crypto => {
+        let cryptoPercentChange, currentValue;
 
         if (crypto.data_value) {
-            currentValue = state.data[crypto.crypto_id].columns[0].crypto_value;
-            percentChange = (((currentValue - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
+            currentValue = state.data[crypto.crypto_id].columns["2"].cryptoRawValue;
+            cryptoPercentChange = (((currentValue - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
         } else {
-            percentChange = 0;
+            cryptoPercentChange = 0;
         }
 
-        if (action.payload.selectedColumnId === 0) {
-            ////////
-            //we are adding a new column
-            ////////
-
-            dataBuffer[crypto.crypto_id].columns.push({
-                name: action.payload.new_timeframe_name,
-                columnId: state.columnIds[state.data["1182"].columns.length + 1],
-                period: state.selectedPeriod.dataPeriod,
-                crypto_datetime: crypto.crypto_datetime,
-                crypto_id: crypto.crypto_id,
-                rawValue: crypto.data_value.toFixed(2),
-                percentChange: parseFloat(percentChange),
-                tooltip: {
-                    name: dataBuffer[crypto.crypto_id].crypto_name,
-                    percentChange
-                }
-            });
-        } else {
-            ///////
-            //we are changing the data for an existing column
-            ///////
-
-            indexToChange = dataBuffer[crypto.crypto_id].columns.findIndex(function(column) {
-                return column.columnId === action.payload.selectedColumnId;
-            });
-
-            dataBuffer[crypto.crypto_id].columns[indexToChange] = {
-                ...dataBuffer[crypto.crypto_id].columns[indexToChange],
-                name: action.payload.new_timeframe_name,
-                crypto_period: crypto.crypto_period,
-                crypto_datetime: crypto.crypto_datetime,
-                crypto_id: crypto.crypto_id,
-                rawValue: crypto.data_value.toFixed(2),
-                percentChange: parseFloat(percentChange),
-                tooltip: {
-                    name: dataBuffer[crypto.crypto_id].crypto_name,
-                    percentChange
-                }
-            };
-        }
+        dataBuffer[crypto.crypto_id].columns[id] = {
+            columnId: id,
+            columnName: action.payload.periodName,
+            columnPeriod: action.payload.periodNumber,
+            cryptoDatetime: crypto.crypto_datetime,
+            cryptoId: crypto.cryptoId,
+            cryptoRawValue: parseFloat(crypto.data_value.toFixed(2)),
+            cryptoPercentChange: parseFloat(cryptoPercentChange),
+            tooltip: {
+                cryptoName: dataBuffer[crypto.crypto_id].cryptoName,
+                cryptoPercentChange
+            }
+        };
     });
 
     const updatedState = { dataBuffer };
@@ -156,6 +129,13 @@ const processNewColumnData = (state, action) => {
 const moveCryptoBufferToData = (state, action) => {
     const updatedState = {
         data: Object.entries(state.dataBuffer).length ? state.dataBuffer : state.data
+    };
+    return updatedObject(state, updatedState);
+};
+
+const resetCryptoBuffer = (state, action) => {
+    const updatedState = {
+        dataBuffer: []
     };
     return updatedObject(state, updatedState);
 };
@@ -182,9 +162,9 @@ const removeColumnData = (state, action) => {
     let dataBuffer = _.cloneDeep(state.data);
 
     Object.keys(dataBuffer).forEach(crypto => {
-        dataBuffer[crypto].columns.forEach((column, index) => {
-            if (column.columnId === action.payload.columnId) {
-                dataBuffer[crypto].columns.splice(index, 1);
+        Object.keys(dataBuffer[crypto].columns).forEach((column, index) => {
+            if (dataBuffer[crypto].columns[column].columnId === action.payload.columnId) {
+                delete dataBuffer[crypto].columns[column];
             }
         });
     });
@@ -198,31 +178,37 @@ const removeColumnData = (state, action) => {
 };
 
 /////////////////////////////////////
-// updates the store with the latest live data. This data is then matched with the relevant historical data to
-// produce an up-to-date percentage to display.
+// updates the store with the latest live data.
 ////////////////////////////////////
 const updateCurrentData = (state, action) => {
     let dataBuffer = _.cloneDeep(state.data),
-        rawValue,
-        percentChange;
+        cryptoRawValue,
+        cryptoPercentChange;
 
     action.payload.new_data.forEach(crypto => {
         let newCurrentValue = crypto[0];
-        let crypto_id = crypto[2];
+        let cryptoId = crypto[2];
 
-        dataBuffer[crypto_id].columns.forEach((column, index) => {
+        dataBuffer[cryptoId].columns.forEach((column, index) => {
             if (index === 0) {
-                rawValue = newCurrentValue;
-                percentChange = 0;
+                cryptoRawValue = newCurrentValue;
+                cryptoPercentChange = 0;
             } else {
-                rawValue = column.rawValue;
-                percentChange = (((newCurrentValue - column.rawValue) / column.rawValue) * 100).toFixed(2);
+                cryptoRawValue = column.cryptoRawValue;
+                cryptoPercentChange = (
+                    ((newCurrentValue - column.cryptoRawValue) / column.cryptoRawValue) *
+                    100
+                ).toFixed(2);
             }
 
-            dataBuffer[crypto_id].columns[index] = {
-                ...dataBuffer[crypto_id].columns[index],
-                rawValue: parseFloat(rawValue).toFixed(2),
-                percentChange: parseFloat(percentChange)
+            dataBuffer[cryptoId].columns[index] = {
+                ...dataBuffer[cryptoId].columns[index],
+                cryptoRawValue: parseFloat(cryptoRawValue).toFixed(2),
+                cryptoPercentChange: parseFloat(cryptoPercentChange),
+                tooltip: {
+                    ...dataBuffer[cryptoId].columns[index].tooltip,
+                    cryptoPercentChange: parseFloat(cryptoPercentChange)
+                }
             };
         });
     });
@@ -244,6 +230,8 @@ const cryptoDataReducer = (state = initialState, action) => {
 
         case actionTypes.MOVE_CRYPTOBUFFER_TO_DATA:
             return moveCryptoBufferToData(state, action);
+        case actionTypes.RESET_CRYPTO_BUFFER:
+            return resetCryptoBuffer(state, action);
 
         case actionTypes.FETCH_CRYPTOS_SUCCESS:
             return fetchCryptosSuccess(state, action);

@@ -4,7 +4,7 @@ import { updatedObject } from "../utilities/utilities";
 const initialState = {
     dataMenu: {
         open: false,
-        column_id: "",
+        columnId: "",
         timeframes: {
             hours: 18,
             days: 30,

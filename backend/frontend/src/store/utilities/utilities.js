@@ -5,9 +5,9 @@ export const updatedObject = (oldObject, updatedProperties) => {
     };
 };
 
-export const findCurrentValueOfCrypto = (data, crypto_id) => {
+export const findCurrentValueOfCrypto = (data, cryptoId) => {
     const row = data.find(crypto => {
-        return crypto.crypto_id === crypto_id;
+        return crypto.cryptoId === cryptoId;
     });
-    return row.columns[0].crypto_value;
+    return row.columns[0].cryptoValue;
 };

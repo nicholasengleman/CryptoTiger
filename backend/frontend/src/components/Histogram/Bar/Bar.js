@@ -5,14 +5,26 @@ class Bar extends React.PureComponent {
     constructor(props) {
         super(props);
         this.ref = React.createRef();
+        this.offset = 0;
     }
 
     componentDidMount() {
         this.props.setBarLocation(this.props.index, this.ref.current.offsetLeft);
 
         window.addEventListener("resize", () => {
-            this.props.setBarLocation(this.props.index, this.ref.current.offsetLeft);
+            if (this.ref.current) {
+                this.props.setBarLocation(this.props.index, this.ref.current.offsetLeft);
+            }
         });
+    }
+
+    componentDidUpdate() {
+        if (this.offset !== this.ref.current.offsetLeft) {
+            if (this.ref.current) {
+                this.offset = this.ref.current.offsetLeft;
+                this.props.setBarLocation(this.props.index, this.ref.current.offsetLeft);
+            }
+        }
     }
 
     render() {

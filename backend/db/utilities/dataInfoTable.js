@@ -2,6 +2,7 @@ const dataInfoTable = {
     "1H": {
         period: 1,
         name: "1 Hour",
+
         seconds: 3600
     },
     "2H": {

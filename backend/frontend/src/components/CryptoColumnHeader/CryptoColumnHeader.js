@@ -35,8 +35,8 @@ class CryptoColumnHeader extends Component {
             <div className="column">
                 {this.props.filter && Object.entries(this.props.filter.parameters).length > 0 ? (
                     <div className="filter-description">
-                        only showing {parseInt(this.props.filter.parameters.selectionMin)}% to{" "}
-                        {parseInt(this.props.filter.parameters.selectionMax)}%
+                        only showing {this.props.filter.parameters.selectionMin.toFixed(2)}% to{" "}
+                        {this.props.filter.parameters.selectionMax.toFixed(2)}%
                     </div>
                 ) : (
                     <div className="filter-description"></div>

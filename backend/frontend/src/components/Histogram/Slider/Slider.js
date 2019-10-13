@@ -7,32 +7,28 @@ class Slider extends Component {
     constructor(props) {
         super(props);
         this.sliderBar = React.createRef();
-        this.sliderWidthCalculated = false;
         this.sliderWidth = 0;
     }
 
     componentDidMount() {
-        let that = this;
-        window.addEventListener("resize", function() {
-            that.calculateDimensions();
-        });
+        this.calculateDimensions();
+        window.addEventListener(
+            "resize",
+            function() {
+                this.calculateDimensions();
+            }.bind(this)
+        );
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.sliderWidthCalculated === false) {
-            this.calculateDimensions();
-        }
+        this.calculateDimensions();
     }
 
     calculateDimensions() {
         const rect = this.sliderBar.current.getBoundingClientRect();
         let sliderWidth = rect.right - rect.left;
         if (sliderWidth !== this.sliderWidth) {
-            this.props.getSliderBarDimensions(
-                sliderWidth,
-                rect.right,
-                rect.left
-            );
+            this.props.getSliderBarDimensions(sliderWidth, rect.right, rect.left);
             this.sliderWidthCalculated = true;
             this.sliderWidth = sliderWidth;
         }

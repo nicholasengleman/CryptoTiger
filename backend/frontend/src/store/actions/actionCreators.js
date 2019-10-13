@@ -103,7 +103,7 @@ export const fetchCryptosSuccess = data => {
     let columnIds = [];
     for (let i = 0; i <= 100; i++) {
         if (i === 0) {
-            columnIds.push(1);
+            columnIds.push(0);
         } else {
             columnIds.push(columnIds[i - 1] + 1);
         }

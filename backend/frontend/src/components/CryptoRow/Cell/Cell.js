@@ -7,7 +7,7 @@ import losingNormal from "../../../img/losing-normal.png";
 class Cell extends React.PureComponent {
     getValue = () => {
         if (this.props.columnPeriod === 0) {
-            return "$" + this.props.cryptoRawValue;
+            return "$" + this.props.cryptoRawValue.toFixed(2);
         } else {
             return this.props.cryptoPercentChange + "%";
         }

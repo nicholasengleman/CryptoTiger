@@ -76,12 +76,12 @@ class CryptoListHeader extends Component {
     handleAddColumn = () => {
         this.props.toggleDataMenu();
         this.props.setSelectedDataPeriod(1);
-        this.props.setSelectedColumnId(this.props.columnVisibility.length + 1);
+        this.props.setSelectedColumnId(this.props.columnVisibility.length);
         this.props.setSelectedDataName("1 hour price");
         axios
             .get(`http://localhost:5000/api/crypto-data/getColumnData/${3600}`)
             .then(response => {
-                this.props.processNewColumnData("1 hour price", 1, response.data);
+                this.props.processNewColumnData("1 hour price", 1, response.data, this.props.columnVisibility.length);
             })
             .catch(error => {
                 console.log("[Error]", error);
@@ -126,18 +126,18 @@ class CryptoListHeader extends Component {
                             onClick={() => this.props.shiftVisibleColumnsBackwards()}
                         /> //shows the "Prev" button if at least the first column is set to not show
                     )}
-                    {this.props.crypto &&
-                        Object.keys(this.props.crypto.columns).map(
+                    {this.props.cryptoData &&
+                        Object.keys(this.props.cryptoData.columns).map(
                             (column, index) =>
                                 this.props.columnVisibility[index] && (
                                     <CryptoColumnHeader
                                         ref={this.Column}
                                         key={index}
                                         index={index}
-                                        columnId={this.props.crypto.columns[column].columnId}
-                                        columnPeriod={this.props.crypto.columns[column].columnPeriod}
-                                        columnName={this.props.crypto.columns[column].columnName}
-                                        filter={this.findFilter(this.props.crypto.columns[column].columnId)}
+                                        columnId={this.props.cryptoData.columns[column].columnId}
+                                        columnPeriod={this.props.cryptoData.columns[column].columnPeriod}
+                                        columnName={this.props.cryptoData.columns[column].columnName}
+                                        filter={this.findFilter(this.props.cryptoData.columns[column].columnId)}
                                     />
                                 )
                         )}
@@ -157,7 +157,7 @@ class CryptoListHeader extends Component {
 
 const mapStateToProps = state => {
     return {
-        crypto: state.cryptoData.data["1182"],
+        cryptoData: state.cryptoData.data["1182"],
         filters: state.filterData.filterParameters,
         columnVisibility: state.columns.columnVisibility
     };
@@ -173,8 +173,8 @@ const mapDispatchToProps = dispatch => {
         setSelectedDataPeriod: dataPeriod => dispatch(setSelectedDataPeriod(dataPeriod)),
         setSelectedDataName: dataName => dispatch(setSelectedDataName(dataName)),
         setSelectedColumnId: columnId => dispatch(setSelectedColumnId(columnId)),
-        processNewColumnData: (periodName, periodNumber, responseData) =>
-            dispatch(processNewColumnData(periodName, periodNumber, responseData))
+        processNewColumnData: (periodName, periodNumber, responseData, selectedColumnId) =>
+            dispatch(processNewColumnData(periodName, periodNumber, responseData, selectedColumnId))
     };
 };
 

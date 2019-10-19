@@ -15,16 +15,18 @@ import {
 } from "../../store/actions/actionCreators";
 
 class DataPeriod extends Component {
-    handleSetPeriod = (periodTime, periodName, periodNumber) => {
+    handleSetPeriod = (dataType, dataGroup, dataPeriod, dataName, periodTime) => {
         this.props.resetCryptoBuffer();
-        this.props.setSelectedDataPeriod(periodNumber);
-        this.props.setSelectedDataName(periodName);
+        this.props.setSelectedDataPeriod(dataPeriod);
+        this.props.setSelectedDataName(dataName);
         axios
             .get(`http://localhost:5000/api/crypto-data/getColumnData/${periodTime}`)
             .then(response => {
                 this.props.processNewColumnData(
-                    periodName,
-                    periodNumber,
+                    dataType,
+                    dataGroup,
+                    dataPeriod,
+                    dataName,
                     response.data,
                     this.props.selectedData.selectedColumnId
                 );
@@ -37,7 +39,13 @@ class DataPeriod extends Component {
         return (
             <div
                 onClick={() =>
-                    this.handleSetPeriod(this.props.periodTime, this.props.periodName, this.props.periodNumber)
+                    this.handleSetPeriod(
+                        this.props.selectedData.selectedPeriod.dataType,
+                        this.props.selectedData.selectedPeriod.dataGroup,
+                        this.props.periodNumber,
+                        this.props.periodName,
+                        this.props.periodTime
+                    )
                 }
                 className={classNames(styles.period)}
             >
@@ -64,8 +72,8 @@ const mapDispatchToProps = dispatch => {
         resetCryptoBuffer: () => dispatch(resetCryptoBuffer()),
         setSelectedDataPeriod: dataPeriod => dispatch(setSelectedDataPeriod(dataPeriod)),
         setSelectedDataName: dataName => dispatch(setSelectedDataName(dataName)),
-        processNewColumnData: (periodName, periodNumber, responseData, selectedColumnId) =>
-            dispatch(processNewColumnData(periodName, periodNumber, responseData, selectedColumnId))
+        processNewColumnData: (dataType, dataGroup, dataPeriod, dataName, responseData, selectedColumnId) =>
+            dispatch(processNewColumnData(dataType, dataGroup, dataPeriod, dataName, responseData, selectedColumnId))
     };
 };
 

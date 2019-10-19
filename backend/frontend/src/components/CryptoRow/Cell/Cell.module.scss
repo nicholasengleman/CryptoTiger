@@ -4,7 +4,7 @@
     color: #555;
     font-weight: 600;
     font-size: 22px;
-    height: 35px;
+    padding: 5px 10px;
     display: flex;
     @media (max-width: 1200px) {
         font-size: 18px;
@@ -17,6 +17,7 @@
 .description {
     font-size: 13px;
     color: #666;
+    padding-left: 10px;
 }
 
 // Different Data Groups
@@ -24,6 +25,25 @@
 .up {
     color: green;
 }
+
+.flash {
+    animation: flash;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    border-radius: 10px;
+
+}
+
+@keyframes flash {
+    from {
+        background-color: #4050b9;
+    }
+
+    to {
+        background-color: transparent;
+    }
+}
+
 
 .red {
     color: red;

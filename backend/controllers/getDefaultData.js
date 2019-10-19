@@ -1,5 +1,5 @@
 const connection = require("../db/utilities/db");
-const DATA_INFO_TABLE = require("../db/utilities/dataInfoTable");
+const dataInfo = require("../db/utilities/dataInfo");
 
 function getDefaultData(callback) {
     let data = {};
@@ -19,67 +19,79 @@ function getDefaultData(callback) {
         )
         .catch(err => console.log("error:", err.message));
 
-    let getDataPromise_1 = getPriceData(DATA_INFO_TABLE["1H"].seconds)
+    let getDataPromise_1 = getPriceData(dataInfo("price", "hour", 1).seconds)
         .then(
             results =>
                 (data[2] = {
-                    name: DATA_INFO_TABLE["1H"].name + " Price",
-                    period: DATA_INFO_TABLE["1H"].period,
+                    type: dataInfo("price", "hour", 1).type,
+                    group: dataInfo("price", "hour", 1).group,
+                    period: dataInfo("price", "hour", 1).period,
+                    name: dataInfo("price", "hour", 1).name,
                     data: results
                 })
         )
         .catch(err => console.log("error:", err.message));
 
-    let getDataPromise_2 = getPriceData(DATA_INFO_TABLE["2H"].seconds)
+    let getDataPromise_2 = getPriceData(dataInfo("price", "hour", 2).seconds)
         .then(
             results =>
                 (data[3] = {
-                    name: DATA_INFO_TABLE["2H"].name + " Price",
-                    period: DATA_INFO_TABLE["2H"].period,
+                    type: dataInfo("price", "hour", 2).type,
+                    group: dataInfo("price", "hour", 2).group,
+                    period: dataInfo("price", "hour", 2).period,
+                    name: dataInfo("price", "hour", 2).name,
                     data: results
                 })
         )
         .catch(err => console.log("error:", err.message));
 
-    let getDataPromise_3 = getPriceData(DATA_INFO_TABLE["3H"].seconds)
+    let getDataPromise_3 = getPriceData(dataInfo("price", "hour", 3).seconds)
         .then(
             results =>
                 (data[4] = {
-                    name: DATA_INFO_TABLE["3H"].name + " Price",
-                    period: DATA_INFO_TABLE["3H"].period,
+                    type: dataInfo("price", "hour", 3).type,
+                    group: dataInfo("price", "hour", 3).group,
+                    period: dataInfo("price", "hour", 3).period,
+                    name: dataInfo("price", "hour", 3).name,
                     data: results
                 })
         )
         .catch(err => console.log("error:", err.message));
 
-    let getDataPromise_4 = getPriceData(DATA_INFO_TABLE["4H"].seconds)
+    let getDataPromise_4 = getPriceData(dataInfo("price", "hour", 4).seconds)
         .then(
             results =>
                 (data[5] = {
-                    name: DATA_INFO_TABLE["4H"].name + " Price",
-                    period: DATA_INFO_TABLE["4H"].period,
+                    type: dataInfo("price", "hour", 4).type,
+                    group: dataInfo("price", "hour", 4).group,
+                    period: dataInfo("price", "hour", 4).period,
+                    name: dataInfo("price", "hour", 4).name,
                     data: results
                 })
         )
         .catch(err => console.log("error:", err.message));
 
-    let getDataPromise_5 = getPriceData(DATA_INFO_TABLE["5H"].seconds)
+    let getDataPromise_5 = getPriceData(dataInfo("price", "hour", 5).seconds)
         .then(
             results =>
                 (data[6] = {
-                    name: DATA_INFO_TABLE["5H"].name + " Price",
-                    period: DATA_INFO_TABLE["5H"].period,
+                    type: dataInfo("price", "hour", 5).type,
+                    group: dataInfo("price", "hour", 5).group,
+                    period: dataInfo("price", "hour", 5).period,
+                    name: dataInfo("price", "hour", 5).name,
                     data: results
                 })
         )
         .catch(err => console.log("error:", err.message));
 
-    let getDataPromise_6 = getPriceData(DATA_INFO_TABLE["6H"].seconds)
+    let getDataPromise_6 = getPriceData(dataInfo("price", "hour", 6).seconds)
         .then(
             results =>
                 (data[7] = {
-                    name: DATA_INFO_TABLE["6H"].name + " Price",
-                    period: DATA_INFO_TABLE["6H"].period,
+                    type: dataInfo("price", "hour", 6).type,
+                    group: dataInfo("price", "hour", 6).group,
+                    period: dataInfo("price", "hour", 6).period,
+                    name: dataInfo("price", "hour", 6).name,
                     data: results
                 })
         )

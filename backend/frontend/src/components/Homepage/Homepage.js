@@ -16,6 +16,7 @@ import styles from "./Homepage.module.scss";
 import CryptoRow from "../CryptoRow/CryptoRow";
 import CryptoListHeader from "../CryptoListHeader/CryptoListHeader";
 import DataSelectorContainer from "./../DataSelectorContainer/DataSelectorContainer";
+import PresetsContainer from "./../PresetsContainer/PresetsContainer";
 
 class Homepage extends Component {
     constructor(props) {
@@ -38,11 +39,11 @@ class Homepage extends Component {
                 console.log("[Error]", error);
             });
 
-        // const { endpoint } = this.state;
-        // const socket = socketIOClient(endpoint);
-        // socket.on("currentDataUpdate", message => {
-        //     this.props.updateCurrentData(message);
-        // });
+        const { endpoint } = this.state;
+        const socket = socketIOClient(endpoint);
+        socket.on("currentDataUpdate", message => {
+            this.props.updateCurrentData(message);
+        });
     }
 
     render() {
@@ -50,19 +51,20 @@ class Homepage extends Component {
             <div className={styles.pageContainer}>
                 <div className={styles.hero}>
                     <DataSelectorContainer />
+                    {/* <PresetsContainer /> */}
                 </div>
                 <div className={styles.cryptoListContainer}>
                     <CryptoListHeader />
                     {this.props.cryptosData &&
                         Object.keys(this.props.cryptosData)
                             .sort((a, b) => {
-                                let nameA = this.props.cryptosData[a].cryptoName.toLowerCase();
-                                let nameB = this.props.cryptosData[b].cryptoName.toLowerCase();
+                                let nameA = this.props.cryptosData[a].columns["0"].cryptoMarketCap;
+                                let nameB = this.props.cryptosData[b].columns["0"].cryptoMarketCap;
                                 if (nameA < nameB) {
-                                    return -1;
+                                    return 1;
                                 }
                                 if (nameA > nameB) {
-                                    return 1;
+                                    return -1;
                                 }
                                 return 0;
                             })

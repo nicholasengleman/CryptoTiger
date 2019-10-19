@@ -21,7 +21,6 @@ import Button from "./../Button/Button";
 class CryptoListHeader extends Component {
     constructor(props) {
         super(props);
-
         this.Viewport = React.createRef();
         this.Column = React.createRef();
     }
@@ -135,6 +134,8 @@ class CryptoListHeader extends Component {
                                         key={index}
                                         index={index}
                                         columnId={this.props.cryptoData.columns[column].columnId}
+                                        columnType={this.props.cryptoData.columns[column].columnType}
+                                        columnGroup={this.props.cryptoData.columns[column].columnGroup}
                                         columnPeriod={this.props.cryptoData.columns[column].columnPeriod}
                                         columnName={this.props.cryptoData.columns[column].columnName}
                                         filter={this.findFilter(this.props.cryptoData.columns[column].columnId)}

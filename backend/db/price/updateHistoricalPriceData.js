@@ -4,7 +4,7 @@ const getCryptoListTable = require("./../utilities/getCryptoListTable");
 const getHistoricalPrice = require("../utilities/getHistoricalPrice");
 
 function updateHistoricalPriceData(callback) {
-    getCryptoListTable((err, CRYPTO_LIST_TABLE) => {
+    getCryptoListTable(CRYPTO_LIST_TABLE => {
         let cryptoList = [];
         Object.keys(CRYPTO_LIST_TABLE).forEach(crypto => {
             if (isNaN(crypto)) {

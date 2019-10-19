@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./CryptoColumnHeader.scss";
 import EditMenu from "./../EditMenu/EditMenu";
+import OutsideAlerter from "./../OutsideAlerter/OutsideAlerter";
 
 class CryptoColumnHeader extends Component {
     constructor(props) {
@@ -30,6 +31,21 @@ class CryptoColumnHeader extends Component {
         }
     };
 
+    closeEditMenu = () => {
+        this.setState(
+            {
+                applyShowMenuClasses: false,
+                applyHideMenuClasses: true
+            },
+            () => {
+                let that = this;
+                window.setTimeout(function() {
+                    that.setState({ applyHideMenuClasses: false });
+                }, 100);
+            }
+        );
+    };
+
     render() {
         return (
             <div className="column">
@@ -43,15 +59,19 @@ class CryptoColumnHeader extends Component {
                 )}
 
                 {this.props.columnName !== "Current Price" ? (
-                    <EditMenu
-                        applyShowMenuClasses={this.state.applyShowMenuClasses}
-                        applyHideMenuClasses={this.state.applyHideMenuClasses}
-                        columnId={this.props.columnId}
-                        columnName={this.props.columnName}
-                        columnIndex={this.props.index}
-                        columnPeriod={this.props.columnPeriod}
-                        toggleEditMenu={this.onToggleEditMenu}
-                    />
+                    <OutsideAlerter outsideClick={this.closeEditMenu}>
+                        <EditMenu
+                            applyShowMenuClasses={this.state.applyShowMenuClasses}
+                            applyHideMenuClasses={this.state.applyHideMenuClasses}
+                            columnId={this.props.columnId}
+                            columnName={this.props.columnName}
+                            columnIndex={this.props.index}
+                            columnPeriod={this.props.columnPeriod}
+                            columnType={this.props.columnType}
+                            columnGroup={this.props.columnGroup}
+                            toggleEditMenu={this.onToggleEditMenu}
+                        />
+                    </OutsideAlerter>
                 ) : null}
                 <div className="column-name">
                     {this.props.columnName}

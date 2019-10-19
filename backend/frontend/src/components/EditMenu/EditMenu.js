@@ -1,4 +1,5 @@
 import React from "react";
+
 import classNames from "classnames";
 import styles from "./EditMenu.module.scss";
 
@@ -10,8 +11,10 @@ import {
     removeColumn,
     removeFilter,
     setSelectedColumnId,
-    setSelectedDataName,
-    setSelectedDataPeriod
+    setSelectedDataType,
+    setSelectedDataGroup,
+    setSelectedDataPeriod,
+    setSelectedDataName
 } from "../../store/actions/actionCreators";
 
 const EditMenu = props => {
@@ -21,10 +24,12 @@ const EditMenu = props => {
         [styles.hideMenu]: props.applyHideMenuClasses
     });
 
-    const handleOpenDataMenu = (columnName, columnId, columnPeriod) => {
+    const handleOpenDataMenu = (columnType, columnGroup, columnPeriod, columnName, columnId) => {
         props.processDataFromStoreForHistogram(columnName);
-        props.setSelectedDataName(columnName);
+        props.setSelectedDataType(columnType);
+        props.setSelectedDataGroup(columnGroup);
         props.setSelectedDataPeriod(columnPeriod);
+        props.setSelectedDataName(columnName);
         props.setSelectedColumnId(columnId);
         props.toggleDataMenu(columnName);
         props.toggleEditMenu();
@@ -39,7 +44,18 @@ const EditMenu = props => {
 
     return (
         <div className={classes}>
-            <button className={styles.button} onClick={() => handleOpenDataMenu(props.columnName, props.columnId, props.columnPeriod)}>
+            <button
+                className={styles.button}
+                onClick={() =>
+                    handleOpenDataMenu(
+                        props.columnType,
+                        props.columnGroup,
+                        props.columnPeriod,
+                        props.columnName,
+                        props.columnId
+                    )
+                }
+            >
                 Edit
             </button>
             <button className={styles.button} onClick={() => handleRemoveColumn(props.columnId, props.columnIndex)}>
@@ -52,8 +68,10 @@ const EditMenu = props => {
 const mapDispatchToProps = dispatch => {
     return {
         toggleDataMenu: columnName => dispatch(toggleDataMenu(columnName)),
+        setSelectedDataType: dataType => dispatch(setSelectedDataType(dataType)),
+        setSelectedDataGroup: dataGroup => dispatch(setSelectedDataGroup(dataGroup)),
+        setSelectedDataPeriod: dataPeriod => dispatch(setSelectedDataPeriod(dataPeriod)),
         setSelectedDataName: columnName => dispatch(setSelectedDataName(columnName)),
-        setSelectedDataPeriod: (dataPeriod) => dispatch(setSelectedDataPeriod(dataPeriod)),
         setSelectedColumnId: columnId => dispatch(setSelectedColumnId(columnId)),
         processDataFromStoreForHistogram: columnName => dispatch(processDataFromStoreForHistogram(columnName)),
         removeColumnData: columnName => dispatch(removeColumnData(columnName)),

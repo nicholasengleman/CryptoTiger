@@ -4,7 +4,41 @@ import classNames from "classnames";
 import winningNormal from "../../../img/winning-normal.png";
 import losingNormal from "../../../img/losing-normal.png";
 
-class Cell extends React.PureComponent {
+class Cell extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            flash: false,
+            previousValue: 0
+        };
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.columnPeriod === 0) {
+            if (prevState.previousValue !== nextProps.cryptoRawValue.toFixed(2)) {
+                return {
+                    flash: true,
+                    previousValue: nextProps.cryptoRawValue.toFixed(2)
+                };
+            } else {
+                return {
+                    flash: false
+                };
+            }
+        } else {
+            if (prevState.previousValue !== nextProps.cryptoPercentChange) {
+                return {
+                    flash: true,
+                    previousValue: nextProps.cryptoPercentChange
+                };
+            } else {
+                return {
+                    flash: false
+                };
+            }
+        }
+    }
+
     getValue = () => {
         if (this.props.columnPeriod === 0) {
             return "$" + this.props.cryptoRawValue.toFixed(2);
@@ -19,6 +53,7 @@ class Cell extends React.PureComponent {
                 <span
                     className={classNames(
                         styles.priceData,
+                        this.state.flash ? styles.flash : "",
                         this.props.columnPeriod !== 0 && this.props.cryptoPercentChange > 0 ? styles.up : styles.down
                     )}
                 >

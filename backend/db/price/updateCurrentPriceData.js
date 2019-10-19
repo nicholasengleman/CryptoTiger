@@ -7,7 +7,7 @@ function updateCurrentPriceData(callback) {
     getCurrentPrice((err, cryptos) => {
         if (err) throw err;
 
-        getCryptoListTable((err, CRYPTO_LIST_TABLE) => {
+        getCryptoListTable(CRYPTO_LIST_TABLE => {
             let data_types = Object.keys(cryptos[0]).filter(el => {
                 return el !== "shortname";
             });

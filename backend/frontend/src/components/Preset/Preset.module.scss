@@ -2,7 +2,6 @@
 
 .Preset {
     background-color: white;
-
     padding: 10px 30px;
     margin: 0 6% 8% 0;
     transition: all 0.1s;
@@ -10,17 +9,17 @@
         cursor: pointer;
         background-color: $blue;
         color: white;
-        }
+    }
     h2 {
         font-size: 14px;
         font-weight: 800;
         margin: 0;
-        }
+    }
 
     h3 {
         font-size: 12px;
         font-weight: 600;
         margin: 0;
         font-style: italic;
-        }
     }
+}

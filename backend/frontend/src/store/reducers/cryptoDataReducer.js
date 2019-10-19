@@ -14,7 +14,7 @@ const initialState = {
 ///////////////////////
 const fetchCryptosSuccess = (state, action) => {
     let data = {};
-    console.log(action.payload.data);
+    console.log(action.payload);
     action.payload.data[0].forEach(crypto => {
         data[crypto.crypto_id] = {
             cryptoId: crypto.crypto_id,
@@ -36,7 +36,7 @@ const fetchCryptosSuccess = (state, action) => {
     //      d) the raw value
     //      e) the percent change
 
-    Object.keys(data).forEach(cryptoBase => {
+    Object.keys(data).forEach((cryptoBase, index) => {
         data[cryptoBase].columns = {};
         let cryptoPercentChange, currentValue, e;
         for (let i = 1; i < action.payload.data.length; i++) {
@@ -53,10 +53,13 @@ const fetchCryptosSuccess = (state, action) => {
                     e = i - 1;
                     data[cryptoBase].columns[action.payload.columnIds[e]] = {
                         columnId: action.payload.columnIds[e],
-                        columnName: action.payload.data[i].name,
+                        columnType: action.payload.data[i].type,
+                        columnGroup: action.payload.data[i].group,
                         columnPeriod: action.payload.data[i].period,
+                        columnName: action.payload.data[i].name,
                         cryptoDatetime: crypto.crypto_datetime,
                         cryptoId: crypto.crypto_id,
+                        cryptoMarketCap: action.payload.data["1"].data[index].market_cap,
                         cryptoRawValue: parseFloat(crypto.data_value),
                         cryptoPercentChange: parseFloat(cryptoPercentChange),
                         tooltip: {
@@ -96,6 +99,8 @@ const processNewColumnData = (state, action) => {
     let dataBuffer = _.cloneDeep(state.data);
     let id = action.payload.selectedColumnId;
 
+    console.log(action.payload.responseData);
+
     action.payload.responseData.forEach(crypto => {
         let cryptoPercentChange, currentValue;
 
@@ -108,8 +113,10 @@ const processNewColumnData = (state, action) => {
 
         dataBuffer[crypto.crypto_id].columns[id] = {
             columnId: id,
-            columnName: action.payload.periodName,
-            columnPeriod: action.payload.periodNumber,
+            columnType: action.payload.dataType,
+            columnGroup: action.payload.dataGroup,
+            columnPeriod: action.payload.dataPeriod,
+            columnName: action.payload.dataName,
             cryptoDatetime: crypto.crypto_datetime,
             cryptoId: crypto.cryptoId,
             cryptoRawValue: parseFloat(crypto.data_value),

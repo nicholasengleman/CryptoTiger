@@ -80,10 +80,10 @@ export const resetCryptoBuffer = () => {
     };
 };
 
-export const processNewColumnData = (periodName, periodNumber, responseData, selectedColumnId) => {
+export const processNewColumnData = (dataType, dataGroup, dataPeriod, dataName, responseData, selectedColumnId) => {
     return {
         type: actionTypes.PROCESS_NEW_COLUMN_DATA,
-        payload: { periodName, periodNumber, responseData, selectedColumnId }
+        payload: { dataType, dataGroup, dataPeriod, dataName, responseData, selectedColumnId }
     };
 };
 export const updateLiveColumnView = () => {

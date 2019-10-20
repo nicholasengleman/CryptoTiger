@@ -188,7 +188,7 @@ const removeColumnData = (state, action) => {
 // updates the store with the latest live data.
 ////////////////////////////////////
 const updateCurrentData = (state, action) => {
-    let dataBuffer = _.cloneDeep(state.data),
+    let data = _.cloneDeep(state.data),
         cryptoRawValue,
         cryptoPercentChange;
 
@@ -196,25 +196,25 @@ const updateCurrentData = (state, action) => {
         let newCurrentValue = crypto[0];
         let cryptoId = crypto[2];
 
-        Object.keys(dataBuffer[cryptoId].columns).forEach((column, index) => {
+        Object.keys(data[cryptoId].columns).forEach((column, index) => {
             if (index === 0) {
                 cryptoRawValue = newCurrentValue;
                 cryptoPercentChange = 0;
             } else {
-                cryptoRawValue = dataBuffer[cryptoId].columns[column].cryptoRawValue;
+                cryptoRawValue = data[cryptoId].columns[column].cryptoRawValue;
                 cryptoPercentChange = (
-                    ((newCurrentValue - dataBuffer[cryptoId].columns[column].cryptoRawValue) /
-                        dataBuffer[cryptoId].columns[column].cryptoRawValue) *
+                    ((newCurrentValue - data[cryptoId].columns[column].cryptoRawValue) /
+                        data[cryptoId].columns[column].cryptoRawValue) *
                     100
                 ).toFixed(2);
             }
 
-            dataBuffer[cryptoId].columns[column] = {
-                ...dataBuffer[cryptoId].columns[column],
+            data[cryptoId].columns[column] = {
+                ...data[cryptoId].columns[column],
                 cryptoRawValue: parseFloat(cryptoRawValue),
                 cryptoPercentChange: parseFloat(cryptoPercentChange),
                 tooltip: {
-                    ...dataBuffer[cryptoId].columns[column].tooltip,
+                    ...data[cryptoId].columns[column].tooltip,
                     cryptoPercentChange: parseFloat(cryptoPercentChange)
                 }
             };
@@ -222,8 +222,7 @@ const updateCurrentData = (state, action) => {
     });
 
     const updatedState = {
-        data: dataBuffer,
-        dataBuffer
+        data
     };
 
     return updatedObject(state, updatedState);

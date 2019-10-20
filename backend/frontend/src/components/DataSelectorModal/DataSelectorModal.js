@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import classNames from "classnames";
-import styles from "./DataSelectorContainer.module.scss";
+import styles from "./DataSelectorModal.module.scss";
 
-import DataSelector from "../DataSelector/DataSelector";
-import HistogramContainer from "../HistogramContainer/HistogramContainer";
+import DataSelector from "./DataMenu/DataMenu";
+import HistogramContainer from "./HistogramContainer/HistogramContainer";
 import {
     addFilter,
     editFilter,
@@ -17,10 +16,11 @@ import {
 } from "../../store/actions/actionCreators";
 
 import Button from "./../Button/Button";
+import Modal from "./../Modal/Modal";
 
 //import PresetsContainer from "./PresetsContainer/PresetsContainer";
 
-class DataSelectorContainer extends Component {
+class DataSelectorModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -66,20 +66,25 @@ class DataSelectorContainer extends Component {
                 }
             }
         }
-
         this.handleClose();
     };
 
     render() {
         return (
-            <div className={classNames(this.props.dataMenu.open ? styles.open : styles.closed)}>
-                <DataSelector />
-                <HistogramContainer handleSetBoundries={this.handleSetBoundries} />
-                <div className={styles.btnContainer}>
-                    <Button onClick={() => this.handleClose()} name="Cancel" />
-                    <Button onClick={this.handleSave} name="Save" />
-                </div>
-            </div>
+            <Modal dataMenu={this.props.dataMenu}>
+                <React.Fragment>
+                    <div className={styles.modalHeader}>
+                        <h2>Change your data or filter</h2>
+                        <span className="modalClose">X</span>
+                    </div>
+                    <DataSelector />
+                    <HistogramContainer handleSetBoundries={this.handleSetBoundries} />
+                    <div className={styles.modalFooter}>
+                        <Button onClick={() => this.handleClose()} name="Cancel" />
+                        <Button onClick={this.handleSave} name="Save" />
+                    </div>
+                </React.Fragment>
+            </Modal>
         );
     }
 }
@@ -109,4 +114,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(DataSelectorContainer);
+)(DataSelectorModal);

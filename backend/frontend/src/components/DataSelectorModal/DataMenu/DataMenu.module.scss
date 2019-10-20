@@ -1,0 +1,14 @@
+.dataMenuContainer {
+    height: auto;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    transition: all 0.5s;
+    z-index: 1;
+    position: relative;
+    margin: 30px 30px 0 30px;
+}
+
+.dataPeriodsWindow {
+    width: 33%;
+}

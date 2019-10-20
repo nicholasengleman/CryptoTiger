@@ -1,7 +1,7 @@
 import React from "react";
 
 import classNames from "classnames";
-import styles from "./EditMenu.module.scss";
+import styles from "./Menu.module.scss";
 
 import { connect } from "react-redux";
 import {
@@ -17,7 +17,7 @@ import {
     setSelectedDataName
 } from "../../store/actions/actionCreators";
 
-const EditMenu = props => {
+const Menu = props => {
     let classes = classNames({
         [styles.editMenu]: true,
         [styles.showMenu]: props.applyShowMenuClasses,
@@ -83,4 +83,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     null,
     mapDispatchToProps
-)(EditMenu);
+)(Menu);

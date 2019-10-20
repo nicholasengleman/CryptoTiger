@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import checkmark from "../../img/checkmark_white.png";
-import arrow from "../../img/arrow_cute.png";
+import checkmark from "../../../../../img/checkmark_white.png";
+import arrow from "../../../../../img/arrow_cute.png";
 
 import axios from "axios";
 import styles from "./DataPeriod.module.scss";
@@ -12,7 +12,7 @@ import {
     setSelectedDataName,
     processNewColumnData,
     resetCryptoBuffer
-} from "../../store/actions/actionCreators";
+} from "../../../../../store/actions/actionCreators";
 
 class DataPeriod extends Component {
     handleSetPeriod = (dataType, dataGroup, dataPeriod, dataName, periodTime) => {

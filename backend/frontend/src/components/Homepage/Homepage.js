@@ -13,9 +13,9 @@ import {
 
 import styles from "./Homepage.module.scss";
 
-import CryptoRow from "../CryptoRow/CryptoRow";
-import CryptoListHeader from "../CryptoListHeader/CryptoListHeader";
-import DataSelectorContainer from "./../DataSelectorContainer/DataSelectorContainer";
+import CryptoRow from "../CryptoTableRow/CryptoTableRow";
+import CryptoListHeader from "../CryptoTableHeader/CryptoTableHeader";
+import DataSelectorContainer from "../DataSelectorModal/DataSelectorModal";
 import PresetsContainer from "./../PresetsContainer/PresetsContainer";
 
 class Homepage extends Component {
@@ -39,18 +39,17 @@ class Homepage extends Component {
                 console.log("[Error]", error);
             });
 
-        const { endpoint } = this.state;
-        const socket = socketIOClient(endpoint);
-        socket.on("currentDataUpdate", message => {
-            this.props.updateCurrentData(message);
-        });
+        // const { endpoint } = this.state;
+        // const socket = socketIOClient(endpoint);
+        // socket.on("currentDataUpdate", message => {
+        //     this.props.updateCurrentData(message);
+        // });
     }
 
     render() {
         return (
             <div className={styles.pageContainer}>
                 <div className={styles.hero}>
-                    <DataSelectorContainer />
                     {/* <PresetsContainer /> */}
                 </div>
                 <div className={styles.cryptoListContainer}>
@@ -78,6 +77,7 @@ class Homepage extends Component {
                                 />
                             ))}
                 </div>
+                <DataSelectorContainer />
             </div>
         );
     }

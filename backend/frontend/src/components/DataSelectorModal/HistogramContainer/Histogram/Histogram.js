@@ -89,6 +89,10 @@ class Histogram extends Component {
         });
     }
 
+    shouldComponentUpdate(nextProps) {
+        return nextProps.data !== this.state.data;
+    }
+
     componentDidUpdate(prevProps) {
         if (prevProps.data !== this.props.data) {
             this.calculateBarWidth(this.props.data);

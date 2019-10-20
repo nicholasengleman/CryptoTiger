@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./CryptoColumnHeader.scss";
-import EditMenu from "./../EditMenu/EditMenu";
-import OutsideAlerter from "./../OutsideAlerter/OutsideAlerter";
+import EditMenu from "./../../Menu/Menu";
+import OutsideAlerter from "./../../OutsideAlerter/OutsideAlerter";
 
 class CryptoColumnHeader extends Component {
     constructor(props) {

@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import styles from "./HistogramContainer.module.scss";
-import Histogram from "../Histogram/Histogram";
+import Histogram from "./Histogram/Histogram";
 import { css } from "@emotion/core";
 
 import { ClipLoader } from "react-spinners";
-import selectHistogramCryptos from "./../../store/selectors/selectHistogramCryptos";
+import selectHistogramCryptos from "../../../store/selectors/selectHistogramCryptos";
 
 const override = css`
     position: absolute;

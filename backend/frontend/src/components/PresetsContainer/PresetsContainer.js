@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styles from "./PresetsContainer.module.scss";
-import Preset from "../Preset/Preset";
+import Preset from "./Preset/Preset";
 
 class PresetsContainer extends Component {
 

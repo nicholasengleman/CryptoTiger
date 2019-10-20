@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import styles from "./CryptoListHeader.module.scss";
+import styles from "./CryptoTableHeader.module.scss";
 
 import { connect } from "react-redux";
 import {
@@ -15,10 +15,10 @@ import {
     setSelectedColumnId
 } from "../../store/actions/actionCreators";
 
-import CryptoColumnHeader from "../CryptoColumnHeader/CryptoColumnHeader";
+import CryptoColumnHeader from "./CryptoColumnHeader/CryptoColumnHeader";
 import Button from "./../Button/Button";
 
-class CryptoListHeader extends Component {
+class CryptoTableHeader extends Component {
     constructor(props) {
         super(props);
         this.Viewport = React.createRef();
@@ -182,4 +182,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(CryptoListHeader);
+)(CryptoTableHeader);

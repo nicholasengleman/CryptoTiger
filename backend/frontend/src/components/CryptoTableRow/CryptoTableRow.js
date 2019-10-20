@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import styles from "./CryptoRow.module.scss";
+import styles from "./CryptoTableRow.module.scss";
 
 import { connect } from "react-redux";
 
 import Cell from "./Cell/Cell";
 
-class CryptoRow extends Component {
+class CryptoTableRow extends Component {
     render() {
         return (
             <div className={styles.cryptoContainer}>
@@ -45,4 +45,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps)(CryptoRow);
+export default connect(mapStateToProps)(CryptoTableRow);

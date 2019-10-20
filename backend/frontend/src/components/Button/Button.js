@@ -3,24 +3,10 @@ import "./Button.scss";
 
 import classNames from "classnames";
 
-Button.defaultProps = {
-    selected: false,
-    shape: "square",
-    size: "medium",
-    textalign: "center",
-    theme: "blue",
-    name: "button"
-};
-
-//created Button with regular function so default props could be defined above the function
-function Button({ ...props }) {
+const Button = ({ ...props }) => {
     const classes = classNames({
         btn: true,
         selected: props.selected === true,
-
-        //btn shapes
-        square: props.shape === "square", //default
-        pill: props.shape === "pill",
 
         //btn text-alignment
         centerText: props.textalign === "center", //default
@@ -43,6 +29,14 @@ function Button({ ...props }) {
             {props.name}
         </button>
     );
-}
+};
+
+Button.defaultProps = {
+    selected: false,
+    size: "medium",
+    textalign: "center",
+    theme: "blue",
+    name: "button"
+};
 
 export default Button;

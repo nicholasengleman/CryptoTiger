@@ -1,0 +1,14 @@
+.barScale {
+    width: 100%;
+    height: 5px;
+    background-color: lightblue;
+    position: relative;
+    border-radius: 10%;
+    margin: 10px;
+    .overlay {
+        position: absolute;
+        left: 0;
+        height: 100%;
+        background-color: green;
+    }
+}

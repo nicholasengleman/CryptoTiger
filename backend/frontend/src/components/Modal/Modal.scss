@@ -1,5 +1,5 @@
 .modalOverlay {
-    background-color: rgba(105,105,105, 0.7);
+    background-color: rgba(105, 105, 105, 0.7);
     position: absolute;
     height: 100%;
     width: 100%;
@@ -8,6 +8,7 @@
     left: 0;
     right: 0;
     transform: translateY(-2000px);
+    z-index: 100;
 
     .modal {
         opacity: 0;
@@ -21,15 +22,11 @@
         margin: 50px auto;
     }
 
-
     &.modal-open {
         transform: translateY(0);
-       .modal {
-           opacity: 1;
-           transform: translateY(0);
-       }
+        .modal {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 }
-
-
-

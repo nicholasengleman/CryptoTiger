@@ -1,0 +1,42 @@
+@import "./../../scss/variables.scss";
+
+.pill {
+    margin: 5px 0;
+    min-width: 100px;
+    text-align: center;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #444;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    box-shadow: 0px 6px 5px -3px rgba(194, 194, 194, 1);
+    .fas {
+        margin-right: 10px;
+        font-size: 15px;
+    }
+
+    &:hover {
+        background-color: #c1c1c1;
+        box-shadow: none;
+    }
+
+    //btn sizes
+    &.small {
+        padding: 7px 20px;
+        font-size: 14px;
+        min-width: 50px;
+    }
+    &.medium {
+        //default
+        padding: 10px 20px;
+        font-size: 15px;
+    }
+    &.large {
+        padding: 7px 15px;
+        font-size: 16px;
+        font-weight: 400;
+    }
+}

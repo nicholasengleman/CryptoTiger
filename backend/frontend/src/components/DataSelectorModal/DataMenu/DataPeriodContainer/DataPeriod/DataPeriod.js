@@ -23,12 +23,13 @@ class DataPeriod extends Component {
             .get(`http://localhost:5000/api/crypto-data/getColumnData/${periodTime}`)
             .then(response => {
                 this.props.processNewColumnData(
+                    response.data,
+                    this.props.selectedData.selectedColumnId,
+                    true,
                     dataType,
                     dataGroup,
                     dataPeriod,
-                    dataName,
-                    response.data,
-                    this.props.selectedData.selectedColumnId
+                    dataName
                 );
             })
             .catch(error => {
@@ -72,8 +73,26 @@ const mapDispatchToProps = dispatch => {
         resetCryptoBuffer: () => dispatch(resetCryptoBuffer()),
         setSelectedDataPeriod: dataPeriod => dispatch(setSelectedDataPeriod(dataPeriod)),
         setSelectedDataName: dataName => dispatch(setSelectedDataName(dataName)),
-        processNewColumnData: (dataType, dataGroup, dataPeriod, dataName, responseData, selectedColumnId) =>
-            dispatch(processNewColumnData(dataType, dataGroup, dataPeriod, dataName, responseData, selectedColumnId))
+        processNewColumnData: (
+            responseData,
+            selectedColumnId,
+            processForHistogram,
+            dataType,
+            dataGroup,
+            dataPeriod,
+            dataName
+        ) =>
+            dispatch(
+                processNewColumnData(
+                    responseData,
+                    selectedColumnId,
+                    processForHistogram,
+                    dataType,
+                    dataGroup,
+                    dataPeriod,
+                    dataName
+                )
+            )
     };
 };
 

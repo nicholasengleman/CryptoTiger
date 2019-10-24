@@ -168,7 +168,6 @@ class Histogram extends Component {
 
     checkForPresetValues = () => {
         if (this.props.buttonPresets) {
-            console.log("true");
             this.setState({
                 leftInputValue: this.props.buttonPresets.parameters.selectionMin,
                 rightInputValue: this.props.buttonPresets.parameters.selectionMax

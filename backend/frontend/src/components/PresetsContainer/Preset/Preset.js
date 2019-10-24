@@ -1,10 +1,12 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import styles from "./Preset.module.scss";
 import axios from "axios";
-import iconLedger from "./../../../img/icon_ledger.png";
 import icon_ledger from "./../../../img/icon_ledger.png";
 import icon_heart from "./../../../img/icon_heart.png";
 import Bar from "./../../Bar/Bar";
+
+import { processNewColumnData, emptyData } from "../../../store/actions/actionCreators";
 
 class Preset extends Component {
     constructor(props) {
@@ -32,20 +34,42 @@ class Preset extends Component {
             });
     }
 
+    onApplyPreset = () => {
+        //  this.props.emptyData();
+
+        this.props.columns.forEach(column => {
+            axios
+                .get(`http://localhost:5000/api/crypto-data/getColumnData/${column.time}`)
+                .then(response => {
+                    this.props.processNewColumnData(
+                        response.data,
+                        column.columnIndex,
+                        false,
+                        column.columnType,
+                        column.columnGroup,
+                        column.columnPeriod,
+                        column.columnName
+                    );
+                })
+                .catch(error => {
+                    console.log("[Error]: ", error);
+                });
+        });
+    };
+
     render() {
         return (
             <div className={styles.preset}>
                 <div className={styles.header}>
                     <img className={styles.icon} src={icon_ledger} alt="" />
                     <div>
-                        <div className={styles.title}>CryptoTiger</div>
-                        {/* <div className={styles.number}></div> */}
+                        <div className={styles.title}>{this.props.name}</div>
                     </div>
                 </div>
 
                 <div class={styles.rating}>
-                    <span className={styles.ratingNumber}>3.5 Rating</span>
-                    <Bar percentage="20%" />
+                    <span className={styles.ratingNumber}>{this.props.rating} Rating</span>
+                    <Bar percentage={this.props.rating} />
                     <div className={styles.heartButton}>
                         <img className={styles.heartIcon} src={icon_heart} alt="" />
                     </div>
@@ -54,10 +78,9 @@ class Preset extends Component {
                 <div className={styles.sectionTitle}>Columns</div>
 
                 <div className={styles.filtersContainer}>
-                    <div className={styles.column}>1 hr</div>
-                    <div className={styles.column}>
-                        4 hr<span className={styles.filter}>(3% to 12%)</span>
-                    </div>
+                    {this.props.columns.map(column => (
+                        <div className={styles.column}>{column.description}</div>
+                    ))}
                 </div>
 
                 <div className={styles.sectionTitle}>Subscribers</div>
@@ -83,10 +106,25 @@ class Preset extends Component {
 
                     <div className={styles.subsTotal}>{this.state.subsTotal} Subs to Preset</div>
                 </div>
-                <button className={styles.applyPresetBtn}>Apply Preset</button>
+                <button className={styles.applyPresetBtn} onClick={() => this.onApplyPreset()}>
+                    Apply Preset
+                </button>
             </div>
         );
     }
 }
 
-export default Preset;
+const mapDispatchToProps = dispatch => {
+    return {
+        emptyData: () => dispatch(emptyData()),
+        processNewColumnData: (newColumnData, id, processForHistogram, dataType, dataGroup, dataPeriod, dataName) =>
+            dispatch(
+                processNewColumnData(newColumnData, id, processForHistogram, dataType, dataGroup, dataPeriod, dataName)
+            )
+    };
+};
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(Preset);

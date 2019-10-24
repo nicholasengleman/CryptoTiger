@@ -80,7 +80,13 @@ class CryptoTableHeader extends Component {
         axios
             .get(`http://localhost:5000/api/crypto-data/getColumnData/${3600}`)
             .then(response => {
-                this.props.processNewColumnData("1 hour price", 1, response.data, this.props.columnVisibility.length);
+                this.props.processNewColumnData(
+                    response.data,
+                    this.props.columnVisibility.length,
+                    true,
+                    "1 hour price",
+                    1
+                );
             })
             .catch(error => {
                 console.log("[Error]", error);
@@ -174,8 +180,10 @@ const mapDispatchToProps = dispatch => {
         setSelectedDataPeriod: dataPeriod => dispatch(setSelectedDataPeriod(dataPeriod)),
         setSelectedDataName: dataName => dispatch(setSelectedDataName(dataName)),
         setSelectedColumnId: columnId => dispatch(setSelectedColumnId(columnId)),
-        processNewColumnData: (periodName, periodNumber, responseData, selectedColumnId) =>
-            dispatch(processNewColumnData(periodName, periodNumber, responseData, selectedColumnId))
+        processNewColumnData: (responseData, selectedColumnId, processForHistogram, periodName, periodNumber) =>
+            dispatch(
+                processNewColumnData(responseData, selectedColumnId, processForHistogram, periodName, periodNumber)
+            )
     };
 };
 

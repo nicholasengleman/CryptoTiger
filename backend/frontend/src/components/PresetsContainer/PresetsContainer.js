@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import styles from "./PresetsContainer.module.scss";
 import Preset from "./Preset/Preset";
 
@@ -8,14 +9,19 @@ class PresetsContainer extends Component {
             <div className={styles.presetsSection}>
                 <h2>Select a Preset</h2>
                 <div className={styles.presetsContainer}>
-                    <Preset />
-                    <Preset />
-                    <Preset />
-                    <Preset />
+                    {this.props.presetData.map(preset => (
+                        <Preset name={preset.name} rating={preset.rating} columns={preset.columns} />
+                    ))}
                 </div>
             </div>
         );
     }
 }
 
-export default PresetsContainer;
+const mapStateToProps = state => {
+    return {
+        presetData: state.presetsData.presets
+    };
+};
+
+export default connect(mapStateToProps)(PresetsContainer);

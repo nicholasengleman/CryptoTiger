@@ -18,8 +18,6 @@ import {
 import Button from "./../Button/Button";
 import Modal from "./../Modal/Modal";
 
-//import PresetsContainer from "./PresetsContainer/PresetsContainer";
-
 class DataSelectorModal extends Component {
     constructor(props) {
         super(props);

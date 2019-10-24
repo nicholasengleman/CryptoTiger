@@ -50,7 +50,7 @@ class Homepage extends Component {
         return (
             <div className={styles.pageContainer}>
                 <div className={styles.hero}>
-                     <PresetsContainer />
+                    <PresetsContainer />
                 </div>
                 <div className={styles.cryptoListContainer}>
                     <CryptoListHeader />

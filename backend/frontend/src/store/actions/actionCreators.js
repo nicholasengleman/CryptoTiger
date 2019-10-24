@@ -80,12 +80,27 @@ export const resetCryptoBuffer = () => {
     };
 };
 
-export const processNewColumnData = (dataType, dataGroup, dataPeriod, dataName, responseData, selectedColumnId) => {
+export const emptyData = () => {
     return {
-        type: actionTypes.PROCESS_NEW_COLUMN_DATA,
-        payload: { dataType, dataGroup, dataPeriod, dataName, responseData, selectedColumnId }
+        type: actionTypes.EMPTY_DATA
     };
 };
+
+export const processNewColumnData = (
+    responseData,
+    selectedColumnId,
+    processForHistogram,
+    dataType,
+    dataGroup,
+    dataPeriod,
+    dataName
+) => {
+    return {
+        type: actionTypes.PROCESS_NEW_COLUMN_DATA,
+        payload: { responseData, selectedColumnId, processForHistogram, dataType, dataGroup, dataPeriod, dataName }
+    };
+};
+
 export const updateLiveColumnView = () => {
     return {
         type: actionTypes.UPDATE_LIVE_COLUMN_VIEW

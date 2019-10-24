@@ -14,7 +14,6 @@ const initialState = {
 ///////////////////////
 const fetchCryptosSuccess = (state, action) => {
     let data = {};
-    console.log(action.payload);
     action.payload.data[0].forEach(crypto => {
         data[crypto.crypto_id] = {
             cryptoId: crypto.crypto_id,
@@ -93,13 +92,12 @@ const fetchCryptosFailure = (state, action) => {
 };
 
 const processNewColumnData = (state, action) => {
+    let updatedState = {};
     ////////////////////////////////
     //Builds new array of CryptoData that will replace the data object once the selections from the histogram have been filtered
     /////////////////////////////////
     let dataBuffer = _.cloneDeep(state.data);
     let id = action.payload.selectedColumnId;
-
-    console.log(action.payload.responseData);
 
     action.payload.responseData.forEach(crypto => {
         let cryptoPercentChange, currentValue;
@@ -128,7 +126,11 @@ const processNewColumnData = (state, action) => {
         };
     });
 
-    const updatedState = { dataBuffer };
+    if (action.payload.processForHistogram) {
+        updatedState = { dataBuffer };
+    } else {
+        updatedState = { data: dataBuffer };
+    }
 
     return updatedObject(state, updatedState);
 };
@@ -144,6 +146,11 @@ const resetCryptoBuffer = (state, action) => {
     const updatedState = {
         dataBuffer: []
     };
+    return updatedObject(state, updatedState);
+};
+
+const emptyData = (state, action) => {
+    const updatedState = { data: [] };
     return updatedObject(state, updatedState);
 };
 
@@ -239,6 +246,8 @@ const cryptoDataReducer = (state = initialState, action) => {
             return moveCryptoBufferToData(state, action);
         case actionTypes.RESET_CRYPTO_BUFFER:
             return resetCryptoBuffer(state, action);
+        case actionTypes.EMPTY_DATA:
+            return emptyData(state, action);
 
         case actionTypes.FETCH_CRYPTOS_SUCCESS:
             return fetchCryptosSuccess(state, action);

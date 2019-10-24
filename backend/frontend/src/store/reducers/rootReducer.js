@@ -4,11 +4,13 @@ import cryptoDataReducer from "./cryptoDataReducer";
 import columnsReducer from "./columnsReducer";
 import selectedDataReducer from "./selectedDataReducer";
 import filterReducer from "./filterReducer";
+import presetsReducer from "./presetsReducer";
 
 export default combineReducers({
     dataMenu: dataMenuReducer,
     cryptoData: cryptoDataReducer,
     columns: columnsReducer,
     selectedData: selectedDataReducer,
-    filterData: filterReducer
+    filterData: filterReducer,
+    presetsData: presetsReducer
 });

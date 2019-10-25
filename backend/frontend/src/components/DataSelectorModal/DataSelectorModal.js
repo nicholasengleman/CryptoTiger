@@ -72,7 +72,7 @@ class DataSelectorModal extends Component {
             <Modal dataMenu={this.props.dataMenu}>
                 <React.Fragment>
                     <div className={styles.modalHeader}>
-                        <h2>Change This Column's Data or Filter</h2>
+                        <h2>Change Data or Filter</h2>
                         <span className="modalClose">X</span>
                     </div>
                     <DataSelector />

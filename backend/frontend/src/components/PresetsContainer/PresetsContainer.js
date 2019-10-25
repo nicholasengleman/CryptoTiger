@@ -7,7 +7,6 @@ class PresetsContainer extends Component {
     render() {
         return (
             <div className={styles.presetsSection}>
-                <h2>Select a Preset</h2>
                 <div className={styles.presetsContainer}>
                     {this.props.presetData.map(preset => (
                         <Preset name={preset.name} rating={preset.rating} columns={preset.columns} />

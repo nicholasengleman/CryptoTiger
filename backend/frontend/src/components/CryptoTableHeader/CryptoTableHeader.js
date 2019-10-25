@@ -107,8 +107,11 @@ class CryptoTableHeader extends Component {
 
     addColumnBtnStyles = {
         position: "absolute",
-        left: "100px",
-        margin: "0"
+        left: "0",
+        top: "-45px",
+        margin: "0",
+        padding: "15px 30px",
+        borderRadius: "50px"
     };
 
     render() {

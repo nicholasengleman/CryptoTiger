@@ -4,7 +4,7 @@
     color: #555;
     font-weight: 600;
     font-size: 22px;
-    padding: 5px 10px;
+    padding: 0 10px;
     display: flex;
     @media (max-width: 1200px) {
         font-size: 18px;
@@ -16,8 +16,10 @@
 
 .description {
     font-size: 13px;
-    color: #666;
+    color: #bdc0c7;
     padding-left: 10px;
+    font-weight: 600;
+    text-transform: capitalize;
 }
 
 // Different Data Groups
@@ -31,7 +33,6 @@
     animation-duration: 2s;
     animation-fill-mode: forwards;
     border-radius: 10px;
-
 }
 
 @keyframes flash {
@@ -43,7 +44,6 @@
         background-color: transparent;
     }
 }
-
 
 .red {
     color: red;
@@ -57,13 +57,14 @@
 }
 
 .dataContainer {
-    padding: 10px 0 0 0;
+    padding: 0;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
     justify-content: flex-start;
     min-width: 155px;
     margin-right: 15px;
+    margin-top: -10px;
 
     @media (max-width: 1200px) {
         min-width: 115px;

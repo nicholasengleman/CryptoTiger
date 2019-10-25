@@ -52,7 +52,7 @@ class Homepage extends Component {
                 <div className={styles.hero}>
                     <PresetsContainer />
                 </div>
-                <div className={styles.cryptoListContainer}>
+                <div className={styles.cryptoTable}>
                     <CryptoListHeader />
                     {this.props.cryptosData &&
                         Object.keys(this.props.cryptosData)

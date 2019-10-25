@@ -3,11 +3,11 @@
 .column {
     min-width: 155px;
     margin-right: 15px;
-    color: #888;
-    font-size: 16px;
+    color: #bdc0c7;
+    font-size: 17px;
     display: flex;
     flex-direction: column;
-    text-transform: uppercase;
+    text-transform: capitalize;
     position: relative;
 
     &:hover {
@@ -18,11 +18,14 @@
         font-size: 10px;
         height: 15px;
         text-transform: lowercase;
+        position: absolute;
+        top: -12px;
     }
     .column-name {
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
+        font-weight: 600;
         @media (max-width: 1200px) {
             font-size: 14px;
         }

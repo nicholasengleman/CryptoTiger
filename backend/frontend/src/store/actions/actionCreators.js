@@ -150,6 +150,9 @@ export const removeFilter = columnId => ({
     type: actionTypes.REMOVE_FILTER,
     payload: { columnId }
 });
+export const emptyFilter = () => ({
+    type: actionTypes.EMPTY_FILTER
+});
 
 export const addColumnData = () => ({
     type: actionTypes.ADD_COLUMN_DATA

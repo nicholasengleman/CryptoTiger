@@ -127,9 +127,14 @@ const processNewColumnData = (state, action) => {
     });
 
     if (action.payload.processForHistogram) {
-        updatedState = { dataBuffer };
+        updatedState = {
+            dataBuffer
+        };
     } else {
-        updatedState = { data: dataBuffer };
+        updatedState = {
+            data: dataBuffer,
+            dataBuffer
+        };
     }
 
     return updatedObject(state, updatedState);
@@ -150,7 +155,19 @@ const resetCryptoBuffer = (state, action) => {
 };
 
 const emptyData = (state, action) => {
-    const updatedState = { data: [] };
+    let data = _.cloneDeep(state.data);
+    Object.keys(data).forEach(crypto => {
+        Object.keys(data[crypto].columns).forEach((column, index) => {
+            if (index > 0) {
+                delete data[crypto].columns[column];
+            }
+        });
+    });
+
+    const updatedState = {
+        data,
+        dataBuffer: data
+    };
     return updatedObject(state, updatedState);
 };
 

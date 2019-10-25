@@ -11,7 +11,7 @@ const initialState = {
                 {
                     description: "5 HR",
                     time: 3600 * 5 * 24,
-                    filter: [],
+                    filter: [-10, 20],
                     columnIndex: 1,
                     columnType: "price",
                     columnGroup: "day",

@@ -58,6 +58,13 @@ const removeFilter = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
+const emptyFilters = (state, action) => {
+    const updatedState = {
+        filterParameters: []
+    };
+    return updatedObject(state, updatedState);
+};
+
 const filterReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.ADD_FILTER:
@@ -66,6 +73,8 @@ const filterReducer = (state = initialState, action) => {
             return editFilter(state, action);
         case actionTypes.REMOVE_FILTER:
             return removeFilter(state, action);
+        case actionTypes.EMPTY_FILTER:
+            return emptyFilters(state, action);
         default:
             return state;
     }

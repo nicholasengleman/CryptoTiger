@@ -6,7 +6,7 @@ import icon_ledger from "./../../../img/icon_ledger.png";
 import icon_heart from "./../../../img/icon_heart.png";
 import Bar from "./../../Bar/Bar";
 
-import { processNewColumnData, emptyData } from "../../../store/actions/actionCreators";
+import { processNewColumnData, emptyData, emptyFilter, addFilter } from "../../../store/actions/actionCreators";
 
 class Preset extends Component {
     constructor(props) {
@@ -35,26 +35,35 @@ class Preset extends Component {
     }
 
     onApplyPreset = () => {
-        //  this.props.emptyData();
-
-        this.props.columns.forEach(column => {
-            axios
-                .get(`http://localhost:5000/api/crypto-data/getColumnData/${column.time}`)
-                .then(response => {
-                    this.props.processNewColumnData(
-                        response.data,
-                        column.columnIndex,
-                        false,
-                        column.columnType,
-                        column.columnGroup,
-                        column.columnPeriod,
-                        column.columnName
-                    );
-                })
-                .catch(error => {
-                    console.log("[Error]: ", error);
-                });
-        });
+        this.props.emptyData();
+        this.props.emptyFilter();
+        setTimeout(() => {
+            this.props.columns.forEach(column => {
+                axios
+                    .get(`http://localhost:5000/api/crypto-data/getColumnData/${column.time}`)
+                    .then(response => {
+                        this.props.processNewColumnData(
+                            response.data,
+                            column.columnIndex,
+                            false,
+                            column.columnType,
+                            column.columnGroup,
+                            column.columnPeriod,
+                            column.columnName
+                        );
+                        if (column.filter.length > 0) {
+                            let filterParameters = {
+                                selectionMin: column.filter[0],
+                                selectionMax: column.filter[1]
+                            };
+                            this.props.addFilter(column.columnIndex, filterParameters);
+                        }
+                    })
+                    .catch(error => {
+                        console.log("[Error]: ", error);
+                    });
+            });
+        }, 100);
     };
 
     render() {
@@ -117,6 +126,8 @@ class Preset extends Component {
 const mapDispatchToProps = dispatch => {
     return {
         emptyData: () => dispatch(emptyData()),
+        emptyFilter: () => dispatch(emptyFilter()),
+        addFilter: (columnId, filterParameters) => dispatch(addFilter(columnId, filterParameters)),
         processNewColumnData: (newColumnData, id, processForHistogram, dataType, dataGroup, dataPeriod, dataName) =>
             dispatch(
                 processNewColumnData(newColumnData, id, processForHistogram, dataType, dataGroup, dataPeriod, dataName)

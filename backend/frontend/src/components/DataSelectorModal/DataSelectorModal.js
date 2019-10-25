@@ -99,8 +99,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         closeDataMenu: () => dispatch(closeDataMenu()),
-        addFilter: (filterParameters, periodName) => dispatch(addFilter(filterParameters, periodName)),
-        editFilter: (filterParameters, periodName) => dispatch(editFilter(filterParameters, periodName)),
+        addFilter: (columnId, filterParameters) => dispatch(addFilter(columnId, filterParameters)),
+        editFilter: (columnId, filterParameters) => dispatch(editFilter(columnId, filterParameters)),
         addColumn: () => dispatch(addColumn()),
         addColumnData: () => dispatch(addColumnData()),
         editColumnData: () => dispatch(editColumnData()),

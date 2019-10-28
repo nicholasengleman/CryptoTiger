@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "./CryptoColumnHeader.scss";
 import EditMenu from "./../../Menu/Menu";
 import OutsideAlerter from "./../../OutsideAlerter/OutsideAlerter";
+
+import { removeFilter } from "./../../../store/actions/actionCreators";
 
 class CryptoColumnHeader extends Component {
     constructor(props) {
@@ -44,12 +47,12 @@ class CryptoColumnHeader extends Component {
         return (
             <div className="column">
                 {this.props.filter && Object.entries(this.props.filter.parameters).length > 0 ? (
-                    <div className="filter-description">
+                    <div className="filterDescription" onClick={() => this.props.removeFilter(this.props.columnId)}>
                         {this.props.filter.parameters.selectionMin.toFixed(2)}% to{" "}
-                        {this.props.filter.parameters.selectionMax.toFixed(2)}%
+                        {this.props.filter.parameters.selectionMax.toFixed(2)}%<span className="deleteFilter">X</span>
                     </div>
                 ) : (
-                    <div className="filter-description"></div>
+                    ""
                 )}
 
                 {this.props.columnName !== "Current Price" ? (
@@ -67,7 +70,7 @@ class CryptoColumnHeader extends Component {
                         />
                     </OutsideAlerter>
                 ) : null}
-                <div className="column-name">
+                <div className="columnName">
                     <p>{this.props.columnName}</p>
                     {this.props.columnName !== "Current Price" ? (
                         <i className="far fa-edit" onClick={() => this.onToggleEditMenu()}></i>
@@ -78,4 +81,13 @@ class CryptoColumnHeader extends Component {
     }
 }
 
-export default CryptoColumnHeader;
+const mapDispatchToProps = dispatch => {
+    return {
+        removeFilter: columnId => dispatch(removeFilter(columnId))
+    };
+};
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(CryptoColumnHeader);

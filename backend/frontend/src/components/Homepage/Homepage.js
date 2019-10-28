@@ -46,10 +46,6 @@ class Homepage extends Component {
         });
     }
 
-    componentDidUpdate() {
-        console.log("updated");
-    }
-
     render() {
         return (
             <React.Fragment>

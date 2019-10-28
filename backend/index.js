@@ -22,18 +22,30 @@ let server = app.listen(port, () => console.log(`Listening on port ${port}`));
 
 const io = socketIo.listen(server);
 
-const getApiAndEmit = async socket => {
-    try {
+function getCurrentDataAndEmit() {
+    return new Promise(function(resolve, reject) {
         updateCurrentPriceData(cryptoList => {
-            socket.emit("currentDataUpdate", cryptoList);
+            if (cryptoList) {
+                resolve(cryptoList);
+            }
         });
-    } catch (error) {
-        console.error(`Error: ${error.code}`);
-    }
-};
+    });
+}
+
+function getDataEveryXSeconds(socket, milliseconds) {
+    let promise = getCurrentDataAndEmit();
+    promise
+        .then(cryptoList => {
+            socket.emit("currentDataUpdate", cryptoList);
+            setTimeout(() => {
+                getDataEveryXSeconds(socket, milliseconds);
+            }, milliseconds);
+        })
+        .catch(e => console.log(e));
+}
 
 io.on("connection", socket => {
-    console.log("New client connected"), setInterval(() => getApiAndEmit(socket), 5000);
+    getDataEveryXSeconds(socket, 5000);
     socket.on("disconect", () => console.log("Client disconnected"));
 });
 

@@ -92,6 +92,8 @@ class Preset extends Component {
                             <div className={styles.column}>{column.description}</div>
                         ))}
                     </div>
+                </div>
+                <div className={styles.footer}>
                     <div className={styles.sectionTitle}>Subscribers</div>
                     <div className={styles.subscriberContainer}>
                         {this.state.subThumbnails.map((sub, i) => {
@@ -115,8 +117,6 @@ class Preset extends Component {
 
                         <div className={styles.subsTotal}>{this.state.subsTotal} Subs to Preset</div>
                     </div>
-                </div>
-                <div className={styles.footer}>
                     <button className={styles.applyPresetBtn} onClick={() => this.onApplyPreset()}>
                         Apply Preset
                     </button>

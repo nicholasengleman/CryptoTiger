@@ -65,7 +65,8 @@ class Histogram extends Component {
             barLocations: {},
 
             dataSetMinValue: 0,
-            dataSetMaxValue: 0
+            dataSetMaxValue: 0,
+            initialRender: true
         };
 
         this.buttonWidth = 25.125;
@@ -90,7 +91,7 @@ class Histogram extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.data !== this.props.data) {
+        if (!_.isEqual(prevProps.data, this.props.data)) {
             this.calculateBarWidth(this.props.data);
             this.setState(
                 {
@@ -99,12 +100,18 @@ class Histogram extends Component {
                 },
                 () => this.normalizeData(this.props.data)
             );
-            if (!this.props.buttonPresets) {
+            if (!this.props.buttonPresets && this.state.initialRender) {
                 if (this.state.barMinLocation !== 0) {
-                    this.setState({ barMinLocation: 0 });
+                    this.setState({
+                        barMinLocation: 0,
+                        initialRender: false
+                    });
                 }
                 if (this.state.barMaxLocation !== this.state.sliderContainerWidth - this.buttonWidth) {
-                    this.setState({ barMaxLocation: this.state.sliderContainerWidth - this.buttonWidth });
+                    this.setState({
+                        barMaxLocation: this.state.sliderContainerWidth - this.buttonWidth,
+                        initialRender: false
+                    });
                 }
             }
         }

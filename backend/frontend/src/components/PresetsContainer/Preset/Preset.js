@@ -69,55 +69,58 @@ class Preset extends Component {
     render() {
         return (
             <div className={styles.preset}>
-                <div className={styles.header}>
-                    <img className={styles.icon} src={icon_ledger} alt="" />
-                    <div>
-                        <div className={styles.title}>{this.props.name}</div>
-                    </div>
-                </div>
-
-                <div class={styles.rating}>
-                    <span className={styles.ratingNumber}>{this.props.rating} Rating</span>
-                    <Bar percentage={this.props.rating} />
-                    <div className={styles.heartButton}>
-                        <img className={styles.heartIcon} src={icon_heart} alt="" />
-                    </div>
-                </div>
-
-                <div className={styles.sectionTitle}>Columns</div>
-
-                <div className={styles.filtersContainer}>
-                    {this.props.columns.map(column => (
-                        <div className={styles.column}>{column.description}</div>
-                    ))}
-                </div>
-
-                <div className={styles.sectionTitle}>Subscribers</div>
-                <div className={styles.subscriberContainer}>
-                    {this.state.subThumbnails.map((sub, i) => {
-                        if (i < this.state.subThumbnails.length - 1) {
-                            return (
-                                <div key={i} className={styles.subThumbnail}>
-                                    <img src={sub} alt="" />
-                                </div>
-                            );
-                        }
-                    })}
-
-                    <div className={styles.subThumbnail}>
-                        <img
-                            className={styles.tint}
-                            src={this.state.subThumbnails[this.state.subThumbnails.length - 1]}
-                            alt=""
-                        />
-                        <div className={styles.subsRemaining}>+{this.state.subsTotal - 5}</div>
+                <div className={styles.body}>
+                    <div className={styles.header}>
+                        <img className={styles.icon} src={icon_ledger} alt="" />
+                        <div>
+                            <div className={styles.title}>{this.props.name}</div>
+                        </div>
                     </div>
 
-                    <div className={styles.subsTotal}>{this.state.subsTotal} Subs to Preset</div>
+                    <div class={styles.rating}>
+                        <span className={styles.ratingNumber}>{this.props.rating} Rating</span>
+                        <Bar percentage={this.props.rating} />
+                        <div className={styles.heartButton}>
+                            <img className={styles.heartIcon} src={icon_heart} alt="" />
+                        </div>
+                    </div>
+
+                    <div className={styles.sectionTitle}>Columns</div>
+
+                    <div className={styles.filtersContainer}>
+                        {this.props.columns.map(column => (
+                            <div className={styles.column}>{column.description}</div>
+                        ))}
+                    </div>
+                    <div className={styles.sectionTitle}>Subscribers</div>
+                    <div className={styles.subscriberContainer}>
+                        {this.state.subThumbnails.map((sub, i) => {
+                            if (i < this.state.subThumbnails.length - 1) {
+                                return (
+                                    <div key={i} className={styles.subThumbnail}>
+                                        <img src={sub} alt="" />
+                                    </div>
+                                );
+                            }
+                        })}
+
+                        <div className={styles.subThumbnail}>
+                            <img
+                                className={styles.tint}
+                                src={this.state.subThumbnails[this.state.subThumbnails.length - 1]}
+                                alt=""
+                            />
+                            <div className={styles.subsRemaining}>+{this.state.subsTotal - 5}</div>
+                        </div>
+
+                        <div className={styles.subsTotal}>{this.state.subsTotal} Subs to Preset</div>
+                    </div>
                 </div>
-                <button className={styles.applyPresetBtn} onClick={() => this.onApplyPreset()}>
-                    Apply Preset
-                </button>
+                <div className={styles.footer}>
+                    <button className={styles.applyPresetBtn} onClick={() => this.onApplyPreset()}>
+                        Apply Preset
+                    </button>
+                </div>
             </div>
         );
     }

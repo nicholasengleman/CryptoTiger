@@ -22,10 +22,7 @@ class CryptoColumnHeader extends Component {
                     applyHideMenuClasses: true
                 },
                 () => {
-                    let that = this;
-                    window.setTimeout(function() {
-                        that.setState({ applyHideMenuClasses: false });
-                    }, 100);
+                    this.setState({ applyHideMenuClasses: false });
                 }
             );
         }
@@ -38,10 +35,7 @@ class CryptoColumnHeader extends Component {
                 applyHideMenuClasses: true
             },
             () => {
-                let that = this;
-                window.setTimeout(function() {
-                    that.setState({ applyHideMenuClasses: false });
-                }, 100);
+                this.setState({ applyHideMenuClasses: false });
             }
         );
     };
@@ -51,7 +45,7 @@ class CryptoColumnHeader extends Component {
             <div className="column">
                 {this.props.filter && Object.entries(this.props.filter.parameters).length > 0 ? (
                     <div className="filter-description">
-                        only showing {this.props.filter.parameters.selectionMin.toFixed(2)}% to{" "}
+                        {this.props.filter.parameters.selectionMin.toFixed(2)}% to{" "}
                         {this.props.filter.parameters.selectionMax.toFixed(2)}%
                     </div>
                 ) : (
@@ -74,7 +68,7 @@ class CryptoColumnHeader extends Component {
                     </OutsideAlerter>
                 ) : null}
                 <div className="column-name">
-                    {this.props.columnName}
+                    <p>{this.props.columnName}</p>
                     {this.props.columnName !== "Current Price" ? (
                         <i className="far fa-edit" onClick={() => this.onToggleEditMenu()}></i>
                     ) : null}

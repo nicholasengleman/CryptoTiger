@@ -89,10 +89,6 @@ class Histogram extends Component {
         });
     }
 
-    shouldComponentUpdate(nextProps) {
-        return nextProps.data !== this.state.data;
-    }
-
     componentDidUpdate(prevProps) {
         if (prevProps.data !== this.props.data) {
             this.calculateBarWidth(this.props.data);
@@ -103,6 +99,14 @@ class Histogram extends Component {
                 },
                 () => this.normalizeData(this.props.data)
             );
+            if (!this.props.buttonPresets) {
+                if (this.state.barMinLocation !== 0) {
+                    this.setState({ barMinLocation: 0 });
+                }
+                if (this.state.barMaxLocation !== this.state.sliderContainerWidth - this.buttonWidth) {
+                    this.setState({ barMaxLocation: this.state.sliderContainerWidth - this.buttonWidth });
+                }
+            }
         }
     }
 

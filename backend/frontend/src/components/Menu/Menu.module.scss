@@ -1,7 +1,7 @@
 .editMenu {
     flex-direction: column;
     border-radius: 3px;
-    box-shadow: -3px 3px 6px 0px rgba(144,144,144,1);
+    box-shadow: -3px 3px 6px 0px rgba(144, 144, 144, 1);
     position: absolute;
     top: -80px;
     left: 60%;
@@ -12,20 +12,19 @@
     width: 150px;
     transform: scale(1, 0);
     transform-origin: center bottom;
+    z-index: 100;
     &.showMenu {
-        transition: transform .20s ease-in-out, opacity .10s;
-        transform: scale(1,1);
+        transition: transform 0.2s ease-in-out, opacity 0.1s;
+        transform: scale(1, 1);
         height: auto;
-        }
+    }
     &.hideMenu {
         transition: transform 0s, opacity 0s;
-        transform: scale(1,1);
+        transform: scale(1, 1);
         height: auto;
         opacity: 0;
-        }
     }
-
-
+}
 
 .button {
     border: none;
@@ -34,12 +33,11 @@
     line-height: 40px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.10s;
+    transition: all 0.1s;
     letter-spacing: 1px;
     margin: 0;
     &:hover {
         background: darkgray;
         color: white;
-        }
     }
-
+}

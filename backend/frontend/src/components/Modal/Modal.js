@@ -1,12 +1,22 @@
 import React from "react";
-import './Modal.scss';
+import "./Modal.scss";
 
-const Modal = ({children, dataMenu}) => (
-    <div className={`modalOverlay ${dataMenu.open ? "modal-open" : ""}`}>
-        <div className='modal'>
-            {children}
-        </div>
-    </div>
-);
+class Modal extends React.Component {
+    static getDerivedStateFromProps = nextProps => {
+        if (nextProps.dataMenu.open) {
+            document.body.classList.add("MODAL_OPEN_CLASS");
+        } else {
+            document.body.classList.remove("MODAL_OPEN_CLASS");
+        }
+    };
+
+    render() {
+        return (
+            <div className={`modalOverlay ${this.props.dataMenu.open ? "modal-open" : ""}`}>
+                <div className="modal">{this.props.children}</div>
+            </div>
+        );
+    }
+}
 
 export default Modal;

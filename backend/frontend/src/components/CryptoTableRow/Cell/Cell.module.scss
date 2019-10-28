@@ -2,7 +2,7 @@
 
 .priceData {
     color: #555;
-    font-weight: 600;
+    font-weight: 400;
     font-size: 22px;
     padding: 0 10px;
     display: flex;
@@ -32,16 +32,21 @@
     animation: flash;
     animation-duration: 2s;
     animation-fill-mode: forwards;
-    border-radius: 10px;
+    background-color: #4050b9;
+    transform-origin: left center;
+    height: 5px;
+    width: 10px;
 }
 
 @keyframes flash {
     from {
-        background-color: #4050b9;
+        opacity: 1;
+        transform: scaleX(7);
     }
 
     to {
-        background-color: transparent;
+        transform: scaleX(1);
+        opacity: 0;
     }
 }
 

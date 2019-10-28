@@ -20,13 +20,13 @@ class DataMenu extends Component {
                         selected={this.props.selected.dataType === "price"}
                         size={"large"}
                     />
-                    <Pill
+                    {/* <Pill
                         fontawesomecode="fas fas fa-water"
-                        name="Volume"
+                        name="Volume(coming soon)"
                         onClick={() => this.props.setSelectedPeriodDataType("volume")}
                         selected={this.props.selected.dataType === "volume"}
                         size={"large"}
-                    />
+                    /> */}
                 </DataBox>
 
                 <DataBox title="Data Group">

@@ -38,11 +38,11 @@ class DataSelectorModal extends Component {
     handleSave = () => {
         this.props.addColumnData();
 
-        if (this.props.selectedData.selectedColumnId === 0) {
+        if (this.props.selectedData.selectedColumnId === this.props.columnsData.columnVisibility.length) {
             this.props.addColumn();
         }
 
-        if (this.props.selectedData.selectedColumnId !== 0) {
+        if (this.props.selectedData.selectedColumnId !== this.props.columnsData.columnVisibility.length) {
             this.props.editColumnData();
         }
 
@@ -73,13 +73,12 @@ class DataSelectorModal extends Component {
                 <React.Fragment>
                     <div className={styles.modalHeader}>
                         <h2>Change Data or Filter</h2>
-                        <span className="modalClose">X</span>
                     </div>
                     <DataSelector />
                     <HistogramContainer handleSetBoundries={this.handleSetBoundries} />
                     <div className={styles.modalFooter}>
                         <Button onClick={() => this.handleClose()} name="Cancel" />
-                        <Button onClick={this.handleSave} name="Save" />
+                        <Button onClick={this.handleSave} name="Apply" />
                     </div>
                 </React.Fragment>
             </Modal>
@@ -92,7 +91,8 @@ const mapStateToProps = state => {
         dataMenu: state.dataMenu.dataMenu,
         cryptoData: state.cryptoData,
         filterData: state.filterData,
-        selectedData: state.selectedData
+        selectedData: state.selectedData,
+        columnsData: state.columns
     };
 };
 

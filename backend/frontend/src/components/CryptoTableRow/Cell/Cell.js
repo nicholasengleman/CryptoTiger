@@ -53,7 +53,6 @@ class Cell extends Component {
                 <span
                     className={classNames(
                         styles.priceData,
-                        this.state.flash ? styles.flash : "",
                         this.props.columnPeriod !== 0 && this.props.cryptoPercentChange > 0 ? styles.up : styles.down
                     )}
                 >
@@ -70,6 +69,7 @@ class Cell extends Component {
                 </span>
 
                 <div className={styles.description}> {this.props.columnName} </div>
+                <div className={this.state.flash ? styles.flash : ""}></div>
             </div>
         );
     }

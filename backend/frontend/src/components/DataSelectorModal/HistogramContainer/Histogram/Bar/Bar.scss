@@ -18,6 +18,8 @@
     animation-name: barExpand;
     animation-duration: 1s;
     animation-fill-mode: forwards;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
 }
 
 .negativeBar {
@@ -26,6 +28,8 @@
     animation-name: barExpand;
     animation-duration: 1s;
     animation-fill-mode: forwards;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
 }
 
 @keyframes barExpand {

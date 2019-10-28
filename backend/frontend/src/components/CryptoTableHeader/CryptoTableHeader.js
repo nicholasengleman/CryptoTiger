@@ -41,9 +41,7 @@ class CryptoTableHeader extends Component {
         });
 
         if (reduxVisibleColumns && reduxVisibleColumns !== this.columnsToShow()) {
-            window.setTimeout(() => {
-                this.props.setColumnsThatAreVisible(this.columnsToShow());
-            }, 500);
+            this.props.setColumnsThatAreVisible(this.columnsToShow());
         }
     }
 
@@ -107,7 +105,7 @@ class CryptoTableHeader extends Component {
 
     addColumnBtnStyles = {
         position: "absolute",
-        left: "0",
+        left: "-60px",
         top: "-45px",
         margin: "0",
         padding: "15px 30px",

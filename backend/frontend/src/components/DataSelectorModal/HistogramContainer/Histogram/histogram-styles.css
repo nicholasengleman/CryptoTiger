@@ -25,7 +25,7 @@
     width: calc(100% - 50px);
     margin: 0 auto;
     height: 70%;
-    border: 1px solid grey;
+    border: 1px solid #ebebed;
     position: relative;
 }
 
@@ -78,7 +78,8 @@
 
 .input-container input {
     height: 2em;
-    width: 3em;
+    width: 4em;
+    box-shadow: none;
     border: none;
     outline: none;
     font-size: 1em;

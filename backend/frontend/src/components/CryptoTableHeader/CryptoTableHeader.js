@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import _ from "lodash";
+
 import axios from "axios";
 import styles from "./CryptoTableHeader.module.scss";
 
@@ -22,12 +25,12 @@ class CryptoTableHeader extends Component {
     constructor(props) {
         super(props);
         this.Viewport = React.createRef();
-        this.Column = React.createRef();
+        this.setColumnsThatAreVisible = _.debounce(this.props.setColumnsThatAreVisible.bind(this), 250);
     }
 
     componentDidMount() {
         window.addEventListener("resize", () => {
-            this.props.setColumnsThatAreVisible(this.columnsToShow());
+            this.setColumnsThatAreVisible(this.columnsToShow());
         });
     }
 
@@ -71,20 +74,22 @@ class CryptoTableHeader extends Component {
     };
 
     handleAddColumn = () => {
-        this.props.toggleDataMenu();
-        this.props.setSelectedDataPeriod(1);
-        this.props.setSelectedColumnId(this.props.columnVisibility.length);
-        this.props.setSelectedDataName("1 hour price");
+        const {
+            toggleDataMenu,
+            setSelectedDataPeriod,
+            setSelectedColumnId,
+            setSelectedDataName,
+            processNewColumnData
+        } = this.props;
+
+        toggleDataMenu();
+        setSelectedDataPeriod(1);
+        setSelectedColumnId(this.props.columnVisibility.length);
+        setSelectedDataName("1 hour price");
         axios
             .get(`http://localhost:5000/api/crypto-data/getColumnData/${3600}`)
             .then(response => {
-                this.props.processNewColumnData(
-                    response.data,
-                    this.props.columnVisibility.length,
-                    true,
-                    "1 hour price",
-                    1
-                );
+                processNewColumnData(response.data, this.props.columnVisibility.length, true, "1 hour price", 1);
             })
             .catch(error => {
                 console.log("[Error]", error);
@@ -113,13 +118,15 @@ class CryptoTableHeader extends Component {
     };
 
     render() {
+        const { shiftVisibleColumnsBackwards, shiftVisibleColumnsForward } = this.props;
+
         return (
             <div className={styles.filterColumnsHeader}>
                 <Button
                     name={"Add Column"}
                     size={"small"}
                     style={this.addColumnBtnStyles}
-                    onClick={() => this.handleAddColumn()}
+                    onClick={this.handleAddColumn}
                 />
                 <div className={styles.spacer} />
 
@@ -129,7 +136,7 @@ class CryptoTableHeader extends Component {
                             name={"Prev"}
                             size={"small"}
                             style={this.prevBtnStyles}
-                            onClick={() => this.props.shiftVisibleColumnsBackwards()}
+                            onClick={shiftVisibleColumnsBackwards}
                         /> //shows the "Prev" button if at least the first column is set to not show
                     )}
                     {this.props.cryptoData &&
@@ -137,7 +144,6 @@ class CryptoTableHeader extends Component {
                             (column, index) =>
                                 this.props.columnVisibility[index] && (
                                     <CryptoColumnHeader
-                                        ref={this.Column}
                                         key={index}
                                         index={index}
                                         columnId={this.props.cryptoData.columns[column].columnId}
@@ -154,7 +160,7 @@ class CryptoTableHeader extends Component {
                             name={"Next"}
                             size={"small"}
                             style={this.nextBtnStyles}
-                            onClick={() => this.props.shiftVisibleColumnsForward()}
+                            onClick={shiftVisibleColumnsForward}
                         /> //shows the "Next" button if at least the last column is set to not show
                     )}
                 </div>
@@ -186,6 +192,16 @@ const mapDispatchToProps = dispatch => {
                 processNewColumnData(responseData, selectedColumnId, processForHistogram, periodName, periodNumber)
             )
     };
+};
+
+CryptoTableHeader.propTypes = {
+    toggleDataMenu: PropTypes.func,
+    setSelectedDataPeriod: PropTypes.func,
+    setSelectedColumnId: PropTypes.func,
+    setSelectedDataName: PropTypes.func,
+    processNewColumnData: PropTypes.func,
+    shiftVisibleColumnsBackwards: PropTypes.func,
+    shiftVisibleColumnsForward: PropTypes.func
 };
 
 export default connect(

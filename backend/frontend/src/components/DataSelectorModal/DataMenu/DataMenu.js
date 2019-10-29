@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styles from "./DataMenu.module.scss";
 
 import DataPeriodContainer from "./DataPeriodContainer/DataPeriodContainer";
@@ -10,20 +11,21 @@ import Pill from "../../Pill/Pill";
 
 class DataMenu extends Component {
     render() {
+        const { selected, timeframes, setSelectedDataGroup, setSelectedDataType } = this.props;
         return (
             <div className={styles.dataMenuContainer}>
                 <DataBox title="Data Type">
                     <Pill
                         fontawesomecode="fas fa-dollar-sign"
                         name="Price"
-                        onClick={() => this.props.setSelectedPeriodDataType("price")}
-                        selected={this.props.selected.dataType === "price"}
+                        // onClick={() => setSelectedDataType("price")}
+                        selected={selected.dataType === "price"}
                         size={"large"}
                     />
                     {/* <Pill
                         fontawesomecode="fas fas fa-water"
                         name="Volume(coming soon)"
-                        onClick={() => this.props.setSelectedPeriodDataType("volume")}
+                        onClick={() => setSelectedPeriodDataType("volume")}
                         selected={this.props.selected.dataType === "volume"}
                         size={"large"}
                     /> */}
@@ -33,28 +35,28 @@ class DataMenu extends Component {
                     <Pill
                         fontawesomecode="fas fa-dollar-sign"
                         name="Hours"
-                        onClick={() => this.props.setSelectedDataGroup("hour")}
-                        selected={this.props.selected.dataGroup === "hour"}
+                        onClick={() => setSelectedDataGroup("hour")}
+                        selected={selected.dataGroup === "hour"}
                         size={"large"}
                     />
                     <Pill
                         fontawesomecode="fas fas fa-water"
                         name="Days"
-                        onClick={() => this.props.setSelectedDataGroup("day")}
-                        selected={this.props.selected.dataGroup === "day"}
+                        onClick={() => setSelectedDataGroup("day")}
+                        selected={selected.dataGroup === "day"}
                         size={"large"}
                     />
                     <Pill
                         fontawesomecode="fas fa-poll"
                         name="Weeks"
-                        onClick={() => this.props.setSelectedDataGroup("week")}
-                        selected={this.props.selected.dataGroup === "week"}
+                        onClick={() => setSelectedDataGroup("week")}
+                        selected={selected.dataGroup === "week"}
                         size={"large"}
                     />
                 </DataBox>
 
                 <DataBox title="Data Period">
-                    <DataPeriodContainer periods={this.props.timeframes[this.props.selected.dataGroup] || [1]} />
+                    <DataPeriodContainer periods={timeframes[selected.dataGroup] || [1]} />
                 </DataBox>
             </div>
         );
@@ -74,6 +76,13 @@ const mapDispatchToProps = dispatch => {
         setSelectedDataType: DataType => dispatch(setSelectedDataType(DataType)),
         setSelectedDataGroup: DataGroup => dispatch(setSelectedDataGroup(DataGroup))
     };
+};
+
+DataMenu.propTypes = {
+    selected: PropTypes.object,
+    timeframes: PropTypes.object,
+    setSelectedDataGroup: PropTypes.func,
+    setSelectedDataType: PropTypes.func
 };
 
 export default connect(

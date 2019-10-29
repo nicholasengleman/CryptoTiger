@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 import React from "react";
 import "./Bar.scss";
 
@@ -8,3 +10,7 @@ const Bar = ({ percentage }) => (
 );
 
 export default Bar;
+
+Bar.propTypes = {
+    percentage: PropTypes.number
+};

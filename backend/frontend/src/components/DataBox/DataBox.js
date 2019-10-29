@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./DataBox.module.scss";
 
 const DataBox = ({ children, title }) => (
@@ -10,5 +11,9 @@ const DataBox = ({ children, title }) => (
         <div className={styles.sectionBody}>{children}</div>
     </div>
 );
+
+DataBox.propTypes = {
+    title: PropTypes.string
+};
 
 export default DataBox;

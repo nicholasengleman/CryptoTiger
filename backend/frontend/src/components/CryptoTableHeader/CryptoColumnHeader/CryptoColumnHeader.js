@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "./CryptoColumnHeader.scss";
 import EditMenu from "./../../Menu/Menu";
@@ -25,7 +26,9 @@ class CryptoColumnHeader extends Component {
                     applyHideMenuClasses: true
                 },
                 () => {
-                    this.setState({ applyHideMenuClasses: false });
+                    window.setTimeout(() => {
+                        this.setState({ applyHideMenuClasses: false });
+                    }, 100);
                 }
             );
         }
@@ -44,12 +47,13 @@ class CryptoColumnHeader extends Component {
     };
 
     render() {
+        const { filter, index, columnId, columnName, columnPeriod, columnType, columnGroup, removeFilter } = this.props;
         return (
             <div className="column">
-                {this.props.filter && Object.entries(this.props.filter.parameters).length > 0 ? (
-                    <div className="filterDescription" onClick={() => this.props.removeFilter(this.props.columnId)}>
-                        {this.props.filter.parameters.selectionMin.toFixed(2)}% to{" "}
-                        {this.props.filter.parameters.selectionMax.toFixed(2)}%<span className="deleteFilter">X</span>
+                {filter && Object.entries(filter.parameters).length > 0 ? (
+                    <div className="filterDescription" onClick={() => removeFilter(columnId)}>
+                        {filter.parameters.selectionMin.toFixed(2)}% to {filter.parameters.selectionMax.toFixed(2)}%
+                        <span className="deleteFilter">X</span>
                     </div>
                 ) : (
                     ""
@@ -60,20 +64,20 @@ class CryptoColumnHeader extends Component {
                         <EditMenu
                             applyShowMenuClasses={this.state.applyShowMenuClasses}
                             applyHideMenuClasses={this.state.applyHideMenuClasses}
-                            columnId={this.props.columnId}
-                            columnName={this.props.columnName}
-                            columnIndex={this.props.index}
-                            columnPeriod={this.props.columnPeriod}
-                            columnType={this.props.columnType}
-                            columnGroup={this.props.columnGroup}
+                            columnId={columnId}
+                            columnName={columnName}
+                            columnIndex={index}
+                            columnPeriod={columnPeriod}
+                            columnType={columnType}
+                            columnGroup={columnGroup}
                             toggleEditMenu={this.onToggleEditMenu}
                         />
                     </OutsideAlerter>
                 ) : null}
                 <div className="columnName">
-                    <p>{this.props.columnName}</p>
-                    {this.props.columnName !== "Current Price" ? (
-                        <i className="far fa-edit" onClick={() => this.onToggleEditMenu()}></i>
+                    <p>{columnName}</p>
+                    {columnName !== "Current Price" ? (
+                        <i className="far fa-edit" onClick={this.onToggleEditMenu}></i>
                     ) : null}
                 </div>
             </div>
@@ -85,6 +89,17 @@ const mapDispatchToProps = dispatch => {
     return {
         removeFilter: columnId => dispatch(removeFilter(columnId))
     };
+};
+
+CryptoColumnHeader.propTypes = {
+    filter: PropTypes.array,
+    index: PropTypes.number,
+    columnId: PropTypes.number,
+    columnName: PropTypes.string,
+    columnPeriod: PropTypes.number,
+    columnType: PropTypes.string,
+    columnGroup: PropTypes.string,
+    removeFilter: PropTypes.func
 };
 
 export default connect(

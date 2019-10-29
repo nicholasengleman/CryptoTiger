@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import classNames from "classnames";
 import checkmark from "../../../../../img/checkmark_white.png";
 import arrow from "../../../../../img/arrow_cute.png";
@@ -16,15 +17,22 @@ import {
 
 class DataPeriod extends Component {
     handleSetPeriod = (dataType, dataGroup, dataPeriod, dataName, periodTime) => {
-        this.props.resetCryptoBuffer();
-        this.props.setSelectedDataPeriod(dataPeriod);
-        this.props.setSelectedDataName(dataName);
+        const {
+            resetCryptoBuffer,
+            setSelectedDataPeriod,
+            setSelectedDataName,
+            processNewColumnData,
+            selectedData
+        } = this.props;
+        resetCryptoBuffer();
+        setSelectedDataPeriod(dataPeriod);
+        setSelectedDataName(dataName);
         axios
             .get(`http://localhost:5000/api/crypto-data/getColumnData/${periodTime}`)
             .then(response => {
-                this.props.processNewColumnData(
+                processNewColumnData(
                     response.data,
-                    this.props.selectedData.selectedColumnId,
+                    selectedData.selectedColumnId,
                     true,
                     dataType,
                     dataGroup,
@@ -37,15 +45,16 @@ class DataPeriod extends Component {
             });
     };
     render() {
+        const { selectedData, periodNumber, periodName, periodTime, selected } = this.props;
         return (
             <div
                 onClick={() =>
                     this.handleSetPeriod(
-                        this.props.selectedData.selectedPeriod.dataType,
-                        this.props.selectedData.selectedPeriod.dataGroup,
-                        this.props.periodNumber,
-                        this.props.periodName,
-                        this.props.periodTime
+                        selectedData.selectedPeriod.dataType,
+                        selectedData.selectedPeriod.dataGroup,
+                        periodNumber,
+                        periodName,
+                        periodTime
                     )
                 }
                 className={classNames(styles.period)}
@@ -53,10 +62,10 @@ class DataPeriod extends Component {
                 <div className={styles.arrow}>
                     <img src={arrow} alt="" />
                 </div>
-                <div className={classNames(styles.checkbox, this.props.selected ? styles.selected : null)}>
+                <div className={classNames(styles.checkbox, selected ? styles.selected : null)}>
                     <img src={checkmark} alt="" />
                 </div>
-                <p> {this.props.periodName}</p>
+                <p> {periodName}</p>
             </div>
         );
     }
@@ -94,6 +103,18 @@ const mapDispatchToProps = dispatch => {
                 )
             )
     };
+};
+
+DataPeriod.propTypes = {
+    resetCryptoBuffer: PropTypes.func,
+    setSelectedDataPeriod: PropTypes.func,
+    setSelectedDataName: PropTypes.func,
+    processNewColumnData: PropTypes.func,
+    selectedData: PropTypes.object,
+    periodNumber: PropTypes.number,
+    periodName: PropTypes.string,
+    periodTime: PropTypes.number,
+    selected: PropTypes.object
 };
 
 export default connect(

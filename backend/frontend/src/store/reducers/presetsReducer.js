@@ -1,6 +1,3 @@
-import * as actionTypes from "../actions/actionTypes";
-import { updatedObject } from "../utilities/utilities";
-
 const initialState = {
     presets: [
         {

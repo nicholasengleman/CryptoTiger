@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./Button.scss";
 
 import classNames from "classnames";
@@ -37,6 +38,11 @@ Button.defaultProps = {
     textalign: "center",
     theme: "blue",
     name: "button"
+};
+
+Button.propTypes = {
+    fontawesomecode: PropTypes.string,
+    name: PropTypes.string
 };
 
 export default Button;

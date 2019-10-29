@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import styles from "./HistogramContainer.module.scss";
@@ -22,6 +23,7 @@ class HistogramContainer extends Component {
     };
 
     render() {
+        const { histogramData, handleSetBoundries, selectedColumnId } = this.props;
         return (
             <div className={styles.HistogramContainer}>
                 <ClipLoader
@@ -34,9 +36,9 @@ class HistogramContainer extends Component {
                     }
                 />
                 <Histogram
-                    data={this.props.histogramData.length > 0 ? this.props.histogramData : [1]}
-                    getBoundries={this.props.handleSetBoundries}
-                    buttonPresets={this.findFilter(this.props.selectedColumnId)}
+                    data={histogramData.length > 0 ? this.props.histogramData : [1]}
+                    getBoundries={handleSetBoundries}
+                    buttonPresets={this.findFilter(selectedColumnId)}
                 />
             </div>
         );
@@ -50,6 +52,12 @@ const mapStateToProps = state => {
         selectedColumnId: state.selectedData.selectedColumnId,
         dataMenu: state.dataMenu.dataMenu
     };
+};
+
+HistogramContainer.propTypes = {
+    histogramData: PropTypes.array,
+    handleSetBoundries: PropTypes.func,
+    selectedColumnId: PropTypes.number
 };
 
 export default connect(mapStateToProps)(HistogramContainer);

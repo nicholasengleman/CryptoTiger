@@ -1,5 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
-import { updatedObject, findCurrentValueOfCrypto, filterCryptos } from "../utilities/utilities";
+import { updatedObject } from "../utilities/utilities";
 import _ from "lodash";
 
 const initialState = {

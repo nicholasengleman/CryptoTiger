@@ -1,5 +1,5 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 import classNames from "classnames";
 import styles from "./Menu.module.scss";
 
@@ -17,48 +17,60 @@ import {
     setSelectedDataName
 } from "../../store/actions/actionCreators";
 
-const Menu = props => {
+const Menu = ({
+    applyShowMenuClasses,
+    applyHideMenuClasses,
+    processDataFromStoreForHistogram,
+    setSelectedDataType,
+    setSelectedDataGroup,
+    setSelectedDataPeriod,
+    setSelectedDataName,
+    setSelectedColumnId,
+    toggleDataMenu,
+    toggleEditMenu,
+    removeColumnData,
+    removeColumn,
+    columnType,
+    columnGroup,
+    columnPeriod,
+    columnName,
+    columnId,
+    columnIndex,
+    removeFilter
+}) => {
     let classes = classNames({
         [styles.editMenu]: true,
-        [styles.showMenu]: props.applyShowMenuClasses,
-        [styles.hideMenu]: props.applyHideMenuClasses
+        [styles.showMenu]: applyShowMenuClasses,
+        [styles.hideMenu]: applyHideMenuClasses
     });
 
     const handleOpenDataMenu = (columnType, columnGroup, columnPeriod, columnName, columnId) => {
-        props.processDataFromStoreForHistogram(columnName);
-        props.setSelectedDataType(columnType);
-        props.setSelectedDataGroup(columnGroup);
-        props.setSelectedDataPeriod(columnPeriod);
-        props.setSelectedDataName(columnName);
-        props.setSelectedColumnId(columnId);
-        props.toggleDataMenu(columnName);
-        props.toggleEditMenu();
+        processDataFromStoreForHistogram(columnName);
+        setSelectedDataType(columnType);
+        setSelectedDataGroup(columnGroup);
+        setSelectedDataPeriod(columnPeriod);
+        setSelectedDataName(columnName);
+        setSelectedColumnId(columnId);
+        toggleDataMenu(columnName);
+        toggleEditMenu();
     };
 
     const handleRemoveColumn = (columnId, columnIndex) => {
-        props.removeColumnData(columnId);
-        props.removeColumn(columnIndex);
-        props.removeFilter(columnId);
-        props.toggleEditMenu();
+        removeColumnData(columnId);
+        removeColumn(columnIndex);
+        removeFilter(columnId);
+        toggleEditMenu();
     };
 
     return (
         <div className={classes}>
             <button
                 className={styles.button}
-                onClick={() =>
-                    handleOpenDataMenu(
-                        props.columnType,
-                        props.columnGroup,
-                        props.columnPeriod,
-                        props.columnName,
-                        props.columnId
-                    )
-                }
+                onClick={() => handleOpenDataMenu(columnType, columnGroup, columnPeriod, columnName, columnId)}
             >
                 Edit
             </button>
-            <button className={styles.button} onClick={() => handleRemoveColumn(props.columnId, props.columnIndex)}>
+            <button className={styles.button} onClick={() => handleRemoveColumn(columnId, columnIndex)}>
                 Delete
             </button>
         </div>
@@ -78,6 +90,28 @@ const mapDispatchToProps = dispatch => {
         removeColumn: columnIndex => dispatch(removeColumn(columnIndex)),
         removeFilter: columnId => dispatch(removeFilter(columnId))
     };
+};
+
+Menu.propTypes = {
+    applyShowMenuClasses: PropTypes.bool,
+    applyHideMenuClasses: PropTypes.bool,
+    processDataFromStoreForHistogram: PropTypes.func,
+    setSelectedDataType: PropTypes.func,
+    setSelectedDataGroup: PropTypes.func,
+    setSelectedDataPeriod: PropTypes.func,
+    setSelectedDataName: PropTypes.func,
+    setSelectedColumnId: PropTypes.func,
+    toggleDataMenu: PropTypes.func,
+    toggleEditMenu: PropTypes.func,
+    removeColumnData: PropTypes.func,
+    removeColumn: PropTypes.func,
+    columnType: PropTypes.string,
+    columnGroup: PropTypes.string,
+    columnPeriod: PropTypes.number,
+    columnName: PropTypes.string,
+    columnId: PropTypes.number,
+    columnIndex: PropTypes.number,
+    removeFilter: PropTypes.func
 };
 
 export default connect(

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styles from "./DataSelectorModal.module.scss";
 
@@ -36,31 +37,42 @@ class DataSelectorModal extends Component {
     };
 
     handleSave = () => {
-        this.props.addColumnData();
+        const {
+            selectedData,
+            columnsData,
+            addColumnData,
+            addColumn,
+            editColumnData,
+            filterData,
+            addFilter,
+            moveCryptoBufferToData
+        } = this.props;
 
-        if (this.props.selectedData.selectedColumnId === this.props.columnsData.columnVisibility.length) {
-            this.props.addColumn();
+        addColumnData();
+
+        if (selectedData.selectedColumnId === columnsData.columnVisibility.length) {
+            addColumn();
         }
 
-        if (this.props.selectedData.selectedColumnId !== this.props.columnsData.columnVisibility.length) {
-            this.props.editColumnData();
+        if (selectedData.selectedColumnId !== columnsData.columnVisibility.length) {
+            editColumnData();
         }
 
         if (this.state.filterParameters.selectionMax) {
-            if (this.props.filterData.filterParameters.length === 0) {
-                this.props.moveCryptoBufferToData();
-                this.props.addFilter(this.props.selectedData.selectedColumnId, this.state.filterParameters);
+            if (filterData.filterParameters.length === 0) {
+                moveCryptoBufferToData();
+                addFilter(selectedData.selectedColumnId, this.state.filterParameters);
             }
-            if (this.props.filterData.filterParameters.length > 0) {
-                let indexOfFilter = this.props.filterData.filterParameters.findIndex(filter => {
-                    return filter.columnId === this.props.selectedData.selectedColumnId;
+            if (filterData.filterParameters.length > 0) {
+                let indexOfFilter = filterData.filterParameters.findIndex(filter => {
+                    return filter.columnId === selectedData.selectedColumnId;
                 });
                 if (indexOfFilter === -1) {
-                    this.props.moveCryptoBufferToData();
-                    this.props.addFilter(this.props.selectedData.selectedColumnId, this.state.filterParameters);
+                    moveCryptoBufferToData();
+                    addFilter(selectedData.selectedColumnId, this.state.filterParameters);
                 } else {
-                    this.props.moveCryptoBufferToData();
-                    this.props.editFilter(this.props.selectedData.selectedColumnId, this.state.filterParameters);
+                    moveCryptoBufferToData();
+                    editFilter(selectedData.selectedColumnId, this.state.filterParameters);
                 }
             }
         }
@@ -77,7 +89,7 @@ class DataSelectorModal extends Component {
                     <DataSelector />
                     <HistogramContainer handleSetBoundries={this.handleSetBoundries} />
                     <div className={styles.modalFooter}>
-                        <Button onClick={() => this.handleClose()} name="Cancel" />
+                        <Button onClick={this.handleClose} name="Cancel" />
                         <Button onClick={this.handleSave} name="Apply" />
                     </div>
                 </React.Fragment>
@@ -107,6 +119,17 @@ const mapDispatchToProps = dispatch => {
         moveCryptoBufferToData: () => dispatch(moveCryptoBufferToData()),
         removeSelectedColumnId: () => dispatch(removeSelectedColumnId())
     };
+};
+
+DataSelectorModal.propTypes = {
+    selectedData: PropTypes.object,
+    columnsData: PropTypes.object,
+    filterData: PropTypes.object,
+    addColumnData: PropTypes.func,
+    addColumn: PropTypes.func,
+    editColumnData: PropTypes.func,
+    addFilter: PropTypes.func,
+    moveCryptoBufferToData: PropTypes.func
 };
 
 export default connect(

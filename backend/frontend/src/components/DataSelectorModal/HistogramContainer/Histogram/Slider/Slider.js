@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import PropTypes from "prop-types";
 import SliderBtn from "./SliderBtn/SliderBtn";
 import "./Slider.css";
 
@@ -35,51 +35,46 @@ class Slider extends Component {
     }
 
     render() {
+        const { sliderContainerWidth, buttonLeft, buttonRight, handleButtonMovement } = this.props;
         return (
             <div className="sliderContainer">
                 <div className="sliderBar" ref={this.sliderBar}>
                     <div
                         style={{
-                            right:
-                                "calc(" +
-                                this.props.sliderContainerWidth +
-                                "px - 25px - " +
-                                this.props.buttonLeft +
-                                "px)",
+                            right: "calc(" + sliderContainerWidth + "px - 25px - " + buttonLeft + "px)",
                             left: 0
                         }}
                         className="sliderBarOverlay"
                     />
                     <div
                         style={{
-                            left:
-                                this.props.buttonRight !== 0
-                                    ? this.props.buttonRight
-                                    : this.props.sliderContainerWidth + "px",
+                            left: buttonRight !== 0 ? buttonRight : sliderContainerWidth + "px",
                             right: 0
                         }}
                         className="sliderBarOverlay"
                     />
                 </div>
 
-                <SliderBtn
-                    btn_id={"Min"}
-                    handleButtonMovement={this.props.handleButtonMovement}
-                    translateX={this.props.buttonLeft}
-                />
+                <SliderBtn btn_id={"Min"} handleButtonMovement={handleButtonMovement} translateX={buttonLeft} />
 
                 <SliderBtn
                     btn_id={"Max"}
-                    handleButtonMovement={this.props.handleButtonMovement}
-                    translateX={
-                        this.props.buttonRight !== 0
-                            ? this.props.buttonRight
-                            : this.props.sliderContainerWidth - this.buttonWidth
-                    }
+                    handleButtonMovement={handleButtonMovement}
+                    translateX={buttonRight !== 0 ? buttonRight : sliderContainerWidth - this.buttonWidth}
                 />
             </div>
         );
     }
 }
+
+Slider.propTypes = {
+    sliderContainerWidth: PropTypes.number,
+    buttonLeft: PropTypes.number,
+    buttonRight: PropTypes.number,
+    handleButtonMovement: PropTypes.func,
+    getSliderBarDimensions: PropTypes.func,
+    sliderContainerRightPosition: PropTypes.number,
+    sliderContainerLeftPosition: PropTypes.number
+};
 
 export default Slider;

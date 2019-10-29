@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styles from "./Cell.module.scss";
 import classNames from "classnames";
 import winningNormal from "../../../img/winning-normal.png";
@@ -40,39 +41,49 @@ class Cell extends Component {
     }
 
     getValue = () => {
-        if (this.props.columnPeriod === 0) {
-            return "$" + this.props.cryptoRawValue.toFixed(2);
+        const { columnPeriod, cryptoRawValue, cryptoPercentChange } = this.props;
+
+        if (columnPeriod === 0) {
+            return "$" + cryptoRawValue.toFixed(2);
         } else {
-            return this.props.cryptoPercentChange + "%";
+            return cryptoPercentChange + "%";
         }
     };
 
     render() {
+        const { columnPeriod, cryptoPercentChange, columnName } = this.props;
         return (
             <div className={styles.dataContainer}>
                 <span
                     className={classNames(
                         styles.priceData,
-                        this.props.columnPeriod !== 0 && this.props.cryptoPercentChange > 0 ? styles.up : styles.down
+                        columnPeriod !== 0 && cryptoPercentChange > 0 ? styles.up : styles.down
                     )}
                 >
                     {this.getValue()}
-                    {this.props.columnPeriod !== 0 && (
+                    {columnPeriod !== 0 && (
                         <span className={styles.arrowContainer}>
                             <img
                                 className={styles.arrow}
-                                src={this.props.cryptoPercentChange > 0 ? winningNormal : losingNormal}
+                                src={cryptoPercentChange > 0 ? winningNormal : losingNormal}
                                 alt=""
                             />
                         </span>
                     )}
                 </span>
 
-                <div className={styles.description}> {this.props.columnName} </div>
+                <div className={styles.description}> {columnName} </div>
                 <div className={this.state.flash ? styles.flash : ""}></div>
             </div>
         );
     }
 }
+
+Cell.propTypes = {
+    columnPeriod: PropTypes.number,
+    cryptoRawValue: PropTypes.number,
+    cryptoPercentChange: PropTypes.number,
+    columnName: PropTypes.string
+};
 
 export default Cell;

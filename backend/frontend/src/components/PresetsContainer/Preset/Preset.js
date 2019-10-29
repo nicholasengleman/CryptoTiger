@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styles from "./Preset.module.scss";
 import axios from "axios";
@@ -35,14 +36,15 @@ class Preset extends Component {
     }
 
     onApplyPreset = () => {
-        this.props.emptyData();
-        this.props.emptyFilter();
+        const { emptyData, emptyFilter, addFilter, columns, processNewColumnData } = this.props;
+        emptyData();
+        emptyFilter();
         setTimeout(() => {
-            this.props.columns.forEach(column => {
+            columns.forEach(column => {
                 axios
                     .get(`http://localhost:5000/api/crypto-data/getColumnData/${column.time}`)
                     .then(response => {
-                        this.props.processNewColumnData(
+                        processNewColumnData(
                             response.data,
                             column.columnIndex,
                             false,
@@ -56,7 +58,7 @@ class Preset extends Component {
                                 selectionMin: column.filter[0],
                                 selectionMax: column.filter[1]
                             };
-                            this.props.addFilter(column.columnIndex, filterParameters);
+                            addFilter(column.columnIndex, filterParameters);
                         }
                     })
                     .catch(error => {
@@ -67,19 +69,20 @@ class Preset extends Component {
     };
 
     render() {
+        const { name, rating, columns } = this.props;
         return (
             <div className={styles.preset}>
                 <div className={styles.body}>
                     <div className={styles.header}>
                         <img className={styles.icon} src={icon_ledger} alt="" />
                         <div>
-                            <div className={styles.title}>{this.props.name}</div>
+                            <div className={styles.title}>{name}</div>
                         </div>
                     </div>
 
-                    <div class={styles.rating}>
-                        <span className={styles.ratingNumber}>{this.props.rating} Rating</span>
-                        <Bar percentage={this.props.rating} />
+                    <div className={styles.rating}>
+                        <span className={styles.ratingNumber}>{rating} Rating</span>
+                        <Bar percentage={rating} />
                         <div className={styles.heartButton}>
                             <img className={styles.heartIcon} src={icon_heart} alt="" />
                         </div>
@@ -88,8 +91,10 @@ class Preset extends Component {
                     <div className={styles.sectionTitle}>Columns</div>
 
                     <div className={styles.filtersContainer}>
-                        {this.props.columns.map(column => (
-                            <div className={styles.column}>{column.description}</div>
+                        {columns.map((column, i) => (
+                            <div key={i} className={styles.column}>
+                                {column.description}
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -136,6 +141,16 @@ const mapDispatchToProps = dispatch => {
                 processNewColumnData(newColumnData, id, processForHistogram, dataType, dataGroup, dataPeriod, dataName)
             )
     };
+};
+
+Preset.protoType = {
+    emptyData: PropTypes.func,
+    emptyFilter: PropTypes.func,
+    addFilter: PropTypes.func,
+    processNewColumnData: PropTypes.func,
+    columns: PropTypes.array,
+    name: PropTypes.string,
+    rating: PropTypes.string
 };
 
 export default connect(

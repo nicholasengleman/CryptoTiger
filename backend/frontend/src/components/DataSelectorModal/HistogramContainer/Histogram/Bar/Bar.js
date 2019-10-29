@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./Bar.scss";
 
 class Bar extends React.PureComponent {
@@ -9,11 +10,11 @@ class Bar extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.setBarLocation(this.props.index, this.ref.current.offsetLeft);
-
+        const { index, setBarLocation } = this.props;
+        setBarLocation(index, this.ref.current.offsetLeft);
         window.addEventListener("resize", () => {
             if (this.ref.current) {
-                this.props.setBarLocation(this.props.index, this.ref.current.offsetLeft);
+                setBarLocation(index, this.ref.current.offsetLeft);
             }
         });
     }
@@ -28,26 +29,38 @@ class Bar extends React.PureComponent {
     }
 
     render() {
+        const { tooltip, directionalClass, height, marginBottom, marginTop, backgroundColor, width } = this.props;
+
         return (
             <div
                 style={{
-                    height: this.props.height || 0,
-                    marginBottom: this.props.marginBottom || 0,
-                    marginTop: this.props.marginTop || 0,
-                    backgroundColor: this.props.backgroundColor,
-                    width: this.props.width
+                    height: height || 0,
+                    marginBottom: marginBottom || 0,
+                    marginTop: marginTop || 0,
+                    backgroundColor: backgroundColor,
+                    width
                 }}
-                className={`bar ${[this.props.directionalClass]}`}
+                className={`bar ${[directionalClass]}`}
                 ref={this.ref}
             >
                 <div className="tooltip">
-                    <p>{this.props.tooltip && this.props.tooltip.name}</p>
-                    <p>{this.props.tooltip && this.props.tooltip.value}%</p>
+                    <p>{tooltip && tooltip.name}</p>
+                    <p>{tooltip && tooltip.value}%</p>
                     <div className="tooltipArrow"></div>
                 </div>
             </div>
         );
     }
 }
+
+Bar.propTypes = {
+    tooltip: PropTypes.object,
+    directionalClass: PropTypes.string,
+    height: PropTypes.number,
+    marginBottom: PropTypes.number,
+    marginTop: PropTypes.number,
+    backgroundColor: PropTypes.string,
+    width: PropTypes.number
+};
 
 export default Bar;

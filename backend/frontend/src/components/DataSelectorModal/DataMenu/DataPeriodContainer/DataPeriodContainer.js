@@ -1,30 +1,32 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styles from "./DataPeriodContainer.module.scss";
 import DataPeriod from "./DataPeriod/DataPeriod";
 import { connect } from "react-redux";
 
 class DataPeriodContainer extends Component {
     render() {
+        const { selectedPeriod, periods } = this.props;
+
         let dateMultiplier = 1;
-        if (this.props.selectedPeriod.dataGroup === "day") {
+        if (selectedPeriod.dataGroup === "day") {
             dateMultiplier = 24;
         }
-        if (this.props.selectedPeriod.dataGroup === "week") {
+        if (selectedPeriod.dataGroup === "week") {
             dateMultiplier = 24 * 7;
         }
 
         return (
             <div className={styles.dataPeriodsContainer}>
-                {this.props.periods.map(function(period) {
+                {periods.map(function(period) {
                     return (
                         <DataPeriod
                             key={period}
                             periodTime={period * 60 * 60 * dateMultiplier}
                             periodNumber={period}
-                            periodName={`${period} ${this.props.selectedPeriod.dataGroup} price`}
+                            periodName={`${period} ${selectedPeriod.dataGroup} price`}
                             selected={
-                                this.props.selectedPeriod.dataName.toLowerCase() ===
-                                `${period} ${this.props.selectedPeriod.dataGroup} price`
+                                selectedPeriod.dataName.toLowerCase() === `${period} ${selectedPeriod.dataGroup} price`
                             }
                         />
                     );
@@ -38,6 +40,11 @@ const mapStateToProps = state => {
     return {
         selectedPeriod: state.selectedData.selectedPeriod
     };
+};
+
+DataPeriodContainer.propTypes = {
+    selectedPeriod: PropTypes.object,
+    period: PropTypes.array
 };
 
 export default connect(mapStateToProps)(DataPeriodContainer);

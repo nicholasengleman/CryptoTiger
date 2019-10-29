@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./Modal.scss";
 
 class Modal extends React.Component {
@@ -8,6 +9,7 @@ class Modal extends React.Component {
         } else {
             document.body.classList.remove("MODAL_OPEN_CLASS");
         }
+        return null;
     };
 
     render() {
@@ -18,5 +20,9 @@ class Modal extends React.Component {
         );
     }
 }
+
+Modal.propTypes = {
+    dataMenu: PropTypes.bool
+};
 
 export default Modal;

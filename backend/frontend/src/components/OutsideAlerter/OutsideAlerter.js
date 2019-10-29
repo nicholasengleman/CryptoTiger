@@ -40,7 +40,3 @@ export default class OutsideAlerter extends Component {
         return <div ref={this.setWrapperRef}>{this.props.children}</div>;
     }
 }
-
-// OutsideAlerter.propTypes = {
-//   children: Proptypes.element.isRequired;
-// }

@@ -146,6 +146,10 @@
             background-color: #4050b9;
             border: 2px solid #4050b9;
         }
+        &.selected {
+            background-color: #4050b9;
+            color: white;
+        }
     }
 }
 .preset:last-child {

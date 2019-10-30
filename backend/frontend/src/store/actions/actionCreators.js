@@ -100,6 +100,13 @@ export const storePresetData = (presetId, presetData) => {
     };
 };
 
+export const setSelectedPreset = presetId => {
+    return {
+        type: actionTypes.SET_SELECTED_PRESET,
+        payload: { presetId }
+    };
+};
+
 export const updateLiveColumnView = () => {
     return {
         type: actionTypes.UPDATE_LIVE_COLUMN_VIEW

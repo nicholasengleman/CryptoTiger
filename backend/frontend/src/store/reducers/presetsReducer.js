@@ -4,6 +4,7 @@ import _ from "lodash";
 
 const initialState = {
     presetData: {},
+    selectedPreset: 0,
     presets: [
         {
             id: 1,
@@ -139,6 +140,11 @@ const initialState = {
     ]
 };
 
+const setSelectedPreset = (state, action) => {
+    const updatedState = { selectedPreset: action.payload.presetId };
+    return updatedObject(state, updatedState);
+};
+
 const storePresetData = (state, action) => {
     let presetData = _.cloneDeep(state.presetData);
     presetData[action.payload.presetId] = action.payload.presetData;
@@ -148,6 +154,8 @@ const storePresetData = (state, action) => {
 
 const presetReducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.SET_SELECTED_PRESET:
+            return setSelectedPreset(state, action);
         case actionTypes.STORE_PRESET_DATA:
             return storePresetData(state, action);
         default:

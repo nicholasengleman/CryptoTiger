@@ -6,7 +6,13 @@ import icon_ledger from "./../../../img/icon_ledger.png";
 import icon_heart from "./../../../img/icon_heart.png";
 import Bar from "./../../Bar/Bar";
 
-import { processNewColumnData, emptyData, emptyFilter, addFilter } from "../../../store/actions/actionCreators";
+import {
+    processNewColumnData,
+    emptyData,
+    emptyFilter,
+    addFilter,
+    setSelectedPreset
+} from "../../../store/actions/actionCreators";
 
 class Preset extends Component {
     constructor(props) {
@@ -37,10 +43,11 @@ class Preset extends Component {
     onApplyPreset = () => {
         this.props.emptyData();
         this.props.emptyFilter();
+        this.props.setSelectedPreset(this.props.presetNumber);
         setTimeout(() => {
             this.props.columns.forEach((column, index) => {
                 this.props.processNewColumnData(
-                    this.props.presetsData[this.props.presetNumber][index],
+                    this.props.presetsData.presetData[this.props.presetNumber][index],
                     column.columnIndex,
                     column.columnType,
                     column.columnGroup,
@@ -55,7 +62,7 @@ class Preset extends Component {
                     this.props.addFilter(column.columnIndex, filterParameters);
                 }
             });
-        }, 100);
+        }, 200);
     };
 
     render() {
@@ -111,7 +118,12 @@ class Preset extends Component {
 
                         <div className={styles.subsTotal}>{this.state.subsTotal} Subs to Preset</div>
                     </div>
-                    <button className={styles.applyPresetBtn} onClick={() => this.onApplyPreset()}>
+                    <button
+                        className={`${styles.applyPresetBtn} ${
+                            this.props.presetsData.selectedPreset === this.props.presetNumber ? styles.selected : ""
+                        }`}
+                        onClick={() => this.onApplyPreset()}
+                    >
                         Apply Preset
                     </button>
                 </div>
@@ -122,7 +134,7 @@ class Preset extends Component {
 
 const mapStateToProps = state => {
     return {
-        presetsData: state.presetsData.presetData
+        presetsData: state.presetsData
     };
 };
 
@@ -130,6 +142,7 @@ const mapDispatchToProps = dispatch => {
     return {
         emptyData: () => dispatch(emptyData()),
         emptyFilter: () => dispatch(emptyFilter()),
+        setSelectedPreset: presetId => dispatch(setSelectedPreset(presetId)),
         addFilter: (columnId, filterParameters) => dispatch(addFilter(columnId, filterParameters)),
         processNewColumnData: (newColumnData, id, processForHistogram, dataType, dataGroup, dataPeriod, dataName) =>
             dispatch(

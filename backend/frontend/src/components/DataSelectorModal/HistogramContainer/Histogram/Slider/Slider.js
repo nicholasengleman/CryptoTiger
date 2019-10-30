@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import SliderBtn from "./SliderBtn/SliderBtn";
+import _ from "lodash";
 import "./Slider.css";
 
 class Slider extends Component {
@@ -12,12 +13,9 @@ class Slider extends Component {
 
     componentDidMount() {
         this.calculateDimensions();
-        window.addEventListener(
-            "resize",
-            function() {
-                this.calculateDimensions();
-            }.bind(this)
-        );
+        window.addEventListener("resize", () => {
+            this.calculateDimensions();
+        });
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

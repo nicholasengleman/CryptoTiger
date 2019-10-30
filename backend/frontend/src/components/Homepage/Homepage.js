@@ -9,7 +9,8 @@ import {
     fetchCryptosFailure,
     fetchCryptosSuccess,
     updateCurrentData,
-    setColumns
+    setColumns,
+    storePresetData
 } from "../../store/actions/actionCreators";
 
 import styles from "./Homepage.module.scss";
@@ -29,7 +30,7 @@ class Homepage extends Component {
     }
 
     componentDidMount() {
-        const { fetchSuccess, fetchFailure, updateCurrentData, setColumns } = this.props;
+        const { fetchSuccess, fetchFailure, updateCurrentData, presetsData, storePresetData, setColumns } = this.props;
         axios
             .get("http://localhost:5000/api/crypto-data/getDefaultData")
             .then(response => {
@@ -40,6 +41,23 @@ class Homepage extends Component {
                 fetchFailure(error);
                 console.log("[Error]", error);
             });
+
+        presetsData.presets.forEach(preset => {
+            let data = [];
+            preset.columns.forEach(column => {
+                axios
+                    .get(`http://localhost:5000/api/crypto-data/getColumnData/${column.time}`)
+                    .then(response => {
+                        data.push(response.data);
+                        if (data.length === preset.columns.length) {
+                            storePresetData(preset.id, data);
+                        }
+                    })
+                    .catch(error => {
+                        console.log("[Error]: ", error);
+                    });
+            });
+        });
 
         const { endpoint } = this.state;
         const socket = socketIOClient(endpoint);
@@ -90,7 +108,8 @@ class Homepage extends Component {
 
 const mapStateToProps = state => {
     return {
-        cryptosData: selectFilteredCryptos(state.cryptoData.data, state.filterData.filterParameters)
+        cryptosData: selectFilteredCryptos(state.cryptoData.data, state.filterData.filterParameters),
+        presetsData: state.presetsData
     };
 };
 
@@ -99,12 +118,14 @@ const mapDispatchToProps = dispatch => {
         updateCurrentData: data => dispatch(updateCurrentData(data)),
         fetchSuccess: data => dispatch(fetchCryptosSuccess(data)),
         fetchFailure: error => dispatch(fetchCryptosFailure(error)),
-        setColumns: columns => dispatch(setColumns(columns))
+        setColumns: columns => dispatch(setColumns(columns)),
+        storePresetData: (presetId, presetData) => dispatch(storePresetData(presetId, presetData))
     };
 };
 
 Homepage.propTypes = {
-    cryptosData: PropTypes.array
+    cryptosData: PropTypes.object,
+    processPresetData: PropTypes.func
 };
 
 export default connect(

@@ -1,4 +1,9 @@
+import * as actionTypes from "../actions/actionTypes";
+import { updatedObject } from "../utilities/utilities";
+import _ from "lodash";
+
 const initialState = {
+    presetData: {},
     presets: [
         {
             id: 1,
@@ -134,8 +139,17 @@ const initialState = {
     ]
 };
 
+const storePresetData = (state, action) => {
+    let presetData = _.cloneDeep(state.presetData);
+    presetData[action.payload.presetId] = action.payload.presetData;
+    const updatedState = { presetData };
+    return updatedObject(state, updatedState);
+};
+
 const presetReducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.STORE_PRESET_DATA:
+            return storePresetData(state, action);
         default:
             return state;
     }

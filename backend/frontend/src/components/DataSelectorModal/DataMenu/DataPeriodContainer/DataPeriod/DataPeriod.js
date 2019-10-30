@@ -33,7 +33,6 @@ class DataPeriod extends Component {
                 processNewColumnData(
                     response.data,
                     selectedData.selectedColumnId,
-                    true,
                     dataType,
                     dataGroup,
                     dataPeriod,
@@ -82,26 +81,8 @@ const mapDispatchToProps = dispatch => {
         resetCryptoBuffer: () => dispatch(resetCryptoBuffer()),
         setSelectedDataPeriod: dataPeriod => dispatch(setSelectedDataPeriod(dataPeriod)),
         setSelectedDataName: dataName => dispatch(setSelectedDataName(dataName)),
-        processNewColumnData: (
-            responseData,
-            selectedColumnId,
-            processForHistogram,
-            dataType,
-            dataGroup,
-            dataPeriod,
-            dataName
-        ) =>
-            dispatch(
-                processNewColumnData(
-                    responseData,
-                    selectedColumnId,
-                    processForHistogram,
-                    dataType,
-                    dataGroup,
-                    dataPeriod,
-                    dataName
-                )
-            )
+        processNewColumnData: (responseData, selectedColumnId, dataType, dataGroup, dataPeriod, dataName) =>
+            dispatch(processNewColumnData(responseData, selectedColumnId, dataType, dataGroup, dataPeriod, dataName))
     };
 };
 

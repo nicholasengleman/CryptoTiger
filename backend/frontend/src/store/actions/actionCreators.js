@@ -86,18 +86,17 @@ export const emptyData = () => {
     };
 };
 
-export const processNewColumnData = (
-    responseData,
-    selectedColumnId,
-    processForHistogram,
-    dataType,
-    dataGroup,
-    dataPeriod,
-    dataName
-) => {
+export const processNewColumnData = (responseData, selectedColumnId, dataType, dataGroup, dataPeriod, dataName) => {
     return {
         type: actionTypes.PROCESS_NEW_COLUMN_DATA,
-        payload: { responseData, selectedColumnId, processForHistogram, dataType, dataGroup, dataPeriod, dataName }
+        payload: { responseData, selectedColumnId, dataType, dataGroup, dataPeriod, dataName }
+    };
+};
+
+export const storePresetData = (presetId, presetData) => {
+    return {
+        type: actionTypes.STORE_PRESET_DATA,
+        payload: { presetId, presetData }
     };
 };
 

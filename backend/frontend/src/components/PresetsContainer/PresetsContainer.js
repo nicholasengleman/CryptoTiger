@@ -10,7 +10,13 @@ class PresetsContainer extends Component {
             <div className={styles.presetsSection}>
                 <div className={styles.presetsContainer}>
                     {this.props.presetData.map((preset, index) => (
-                        <Preset key={index} name={preset.name} rating={preset.rating} columns={preset.columns} />
+                        <Preset
+                            key={index}
+                            presetNumber={index + 1}
+                            name={preset.name}
+                            rating={preset.rating}
+                            columns={preset.columns}
+                        />
                     ))}
                 </div>
             </div>

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styles from "./Preset.module.scss";
 import axios from "axios";
@@ -36,53 +35,43 @@ class Preset extends Component {
     }
 
     onApplyPreset = () => {
-        const { emptyData, emptyFilter, addFilter, columns, processNewColumnData } = this.props;
-        emptyData();
-        emptyFilter();
+        this.props.emptyData();
+        this.props.emptyFilter();
         setTimeout(() => {
-            columns.forEach(column => {
-                axios
-                    .get(`http://localhost:5000/api/crypto-data/getColumnData/${column.time}`)
-                    .then(response => {
-                        processNewColumnData(
-                            response.data,
-                            column.columnIndex,
-                            false,
-                            column.columnType,
-                            column.columnGroup,
-                            column.columnPeriod,
-                            column.columnName
-                        );
-                        if (column.filter.length > 0) {
-                            let filterParameters = {
-                                selectionMin: column.filter[0],
-                                selectionMax: column.filter[1]
-                            };
-                            addFilter(column.columnIndex, filterParameters);
-                        }
-                    })
-                    .catch(error => {
-                        console.log("[Error]: ", error);
-                    });
+            this.props.columns.forEach((column, index) => {
+                this.props.processNewColumnData(
+                    this.props.presetsData[this.props.presetNumber][index],
+                    column.columnIndex,
+                    column.columnType,
+                    column.columnGroup,
+                    column.columnPeriod,
+                    column.columnName
+                );
+                if (column.filter.length > 0) {
+                    let filterParameters = {
+                        selectionMin: column.filter[0],
+                        selectionMax: column.filter[1]
+                    };
+                    this.props.addFilter(column.columnIndex, filterParameters);
+                }
             });
         }, 100);
     };
 
     render() {
-        const { name, rating, columns } = this.props;
         return (
             <div className={styles.preset}>
                 <div className={styles.body}>
                     <div className={styles.header}>
                         <img className={styles.icon} src={icon_ledger} alt="" />
                         <div>
-                            <div className={styles.title}>{name}</div>
+                            <div className={styles.title}>{this.props.name}</div>
                         </div>
                     </div>
 
                     <div className={styles.rating}>
-                        <span className={styles.ratingNumber}>{rating} Rating</span>
-                        <Bar percentage={rating} />
+                        <span className={styles.ratingNumber}>{this.props.rating} Rating</span>
+                        <Bar percentage={this.props.rating} />
                         <div className={styles.heartButton}>
                             <img className={styles.heartIcon} src={icon_heart} alt="" />
                         </div>
@@ -91,7 +80,7 @@ class Preset extends Component {
                     <div className={styles.sectionTitle}>Columns</div>
 
                     <div className={styles.filtersContainer}>
-                        {columns.map((column, i) => (
+                        {this.props.columns.map((column, i) => (
                             <div key={i} className={styles.column}>
                                 {column.description}
                             </div>
@@ -131,6 +120,12 @@ class Preset extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        presetsData: state.presetsData.presetData
+    };
+};
+
 const mapDispatchToProps = dispatch => {
     return {
         emptyData: () => dispatch(emptyData()),
@@ -143,17 +138,7 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-Preset.protoType = {
-    emptyData: PropTypes.func,
-    emptyFilter: PropTypes.func,
-    addFilter: PropTypes.func,
-    processNewColumnData: PropTypes.func,
-    columns: PropTypes.array,
-    name: PropTypes.string,
-    rating: PropTypes.string
-};
-
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(Preset);

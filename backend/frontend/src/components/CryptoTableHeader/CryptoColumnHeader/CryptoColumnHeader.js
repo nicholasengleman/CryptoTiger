@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import property from "./../../../img/icons8-property.png";
 import "./CryptoColumnHeader.scss";
 import EditMenu from "./../../Menu/Menu";
 import OutsideAlerter from "./../../OutsideAlerter/OutsideAlerter";
@@ -77,7 +78,7 @@ class CryptoColumnHeader extends Component {
                 <div className="columnName">
                     <p>{columnName}</p>
                     {columnName !== "Current Price" ? (
-                        <i className="far fa-edit" onClick={this.onToggleEditMenu}></i>
+                        <img className="property" src={property} alt="" onClick={this.onToggleEditMenu} />
                     ) : null}
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import _ from "lodash";
 import "./Bar.scss";
 
 class Bar extends React.PureComponent {
@@ -7,14 +8,14 @@ class Bar extends React.PureComponent {
         super(props);
         this.ref = React.createRef();
         this.offset = 0;
+        this.setBarLocation = _.debounce(this.props.setBarLocation.bind(this), 500);
     }
 
     componentDidMount() {
-        const { index, setBarLocation } = this.props;
-        setBarLocation(index, this.ref.current.offsetLeft);
+        this.setBarLocation(this.props.index, this.ref.current.offsetLeft);
         window.addEventListener("resize", () => {
             if (this.ref.current) {
-                setBarLocation(index, this.ref.current.offsetLeft);
+                this.setBarLocation(this.props.index, this.ref.current.offsetLeft);
             }
         });
     }
@@ -23,7 +24,7 @@ class Bar extends React.PureComponent {
         if (this.offset !== this.ref.current.offsetLeft) {
             if (this.ref.current) {
                 this.offset = this.ref.current.offsetLeft;
-                this.props.setBarLocation(this.props.index, this.ref.current.offsetLeft);
+                this.setBarLocation(this.props.index, this.ref.current.offsetLeft);
             }
         }
     }

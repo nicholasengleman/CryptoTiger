@@ -25,7 +25,7 @@ class CryptoTableHeader extends Component {
     constructor(props) {
         super(props);
         this.Viewport = React.createRef();
-        this.setColumnsThatAreVisible = _.debounce(this.props.setColumnsThatAreVisible.bind(this), 250);
+        this.setColumnsThatAreVisible = _.debounce(this.props.setColumnsThatAreVisible.bind(this), 500);
     }
 
     componentDidMount() {
@@ -36,7 +36,6 @@ class CryptoTableHeader extends Component {
 
     componentDidUpdate() {
         let reduxVisibleColumns = 0;
-
         this.props.columnVisibility.forEach(column => {
             if (column === true) {
                 reduxVisibleColumns++;
@@ -44,7 +43,7 @@ class CryptoTableHeader extends Component {
         });
 
         if (reduxVisibleColumns && reduxVisibleColumns !== this.columnsToShow()) {
-            this.props.setColumnsThatAreVisible(this.columnsToShow());
+            this.setColumnsThatAreVisible(this.columnsToShow());
         }
     }
 
@@ -58,13 +57,16 @@ class CryptoTableHeader extends Component {
             columnWidth = 90 + 18; //column width + right margin
         }
 
-        let viewportWidth = this.Viewport.current.clientWidth;
+        if (this.Viewport.current) {
+            let viewportWidth = this.Viewport.current.clientWidth;
 
-        if (this.props.columnVisibility.length * columnWidth > viewportWidth) {
-            return Math.floor((viewportWidth - 100) / columnWidth);
-        } else {
-            return Math.floor(viewportWidth / columnWidth);
+            if (this.props.columnVisibility.length * columnWidth > viewportWidth) {
+                return Math.floor((viewportWidth - 100) / columnWidth);
+            } else {
+                return Math.floor(viewportWidth / columnWidth);
+            }
         }
+        return 1;
     };
 
     findFilter = columnId => {
@@ -89,7 +91,7 @@ class CryptoTableHeader extends Component {
         axios
             .get(`http://localhost:5000/api/crypto-data/getColumnData/${3600}`)
             .then(response => {
-                processNewColumnData(response.data, this.props.columnVisibility.length, true, "1 hour price", 1);
+                processNewColumnData(response.data, this.props.columnVisibility.length, "1 hour price", 1);
             })
             .catch(error => {
                 console.log("[Error]", error);
@@ -126,6 +128,7 @@ class CryptoTableHeader extends Component {
                     name={"Add Column"}
                     size={"small"}
                     style={this.addColumnBtnStyles}
+                    grow={true}
                     onClick={this.handleAddColumn}
                 />
                 <div className={styles.spacer} />
@@ -187,10 +190,8 @@ const mapDispatchToProps = dispatch => {
         setSelectedDataPeriod: dataPeriod => dispatch(setSelectedDataPeriod(dataPeriod)),
         setSelectedDataName: dataName => dispatch(setSelectedDataName(dataName)),
         setSelectedColumnId: columnId => dispatch(setSelectedColumnId(columnId)),
-        processNewColumnData: (responseData, selectedColumnId, processForHistogram, periodName, periodNumber) =>
-            dispatch(
-                processNewColumnData(responseData, selectedColumnId, processForHistogram, periodName, periodNumber)
-            )
+        processNewColumnData: (responseData, selectedColumnId, periodName, periodNumber) =>
+            dispatch(processNewColumnData(responseData, selectedColumnId, periodName, periodNumber))
     };
 };
 

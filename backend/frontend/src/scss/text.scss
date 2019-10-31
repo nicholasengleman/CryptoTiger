@@ -5,3 +5,17 @@ h2 {
 .fas {
     margin: 0 10px;
 }
+
+.header-sort-icon {
+    position: absolute;
+    left: -30px;
+    transition: transform 0.2s;
+    &.highlightDown {
+        color: red;
+        transform: scale(1.5);
+    }
+    &.highlightUp {
+        color: green;
+        transform: scale(1.5) rotate(180deg);
+    }
+}

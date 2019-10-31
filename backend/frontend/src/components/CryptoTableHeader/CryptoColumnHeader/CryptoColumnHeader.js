@@ -6,7 +6,7 @@ import "./CryptoColumnHeader.scss";
 import EditMenu from "./../../Menu/Menu";
 import OutsideAlerter from "./../../OutsideAlerter/OutsideAlerter";
 
-import { removeFilter } from "./../../../store/actions/actionCreators";
+import { removeFilter, sortByThisColumn } from "./../../../store/actions/actionCreators";
 
 class CryptoColumnHeader extends Component {
     constructor(props) {
@@ -48,7 +48,29 @@ class CryptoColumnHeader extends Component {
     };
 
     render() {
-        const { filter, index, columnId, columnName, columnPeriod, columnType, columnGroup, removeFilter } = this.props;
+        let sortArrowClass;
+
+        const {
+            filter,
+            index,
+            columnId,
+            columnName,
+            columnPeriod,
+            columnType,
+            columnGroup,
+            removeFilter,
+            sortByThisColumn
+        } = this.props;
+        const { sortColumn, sortDown } = this.props.cryptoData;
+
+        if (sortColumn === columnId && sortDown === true) {
+            sortArrowClass = "highlightDown";
+        } else if (sortColumn === columnId && sortDown === false) {
+            sortArrowClass = "highlightUp";
+        } else {
+            sortArrowClass = "noHighlight";
+        }
+
         return (
             <div className="column">
                 {filter && Object.entries(filter.parameters).length > 0 ? (
@@ -76,7 +98,8 @@ class CryptoColumnHeader extends Component {
                     </OutsideAlerter>
                 ) : null}
                 <div className="columnName">
-                    <p>{columnName}</p>
+                    <i className={`fas fa-sort-down header-sort-icon ${sortArrowClass}`}></i>
+                    <p onClick={() => sortByThisColumn(columnId)}>{columnName}</p>
                     {columnName !== "Current Price" ? (
                         <img className="property" src={property} alt="" onClick={this.onToggleEditMenu} />
                     ) : null}
@@ -86,9 +109,16 @@ class CryptoColumnHeader extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        cryptoData: state.cryptoData
+    };
+};
+
 const mapDispatchToProps = dispatch => {
     return {
-        removeFilter: columnId => dispatch(removeFilter(columnId))
+        removeFilter: columnId => dispatch(removeFilter(columnId)),
+        sortByThisColumn: columnId => dispatch(sortByThisColumn(columnId))
     };
 };
 
@@ -100,10 +130,11 @@ CryptoColumnHeader.propTypes = {
     columnPeriod: PropTypes.number,
     columnType: PropTypes.string,
     columnGroup: PropTypes.string,
-    removeFilter: PropTypes.func
+    removeFilter: PropTypes.func,
+    sortByThisColumn: PropTypes.func
 };
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(CryptoColumnHeader);

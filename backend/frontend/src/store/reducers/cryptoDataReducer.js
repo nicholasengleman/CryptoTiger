@@ -6,7 +6,9 @@ const initialState = {
     data: [],
     dataBuffer: [],
     loading: false,
-    columnIds: []
+    columnIds: [],
+    sortColumn: 0,
+    sortDown: true
 };
 
 /////////////////////
@@ -43,9 +45,7 @@ const fetchCryptosSuccess = (state, action) => {
                 if (cryptoBase == crypto.crypto_id) {
                     if (i > 1 && crypto.data_value) {
                         currentValue = data[cryptoBase].columns["0"].cryptoRawValue;
-                        cryptoPercentChange = (((currentValue - crypto.data_value) / crypto.data_value) * 100).toFixed(
-                            2
-                        );
+                        cryptoPercentChange = ((currentValue - crypto.data_value) / crypto.data_value) * 100;
                     } else {
                         cryptoPercentChange = 0;
                     }
@@ -60,10 +60,11 @@ const fetchCryptosSuccess = (state, action) => {
                         cryptoId: crypto.crypto_id,
                         cryptoMarketCap: action.payload.data["1"].data[index].market_cap,
                         cryptoRawValue: parseFloat(crypto.data_value),
-                        cryptoPercentChange: parseFloat(cryptoPercentChange),
+                        cryptoRawPercentChange: parseFloat(cryptoPercentChange),
+                        cryptoPercentChange: parseFloat(cryptoPercentChange).toFixed(2),
                         tooltip: {
                             cryptoName: data[crypto.crypto_id].cryptoName,
-                            cryptoPercentChange
+                            cryptoPercentChange: cryptoPercentChange.toFixed(2)
                         }
                     };
                 }
@@ -104,7 +105,7 @@ const processNewColumnData = (state, action) => {
 
         if (crypto.data_value) {
             currentValue = state.data[crypto.crypto_id].columns["0"].cryptoRawValue;
-            cryptoPercentChange = (((currentValue - crypto.data_value) / crypto.data_value) * 100).toFixed(2);
+            cryptoPercentChange = ((currentValue - crypto.data_value) / crypto.data_value) * 100;
         } else {
             cryptoPercentChange = 0;
         }
@@ -118,10 +119,11 @@ const processNewColumnData = (state, action) => {
             cryptoDatetime: crypto.crypto_datetime,
             cryptoId: crypto.cryptoId,
             cryptoRawValue: parseFloat(crypto.data_value),
-            cryptoPercentChange: parseFloat(cryptoPercentChange),
+            cryptoRawPercentChange: parseFloat(cryptoPercentChange),
+            cryptoPercentChange: parseFloat(cryptoPercentChange).toFixed(2),
             tooltip: {
                 cryptoName: dataBuffer[crypto.crypto_id].cryptoName,
-                cryptoPercentChange
+                cryptoPercentChange: cryptoPercentChange.toFixed(2)
             }
         };
     });
@@ -208,6 +210,14 @@ const removeColumnData = (state, action) => {
     return updatedObject(state, updatedState);
 };
 
+const sortByThisColumn = (state, action) => {
+    const updatedState = {
+        sortColumn: action.payload.columnId,
+        sortDown: !state.sortDown
+    };
+    return updatedObject(state, updatedState);
+};
+
 /////////////////////////////////////
 // updates the store with the latest live data.
 ////////////////////////////////////
@@ -226,20 +236,20 @@ const updateCurrentData = (state, action) => {
                 cryptoPercentChange = 0;
             } else {
                 cryptoRawValue = data[cryptoId].columns[column].cryptoRawValue;
-                cryptoPercentChange = (
+                cryptoPercentChange =
                     ((newCurrentValue - data[cryptoId].columns[column].cryptoRawValue) /
                         data[cryptoId].columns[column].cryptoRawValue) *
-                    100
-                ).toFixed(2);
+                    100;
             }
 
             data[cryptoId].columns[column] = {
                 ...data[cryptoId].columns[column],
                 cryptoRawValue: parseFloat(cryptoRawValue),
-                cryptoPercentChange: parseFloat(cryptoPercentChange),
+                cryptoRawPercentChange: parseFloat(cryptoPercentChange),
+                cryptoPercentChange: parseFloat(cryptoPercentChange).toFixed(2),
                 tooltip: {
                     ...data[cryptoId].columns[column].tooltip,
-                    cryptoPercentChange: parseFloat(cryptoPercentChange)
+                    cryptoPercentChange: parseFloat(cryptoPercentChange).toFixed(2)
                 }
             };
         });
@@ -277,6 +287,9 @@ const cryptoDataReducer = (state = initialState, action) => {
             return editColumnData(state, action);
         case actionTypes.REMOVE_COLUMN_DATA:
             return removeColumnData(state, action);
+
+        case actionTypes.SORT_BY_THIS_COLUMN:
+            return sortByThisColumn(state, action);
         default:
             return state;
     }

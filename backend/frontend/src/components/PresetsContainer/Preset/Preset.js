@@ -62,7 +62,7 @@ class Preset extends Component {
                     this.props.addFilter(column.columnIndex, filterParameters);
                 }
             });
-        }, 200);
+        }, 100);
     };
 
     render() {

@@ -204,3 +204,8 @@ export const shiftVisibleColumnsForward = () => ({
 export const shiftVisibleColumnsBackwards = () => ({
     type: actionTypes.SHIFT_VISIBLE_COLUMNS_BACKWARDS
 });
+
+export const sortByThisColumn = columnId => ({
+    type: actionTypes.SORT_BY_THIS_COLUMN,
+    payload: { columnId }
+});

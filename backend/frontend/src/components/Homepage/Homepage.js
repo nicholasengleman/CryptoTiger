@@ -31,6 +31,7 @@ class Homepage extends Component {
 
     componentDidMount() {
         const { fetchSuccess, fetchFailure, updateCurrentData, presetsData, storePresetData, setColumns } = this.props;
+
         axios
             .get("http://localhost:5000/api/crypto-data/getDefaultData")
             .then(response => {
@@ -68,6 +69,7 @@ class Homepage extends Component {
 
     render() {
         const { cryptosData } = this.props;
+        const { sortColumn, sortDown } = this.props.sortData;
         return (
             <React.Fragment>
                 <div className={styles.pageContainer}>
@@ -79,15 +81,21 @@ class Homepage extends Component {
                         {cryptosData &&
                             Object.keys(cryptosData)
                                 .sort((a, b) => {
-                                    let nameA = cryptosData[a].columns["0"].cryptoMarketCap;
-                                    let nameB = cryptosData[b].columns["0"].cryptoMarketCap;
-                                    if (nameA < nameB) {
-                                        return 1;
+                                    let nameA = 0;
+                                    let nameB = 0;
+                                    if (sortColumn === 0) {
+                                        nameA = cryptosData[a].columns["0"].cryptoMarketCap;
+                                        nameB = cryptosData[b].columns["0"].cryptoMarketCap;
+                                        return nameA - nameB;
+                                    } else {
+                                        nameA = cryptosData[a].columns[sortColumn].cryptoRawPercentChange;
+                                        nameB = cryptosData[b].columns[sortColumn].cryptoRawPercentChange;
+                                        if (sortDown) {
+                                            return nameA - nameB;
+                                        } else {
+                                            return nameB - nameA;
+                                        }
                                     }
-                                    if (nameA > nameB) {
-                                        return -1;
-                                    }
-                                    return 0;
                                 })
                                 .map(crypto => (
                                     <CryptoRow
@@ -109,7 +117,8 @@ class Homepage extends Component {
 const mapStateToProps = state => {
     return {
         cryptosData: selectFilteredCryptos(state.cryptoData.data, state.filterData.filterParameters),
-        presetsData: state.presetsData
+        presetsData: state.presetsData,
+        sortData: state.cryptoData
     };
 };
 

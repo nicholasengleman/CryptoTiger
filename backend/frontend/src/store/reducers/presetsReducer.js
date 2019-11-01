@@ -12,7 +12,7 @@ const initialState = {
             rating: "63%",
             columns: [
                 {
-                    description: "5 Day(-10% to 20%)",
+                    description: "5 Day (-10% to 20%)",
                     time: 3600 * 5 * 24,
                     filter: [-10, 20],
                     columnIndex: 1,
@@ -39,7 +39,7 @@ const initialState = {
             rating: "32%",
             columns: [
                 {
-                    description: "1 HR(-50% to 50%)",
+                    description: "1 HR (-50% to 50%)",
                     time: 3600 * 1 * 1,
                     filter: [-50, 50],
                     columnIndex: 1,
@@ -69,7 +69,7 @@ const initialState = {
                     columnName: "3 Day Price"
                 },
                 {
-                    description: "7 Day(0% to 200%)",
+                    description: "7 Day (0% to 200%)",
                     time: 3600 * 7 * 24,
                     filter: [0, 200],
                     columnIndex: 4,
@@ -106,7 +106,7 @@ const initialState = {
                     columnName: "2 Day Price"
                 },
                 {
-                    description: "7 Day(-100% to 100%)",
+                    description: "7 Day (-100% to 100%)",
                     time: 3600 * 7 * 24,
                     filter: [-100, 100],
                     columnIndex: 3,

@@ -25,12 +25,15 @@ class CryptoTableHeader extends Component {
     constructor(props) {
         super(props);
         this.Viewport = React.createRef();
-        this.setColumnsThatAreVisible = _.debounce(this.props.setColumnsThatAreVisible.bind(this), 500);
+        this.colu = React.createRef();
+        this.setColumnsThatAreVisibleDebounce = _.throttle(this.props.setColumnsThatAreVisible.bind(this), 100, {
+            leading: true
+        });
     }
 
     componentDidMount() {
         window.addEventListener("resize", () => {
-            this.setColumnsThatAreVisible(this.columnsToShow());
+            this.setColumnsThatAreVisibleDebounce(this.columnsToShow());
         });
     }
 
@@ -41,29 +44,28 @@ class CryptoTableHeader extends Component {
                 reduxVisibleColumns++;
             }
         });
-
         if (reduxVisibleColumns && reduxVisibleColumns !== this.columnsToShow()) {
-            this.setColumnsThatAreVisible(this.columnsToShow());
+            this.setColumnsThatAreVisibleDebounce(this.columnsToShow());
         }
     }
 
     columnsToShow = () => {
         let columnWidth = 0;
         if (1200 <= window.innerWidth) {
-            columnWidth = 155 + 15; //column width + right margin
+            columnWidth = 155 + 25; //column width + right margin
         } else if (678 < window.innerWidth && window.innerWidth < 1200) {
-            columnWidth = 118 + 19; //column width + right margin
+            columnWidth = 118 + 25;
         } else {
-            columnWidth = 90 + 18; //column width + right margin
+            columnWidth = 90 + 25;
         }
 
         if (this.Viewport.current) {
             let viewportWidth = this.Viewport.current.clientWidth;
-
-            if (this.props.columnVisibility.length * columnWidth > viewportWidth) {
-                return Math.floor((viewportWidth - 100) / columnWidth);
+            let number_of_columns = this.props.columnVisibility.length;
+            if ((number_of_columns + 1) * columnWidth > viewportWidth) {
+                return Math.floor(viewportWidth / columnWidth) - 1;
             } else {
-                return Math.floor(viewportWidth / columnWidth);
+                return number_of_columns;
             }
         }
         return 1;
@@ -98,50 +100,48 @@ class CryptoTableHeader extends Component {
             });
     };
 
-    prevBtnStyles = {
-        position: "absolute",
-        left: "-100px",
-        margin: "0"
-    };
-
-    nextBtnStyles = {
-        position: "absolute",
-        right: "10px",
-        margin: "0"
-    };
-
-    addColumnBtnStyles = {
-        position: "absolute",
-        left: "-60px",
-        top: "-45px",
-        margin: "0",
-        padding: "15px 30px",
-        borderRadius: "50px"
-    };
-
     render() {
         const { shiftVisibleColumnsBackwards, shiftVisibleColumnsForward } = this.props;
+        let showPrevBtn = false;
+        let showNextBtn = false;
+
+        if (this.props.columnVisibility[0] === false) {
+            showPrevBtn = true;
+        }
+        if (this.props.columnVisibility[this.props.columnVisibility.length - 1] === false) {
+            showNextBtn = true;
+        }
 
         return (
-            <div className={styles.filterColumnsHeader}>
-                <Button
-                    name={"Add Column"}
-                    size={"small"}
-                    style={this.addColumnBtnStyles}
-                    grow={true}
-                    onClick={this.handleAddColumn}
-                />
-                <div className={styles.spacer} />
+            <div className={`${styles.filterColumnsHeader} ${!showPrevBtn && !showNextBtn ? styles.reduceMargin : ""}`}>
+                {(showPrevBtn || showNextBtn) && (
+                    <div className={styles.topRow}>
+                        {showPrevBtn && (
+                            <Button
+                                name={"Prev"}
+                                size={"small"}
+                                className={styles.prevBtn}
+                                onClick={shiftVisibleColumnsBackwards}
+                            />
+                        )}
+                        {showNextBtn && (
+                            <Button
+                                name={"Next"}
+                                size={"small"}
+                                className={styles.nextBtn}
+                                onClick={shiftVisibleColumnsForward}
+                            /> //shows the "Next" button if at least the last column is set to not show
+                        )}
+                    </div>
+                )}
 
-                <div ref={this.Viewport} className="viewport">
-                    {this.props.columnVisibility[0] === false && (
-                        <Button
-                            name={"Prev"}
-                            size={"small"}
-                            style={this.prevBtnStyles}
-                            onClick={shiftVisibleColumnsBackwards}
-                        /> //shows the "Prev" button if at least the first column is set to not show
-                    )}
+                <div ref={this.Viewport} className={styles.bottomRow}>
+                    <Button
+                        name={"Add Column"}
+                        size={"small"}
+                        className={styles.addBtn}
+                        onClick={this.handleAddColumn}
+                    />
                     {this.props.cryptoData &&
                         Object.keys(this.props.cryptoData.columns).map(
                             (column, index) =>
@@ -158,14 +158,6 @@ class CryptoTableHeader extends Component {
                                     />
                                 )
                         )}
-                    {this.props.columnVisibility[this.props.columnVisibility.length - 1] === false && (
-                        <Button
-                            name={"Next"}
-                            size={"small"}
-                            style={this.nextBtnStyles}
-                            onClick={shiftVisibleColumnsForward}
-                        /> //shows the "Next" button if at least the last column is set to not show
-                    )}
                 </div>
             </div>
         );

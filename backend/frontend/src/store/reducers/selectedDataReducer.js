@@ -24,6 +24,7 @@ const setSelectedDataType = (state, action) => {
 };
 
 const setSelectedDataGroup = (state, action) => {
+    console.log("called");
     const updatedState = {
         selectedPeriod: {
             ...state.selectedPeriod,

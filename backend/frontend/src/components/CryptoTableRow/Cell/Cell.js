@@ -44,7 +44,7 @@ class Cell extends Component {
         const { columnPeriod, cryptoRawValue, cryptoPercentChange } = this.props;
 
         if (columnPeriod === 0) {
-            return "$" + cryptoRawValue.toFixed(2);
+            return "$" + cryptoRawValue.toFixed(4);
         } else {
             return cryptoPercentChange + "%";
         }

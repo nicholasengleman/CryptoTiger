@@ -61,7 +61,7 @@ const fetchCryptosSuccess = (state, action) => {
                         cryptoMarketCap: action.payload.data["1"].data[index].market_cap,
                         cryptoRawValue: parseFloat(crypto.data_value),
                         cryptoRawPercentChange: parseFloat(cryptoPercentChange),
-                        cryptoPercentChange: parseFloat(cryptoPercentChange).toFixed(2),
+                        cryptoPercentChange: parseFloat(cryptoPercentChange.toFixed(2)),
                         tooltip: {
                             cryptoName: data[crypto.crypto_id].cryptoName,
                             cryptoPercentChange: cryptoPercentChange.toFixed(2)
@@ -120,7 +120,7 @@ const processNewColumnData = (state, action) => {
             cryptoId: crypto.cryptoId,
             cryptoRawValue: parseFloat(crypto.data_value),
             cryptoRawPercentChange: parseFloat(cryptoPercentChange),
-            cryptoPercentChange: parseFloat(cryptoPercentChange).toFixed(2),
+            cryptoPercentChange: parseFloat(cryptoPercentChange.toFixed(2)),
             tooltip: {
                 cryptoName: dataBuffer[crypto.crypto_id].cryptoName,
                 cryptoPercentChange: cryptoPercentChange.toFixed(2)
@@ -246,7 +246,7 @@ const updateCurrentData = (state, action) => {
                 ...data[cryptoId].columns[column],
                 cryptoRawValue: parseFloat(cryptoRawValue),
                 cryptoRawPercentChange: parseFloat(cryptoPercentChange),
-                cryptoPercentChange: parseFloat(cryptoPercentChange).toFixed(2),
+                cryptoPercentChange: parseFloat(cryptoPercentChange.toFixed(2)),
                 tooltip: {
                     ...data[cryptoId].columns[column].tooltip,
                     cryptoPercentChange: parseFloat(cryptoPercentChange).toFixed(2)

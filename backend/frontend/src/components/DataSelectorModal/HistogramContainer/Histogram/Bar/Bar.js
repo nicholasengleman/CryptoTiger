@@ -8,7 +8,7 @@ class Bar extends React.PureComponent {
         super(props);
         this.ref = React.createRef();
         this.offset = 0;
-        this.setBarLocation = _.debounce(this.props.setBarLocation.bind(this), 500);
+        this.setBarLocation = _.throttle(this.props.setBarLocation.bind(this), 200);
     }
 
     componentDidMount() {

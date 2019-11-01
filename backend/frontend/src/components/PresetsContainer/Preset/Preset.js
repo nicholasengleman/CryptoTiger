@@ -105,6 +105,7 @@ class Preset extends Component {
                                     </div>
                                 );
                             }
+                            return null;
                         })}
 
                         <div className={styles.subThumbnail}>
@@ -115,8 +116,6 @@ class Preset extends Component {
                             />
                             <div className={styles.subsRemaining}>+{this.state.subsTotal - 5}</div>
                         </div>
-
-                        <div className={styles.subsTotal}>{this.state.subsTotal} Subs to Preset</div>
                     </div>
                     <button
                         className={`${styles.applyPresetBtn} ${

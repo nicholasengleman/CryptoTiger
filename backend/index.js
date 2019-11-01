@@ -45,7 +45,7 @@ function getDataEveryXSeconds(socket, milliseconds) {
 }
 
 io.on("connection", socket => {
-    getDataEveryXSeconds(socket, 5000);
+    getDataEveryXSeconds(socket, 10000);
     socket.on("disconect", () => console.log("Client disconnected"));
 });
 

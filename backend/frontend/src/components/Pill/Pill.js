@@ -4,7 +4,7 @@ import "./Pill.scss";
 
 import classNames from "classnames";
 
-const Pill = ({ selected, size, name, fontawesomecode }) => {
+const Pill = ({ selected, size, name, fontawesomecode, onclick }) => {
     const classes = classNames({
         pill: true,
         selected: selected === true,
@@ -16,7 +16,7 @@ const Pill = ({ selected, size, name, fontawesomecode }) => {
     });
 
     return (
-        <button className={classes}>
+        <button className={classes} onClick={onclick}>
             {name}
             {fontawesomecode && <i className={`${fontawesomecode}`}></i>}
         </button>

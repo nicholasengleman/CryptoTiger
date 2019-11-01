@@ -12,5 +12,5 @@ const Bar = ({ percentage }) => (
 export default Bar;
 
 Bar.propTypes = {
-    percentage: PropTypes.number
+    percentage: PropTypes.string
 };

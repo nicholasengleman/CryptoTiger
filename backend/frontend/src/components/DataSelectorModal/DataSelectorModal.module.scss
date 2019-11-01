@@ -1,5 +1,5 @@
 .modalHeader {
-    border-bottom: 2px solid lightgrey;
+    border-bottom: 2px solid #eaebec;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -9,7 +9,7 @@
 }
 
 .modalFooter {
-    border-top: 2px solid lightgrey;
+    border-top: 2px solid #eaebec;
     display: flex;
     justify-content: flex-end;
     padding: 20px;
@@ -20,4 +20,3 @@
     font-size: 20px;
     color: red;
 }
-

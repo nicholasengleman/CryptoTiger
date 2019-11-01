@@ -22,7 +22,7 @@ class Modal extends React.Component {
 }
 
 Modal.propTypes = {
-    dataMenu: PropTypes.bool
+    dataMenu: PropTypes.object
 };
 
 export default Modal;

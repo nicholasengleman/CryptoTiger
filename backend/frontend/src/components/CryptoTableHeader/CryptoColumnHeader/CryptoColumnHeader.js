@@ -98,11 +98,15 @@ class CryptoColumnHeader extends Component {
                     </OutsideAlerter>
                 ) : null}
                 <div className="columnName">
-                    <i className={`fas fa-sort-down header-sort-icon ${sortArrowClass}`}></i>
-                    <p onClick={() => sortByThisColumn(columnId)}>{columnName}</p>
                     {columnName !== "Current Price" ? (
-                        <img className="property" src={property} alt="" onClick={this.onToggleEditMenu} />
-                    ) : null}
+                        <React.Fragment>
+                            <i className={`fas fa-sort-down header-sort-icon ${sortArrowClass}`}></i>
+                            <p onClick={() => sortByThisColumn(columnId)}>{columnName}</p>
+                            <img className="property" src={property} alt="" onClick={this.onToggleEditMenu} />
+                        </React.Fragment>
+                    ) : (
+                        <p>{columnName}</p>
+                    )}
                 </div>
             </div>
         );
@@ -123,7 +127,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 CryptoColumnHeader.propTypes = {
-    filter: PropTypes.array,
+    filter: PropTypes.object,
     index: PropTypes.number,
     columnId: PropTypes.number,
     columnName: PropTypes.string,

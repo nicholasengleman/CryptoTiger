@@ -95,7 +95,7 @@ DataPeriod.propTypes = {
     periodNumber: PropTypes.number,
     periodName: PropTypes.string,
     periodTime: PropTypes.number,
-    selected: PropTypes.object
+    selected: PropTypes.bool
 };
 
 export default connect(

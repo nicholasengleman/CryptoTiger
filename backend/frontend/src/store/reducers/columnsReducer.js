@@ -14,7 +14,6 @@ const setColumns = (state, action) => {
 };
 
 const setColumnsThatAreVisible = (state, action) => {
-    console.log("fired");
     let visibleColumns = action.payload.visibleColumns;
     let newColumnsArray = Array(state.columnVisibility.length).fill(true);
 

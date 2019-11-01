@@ -14,7 +14,7 @@
     flex-direction: column;
     @media (max-width: 1120px) {
         width: 100%;
-        margin: 0 2% 8% 0;
+        margin: 0 2% 2% 0;
     }
     h2 {
         font-size: 14px;
@@ -30,6 +30,9 @@
     }
     .header {
         display: flex;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #eaebec;
+        width: 80%;
         .icon {
             width: 40px;
             margin-right: 10px;
@@ -72,7 +75,7 @@
         font-weight: 800;
         color: #999;
         letter-spacing: 0.5px;
-        margin: 5px 0;
+        margin: 20px 0 5px;
     }
 
     .filtersContainer {
@@ -83,14 +86,14 @@
         .column {
             padding: 3px 12px;
             border-radius: 5px;
-            font-size: 14px;
-            background-color: #f4f6fa;
-            color: #333;
+            font-size: 12px;
+            background-color: #4050b9;
+            color: white;
             text-transform: uppercase;
-            margin: 0 10px 10px 0;
+            margin: 0 5px 5px 0;
             .filter {
                 text-transform: lowercase;
-                font-size: 14px;
+                font-size: 12px;
             }
         }
     }

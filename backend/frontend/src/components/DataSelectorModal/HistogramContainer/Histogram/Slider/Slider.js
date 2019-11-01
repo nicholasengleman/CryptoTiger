@@ -9,6 +9,7 @@ class Slider extends Component {
         super(props);
         this.sliderBar = React.createRef();
         this.sliderWidth = 0;
+        this.calculateDimensions = _.throttle(this.calculateDimensions.bind(this), 200);
     }
 
     componentDidMount() {

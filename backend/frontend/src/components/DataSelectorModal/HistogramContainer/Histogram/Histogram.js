@@ -45,6 +45,7 @@ class Histogram extends Component {
         super(props);
 
         this.histogram = React.createRef();
+        this.calculateBarWidth = _.throttle(this.calculateBarWidth.bind(this), 200);
 
         this.state = {
             data: [],
@@ -124,6 +125,7 @@ class Histogram extends Component {
     }
 
     setBarLocation = (bar, location) => {
+        console.log("bar");
         this.setState(prevState => ({
             barLocations: {
                 ...prevState.barLocations,

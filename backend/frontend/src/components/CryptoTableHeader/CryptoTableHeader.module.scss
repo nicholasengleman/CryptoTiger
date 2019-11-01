@@ -2,31 +2,69 @@
 
 .filterColumnsHeader {
     width: calc(100% - 60px);
-    display: flex;
     margin: 0 30px;
-    padding-bottom: 15px;
     border-bottom: 1px solid #eaebec;
     position: relative;
-}
-
-.spacer {
-    min-width: 235px;
-    width: 235px;
-    @media (max-width: 1200px) {
-        width: 225px;
-        min-width: 225px;
+    height: 65px;
+    padding-bottom: 10px;
+    &.reduceMargin {
+        margin-top: -10px;
+        padding-bottom: 0;
     }
-    @media (max-width: 700px) {
-        width: 210px;
-        min-width: 210px;
+    @media (max-width: 500px) {
+        margin: 0 10px;
+    }
+    .topRow {
+        width: 100%;
+        position: relative;
+        height: 25px;
+    }
+    .bottomRow {
+        padding-left: 230px;
+        display: flex;
+        @media (max-width: 1200px) {
+            padding-left: 190px;
+        }
+        @media (max-width: 700px) {
+            padding-left: 180px;
+        }
     }
 }
 
 .addBtn {
     position: absolute;
     left: -60px;
-    top: -45px;
+    top: -35px;
     margin: 0;
     padding: 15px 30px;
     border-radius: 50px;
+    background-color: #4050b9;
+    color: white;
+    border: none;
+    cursor: pointer;
+    @media (max-width: 500px) {
+        left: -10px;
+        top: -55px;
+    }
+}
+
+.prevBtn,
+.nextBtn {
+    background-color: #4050b9;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 4px 15px;
+}
+
+.prevBtn {
+    position: absolute;
+    left: 20%;
+    top: 0;
+}
+
+.nextBtn {
+    position: absolute;
+    right: 0;
+    top: 0;
 }

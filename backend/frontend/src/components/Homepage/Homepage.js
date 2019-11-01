@@ -88,13 +88,16 @@ class Homepage extends Component {
                                         nameB = cryptosData[b].columns["0"].cryptoMarketCap;
                                         return nameA - nameB;
                                     } else {
-                                        nameA = cryptosData[a].columns[sortColumn].cryptoRawPercentChange;
-                                        nameB = cryptosData[b].columns[sortColumn].cryptoRawPercentChange;
-                                        if (sortDown) {
-                                            return nameA - nameB;
-                                        } else {
-                                            return nameB - nameA;
+                                        if (cryptosData[a].columns[sortColumn]) {
+                                            nameA = cryptosData[a].columns[sortColumn].cryptoRawPercentChange;
+                                            nameB = cryptosData[b].columns[sortColumn].cryptoRawPercentChange;
+                                            if (sortDown) {
+                                                return nameA - nameB;
+                                            } else {
+                                                return nameB - nameA;
+                                            }
                                         }
+                                        return 0;
                                     }
                                 })
                                 .map(crypto => (
@@ -133,7 +136,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 Homepage.propTypes = {
-    cryptosData: PropTypes.object,
     processPresetData: PropTypes.func
 };
 

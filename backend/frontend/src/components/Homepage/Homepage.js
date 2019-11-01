@@ -111,7 +111,7 @@ class Homepage extends Component {
                                 ))}
                     </div>
                 </div>
-                <DataSelectorModal />
+                {this.props.dataMenuData.dataMenu.open && <DataSelectorModal />}
             </React.Fragment>
         );
     }
@@ -121,7 +121,8 @@ const mapStateToProps = state => {
     return {
         cryptosData: selectFilteredCryptos(state.cryptoData.data, state.filterData.filterParameters),
         presetsData: state.presetsData,
-        sortData: state.cryptoData
+        sortData: state.cryptoData,
+        dataMenuData: state.dataMenu
     };
 };
 

@@ -26,7 +26,7 @@ class CryptoTableHeader extends Component {
         super(props);
         this.Viewport = React.createRef();
         this.colu = React.createRef();
-        this.setColumnsThatAreVisibleDebounce = _.throttle(this.props.setColumnsThatAreVisible.bind(this), 100, {
+        this.setColumnsThatAreVisibleDebounce = _.throttle(this.props.setColumnsThatAreVisible.bind(this), 10, {
             leading: true
         });
     }

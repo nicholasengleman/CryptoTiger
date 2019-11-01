@@ -37,7 +37,7 @@ const defaultProps = {
             value: 7
         }
     ],
-    getBoundries: function(e) {}
+    getBoundries: function (e) { }
 };
 
 class Histogram extends Component {
@@ -125,7 +125,6 @@ class Histogram extends Component {
     }
 
     setBarLocation = (bar, location) => {
-        console.log("bar");
         this.setState(prevState => ({
             barLocations: {
                 ...prevState.barLocations,
@@ -447,7 +446,7 @@ class Histogram extends Component {
                                 if (
                                     barMinLocation <= barLocations[index] + this.buttonWidth - this.buttonWidth / 2 &&
                                     barLocations[index] + this.buttonWidth - this.buttonWidth / 2 <=
-                                        barMaxLocation - barWidth
+                                    barMaxLocation - barWidth
                                 ) {
                                     if (bar.normalizedValue > 0) {
                                         color = "green";

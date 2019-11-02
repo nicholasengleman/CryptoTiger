@@ -1,3 +1,5 @@
+import axios from "axios";
+
 import * as actionTypes from "./actionTypes";
 
 //////////////////////////////////////
@@ -120,6 +122,45 @@ export const processDataFromStoreForHistogram = currentSelectedColumn => {
 };
 
 // Crypto Menu action creators
+
+export const fetchAllCryptoData = () => {
+    return dispatch => {
+        axios
+            .get("http://localhost:5000/api/crypto-data/getDefaultData")
+            .then(response => {
+                dispatch(fetchCryptosSuccess(response.data));
+                dispatch(setColumns(response.data.length));
+            })
+            .catch(error => {
+                dispatch(fetchCryptosFailure(error));
+                console.log("[Error]", error);
+            });
+    };
+};
+
+export const fetchPresetData = () => {
+    return (dispatch, getState) => {
+        const presetsData = getState().presetsData;
+
+        presetsData.presets.forEach(preset => {
+            let data = [];
+            preset.columns.forEach(column => {
+                axios
+                    .get(`http://localhost:5000/api/crypto-data/getColumnData/${column.time}`)
+                    .then(response => {
+                        data.push(response.data);
+                        if (data.length === preset.columns.length) {
+                            dispatch(storePresetData(preset.id, data));
+                        }
+                    })
+                    .catch(error => {
+                        console.log("[Error]: ", error);
+                    });
+            });
+        });
+    };
+};
+
 export const fetchCryptosSuccess = data => {
     let columnIds = [];
     for (let i = 0; i <= 100; i++) {

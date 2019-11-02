@@ -1,17 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
 import axios from "axios";
+
 import selectFilteredCryptos from "./../../store/selectors/selectFilteredCryptos";
 import socketIOClient from "socket.io-client";
 
-import {
-    fetchCryptosFailure,
-    fetchCryptosSuccess,
-    updateCurrentData,
-    setColumns,
-    storePresetData
-} from "../../store/actions/actionCreators";
+import { updateCurrentData, fetchAllCryptoData, fetchPresetData } from "../../store/actions/actionCreators";
 
 import styles from "./Homepage.module.scss";
 
@@ -31,35 +27,9 @@ class Homepage extends Component {
     }
 
     componentDidMount() {
-        const { fetchSuccess, fetchFailure, updateCurrentData, presetsData, storePresetData, setColumns } = this.props;
-
-        axios
-            .get("http://localhost:5000/api/crypto-data/getDefaultData")
-            .then(response => {
-                fetchSuccess(response.data);
-                setColumns(response.data.length);
-            })
-            .catch(error => {
-                fetchFailure(error);
-                console.log("[Error]", error);
-            });
-
-        presetsData.presets.forEach(preset => {
-            let data = [];
-            preset.columns.forEach(column => {
-                axios
-                    .get(`http://localhost:5000/api/crypto-data/getColumnData/${column.time}`)
-                    .then(response => {
-                        data.push(response.data);
-                        if (data.length === preset.columns.length) {
-                            storePresetData(preset.id, data);
-                        }
-                    })
-                    .catch(error => {
-                        console.log("[Error]: ", error);
-                    });
-            });
-        });
+        const { updateCurrentData, presetsData, storePresetData, fetchAllCryptoData, fetchPresetData } = this.props;
+        fetchAllCryptoData();
+        fetchPresetData();
 
         // const { endpoint } = this.state;
         // const socket = socketIOClient(endpoint);
@@ -125,7 +95,6 @@ class Homepage extends Component {
 const mapStateToProps = state => {
     return {
         cryptosData: selectFilteredCryptos(state.cryptoData.data, state.filterData.filterParameters),
-        presetsData: state.presetsData,
         sortData: state.cryptoData,
         dataMenuData: state.dataMenu
     };
@@ -134,10 +103,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         updateCurrentData: data => dispatch(updateCurrentData(data)),
-        fetchSuccess: data => dispatch(fetchCryptosSuccess(data)),
-        fetchFailure: error => dispatch(fetchCryptosFailure(error)),
-        setColumns: columns => dispatch(setColumns(columns)),
-        storePresetData: (presetId, presetData) => dispatch(storePresetData(presetId, presetData))
+        fetchAllCryptoData: () => dispatch(fetchAllCryptoData()),
+        fetchPresetData: () => dispatch(fetchPresetData())
     };
 };
 

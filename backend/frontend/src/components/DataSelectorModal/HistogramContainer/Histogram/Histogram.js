@@ -4,10 +4,10 @@ import Slider from "./Slider/Slider";
 import Bar from "./Bar/Bar";
 import _ from "lodash";
 
-import "./histogram-styles.css";
+import "./histogram-styles.scss";
 
 const defaultProps = {
-    barMargin: 0.75,
+    barWidthPercentage: 0.7,
     data: [
         {
             value: 1
@@ -37,7 +37,10 @@ const defaultProps = {
             value: 7
         }
     ],
-    getBoundries: function (e) { }
+    getBoundries: function(e) {},
+    showSlider: true,
+    showInputs: true,
+    scaleIncrements: 5
 };
 
 class Histogram extends Component {
@@ -201,9 +204,12 @@ class Histogram extends Component {
     // Utility Functions
     ///////////////////////////////////
     calculateBarWidth = () => {
-        const { data, barMargin } = this.props;
+        const { data, barWidthPercentage } = this.props;
         let histogramWidth = this.histogram.current ? this.histogram.current.offsetWidth - 2 : 800 - 2;
-        let barWidth = histogramWidth / data.length - barMargin * 2;
+        let barWidth = Math.floor((histogramWidth / data.length) * barWidthPercentage);
+        if (barWidth < 3) {
+            barWidth = 3;
+        }
         this.setState({ barWidth });
     };
 
@@ -402,23 +408,23 @@ class Histogram extends Component {
 
         let scaleStep = Math.abs(Number(dataSetMaxValue) - Number(dataSetMinValue)) / 4;
         let scaleSteps = [Number(dataSetMinValue)];
-        for (let i = 1; i <= 4; i++) {
+        for (let i = 1; i <= this.props.scaleIncrements; i++) {
             scaleSteps.push((Number(scaleSteps[i - 1]) + scaleStep).toFixed(2));
         }
         return (
             <div className="histogramComponent">
-                <div className="scaleContainer">
-                    {scaleSteps.map((step, i) => {
-                        return (
-                            <div key={i} className="scale-step">
-                                {step}%
-                            </div>
-                        );
-                    })}
-                </div>
-
                 <div className="mainSection">
-                    <div ref={this.histogram} className="histogram">
+                    <div className="scaleContainer">
+                        {scaleStep < 100000 &&
+                            scaleSteps.map((step, i) => {
+                                return (
+                                    <div key={i} className="scale-step">
+                                        {step}%
+                                    </div>
+                                );
+                            })}
+                    </div>
+                    <div ref={this.histogram} className={`histogram ${this.props.showSlider ? "showSlider" : ""}`}>
                         <div
                             className="bar-container"
                             style={{
@@ -444,9 +450,10 @@ class Histogram extends Component {
                                 }
 
                                 if (
-                                    barMinLocation <= barLocations[index] + this.buttonWidth - this.buttonWidth / 2 &&
-                                    barLocations[index] + this.buttonWidth - this.buttonWidth / 2 <=
-                                    barMaxLocation - barWidth
+                                    !this.props.showSlider ||
+                                    (barMinLocation <= barLocations[index] + this.buttonWidth - this.buttonWidth / 2 &&
+                                        barLocations[index] + this.buttonWidth - this.buttonWidth / 2 <=
+                                            barMaxLocation - barWidth)
                                 ) {
                                     if (bar.normalizedValue > 0) {
                                         color = "green";
@@ -474,6 +481,8 @@ class Histogram extends Component {
                             })}
                         </div>
                     </div>
+                </div>
+                {this.props.showSlider && (
                     <Slider
                         getSliderBarDimensions={this.getSliderBarDimensions}
                         sliderContainerWidth={sliderContainerWidth}
@@ -483,6 +492,8 @@ class Histogram extends Component {
                         buttonLeft={barMinLocation}
                         buttonRight={barMaxLocation}
                     />
+                )}
+                {this.props.showInputs && (
                     <div className="input-section">
                         <div className={`input-container ${input_with_focus === "left_boundry" ? "selected" : ""}`}>
                             <input
@@ -520,7 +531,7 @@ class Histogram extends Component {
                             %
                         </div>
                     </div>
-                </div>
+                )}
             </div>
         );
     }
@@ -531,7 +542,7 @@ Histogram.defaultProps = defaultProps;
 Histogram.propTypes = {
     data: PropTypes.array,
     buttonPresets: PropTypes.object,
-    barMargin: PropTypes.number
+    barWidthPercentage: PropTypes.number
 };
 
 export default Histogram;

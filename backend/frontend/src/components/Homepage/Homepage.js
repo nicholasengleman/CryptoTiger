@@ -19,6 +19,7 @@ import CryptoRow from "../CryptoTableRow/CryptoTableRow";
 import CryptoListHeader from "../CryptoTableHeader/CryptoTableHeader";
 import DataSelectorModal from "../DataSelectorModal/DataSelectorModal";
 import PresetsContainer from "./../PresetsContainer/PresetsContainer";
+import HistogramContainer from "./../DataSelectorModal/HistogramContainer/HistogramContainer";
 
 class Homepage extends Component {
     constructor(props) {
@@ -60,11 +61,11 @@ class Homepage extends Component {
             });
         });
 
-        const { endpoint } = this.state;
-        const socket = socketIOClient(endpoint);
-        socket.on("currentDataUpdate", message => {
-            updateCurrentData(message);
-        });
+        // const { endpoint } = this.state;
+        // const socket = socketIOClient(endpoint);
+        // socket.on("currentDataUpdate", message => {
+        //     updateCurrentData(message);
+        // });
     }
 
     render() {
@@ -111,7 +112,11 @@ class Homepage extends Component {
                                 ))}
                     </div>
                 </div>
-                {this.props.dataMenuData.dataMenu.open && <DataSelectorModal />}
+                {this.props.dataMenuData.dataMenu.open ? (
+                    <DataSelectorModal />
+                ) : (
+                    document.body.classList.remove("MODAL_OPEN_CLASS")
+                )}
             </React.Fragment>
         );
     }

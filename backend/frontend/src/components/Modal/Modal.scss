@@ -9,6 +9,7 @@
     right: 0;
     transform: translateY(-2000px);
     z-index: 100;
+
     .modal {
         opacity: 0;
         background-color: white;
@@ -20,6 +21,7 @@
         margin: 50px auto;
         max-height: calc(100vh - 80px);
         overflow-y: scroll;
+        padding: 30px;
     }
 
     &.modal-open {

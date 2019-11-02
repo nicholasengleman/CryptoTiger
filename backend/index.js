@@ -44,10 +44,10 @@ function getDataEveryXSeconds(socket, milliseconds) {
         .catch(e => console.log(e));
 }
 
-io.on("connection", socket => {
-    getDataEveryXSeconds(socket, 10000);
-    socket.on("disconect", () => console.log("Client disconnected"));
-});
+// io.on("connection", socket => {
+//     getDataEveryXSeconds(socket, 10000);
+//     socket.on("disconect", () => console.log("Client disconnected"));
+// });
 
 app.get("/socket", (req, res) => {
     res.send({ response: "I am alive" }).status(200);

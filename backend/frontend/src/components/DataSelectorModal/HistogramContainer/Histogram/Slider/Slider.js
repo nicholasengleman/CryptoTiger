@@ -24,12 +24,14 @@ class Slider extends Component {
     }
 
     calculateDimensions() {
-        const rect = this.sliderBar.current.getBoundingClientRect();
-        let sliderWidth = rect.right - rect.left;
-        if (sliderWidth !== this.sliderWidth) {
-            this.props.getSliderBarDimensions(sliderWidth, rect.right, rect.left);
-            this.sliderWidthCalculated = true;
-            this.sliderWidth = sliderWidth;
+        if (this.sliderBar.current) {
+            const rect = this.sliderBar.current.getBoundingClientRect();
+            let sliderWidth = rect.right - rect.left;
+            if (sliderWidth !== this.sliderWidth) {
+                this.props.getSliderBarDimensions(sliderWidth, rect.right, rect.left);
+                this.sliderWidthCalculated = true;
+                this.sliderWidth = sliderWidth;
+            }
         }
     }
 

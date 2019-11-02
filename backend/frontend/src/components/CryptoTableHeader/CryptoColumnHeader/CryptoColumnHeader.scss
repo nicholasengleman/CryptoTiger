@@ -21,12 +21,14 @@
         text-transform: lowercase;
         position: absolute;
         top: -12px;
+        left: -20px;
         background-color: #4050b9;
         padding: 2px 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 10px;
+        min-width: 95px;
         .deleteFilter {
             margin: 0 0 4px 5px;
             font-size: 14px;

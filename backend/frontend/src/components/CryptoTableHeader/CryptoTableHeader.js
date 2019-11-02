@@ -26,7 +26,7 @@ class CryptoTableHeader extends Component {
         super(props);
         this.Viewport = React.createRef();
         this.colu = React.createRef();
-        this.setColumnsThatAreVisibleDebounce = _.throttle(this.props.setColumnsThatAreVisible.bind(this), 10, {
+        this.setColumnsThatAreVisibleDebounce = _.throttle(this.props.setColumnsThatAreVisible.bind(this), 50, {
             leading: true
         });
     }
@@ -101,7 +101,7 @@ class CryptoTableHeader extends Component {
     };
 
     render() {
-        const { shiftVisibleColumnsBackwards, shiftVisibleColumnsForward } = this.props;
+        const { shiftVisibleColumnsBackwards, shiftVisibleColumnsForward, filters } = this.props;
         let showPrevBtn = false;
         let showNextBtn = false;
 
@@ -113,7 +113,11 @@ class CryptoTableHeader extends Component {
         }
 
         return (
-            <div className={`${styles.filterColumnsHeader} ${!showPrevBtn && !showNextBtn ? styles.reduceMargin : ""}`}>
+            <div
+                className={`${styles.filterColumnsHeader} 
+                             ${!showPrevBtn && !showNextBtn ? styles.reduceMargin : ""}
+                             ${filters.length ? styles.filterRow : ""}`}
+            >
                 {(showPrevBtn || showNextBtn) && (
                     <div className={styles.topRow}>
                         {showPrevBtn && (

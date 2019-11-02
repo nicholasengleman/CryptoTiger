@@ -1,33 +1,37 @@
-const selectFilteredCryptos = (cryptoData, filterParameters) => {
-    if (filterParameters.length === 0) {
-        return cryptoData;
-    }
+import { createSelector } from "reselect";
 
-    let cryptos = [];
+const cryptoData = state => state.cryptoData.data;
+const filterParameters = state => state.filterData.filterParameters;
 
-    Object.keys(cryptoData).forEach(crypto => {
-        let filterPasses = 0;
-
-        filterParameters.forEach(filter => {
-            Object.keys(cryptoData[crypto].columns).forEach(column => {
-                if (cryptoData[crypto].columns[column].columnId === filter.columnId) {
-                    if (
-                        filter.parameters.selectionMin <
-                            parseFloat(cryptoData[crypto].columns[column].cryptoPercentChange) &&
-                        parseFloat(cryptoData[crypto].columns[column].cryptoPercentChange) <
-                            filter.parameters.selectionMax
-                    ) {
-                        filterPasses++;
-                    }
-                }
-            });
-        });
-
-        if (filterPasses === filterParameters.length) {
-            cryptos.push(cryptoData[crypto]);
+export default createSelector(
+    [cryptoData, filterParameters],
+    (cryptoData, filterParameters) => {
+        if (filterParameters.length === 0) {
+            return cryptoData;
         }
-    });
-    return cryptos;
-};
+        let cryptos = [];
+        Object.keys(cryptoData).forEach(crypto => {
+            let filterPasses = 0;
 
-export default selectFilteredCryptos;
+            filterParameters.forEach(filter => {
+                Object.keys(cryptoData[crypto].columns).forEach(column => {
+                    if (cryptoData[crypto].columns[column].columnId === filter.columnId) {
+                        if (
+                            filter.parameters.selectionMin <
+                                parseFloat(cryptoData[crypto].columns[column].cryptoPercentChange) &&
+                            parseFloat(cryptoData[crypto].columns[column].cryptoPercentChange) <
+                                filter.parameters.selectionMax
+                        ) {
+                            filterPasses++;
+                        }
+                    }
+                });
+            });
+
+            if (filterPasses === filterParameters.length) {
+                cryptos.push(cryptoData[crypto]);
+            }
+        });
+        return cryptos;
+    }
+);

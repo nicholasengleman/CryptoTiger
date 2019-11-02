@@ -94,7 +94,7 @@ class Homepage extends Component {
 
 const mapStateToProps = state => {
     return {
-        cryptosData: selectFilteredCryptos(state.cryptoData.data, state.filterData.filterParameters),
+        cryptosData: selectFilteredCryptos(state),
         sortData: state.cryptoData,
         dataMenuData: state.dataMenu
     };

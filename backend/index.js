@@ -36,6 +36,7 @@ function getDataEveryXSeconds(socket, milliseconds) {
     let promise = getCurrentDataAndEmit();
     promise
         .then(cryptoList => {
+
             socket.emit("currentDataUpdate", cryptoList);
             setTimeout(() => {
                 getDataEveryXSeconds(socket, milliseconds);

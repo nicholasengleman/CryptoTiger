@@ -48,6 +48,7 @@ class Homepage extends Component {
         const { endpoint } = this.state;
         const socket = socketIOClient(endpoint);
         socket.on("currentDataUpdate", message => {
+            console.log(message);
             updateCurrentData(message);
             updateTopChartData(message);
         });

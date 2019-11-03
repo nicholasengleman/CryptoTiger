@@ -12,8 +12,8 @@ The function needs to first retrieve/calculate 3 values to update the DB: the da
     a)
 */
 
-const connection = require("../../../utilities/db");
-const getHistoricalData = require("../../../utilities/getHistoricalPrice");
+const connection = require("../../../../utilities/db");
+const getHistoricalData = require("../../getHistoricalPrice");
 const getDataInfoObject = require("../../../../server_tables/timeframeList");
 const computeDataId = require("../utlities/computeDataId");
 
@@ -35,7 +35,10 @@ function updateDataInTable(data, timeframe, callback) {
     try {
         getDataInfoObject((error, DATA_INFO_MAP) => {
             historical_data.forEach(bar => {
-                computeDataId(timeframe, bar.time, DATA_INFO_MAP, function(err, data_id) {
+                computeDataId(timeframe, bar.time, DATA_INFO_MAP, function(
+                    err,
+                    data_id
+                ) {
                     if (err) throw err;
                     cryptoList.push([bar.close, data_id, crypto_id]);
                 });
@@ -43,7 +46,8 @@ function updateDataInTable(data, timeframe, callback) {
 
             console.log(cryptoList);
 
-            let sql = "UPDATE crypto_price_historical SET data_value = ? WHERE data_id = ? AND crypto_id = ?";
+            let sql =
+                "UPDATE crypto_price_historical SET data_value = ? WHERE data_id = ? AND crypto_id = ?";
             for (let i = 0; i < cryptoList.length; i++) {
                 connection.query(sql, cryptoList[i], function(error, results) {
                     if (error) callback(error);

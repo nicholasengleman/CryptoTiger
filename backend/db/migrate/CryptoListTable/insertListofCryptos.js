@@ -4,9 +4,8 @@
  */
 
 var axios = require("axios");
-const connection = require("../../utilities/db");
-const api_key = require("../../utilities/api_key");
-
+const connection = require("../../../utilities/db");
+const api_key = require("../../../utilities/api_key");
 
 //insert list of cryptos into CryptoList table
 function insertListofCryptos() {
@@ -14,8 +13,8 @@ function insertListofCryptos() {
     const request = axios
         .get(
             "https://min-api.cryptocompare.com/data/top/mktcapfull?limit=100&tsym=USD&?" +
-            api_key +
-            ""
+                api_key +
+                ""
         )
         .then(response => {
             return response.data.Data;
@@ -33,21 +32,16 @@ function insertListofCryptos() {
                 coin.CoinInfo.ImageUrl
             ];
             cryptoList.push(coinInfo);
-       });
+        });
 
+        var sql =
+            "INSERT IGNORE INTO CryptoList (crypto_id, crypto_name, crypto_shortname, crypto_icon_url) VALUES ?";
 
-        var sql = "INSERT IGNORE INTO CryptoList (crypto_id, crypto_name, crypto_shortname, crypto_icon_url) VALUES ?";
-
-        connection.query(sql, [cryptoList], function (error, results) {
+        connection.query(sql, [cryptoList], function(error, results) {
             if (error) throw error;
             console.log(results);
         });
-
     });
 }
 
-
 insertListofCryptos();
-
-
-

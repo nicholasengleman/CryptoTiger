@@ -1,6 +1,11 @@
-const getCryptoListTable = require("../../../utilities/getCryptoListTable");
+const getCryptoListTable = require("../../../../utilities/getCryptoListTable");
 
-function processCurrentPriceData(type_of_operation, cryptos, data_type, callback) {
+function processCurrentPriceData(
+    type_of_operation,
+    cryptos,
+    data_type,
+    callback
+) {
     if (type_of_operation !== "insert" && type_of_operation !== "update") {
         return callback("Unknown operation type for preparing data.");
     }

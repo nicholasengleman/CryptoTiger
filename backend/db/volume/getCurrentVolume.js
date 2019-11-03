@@ -1,18 +1,18 @@
-const api_key = require("./api_key");
+const api_key = require("../utilities/api_key");
 const get = require("axios");
 
-const getCryptoListTable = require("./getCryptoListTable");
+const getCryptoListTable = require("../../utilities/getCryptoListTable");
 
-function getCurrentMktCap(callback) {
-    getCryptoListTable(CRYPTO_LIST_TABLE => {
+function getCurrentVolume(callback) {
+    getCryptoListTable((err, CRYPTO_LIST_TABLE) => {
+        //  let minutes_normalized = (60 / new Date().getMinutes());
+
         let cryptoList = "";
-
         Object.keys(CRYPTO_LIST_TABLE).forEach(crypto => {
             if (isNaN(crypto)) {
                 cryptoList += cryptoList.length !== 0 ? "," + crypto : crypto;
             }
         });
-
         const request = get(
             `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${cryptoList}&tsyms=USD&?${api_key}`
         )
@@ -29,7 +29,7 @@ function getCurrentMktCap(callback) {
 
             Object.keys(historical_data.RAW).forEach(function(crypto) {
                 processedCryptoList.push({
-                    mktcap: historical_data.RAW[crypto].USD.MKTCAP,
+                    volume: historical_data.RAW[crypto].USD.VOLUME24HOURTO / 24,
                     shortname: historical_data.RAW[crypto].USD.FROMSYMBOL
                 });
             });
@@ -39,4 +39,4 @@ function getCurrentMktCap(callback) {
     });
 }
 
-module.exports = getCurrentMktCap;
+module.exports = getCurrentVolume;

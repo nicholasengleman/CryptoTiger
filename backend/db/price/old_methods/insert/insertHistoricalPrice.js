@@ -12,8 +12,8 @@ The function needs to first retrieve/calculate 3 values to update the DB: the da
     a)
 */
 
-const connection = require("../../../utilities/db");
-const getHistoricalData = require("../../../utilities/getHistoricalPrice");
+const connection = require("../../../../utilities/db");
+const getHistoricalData = require("../../getHistoricalPrice");
 const getDataInfoObject = require("../../../../server_tables/timeframeList");
 const computeDataId = require("../utlities/computeDataId");
 
@@ -25,9 +25,14 @@ function insertHistoricalPrice() {
             if (timeframe !== "current") {
                 getHistoricalData(timeframe, (err, data) => {
                     if (err) throw err;
-                    insertDataInTable(data, timeframe, total_rows_changed, (err, results) => {
-                        if (err) throw err;
-                    });
+                    insertDataInTable(
+                        data,
+                        timeframe,
+                        total_rows_changed,
+                        (err, results) => {
+                            if (err) throw err;
+                        }
+                    );
                 });
             }
         });
@@ -43,13 +48,17 @@ function insertDataInTable(data, timeframe, total_rows_changed, callback) {
     try {
         getDataInfoObject((error, DATA_INFO_MAP) => {
             historical_data.forEach(bar => {
-                computeDataId(timeframe, bar.time, DATA_INFO_MAP, function(err, data_id) {
+                computeDataId(timeframe, bar.time, DATA_INFO_MAP, function(
+                    err,
+                    data_id
+                ) {
                     if (err) throw err;
                     cryptoList.push([data_id, data.crypto_id, bar.close]);
                 });
             });
 
-            var sql = "INSERT IGNORE INTO crypto_price_historical (data_id, crypto_id, data_value) VALUES ?";
+            var sql =
+                "INSERT IGNORE INTO crypto_price_historical (data_id, crypto_id, data_value) VALUES ?";
             connection.query(sql, [cryptoList], function(error, results) {
                 if (error) callback(error);
                 console.log(results.changedRows + " rows changed.");

@@ -1,5 +1,5 @@
-const connection = require("../db/utilities/db");
-const dataInfo = require("../db/utilities/dataInfo");
+const connection = require("./../db/utilities/db");
+const dataInfo = require("./../db/utilities/dataInfo");
 
 function getDefaultData(callback) {
     let data = {};

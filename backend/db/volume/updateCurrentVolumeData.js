@@ -1,7 +1,7 @@
-const connection = require("./../utilities/db");
-const getCurrentVolume = require("./../utilities/getCurrentVolume");
-const DATA_INFO_OBJECT = require("./../utilities/DataInfoObject");
-const getCryptoListTable = require("./../utilities/getCryptoListTable");
+const connection = require("../../utilities/db");
+const getCurrentVolume = require("./getCurrentVolume");
+const DATA_INFO_OBJECT = require("../utilities/dataInfoObject");
+const getCryptoListTable = require("../../utilities/getCryptoListTable");
 
 function updateCurrentVolumeData(callback) {
     getCurrentVolume((err, cryptos) => {

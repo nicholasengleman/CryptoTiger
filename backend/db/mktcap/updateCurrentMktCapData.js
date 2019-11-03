@@ -1,6 +1,6 @@
-const connection = require("./../utilities/db");
-const getCurrentMarketCap = require("./../utilities/getCurrentMarketCap");
-const getCryptoListTable = require("./../utilities/getCryptoListTable");
+const connection = require("../../utilities/db");
+const getCurrentMarketCap = require("./getCurrentMarketCap");
+const getCryptoListTable = require("../../utilities/getCryptoListTable");
 
 function updateCurrentMarketCapData(callback) {
     getCryptoListTable(function(CRYPTO_LIST_TABLE) {
@@ -23,7 +23,9 @@ function updateCurrentMarketCapData(callback) {
                     }
                 });
             }
-            console.log(`Finished updating ${i} cryptos with their current market cap.`);
+            console.log(
+                `Finished updating ${i} cryptos with their current market cap.`
+            );
             callback(cryptoList);
         });
     });

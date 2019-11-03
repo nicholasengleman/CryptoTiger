@@ -1,8 +1,7 @@
-const connection = require("./../../utilities/db");
-const getCurrentVolume = require("./../../utilities/getCurrentVolume");
-const DATA_INFO_OBJECT = require("./../../utilities/DataInfoObject");
-const getCryptoListTable = require("./../../utilities/getCryptoListTable");
-
+const connection = require("../../../utilities/db");
+const getCurrentVolume = require("../../volume/getCurrentVolume");
+const DATA_INFO_OBJECT = require("../../utilities/dataInfoObject");
+const getCryptoListTable = require("../../../utilities/getCryptoListTable");
 
 function insertVolume() {
     getCurrentVolume((err, cryptos) => {
@@ -15,17 +14,12 @@ function insertVolume() {
 }
 
 function insertDataInTable(cryptos, callback) {
-
     getCryptoListTable((err, CRYPTO_LIST_TABLE) => {
-
         let data_types = Object.keys(cryptos[0]).filter(el => {
-            return el !== 'shortname';
+            return el !== "shortname";
         });
 
-
-
         data_types.forEach(data_type => {
-
             let cryptoList = [];
 
             cryptos.forEach(crypto => {
@@ -37,17 +31,16 @@ function insertDataInTable(cryptos, callback) {
             });
 
             let sql = `INSERT IGNORE INTO crypto_volume_current (crypto_id, data_id, data_value) VALUES ?`;
-            connection.query(sql, [cryptoList], function (error, results) {
+            connection.query(sql, [cryptoList], function(error, results) {
                 if (error) callback(error);
-                console.log(`Finished inserting ${results.changedRows} rows of current ${data_type} data.`);
+                console.log(
+                    `Finished inserting ${results.changedRows} rows of current ${data_type} data.`
+                );
             });
-
         });
     });
 }
 
-
 insertVolume();
 
 module.exports = insertVolume;
-

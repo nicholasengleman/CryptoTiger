@@ -5,7 +5,11 @@ import styles from "./DataMenu.module.scss";
 import DataPeriodContainer from "./DataPeriodContainer/DataPeriodContainer";
 import DataBox from "../../DataBox/DataBox";
 import { connect } from "react-redux";
-import { closeDataMenu, setSelectedDataGroup, setSelectedDataType } from "../../../store/actions/actionCreators";
+import {
+    closeDataMenu,
+    setSelectedDataGroup,
+    setSelectedDataType
+} from "../../../store/actions/actionCreators";
 
 import Pill from "../../Pill/Pill";
 
@@ -55,8 +59,10 @@ class DataMenu extends Component {
                     />
                 </DataBox>
 
-                <DataBox title="Data Period">
-                    <DataPeriodContainer periods={timeframes[selected.dataGroup] || [1]} />
+                <DataBox title="Data Period" style={{ minWidth: "250px" }}>
+                    <DataPeriodContainer
+                        periods={timeframes[selected.dataGroup] || [1]}
+                    />
                 </DataBox>
             </div>
         );
@@ -73,8 +79,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         closeDataMenu: () => dispatch(closeDataMenu()),
-        setSelectedDataType: DataType => dispatch(setSelectedDataType(DataType)),
-        setSelectedDataGroup: DataGroup => dispatch(setSelectedDataGroup(DataGroup))
+        setSelectedDataType: DataType =>
+            dispatch(setSelectedDataType(DataType)),
+        setSelectedDataGroup: DataGroup =>
+            dispatch(setSelectedDataGroup(DataGroup))
     };
 };
 

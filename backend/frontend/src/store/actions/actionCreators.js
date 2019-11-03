@@ -88,10 +88,24 @@ export const emptyData = () => {
     };
 };
 
-export const processNewColumnData = (responseData, selectedColumnId, dataType, dataGroup, dataPeriod, dataName) => {
+export const processNewColumnData = (
+    responseData,
+    selectedColumnId,
+    dataType,
+    dataGroup,
+    dataPeriod,
+    dataName
+) => {
     return {
         type: actionTypes.PROCESS_NEW_COLUMN_DATA,
-        payload: { responseData, selectedColumnId, dataType, dataGroup, dataPeriod, dataName }
+        payload: {
+            responseData,
+            selectedColumnId,
+            dataType,
+            dataGroup,
+            dataPeriod,
+            dataName
+        }
     };
 };
 
@@ -128,6 +142,7 @@ export const fetchAllCryptoData = () => {
         axios
             .get("http://localhost:5000/api/crypto-data/getDefaultData")
             .then(response => {
+                console.log(response.data);
                 dispatch(fetchCryptosSuccess(response.data));
                 dispatch(loadTopChartData(response.data));
                 dispatch(setColumns(response.data.length));
@@ -147,7 +162,9 @@ export const fetchPresetData = () => {
             let data = [];
             preset.columns.forEach(column => {
                 axios
-                    .get(`http://localhost:5000/api/crypto-data/getColumnData/${column.time}`)
+                    .get(
+                        `http://localhost:5000/api/crypto-data/getColumnData/${column.time}`
+                    )
                     .then(response => {
                         data.push(response.data);
                         if (data.length === preset.columns.length) {

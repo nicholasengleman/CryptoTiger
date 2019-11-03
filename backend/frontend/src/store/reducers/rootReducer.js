@@ -5,6 +5,7 @@ import columnsReducer from "./columnsReducer";
 import selectedDataReducer from "./selectedDataReducer";
 import filterReducer from "./filterReducer";
 import presetsReducer from "./presetsReducer";
+import topChartReducer from "./topChartReducer";
 
 export default combineReducers({
     dataMenu: dataMenuReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
     columns: columnsReducer,
     selectedData: selectedDataReducer,
     filterData: filterReducer,
-    presetsData: presetsReducer
+    presetsData: presetsReducer,
+    topChartData: topChartReducer
 });

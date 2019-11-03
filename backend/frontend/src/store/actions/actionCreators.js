@@ -129,6 +129,7 @@ export const fetchAllCryptoData = () => {
             .get("http://localhost:5000/api/crypto-data/getDefaultData")
             .then(response => {
                 dispatch(fetchCryptosSuccess(response.data));
+                dispatch(loadTopChartData(response.data));
                 dispatch(setColumns(response.data.length));
             })
             .catch(error => {
@@ -179,6 +180,21 @@ export const fetchCryptosFailure = error => ({
     type: actionTypes.FETCH_CRYPTOS_FAILURE,
     payload: { error }
 });
+
+export const loadTopChartData = data => {
+    let columnIds = [0, 1];
+    return {
+        type: actionTypes.LOAD_TOP_CHART_DATA,
+        payload: { data, columnIds }
+    };
+};
+
+export const updateTopChartData = data => {
+    return {
+        type: actionTypes.UPDATE_TOP_CHART_DATA,
+        payload: { data }
+    };
+};
 
 ///////////////////////////////
 //Filter action creators

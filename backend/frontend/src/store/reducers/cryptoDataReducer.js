@@ -5,6 +5,7 @@ import _ from "lodash";
 const initialState = {
     data: [],
     dataBuffer: [],
+    homepageChart: [],
     loading: false,
     columnIds: [],
     sortColumn: 0,
@@ -75,6 +76,7 @@ const fetchCryptosSuccess = (state, action) => {
     const updatedState = {
         data,
         dataBuffer: data,
+        homepageChart: data,
         loading: false,
         columnIds: action.payload.columnIds
     };

@@ -7,7 +7,12 @@ import axios from "axios";
 import selectFilteredCryptos from "./../../store/selectors/selectFilteredCryptos";
 import socketIOClient from "socket.io-client";
 
-import { updateCurrentData, fetchAllCryptoData, fetchPresetData } from "../../store/actions/actionCreators";
+import {
+    updateCurrentData,
+    updateTopChartData,
+    fetchAllCryptoData,
+    fetchPresetData
+} from "../../store/actions/actionCreators";
 
 import styles from "./Homepage.module.scss";
 
@@ -16,6 +21,8 @@ import CryptoListHeader from "../CryptoTableHeader/CryptoTableHeader";
 import DataSelectorModal from "../DataSelectorModal/DataSelectorModal";
 import PresetsContainer from "./../PresetsContainer/PresetsContainer";
 import HistogramContainer from "./../DataSelectorModal/HistogramContainer/HistogramContainer";
+import Preset from "./../PresetsContainer/Preset/Preset";
+import Chart from "./../Chart/Chart";
 
 class Homepage extends Component {
     constructor(props) {
@@ -27,15 +34,23 @@ class Homepage extends Component {
     }
 
     componentDidMount() {
-        const { updateCurrentData, presetsData, storePresetData, fetchAllCryptoData, fetchPresetData } = this.props;
+        const {
+            updateCurrentData,
+            presetsData,
+            storePresetData,
+            updateTopChartData,
+            fetchAllCryptoData,
+            fetchPresetData
+        } = this.props;
         fetchAllCryptoData();
         fetchPresetData();
 
-        // const { endpoint } = this.state;
-        // const socket = socketIOClient(endpoint);
-        // socket.on("currentDataUpdate", message => {
-        //     updateCurrentData(message);
-        // });
+        const { endpoint } = this.state;
+        const socket = socketIOClient(endpoint);
+        socket.on("currentDataUpdate", message => {
+            updateCurrentData(message);
+            updateTopChartData(message);
+        });
     }
 
     render() {
@@ -45,6 +60,7 @@ class Homepage extends Component {
             <React.Fragment>
                 <div className={styles.pageContainer}>
                     <div className={styles.hero}>
+                        <Chart />
                         <PresetsContainer />
                     </div>
                     <div className={styles.cryptoTable}>
@@ -103,6 +119,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         updateCurrentData: data => dispatch(updateCurrentData(data)),
+        updateTopChartData: data => dispatch(updateTopChartData(data)),
         fetchAllCryptoData: () => dispatch(fetchAllCryptoData()),
         fetchPresetData: () => dispatch(fetchPresetData())
     };

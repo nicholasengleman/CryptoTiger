@@ -19,7 +19,7 @@ import {
 } from "../../store/actions/actionCreators";
 
 import CryptoColumnHeader from "./CryptoColumnHeader/CryptoColumnHeader";
-import Button from "./../Button/Button";
+import Button from "../Button/Button";
 
 class CryptoTableHeader extends Component {
     constructor(props) {

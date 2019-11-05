@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import axios from "axios";
 
-import selectFilteredCryptos from "./../../store/selectors/selectFilteredCryptos";
+import selectFilteredCryptos from "../../store/selectors/selectFilteredCryptos";
 import socketIOClient from "socket.io-client";
 
 import {
@@ -19,10 +19,10 @@ import styles from "./Homepage.module.scss";
 import CryptoRow from "../CryptoTableRow/CryptoTableRow";
 import CryptoListHeader from "../CryptoTableHeader/CryptoTableHeader";
 import DataSelectorModal from "../DataSelectorModal/DataSelectorModal";
-import PresetsContainer from "./../PresetsContainer/PresetsContainer";
-import HistogramContainer from "./../DataSelectorModal/HistogramContainer/HistogramContainer";
-import Preset from "./../PresetsContainer/Preset/Preset";
-import Chart from "./../Chart/Chart";
+import PresetsContainer from "../PresetsContainer/PresetsContainer";
+import HistogramContainer from "../DataSelectorModal/HistogramContainer/HistogramContainer";
+import Preset from "../PresetsContainer/Preset/Preset";
+import Chart from "../Chart/Chart";
 
 class Homepage extends Component {
     constructor(props) {

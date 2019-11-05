@@ -16,8 +16,8 @@ import {
     moveCryptoBufferToData
 } from "../../store/actions/actionCreators";
 
-import Button from "./../Button/Button";
-import Modal from "./../Modal/Modal";
+import Button from "../Button/Button";
+import Modal from "../Modal/Modal";
 
 class DataSelectorModal extends Component {
     constructor(props) {

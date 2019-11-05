@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./Preset.module.scss";
 import axios from "axios";
-import icon_ledger from "./../../../img/icon_ledger.png";
-import icon_heart from "./../../../img/icon_heart.png";
-import Bar from "./../../Bar/Bar";
+import icon_ledger from "../../../img/icon_ledger.png";
+import icon_heart from "../../../img/icon_heart.png";
+import Bar from "../../Bar/Bar";
 
 import {
     processNewColumnData,

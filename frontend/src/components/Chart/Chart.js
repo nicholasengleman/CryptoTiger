@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styles from "./Chart.module.scss";
 
-import Histogram from "./../DataSelectorModal/HistogramContainer/Histogram/Histogram";
-import selectHomeChartCryptos from "./../../store/selectors/selectHomeChartCryptos";
+import Histogram from "../DataSelectorModal/HistogramContainer/Histogram/Histogram";
+import selectHomeChartCryptos from "../../store/selectors/selectHomeChartCryptos";
 
 class Box extends Component {
     render() {

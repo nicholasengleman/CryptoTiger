@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const socketIo = require("socket.io");
 const cors = require("cors");
 const updateCurrentPriceData = require("./db/price/updateCurrentPriceData");
+const updateHistoricalPriceData = require("./db/price/updateHistoricalPriceData");
 
 //Express Setup
 const app = express();
@@ -22,8 +23,16 @@ let server = app.listen(port, () => console.log(`Listening on port ${port}`));
 
 const io = socketIo.listen(server);
 
+
+//update historical data every hour
+updateHistoricalPriceData();
+setInterval(() => {
+    updateHistoricalPriceData();
+}, 3600000);
+
+
 function getCurrentDataAndEmit() {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         updateCurrentPriceData(cryptoList => {
             if (cryptoList) {
                 resolve(cryptoList);

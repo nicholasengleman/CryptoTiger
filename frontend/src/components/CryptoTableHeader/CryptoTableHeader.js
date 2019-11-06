@@ -26,9 +26,13 @@ class CryptoTableHeader extends Component {
         super(props);
         this.Viewport = React.createRef();
         this.colu = React.createRef();
-        this.setColumnsThatAreVisibleDebounce = _.throttle(this.props.setColumnsThatAreVisible.bind(this), 50, {
-            leading: true
-        });
+        this.setColumnsThatAreVisibleDebounce = _.throttle(
+            this.props.setColumnsThatAreVisible.bind(this),
+            50,
+            {
+                leading: true
+            }
+        );
     }
 
     componentDidMount() {
@@ -44,7 +48,10 @@ class CryptoTableHeader extends Component {
                 reduxVisibleColumns++;
             }
         });
-        if (reduxVisibleColumns && reduxVisibleColumns !== this.columnsToShow()) {
+        if (
+            reduxVisibleColumns &&
+            reduxVisibleColumns !== this.columnsToShow()
+        ) {
             this.setColumnsThatAreVisibleDebounce(this.columnsToShow());
         }
     }
@@ -91,9 +98,16 @@ class CryptoTableHeader extends Component {
         setSelectedColumnId(this.props.columnVisibility.length);
         setSelectedDataName("1 hour price");
         axios
-            .get(`http://localhost:5000/api/crypto-data/getColumnData/${3600}`)
+            .get(
+                `http://3.132.176.114:443/api/crypto-data/getColumnData/${3600}`
+            )
             .then(response => {
-                processNewColumnData(response.data, this.props.columnVisibility.length, "1 hour price", 1);
+                processNewColumnData(
+                    response.data,
+                    this.props.columnVisibility.length,
+                    "1 hour price",
+                    1
+                );
             })
             .catch(error => {
                 console.log("[Error]", error);
@@ -101,21 +115,33 @@ class CryptoTableHeader extends Component {
     };
 
     render() {
-        const { shiftVisibleColumnsBackwards, shiftVisibleColumnsForward, filters } = this.props;
+        const {
+            shiftVisibleColumnsBackwards,
+            shiftVisibleColumnsForward,
+            filters
+        } = this.props;
         let showPrevBtn = false;
         let showNextBtn = false;
 
         if (this.props.columnVisibility[0] === false) {
             showPrevBtn = true;
         }
-        if (this.props.columnVisibility[this.props.columnVisibility.length - 1] === false) {
+        if (
+            this.props.columnVisibility[
+                this.props.columnVisibility.length - 1
+            ] === false
+        ) {
             showNextBtn = true;
         }
 
         return (
             <div
                 className={`${styles.filterColumnsHeader} 
-                             ${!showPrevBtn && !showNextBtn ? styles.reduceMargin : ""}
+                             ${
+                                 !showPrevBtn && !showNextBtn
+                                     ? styles.reduceMargin
+                                     : ""
+                             }
                              ${filters.length ? styles.filterRow : ""}`}
             >
                 {(showPrevBtn || showNextBtn) && (
@@ -153,12 +179,36 @@ class CryptoTableHeader extends Component {
                                     <CryptoColumnHeader
                                         key={index}
                                         index={index}
-                                        columnId={this.props.cryptoData.columns[column].columnId}
-                                        columnType={this.props.cryptoData.columns[column].columnType}
-                                        columnGroup={this.props.cryptoData.columns[column].columnGroup}
-                                        columnPeriod={this.props.cryptoData.columns[column].columnPeriod}
-                                        columnName={this.props.cryptoData.columns[column].columnName}
-                                        filter={this.findFilter(this.props.cryptoData.columns[column].columnId)}
+                                        columnId={
+                                            this.props.cryptoData.columns[
+                                                column
+                                            ].columnId
+                                        }
+                                        columnType={
+                                            this.props.cryptoData.columns[
+                                                column
+                                            ].columnType
+                                        }
+                                        columnGroup={
+                                            this.props.cryptoData.columns[
+                                                column
+                                            ].columnGroup
+                                        }
+                                        columnPeriod={
+                                            this.props.cryptoData.columns[
+                                                column
+                                            ].columnPeriod
+                                        }
+                                        columnName={
+                                            this.props.cryptoData.columns[
+                                                column
+                                            ].columnName
+                                        }
+                                        filter={this.findFilter(
+                                            this.props.cryptoData.columns[
+                                                column
+                                            ].columnId
+                                        )}
                                     />
                                 )
                         )}
@@ -179,15 +229,33 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         setColumns: columns => dispatch(setColumns(columns)),
-        setColumnsThatAreVisible: visibleColumns => dispatch(setColumnsThatAreVisible(visibleColumns)),
-        shiftVisibleColumnsForward: () => dispatch(shiftVisibleColumnsForward()),
-        shiftVisibleColumnsBackwards: () => dispatch(shiftVisibleColumnsBackwards()),
+        setColumnsThatAreVisible: visibleColumns =>
+            dispatch(setColumnsThatAreVisible(visibleColumns)),
+        shiftVisibleColumnsForward: () =>
+            dispatch(shiftVisibleColumnsForward()),
+        shiftVisibleColumnsBackwards: () =>
+            dispatch(shiftVisibleColumnsBackwards()),
         toggleDataMenu: () => dispatch(toggleDataMenu()),
-        setSelectedDataPeriod: dataPeriod => dispatch(setSelectedDataPeriod(dataPeriod)),
-        setSelectedDataName: dataName => dispatch(setSelectedDataName(dataName)),
-        setSelectedColumnId: columnId => dispatch(setSelectedColumnId(columnId)),
-        processNewColumnData: (responseData, selectedColumnId, periodName, periodNumber) =>
-            dispatch(processNewColumnData(responseData, selectedColumnId, periodName, periodNumber))
+        setSelectedDataPeriod: dataPeriod =>
+            dispatch(setSelectedDataPeriod(dataPeriod)),
+        setSelectedDataName: dataName =>
+            dispatch(setSelectedDataName(dataName)),
+        setSelectedColumnId: columnId =>
+            dispatch(setSelectedColumnId(columnId)),
+        processNewColumnData: (
+            responseData,
+            selectedColumnId,
+            periodName,
+            periodNumber
+        ) =>
+            dispatch(
+                processNewColumnData(
+                    responseData,
+                    selectedColumnId,
+                    periodName,
+                    periodNumber
+                )
+            )
     };
 };
 

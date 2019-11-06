@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import axios from "axios";
-
 import selectFilteredCryptos from "../../store/selectors/selectFilteredCryptos";
 import socketIOClient from "socket.io-client";
 
@@ -20,8 +18,6 @@ import CryptoRow from "../CryptoTableRow/CryptoTableRow";
 import CryptoListHeader from "../CryptoTableHeader/CryptoTableHeader";
 import DataSelectorModal from "../DataSelectorModal/DataSelectorModal";
 import PresetsContainer from "../PresetsContainer/PresetsContainer";
-import HistogramContainer from "../DataSelectorModal/HistogramContainer/HistogramContainer";
-import Preset from "../PresetsContainer/Preset/Preset";
 import Chart from "../Chart/Chart";
 
 class Homepage extends Component {
@@ -29,15 +25,13 @@ class Homepage extends Component {
         super(props);
         this.state = {
             response: false,
-            endpoint: "http://localhost:5000/"
+            endpoint: "http://3.132.176.114:443/"
         };
     }
 
     componentDidMount() {
         const {
             updateCurrentData,
-            presetsData,
-            storePresetData,
             updateTopChartData,
             fetchAllCryptoData,
             fetchPresetData
@@ -48,7 +42,6 @@ class Homepage extends Component {
         const { endpoint } = this.state;
         const socket = socketIOClient(endpoint);
         socket.on("currentDataUpdate", message => {
-            console.log(message);
             updateCurrentData(message);
             updateTopChartData(message);
         });
@@ -72,13 +65,25 @@ class Homepage extends Component {
                                     let nameA = 0;
                                     let nameB = 0;
                                     if (sortColumn === 0) {
-                                        nameA = cryptosData[a].columns["0"].cryptoMarketCap;
-                                        nameB = cryptosData[b].columns["0"].cryptoMarketCap;
+                                        nameA =
+                                            cryptosData[a].columns["0"]
+                                                .cryptoMarketCap;
+                                        nameB =
+                                            cryptosData[b].columns["0"]
+                                                .cryptoMarketCap;
                                         return nameA - nameB;
                                     } else {
-                                        if (cryptosData[a].columns[sortColumn]) {
-                                            nameA = cryptosData[a].columns[sortColumn].cryptoRawPercentChange;
-                                            nameB = cryptosData[b].columns[sortColumn].cryptoRawPercentChange;
+                                        if (
+                                            cryptosData[a].columns[sortColumn]
+                                        ) {
+                                            nameA =
+                                                cryptosData[a].columns[
+                                                    sortColumn
+                                                ].cryptoRawPercentChange;
+                                            nameB =
+                                                cryptosData[b].columns[
+                                                    sortColumn
+                                                ].cryptoRawPercentChange;
                                             if (sortDown) {
                                                 return nameA - nameB;
                                             } else {
@@ -91,9 +96,15 @@ class Homepage extends Component {
                                 .map(crypto => (
                                     <CryptoRow
                                         key={cryptosData[crypto].cryptoId}
-                                        cryptoInfo={cryptosData[crypto].cryptoId}
-                                        cryptoIcon={cryptosData[crypto].cryptoIconUrl}
-                                        cryptoName={cryptosData[crypto].cryptoName}
+                                        cryptoInfo={
+                                            cryptosData[crypto].cryptoId
+                                        }
+                                        cryptoIcon={
+                                            cryptosData[crypto].cryptoIconUrl
+                                        }
+                                        cryptoName={
+                                            cryptosData[crypto].cryptoName
+                                        }
                                         columns={cryptosData[crypto].columns}
                                     />
                                 ))}

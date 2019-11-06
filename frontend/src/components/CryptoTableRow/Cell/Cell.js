@@ -16,16 +16,20 @@ class Cell extends Component {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.columnPeriod === 0) {
-            if (prevState.previousValue !== nextProps.cryptoRawValue.toFixed(2)) {
-                return {
-                    flash: true,
-                    previousValue: nextProps.cryptoRawValue.toFixed(2)
-                };
-            } else {
-                return {
-                    flash: false
-                };
-            }
+            if (nextProps.cryptoRawValue)
+                if (
+                    prevState.previousValue !==
+                    nextProps.cryptoRawValue.toFixed(2)
+                ) {
+                    return {
+                        flash: true,
+                        previousValue: nextProps.cryptoRawValue.toFixed(2)
+                    };
+                } else {
+                    return {
+                        flash: false
+                    };
+                }
         } else {
             if (prevState.previousValue !== nextProps.cryptoPercentChange) {
                 return {
@@ -41,10 +45,24 @@ class Cell extends Component {
     }
 
     getValue = () => {
-        const { columnPeriod, cryptoRawValue, cryptoPercentChange } = this.props;
+        const {
+            columnPeriod,
+            cryptoRawValue,
+            cryptoPercentChange
+        } = this.props;
 
         if (columnPeriod === 0) {
-            return "$" + cryptoRawValue.toFixed(4);
+            if (cryptoRawValue >= 10000) {
+                return "$" + cryptoRawValue.toFixed(0);
+            } else if (10000 > cryptoRawValue && cryptoRawValue >= 1000) {
+                return "$" + cryptoRawValue.toFixed(1);
+            } else if (1000 > cryptoRawValue && cryptoRawValue >= 100) {
+                return "$" + cryptoRawValue.toFixed(2);
+            } else if (100 > cryptoRawValue && cryptoRawValue >= 10) {
+                return "$" + cryptoRawValue.toFixed(3);
+            } else if (cryptoRawValue < 10) {
+                return "$" + cryptoRawValue.toFixed(4);
+            }
         } else {
             return cryptoPercentChange + "%";
         }
@@ -57,7 +75,9 @@ class Cell extends Component {
                 <span
                     className={classNames(
                         styles.priceData,
-                        columnPeriod !== 0 && cryptoPercentChange > 0 ? styles.up : styles.down
+                        columnPeriod !== 0 && cryptoPercentChange > 0
+                            ? styles.up
+                            : styles.down
                     )}
                 >
                     {this.getValue()}
@@ -65,7 +85,11 @@ class Cell extends Component {
                         <span className={styles.arrowContainer}>
                             <img
                                 className={styles.arrow}
-                                src={cryptoPercentChange > 0 ? winningNormal : losingNormal}
+                                src={
+                                    cryptoPercentChange > 0
+                                        ? winningNormal
+                                        : losingNormal
+                                }
                                 alt=""
                             />
                         </span>

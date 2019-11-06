@@ -16,7 +16,13 @@ import {
 } from "../../../../../store/actions/actionCreators";
 
 class DataPeriod extends Component {
-    handleSetPeriod = (dataType, dataGroup, dataPeriod, dataName, periodTime) => {
+    handleSetPeriod = (
+        dataType,
+        dataGroup,
+        dataPeriod,
+        dataName,
+        periodTime
+    ) => {
         const {
             resetCryptoBuffer,
             setSelectedDataPeriod,
@@ -28,7 +34,9 @@ class DataPeriod extends Component {
         setSelectedDataPeriod(dataPeriod);
         setSelectedDataName(dataName);
         axios
-            .get(`http://localhost:5000/api/crypto-data/getColumnData/${periodTime}`)
+            .get(
+                `http://3.132.176.114:443/api/crypto-data/getColumnData/${periodTime}`
+            )
             .then(response => {
                 processNewColumnData(
                     response.data,
@@ -44,7 +52,13 @@ class DataPeriod extends Component {
             });
     };
     render() {
-        const { selectedData, periodNumber, periodName, periodTime, selected } = this.props;
+        const {
+            selectedData,
+            periodNumber,
+            periodName,
+            periodTime,
+            selected
+        } = this.props;
         return (
             <div
                 onClick={() =>
@@ -61,7 +75,12 @@ class DataPeriod extends Component {
                 <div className={styles.arrow}>
                     <img src={arrow} alt="" />
                 </div>
-                <div className={classNames(styles.checkbox, selected ? styles.selected : null)}>
+                <div
+                    className={classNames(
+                        styles.checkbox,
+                        selected ? styles.selected : null
+                    )}
+                >
                     <img src={checkmark} alt="" />
                 </div>
                 <p> {periodName}</p>
@@ -79,10 +98,28 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         resetCryptoBuffer: () => dispatch(resetCryptoBuffer()),
-        setSelectedDataPeriod: dataPeriod => dispatch(setSelectedDataPeriod(dataPeriod)),
-        setSelectedDataName: dataName => dispatch(setSelectedDataName(dataName)),
-        processNewColumnData: (responseData, selectedColumnId, dataType, dataGroup, dataPeriod, dataName) =>
-            dispatch(processNewColumnData(responseData, selectedColumnId, dataType, dataGroup, dataPeriod, dataName))
+        setSelectedDataPeriod: dataPeriod =>
+            dispatch(setSelectedDataPeriod(dataPeriod)),
+        setSelectedDataName: dataName =>
+            dispatch(setSelectedDataName(dataName)),
+        processNewColumnData: (
+            responseData,
+            selectedColumnId,
+            dataType,
+            dataGroup,
+            dataPeriod,
+            dataName
+        ) =>
+            dispatch(
+                processNewColumnData(
+                    responseData,
+                    selectedColumnId,
+                    dataType,
+                    dataGroup,
+                    dataPeriod,
+                    dataName
+                )
+            )
     };
 };
 

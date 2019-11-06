@@ -29,7 +29,7 @@ class Homepage extends Component {
         super(props);
         this.state = {
             response: false,
-            endpoint: "http://localhost:5000/"
+            endpoint: "http://74.207.228.5:5000/"
         };
     }
 
@@ -102,8 +102,8 @@ class Homepage extends Component {
                 {this.props.dataMenuData.dataMenu.open ? (
                     <DataSelectorModal />
                 ) : (
-                    document.body.classList.remove("MODAL_OPEN_CLASS")
-                )}
+                        document.body.classList.remove("MODAL_OPEN_CLASS")
+                    )}
             </React.Fragment>
         );
     }

@@ -24,4 +24,6 @@ function updateHistoricalPriceData() {
         });
 }
 
-module.exports = updateHistoricalPriceData;
+updateHistoricalPriceData();
+
+//module.exports = updateHistoricalPriceData;

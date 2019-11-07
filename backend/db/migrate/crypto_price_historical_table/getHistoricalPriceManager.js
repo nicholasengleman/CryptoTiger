@@ -6,7 +6,7 @@ const db = require("./../../utilities/db");
 const getCryptoListTable = require("./../../utilities/getCryptoListTable");
 const getHistoricalPrice = require("./../../price/getHistoricalPrice");
 
-function getHistoricalPriceManager(callback) {
+function getHistoricalPriceManager() {
     const getCryptoListTablePromise = getCryptoListTable();
 
     getCryptoListTablePromise.then(function(CRYPTO_LIST_TABLE) {
@@ -20,24 +20,22 @@ function getHistoricalPriceManager(callback) {
                 });
             }
         });
-
         let i = 0;
-
         callNextCrypto(i);
-
         function callNextCrypto(i) {
-            getHistoricalPrice(cryptoList[i], 2000, (err, cryptoData) => {
-                if (err) throw err;
-
-                var sql = `INSERT IGNORE INTO crypto_price_historical (crypto_datetime, crypto_id, data_value) VALUES ?`;
+            getHistoricalPrice(cryptoList[i], 2000).then(cryptoData => {
+                let sql = `INSERT IGNORE INTO crypto_price_historical (crypto_datetime, crypto_id, data_value) VALUES ?`;
                 db.query(sql, [cryptoData], function(error, results) {
-                    if (error) throw error;
-                    console.log(
-                        `#${i} ${cryptoList[i].crypto_shortname}: ${results.changedRows} rows changed.`
-                    );
-                    i++;
-                    if (i < 100) {
-                        callNextCrypto(i);
+                    if (error) {
+                        throw error;
+                    } else {
+                        console.log(
+                            `#${i} ${cryptoList[i].crypto_shortname}: ${results.changedRows} rows changed.`
+                        );
+                        i++;
+                        if (i < 100) {
+                            callNextCrypto(i);
+                        }
                     }
                 });
             });

@@ -10,10 +10,10 @@ function getHistoricalPrice(crypto_info, limit) {
     return new Promise((resolve, reject) => {
         if (!last_timestamp) {
             request_url = `https://min-api.cryptocompare.com/data/histohour?fsym=${crypto_info.crypto_shortname}&tsym=USD&limit=${limit}&?${api_key}`;
-            checkHistoricalData(request_url).then(cryptoData =>
+            checkHistoricalData(request_url).then(cryptoData => {
                 resolve(cryptoData);
                 reject(error);
-            );
+            });
         }
 
         function checkHistoricalData(request_url) {

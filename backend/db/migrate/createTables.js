@@ -1,11 +1,11 @@
 const axios = require("axios");
-const db = require("../../utilities/db");
+const db = require("./../utilities/db");
 
 ////////////////////////////
 //create tables
 ///////////////////////////
 function createTables() {
-    const sql_0 = `CREATE TABLE CryptoList (crypto_id INT NOT NULL PRIMARY KEY crypto_name TINYTEXT NOT NULL crypto_shortname TINYTEXT NOT NULL crypto_icon_url TINYTEXT)`;
+    const sql_0 = `CREATE TABLE CryptoList (crypto_id INT NOT NULL PRIMARY KEY, crypto_name TINYTEXT NOT NULL, crypto_shortname TINYTEXT NOT NULL, crypto_icon_url TINYTEXT)`;
     db.query(sql_0, function(error, results) {
         if (error) throw error;
         console.log("CryptoList table created");

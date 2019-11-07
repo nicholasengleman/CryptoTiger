@@ -162,7 +162,7 @@ export const fetchPresetData = () => {
             preset.columns.forEach(column => {
                 axios
                     .get(
-                        `http://3.132.176.114:443/api/crypto-data/getColumnData/${column.time}`
+                        `http://3.132.176.114:5000/api/crypto-data/getColumnData/${column.time}`
                     )
                     .then(response => {
                         data.push(response.data);

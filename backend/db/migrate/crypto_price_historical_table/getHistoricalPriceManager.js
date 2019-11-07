@@ -1,14 +1,17 @@
 // this function is used for managing the bulk downloading of historical data going back to the date specified in the
 // getHistoricalDataPrice function
 
-const db = require("../../..utilities/db");
+const db = require("./../../utilities/db");
 
-const getCryptoListTable = require("../../../utilities/getCryptoListTable");
-const getHistoricalPrice = require("../../getHistoricalPrice");
+const getCryptoListTable = require("./../../utilities/getCryptoListTable");
+const getHistoricalPrice = require("./../../price/getHistoricalPrice");
 
 function getHistoricalPriceManager(callback) {
-    getCryptoListTable((err, CRYPTO_LIST_TABLE) => {
+    const getCryptoListTablePromise = getCryptoListTable();
+
+    getCryptoListTablePromise.then(function(CRYPTO_LIST_TABLE) {
         let cryptoList = [];
+
         Object.keys(CRYPTO_LIST_TABLE).forEach(crypto => {
             if (isNaN(crypto)) {
                 cryptoList.push({

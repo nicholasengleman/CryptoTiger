@@ -17,13 +17,20 @@ const override = css`
 
 class HistogramContainer extends Component {
     findFilter = columnId => {
-        return this.props.filterParameters.find(filter => {
+        let results = this.props.filterParameters.find(filter => {
             return filter.columnId === columnId;
         });
+        if (results) {
+            return results.parameters;
+        }
     };
 
     render() {
-        const { histogramData, handleSetBoundries, selectedColumnId } = this.props;
+        const {
+            histogramData,
+            handleSetBoundries,
+            selectedColumnId
+        } = this.props;
         return (
             <div className={styles.HistogramContainer}>
                 <ClipLoader
@@ -32,11 +39,18 @@ class HistogramContainer extends Component {
                     size={100}
                     color={"#123abc"}
                     loading={
-                        !Array.isArray(this.props.histogramData) || !this.props.histogramData.length ? true : false
+                        !Array.isArray(this.props.histogramData) ||
+                        !this.props.histogramData.length
+                            ? true
+                            : false
                     }
                 />
                 <Histogram
-                    data={histogramData.length > 0 ? this.props.histogramData : [1]}
+                    data={
+                        histogramData.length > 0
+                            ? this.props.histogramData
+                            : [1]
+                    }
                     getBoundries={handleSetBoundries}
                     buttonPresets={this.findFilter(selectedColumnId)}
                 />

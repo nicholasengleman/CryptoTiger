@@ -25,7 +25,7 @@ class Homepage extends Component {
         super(props);
         this.state = {
             response: false,
-            endpoint: "http://3.132.176.114:443/"
+            endpoint: "http://3.132.176.114:5000/"
         };
     }
 

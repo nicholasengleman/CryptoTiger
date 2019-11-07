@@ -10,7 +10,7 @@ function getHistoricalPriceManager() {
     const getCryptoListTablePromise = getCryptoListTable();
 
     getCryptoListTablePromise
-        .then(function(CRYPTO_LIST_TABLE) {
+        .then(function (CRYPTO_LIST_TABLE) {
             let cryptoList = [];
 
             Object.keys(CRYPTO_LIST_TABLE).forEach(crypto => {
@@ -23,10 +23,12 @@ function getHistoricalPriceManager() {
             });
             let i = 0;
             callNextCrypto(i);
+
             function callNextCrypto(i) {
+
                 getHistoricalPrice(cryptoList[i], 2000).then(cryptoData => {
                     let sql = `INSERT IGNORE INTO crypto_price_historical (crypto_datetime, crypto_id, data_value) VALUES ?`;
-                    db.query(sql, [cryptoData], function(error, results) {
+                    db.query(sql, [cryptoData], function (error, results) {
                         if (error) {
                             throw error;
                         } else {

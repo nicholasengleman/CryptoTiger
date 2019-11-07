@@ -34,9 +34,7 @@ class DataPeriod extends Component {
         setSelectedDataPeriod(dataPeriod);
         setSelectedDataName(dataName);
         axios
-            .get(
-                `http://3.132.176.114:5000/api/crypto-data/getColumnData/${periodTime}`
-            )
+            .get(`http://74.207.228.5:5000/api/crypto-data/getColumnData/${periodTime}`)
             .then(response => {
                 processNewColumnData(
                     response.data,

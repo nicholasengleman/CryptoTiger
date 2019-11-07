@@ -11,7 +11,8 @@ function getHistoricalPrice(crypto_info, limit) {
         if (!last_timestamp) {
             request_url = `https://min-api.cryptocompare.com/data/histohour?fsym=${crypto_info.crypto_shortname}&tsym=USD&limit=${limit}&?${api_key}`;
             checkHistoricalData(request_url).then(cryptoData =>
-                resolve(cryptoData)
+                resolve(cryptoData);
+                reject(error);
             );
         }
 
@@ -39,7 +40,7 @@ function getHistoricalPrice(crypto_info, limit) {
                         if (Array.isArray(historical_data)) {
                             if (Object.entries(historical_data).length !== 0) {
                                 historical_data.forEach(data => {
-                                    if(crypto_info.crypto_id === "1182") {
+                                    if (crypto_info.crypto_id === "1182") {
                                         console.log(data.close);
                                     }
                                     cryptoData.push([

@@ -140,7 +140,7 @@ export const processDataFromStoreForHistogram = currentSelectedColumn => {
 export const fetchAllCryptoData = () => {
     return dispatch => {
         axios
-            .get("http://74.207.228.5:5000/api/crypto-data/getDefaultData")
+            .get("http://155.138.216.36:5000/api/crypto-data/getDefaultData")
             .then(response => {
                 dispatch(fetchCryptosSuccess(response.data));
                 dispatch(loadTopChartData(response.data));
@@ -162,7 +162,7 @@ export const fetchPresetData = () => {
             preset.columns.forEach(column => {
                 axios
                     .get(
-                        `http://74.207.228.5:5000/api/crypto-data/getColumnData/${column.time}`
+                        `http://155.138.216.36:5000/api/crypto-data/getColumnData/${column.time}`
                     )
                     .then(response => {
                         data.push(response.data);

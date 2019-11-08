@@ -25,13 +25,10 @@ class CryptoTableHeader extends Component {
     constructor(props) {
         super(props);
         this.Viewport = React.createRef();
-        this.colu = React.createRef();
+
         this.setColumnsThatAreVisibleDebounce = _.throttle(
             this.props.setColumnsThatAreVisible.bind(this),
-            50,
-            {
-                leading: true
-            }
+            200
         );
     }
 
@@ -172,46 +169,48 @@ class CryptoTableHeader extends Component {
                         className={styles.addBtn}
                         onClick={this.handleAddColumn}
                     />
-                    {this.props.cryptoData &&
-                        Object.keys(this.props.cryptoData.columns).map(
-                            (column, index) =>
-                                this.props.columnVisibility[index] && (
-                                    <CryptoColumnHeader
-                                        key={index}
-                                        index={index}
-                                        columnId={
-                                            this.props.cryptoData.columns[
-                                                column
-                                            ].columnId
-                                        }
-                                        columnType={
-                                            this.props.cryptoData.columns[
-                                                column
-                                            ].columnType
-                                        }
-                                        columnGroup={
-                                            this.props.cryptoData.columns[
-                                                column
-                                            ].columnGroup
-                                        }
-                                        columnPeriod={
-                                            this.props.cryptoData.columns[
-                                                column
-                                            ].columnPeriod
-                                        }
-                                        columnName={
-                                            this.props.cryptoData.columns[
-                                                column
-                                            ].columnName
-                                        }
-                                        filter={this.findFilter(
-                                            this.props.cryptoData.columns[
-                                                column
-                                            ].columnId
-                                        )}
-                                    />
-                                )
-                        )}
+                    <div className={styles.buttonsContainer}>
+                        {this.props.cryptoData &&
+                            Object.keys(this.props.cryptoData.columns).map(
+                                (column, index) =>
+                                    this.props.columnVisibility[index] && (
+                                        <CryptoColumnHeader
+                                            key={index}
+                                            index={index}
+                                            columnId={
+                                                this.props.cryptoData.columns[
+                                                    column
+                                                ].columnId
+                                            }
+                                            columnType={
+                                                this.props.cryptoData.columns[
+                                                    column
+                                                ].columnType
+                                            }
+                                            columnGroup={
+                                                this.props.cryptoData.columns[
+                                                    column
+                                                ].columnGroup
+                                            }
+                                            columnPeriod={
+                                                this.props.cryptoData.columns[
+                                                    column
+                                                ].columnPeriod
+                                            }
+                                            columnName={
+                                                this.props.cryptoData.columns[
+                                                    column
+                                                ].columnName
+                                            }
+                                            filter={this.findFilter(
+                                                this.props.cryptoData.columns[
+                                                    column
+                                                ].columnId
+                                            )}
+                                        />
+                                    )
+                            )}
+                    </div>
                 </div>
             </div>
         );

@@ -20,42 +20,33 @@ app.use("/api/crypto-data", cryptoData);
 
 const port = process.env.PORT || 5000;
 let server = app.listen(port, () => console.log(`Listening on port ${port}`));
+let latest_current_data = [];
 
 const io = socketIo.listen(server);
 
-
-//update historical data every hour
+//updates historical data every hour
 updateHistoricalPriceData();
 setInterval(() => {
     updateHistoricalPriceData();
 }, 3600000);
 
+//updates current data every 10 seconds
+getDataEveryXSeconds(10000);
 
-function getCurrentDataAndEmit() {
-    return new Promise(function (resolve, reject) {
-        updateCurrentPriceData(cryptoList => {
-            if (cryptoList) {
-                resolve(cryptoList);
-            }
-        });
+function getDataEveryXSeconds(milliseconds) {
+    updateCurrentPriceData(cryptoList => {
+        latest_current_data = cryptoList;
+        setTimeout(() => {
+            getDataEveryXSeconds(milliseconds);
+        }, milliseconds);
     });
 }
 
-function getDataEveryXSeconds(socket, milliseconds) {
-    let promise = getCurrentDataAndEmit();
-    promise
-        .then(cryptoList => {
-
-            socket.emit("currentDataUpdate", cryptoList);
-            setTimeout(() => {
-                getDataEveryXSeconds(socket, milliseconds);
-            }, milliseconds);
-        })
-        .catch(e => console.log(e));
-}
-
+//sends latest current data to connected sockets every 10 seconds
 io.on("connection", socket => {
-    getDataEveryXSeconds(socket, 10000);
+    setInterval(() => {
+        socket.emit("currentDataUpdate", latest_current_data);
+    }, 10000);
     socket.on("disconect", () => console.log("Client disconnected"));
 });
 

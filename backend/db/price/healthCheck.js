@@ -22,7 +22,7 @@ function healthCheck(i, cryptoList) {
                 )} hours ago`
             );
 
-            if (Math.floor(data_age) > 1) {
+            if (Math.floor(data_age) >= 1) {
                 getHistoricalPrice(cryptoList[i], parseInt(data_age)).then(
                     cryptoData => {
                         console.log(cryptoData);

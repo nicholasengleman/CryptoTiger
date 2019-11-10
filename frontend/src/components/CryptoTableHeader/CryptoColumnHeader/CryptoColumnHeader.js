@@ -6,7 +6,10 @@ import "./CryptoColumnHeader.scss";
 import EditMenu from "./../../Menu/Menu";
 import OutsideAlerter from "./../../OutsideAlerter/OutsideAlerter";
 
-import { removeFilter, sortByThisColumn } from "./../../../store/actions/actionCreators";
+import {
+    removeFilter,
+    sortByThisColumn
+} from "./../../../store/actions/actionCreators";
 
 class CryptoColumnHeader extends Component {
     constructor(props) {
@@ -74,8 +77,12 @@ class CryptoColumnHeader extends Component {
         return (
             <div className="column">
                 {filter && Object.entries(filter.parameters).length > 0 ? (
-                    <div className="filterDescription" onClick={() => removeFilter(columnId)}>
-                        {filter.parameters.selectionMin.toFixed(2)}% to {filter.parameters.selectionMax.toFixed(2)}%
+                    <div
+                        className="filterDescription"
+                        onClick={() => removeFilter(columnId)}
+                    >
+                        {filter.parameters.selectionMin.toFixed(2)}% to{" "}
+                        {filter.parameters.selectionMax.toFixed(2)}%
                         <span className="deleteFilter">X</span>
                     </div>
                 ) : (
@@ -85,8 +92,12 @@ class CryptoColumnHeader extends Component {
                 {this.props.columnName !== "Current Price" ? (
                     <OutsideAlerter outsideClick={this.closeEditMenu}>
                         <EditMenu
-                            applyShowMenuClasses={this.state.applyShowMenuClasses}
-                            applyHideMenuClasses={this.state.applyHideMenuClasses}
+                            applyShowMenuClasses={
+                                this.state.applyShowMenuClasses
+                            }
+                            applyHideMenuClasses={
+                                this.state.applyHideMenuClasses
+                            }
                             columnId={columnId}
                             columnName={columnName}
                             columnIndex={index}
@@ -100,9 +111,18 @@ class CryptoColumnHeader extends Component {
                 <div className="columnName">
                     {columnName !== "Current Price" ? (
                         <React.Fragment>
-                            <i className={`fas fa-sort-down header-sort-icon ${sortArrowClass}`}></i>
-                            <p onClick={() => sortByThisColumn(columnId)}>{columnName}</p>
-                            <img className="property" src={property} alt="" onClick={this.onToggleEditMenu} />
+                            <i
+                                className={`fas fa-sort-down header-sort-icon ${sortArrowClass}`}
+                            ></i>
+                            <p onClick={() => sortByThisColumn(columnId)}>
+                                {columnName}
+                            </p>
+                            <img
+                                className="property"
+                                src={property}
+                                alt=""
+                                onClick={this.onToggleEditMenu}
+                            />
                         </React.Fragment>
                     ) : (
                         <p>{columnName}</p>

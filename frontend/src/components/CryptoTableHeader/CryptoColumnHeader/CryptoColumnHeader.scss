@@ -17,7 +17,7 @@
         color: white;
         font-size: 10px;
         font-weight: 600;
-        height: 15px;
+        height: 20px;
         text-transform: lowercase;
         position: absolute;
         top: -12px;
@@ -28,7 +28,7 @@
         align-items: center;
         justify-content: center;
         border-radius: 10px;
-        min-width: 95px;
+        width: max-content;
         .deleteFilter {
             margin: 0 0 4px 5px;
             font-size: 14px;
@@ -39,7 +39,7 @@
         justify-content: flex-start;
         align-items: center;
         font-weight: 600;
-        min-width: 95px;
+        min-width: 100px;
         @media (max-width: 1200px) {
             font-size: 14px;
         }

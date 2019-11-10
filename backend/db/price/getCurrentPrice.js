@@ -23,15 +23,21 @@ function getCurrentPrice() {
                     console.log(error);
                 })
                 .then(historical_data => {
-                    let processedCryptoList = [];
-                    Object.keys(historical_data.RAW).forEach(function(crypto) {
-                        processedCryptoList.push({
-                            price: historical_data.RAW[crypto].USD.PRICE,
-                            shortname:
-                                historical_data.RAW[crypto].USD.FROMSYMBOL
+                    if (historical_data) {
+                        let processedCryptoList = [];
+                        Object.keys(historical_data.RAW).forEach(function(
+                            crypto
+                        ) {
+                            processedCryptoList.push({
+                                price: historical_data.RAW[crypto].USD.PRICE,
+                                shortname:
+                                    historical_data.RAW[crypto].USD.FROMSYMBOL
+                            });
                         });
-                    });
-                    resolve(processedCryptoList);
+                        resolve(processedCryptoList);
+                    } else {
+                        reject("historical data undefined");
+                    }
                 });
         });
     });

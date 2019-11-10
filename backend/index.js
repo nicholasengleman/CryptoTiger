@@ -34,8 +34,12 @@ setInterval(() => {
 getDataEveryXSeconds(10000);
 
 function getDataEveryXSeconds(milliseconds) {
-    updateCurrentPriceData(cryptoList => {
-        latest_current_data = cryptoList;
+    updateCurrentPriceData((error, cryptoList) => {
+        if (error) {
+            console.log(error);
+        } else {
+            latest_current_data = cryptoList;
+        }
         setTimeout(() => {
             getDataEveryXSeconds(milliseconds);
         }, milliseconds);

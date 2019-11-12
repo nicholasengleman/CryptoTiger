@@ -1,6 +1,10 @@
-import React, { Component } from "react";
+import React, {
+    Component
+} from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import {
+    connect
+} from "react-redux";
 
 import selectFilteredCryptos from "../../store/selectors/selectFilteredCryptos";
 import socketIOClient from "socket.io-client";
@@ -25,7 +29,7 @@ class Homepage extends Component {
         super(props);
         this.state = {
             response: false,
-            endpoint: "http://155.138.216.36:5000/"
+            endpoint: "http://155.138.162.49:5000/"
         };
     }
 
@@ -39,7 +43,9 @@ class Homepage extends Component {
         fetchAllCryptoData();
         fetchPresetData();
 
-        const { endpoint } = this.state;
+        const {
+            endpoint
+        } = this.state;
         const socket = socketIOClient(endpoint);
         socket.on("currentDataUpdate", message => {
             updateCurrentData(message);
@@ -48,74 +54,96 @@ class Homepage extends Component {
     }
 
     render() {
-        const { cryptosData } = this.props;
-        const { sortColumn, sortDown } = this.props.sortData;
-        return (
-            <React.Fragment>
-                <div className={styles.pageContainer}>
-                    <div className={styles.hero}>
-                        <Chart />
-                        <PresetsContainer />
-                    </div>
-                    <div className={styles.cryptoTable}>
-                        <CryptoListHeader />
-                        {cryptosData &&
-                            Object.keys(cryptosData)
-                                .sort((a, b) => {
-                                    let nameA = 0;
-                                    let nameB = 0;
-                                    if (sortColumn === 0) {
-                                        nameA =
-                                            cryptosData[a].columns["0"]
-                                                .cryptoMarketCap;
-                                        nameB =
-                                            cryptosData[b].columns["0"]
-                                                .cryptoMarketCap;
-                                        return nameA - nameB;
-                                    } else {
-                                        if (
-                                            cryptosData[a].columns[sortColumn]
-                                        ) {
-                                            nameA =
-                                                cryptosData[a].columns[
-                                                    sortColumn
-                                                ].cryptoRawPercentChange;
-                                            nameB =
-                                                cryptosData[b].columns[
-                                                    sortColumn
-                                                ].cryptoRawPercentChange;
-                                            if (sortDown) {
-                                                return nameA - nameB;
-                                            } else {
-                                                return nameB - nameA;
-                                            }
-                                        }
-                                        return 0;
-                                    }
-                                })
-                                .map(crypto => (
-                                    <CryptoRow
-                                        key={cryptosData[crypto].cryptoId}
-                                        cryptoInfo={
-                                            cryptosData[crypto].cryptoId
-                                        }
-                                        cryptoIcon={
-                                            cryptosData[crypto].cryptoIconUrl
-                                        }
-                                        cryptoName={
-                                            cryptosData[crypto].cryptoName
-                                        }
-                                        columns={cryptosData[crypto].columns}
-                                    />
-                                ))}
-                    </div>
-                </div>
-                {this.props.dataMenuData.dataMenu.open ? (
-                    <DataSelectorModal />
+        const {
+            cryptosData
+        } = this.props;
+        const {
+            sortColumn,
+            sortDown
+        } = this.props.sortData;
+        return ( <
+            React.Fragment >
+            <
+            div className = {
+                styles.pageContainer
+            } >
+            <
+            div className = {
+                styles.hero
+            } >
+            <
+            Chart / >
+            <
+            PresetsContainer / >
+            <
+            /div> <
+            div className = {
+                styles.cryptoTable
+            } >
+            <
+            CryptoListHeader / > {
+                cryptosData &&
+                Object.keys(cryptosData)
+                .sort((a, b) => {
+                    let nameA = 0;
+                    let nameB = 0;
+                    if (sortColumn === 0) {
+                        nameA =
+                            cryptosData[a].columns["0"]
+                            .cryptoMarketCap;
+                        nameB =
+                            cryptosData[b].columns["0"]
+                            .cryptoMarketCap;
+                        return nameA - nameB;
+                    } else {
+                        if (
+                            cryptosData[a].columns[sortColumn]
+                        ) {
+                            nameA =
+                                cryptosData[a].columns[
+                                    sortColumn
+                                ].cryptoRawPercentChange;
+                            nameB =
+                                cryptosData[b].columns[
+                                    sortColumn
+                                ].cryptoRawPercentChange;
+                            if (sortDown) {
+                                return nameA - nameB;
+                            } else {
+                                return nameB - nameA;
+                            }
+                        }
+                        return 0;
+                    }
+                })
+                .map(crypto => ( <
+                    CryptoRow key = {
+                        cryptosData[crypto].cryptoId
+                    }
+                    cryptoInfo = {
+                        cryptosData[crypto].cryptoId
+                    }
+                    cryptoIcon = {
+                        cryptosData[crypto].cryptoIconUrl
+                    }
+                    cryptoName = {
+                        cryptosData[crypto].cryptoName
+                    }
+                    columns = {
+                        cryptosData[crypto].columns
+                    }
+                    />
+                ))
+            } <
+            /div> <
+            /div> {
+                this.props.dataMenuData.dataMenu.open ? ( <
+                    DataSelectorModal / >
                 ) : (
                     document.body.classList.remove("MODAL_OPEN_CLASS")
-                )}
-            </React.Fragment>
+                )
+            } <
+            /React.Fragment>
         );
     }
 }

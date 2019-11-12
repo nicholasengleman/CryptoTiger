@@ -125,7 +125,7 @@ class CryptoTableHeader extends Component {
         }
         if (
             this.props.columnVisibility[
-                this.props.columnVisibility.length - 1
+            this.props.columnVisibility.length - 1
             ] === false
         ) {
             showNextBtn = true;
@@ -135,10 +135,10 @@ class CryptoTableHeader extends Component {
             <div
                 className={`${styles.filterColumnsHeader} 
                              ${
-                                 !showPrevBtn && !showNextBtn
-                                     ? styles.reduceMargin
-                                     : ""
-                             }
+                    !showPrevBtn && !showNextBtn
+                        ? styles.reduceMargin
+                        : ""
+                    }
                              ${filters.length ? styles.filterRow : ""}`}
             >
                 {(showPrevBtn || showNextBtn) && (

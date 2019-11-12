@@ -8,7 +8,9 @@ import * as actionTypes from "./actionTypes";
 export const loadInitialColumnData = data => {
     return {
         type: actionTypes.LOAD_INITIAL_COLUMN_DATA,
-        payload: { data }
+        payload: {
+            data
+        }
     };
 };
 export const toggleDataMenu = columnId => {
@@ -25,35 +27,45 @@ export const toggleDataMenu = columnId => {
 export const setSelectedDataType = dataType => {
     return {
         type: actionTypes.SET_SELECTED_DATA_TYPE,
-        payload: { dataType }
+        payload: {
+            dataType
+        }
     };
 };
 
 export const setSelectedDataGroup = dataGroup => {
     return {
         type: actionTypes.SET_SELECTED_DATA_GROUP,
-        payload: { dataGroup }
+        payload: {
+            dataGroup
+        }
     };
 };
 
 export const setSelectedDataPeriod = dataPeriod => {
     return {
         type: actionTypes.SET_SELECTED_DATA_PERIOD,
-        payload: { dataPeriod }
+        payload: {
+            dataPeriod
+        }
     };
 };
 
 export const setSelectedDataName = dataName => {
     return {
         type: actionTypes.SET_SELECTED_DATA_NAME,
-        payload: { dataName }
+        payload: {
+            dataName
+        }
     };
 };
 
 export const setSelectedColumnId = columnId => {
     return {
         type: actionTypes.SET_SELECTED_COLUMN_ID,
-        payload: { columnId }
+        payload: {
+            columnId
+        }
     };
 };
 
@@ -72,7 +84,9 @@ export const closeDataMenu = () => {
 export const updateCurrentData = newData => {
     return {
         type: actionTypes.UPDATE_CURRENT_DATA,
-        payload: { newData }
+        payload: {
+            newData
+        }
     };
 };
 
@@ -112,14 +126,19 @@ export const processNewColumnData = (
 export const storePresetData = (presetId, presetData) => {
     return {
         type: actionTypes.STORE_PRESET_DATA,
-        payload: { presetId, presetData }
+        payload: {
+            presetId,
+            presetData
+        }
     };
 };
 
 export const setSelectedPreset = presetId => {
     return {
         type: actionTypes.SET_SELECTED_PRESET,
-        payload: { presetId }
+        payload: {
+            presetId
+        }
     };
 };
 
@@ -131,7 +150,9 @@ export const updateLiveColumnView = () => {
 export const processDataFromStoreForHistogram = currentSelectedColumn => {
     return {
         type: actionTypes.PROCESS_DATA_FROM_STORE_FOR_HISTOGRAM,
-        payload: { currentSelectedColumn }
+        payload: {
+            currentSelectedColumn
+        }
     };
 };
 
@@ -140,7 +161,7 @@ export const processDataFromStoreForHistogram = currentSelectedColumn => {
 export const fetchAllCryptoData = () => {
     return dispatch => {
         axios
-            .get("http://155.138.216.36:5000/api/crypto-data/getDefaultData")
+            .get("http://155.138.162.49:5000/api/crypto-data/getDefaultData")
             .then(response => {
                 dispatch(fetchCryptosSuccess(response.data));
                 dispatch(loadTopChartData(response.data));
@@ -162,7 +183,7 @@ export const fetchPresetData = () => {
             preset.columns.forEach(column => {
                 axios
                     .get(
-                        `http://155.138.216.36:5000/api/crypto-data/getColumnData/${column.time}`
+                        `http://155.138.162.49:5000/api/crypto-data/getColumnData/${column.time}`
                     )
                     .then(response => {
                         data.push(response.data);
@@ -189,26 +210,36 @@ export const fetchCryptosSuccess = data => {
     }
     return {
         type: actionTypes.FETCH_CRYPTOS_SUCCESS,
-        payload: { data, columnIds }
+        payload: {
+            data,
+            columnIds
+        }
     };
 };
 export const fetchCryptosFailure = error => ({
     type: actionTypes.FETCH_CRYPTOS_FAILURE,
-    payload: { error }
+    payload: {
+        error
+    }
 });
 
 export const loadTopChartData = data => {
     let columnIds = [0, 1];
     return {
         type: actionTypes.LOAD_TOP_CHART_DATA,
-        payload: { data, columnIds }
+        payload: {
+            data,
+            columnIds
+        }
     };
 };
 
 export const updateTopChartData = data => {
     return {
         type: actionTypes.UPDATE_TOP_CHART_DATA,
-        payload: { data }
+        payload: {
+            data
+        }
     };
 };
 
@@ -217,17 +248,25 @@ export const updateTopChartData = data => {
 //////////////////////////////////
 export const addFilter = (columnId, parameters) => ({
     type: actionTypes.ADD_FILTER,
-    payload: { columnId, parameters }
+    payload: {
+        columnId,
+        parameters
+    }
 });
 
 export const editFilter = (columnId, parameters) => ({
     type: actionTypes.EDIT_FILTER,
-    payload: { columnId, parameters }
+    payload: {
+        columnId,
+        parameters
+    }
 });
 
 export const removeFilter = columnId => ({
     type: actionTypes.REMOVE_FILTER,
-    payload: { columnId }
+    payload: {
+        columnId
+    }
 });
 export const emptyFilter = () => ({
     type: actionTypes.EMPTY_FILTER
@@ -247,7 +286,9 @@ export const moveCryptoBufferToData = () => ({
 
 export const removeColumnData = columnId => ({
     type: actionTypes.REMOVE_COLUMN_DATA,
-    payload: { columnId }
+    payload: {
+        columnId
+    }
 });
 
 //////////////////////////////////////
@@ -258,16 +299,22 @@ export const addColumn = () => ({
 });
 export const removeColumn = columnIndex => ({
     type: actionTypes.REMOVE_COLUMN,
-    payload: { columnIndex }
+    payload: {
+        columnIndex
+    }
 });
 
 export const setColumns = columns => ({
     type: actionTypes.SET_COLUMNS,
-    payload: { columns }
+    payload: {
+        columns
+    }
 });
 export const setColumnsThatAreVisible = visibleColumns => ({
     type: actionTypes.SET_COLUMNS_THAT_ARE_VISIBLE,
-    payload: { visibleColumns }
+    payload: {
+        visibleColumns
+    }
 });
 
 export const shiftVisibleColumnsForward = () => ({
@@ -280,5 +327,7 @@ export const shiftVisibleColumnsBackwards = () => ({
 
 export const sortByThisColumn = columnId => ({
     type: actionTypes.SORT_BY_THIS_COLUMN,
-    payload: { columnId }
+    payload: {
+        columnId
+    }
 });

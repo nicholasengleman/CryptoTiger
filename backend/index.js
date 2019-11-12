@@ -27,33 +27,33 @@ const io = socketIo.listen(server);
 //updates historical data every hour
 updateHistoricalPriceData();
 setInterval(() => {
-    updateHistoricalPriceData();
-}, 3600000);
+  updateHistoricalPriceData();
+}, 90000);
 
 //updates current data every 10 seconds
 getDataEveryXSeconds(10000);
 
 function getDataEveryXSeconds(milliseconds) {
-    updateCurrentPriceData((error, cryptoList) => {
-        if (error) {
-            console.log(error);
-        } else {
-            latest_current_data = cryptoList;
-        }
-        setTimeout(() => {
-            getDataEveryXSeconds(milliseconds);
-        }, milliseconds);
-    });
+  updateCurrentPriceData((error, cryptoList) => {
+    if (error) {
+      console.log(error);
+    } else {
+      latest_current_data = cryptoList;
+    }
+    setTimeout(() => {
+      getDataEveryXSeconds(milliseconds);
+    }, milliseconds);
+  });
 }
 
 //sends latest current data to connected sockets every 10 seconds
 io.on("connection", socket => {
-    setInterval(() => {
-        socket.emit("currentDataUpdate", latest_current_data);
-    }, 10000);
-    socket.on("disconect", () => console.log("Client disconnected"));
+  setInterval(() => {
+    socket.emit("currentDataUpdate", latest_current_data);
+  }, 10000);
+  socket.on("disconect", () => console.log("Client disconnected"));
 });
 
 app.get("/socket", (req, res) => {
-    res.send({ response: "I am alive" }).status(200);
+  res.send({ response: "I am alive" }).status(200);
 });

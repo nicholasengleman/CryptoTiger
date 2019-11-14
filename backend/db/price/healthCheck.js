@@ -1,7 +1,7 @@
 const db = require("../utilities/db");
 const getHistoricalPrice = require("./getHistoricalPrice");
 
-let current_time = new Date();
+
 let sql = `SELECT crypto_datetime, crypto_id from crypto_price_historical WHERE crypto_id = ? ORDER BY crypto_datetime DESC LIMIT 1`;
 
 function healthCheck(i, cryptoList) {
@@ -9,15 +9,16 @@ function healthCheck(i, cryptoList) {
   // 2) if latest data is more than an hour old...
   // 3) load all historical data between now and latest data
 
+  let current_time = new Date();
+
   db.query(sql, [cryptoList[i].crypto_id], function (error, results) {
     if (error) {
       throw new Error(error);
     } else {
       let data_age = (current_time - results[0].crypto_datetime * 1000) / (1000 * 60 * 60);
       console.log(`${cryptoList[i].crypto_shortname}: updated ${data_age.toFixed(2)} hours ago`);
-      console.log("Math Floor: ", Math.floor(data_age));
 
-      if (Math.floor(data_age) >= 0.25) {
+      if (Math.floor(data_age) >= 1) {
         getHistoricalPrice(cryptoList[i], parseInt(data_age)).then(
           cryptoData => {
             console.log(cryptoData);

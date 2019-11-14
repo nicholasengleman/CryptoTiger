@@ -28,7 +28,7 @@ const io = socketIo.listen(server);
 updateHistoricalPriceData();
 setInterval(() => {
   updateHistoricalPriceData();
-}, 90000);
+}, 3600000);
 
 //updates current data every 10 seconds
 getDataEveryXSeconds(10000);

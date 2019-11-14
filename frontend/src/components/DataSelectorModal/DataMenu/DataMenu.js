@@ -4,6 +4,7 @@ import styles from "./DataMenu.module.scss";
 
 import DataPeriodContainer from "./DataPeriodContainer/DataPeriodContainer";
 import DataBox from "../../DataBox/DataBox";
+
 import { connect } from "react-redux";
 import {
     closeDataMenu,
@@ -59,7 +60,7 @@ class DataMenu extends Component {
                     />
                 </DataBox>
 
-                <DataBox title="Data Period" style={{ minWidth: "250px" }}>
+                <DataBox title="Data Period" style={{ "minWidth": "280px" }}>
                     <DataPeriodContainer
                         periods={timeframes[selected.dataGroup] || [1]}
                     />

@@ -96,7 +96,7 @@ class CryptoTableHeader extends Component {
         setSelectedDataName("1 hour price");
         axios
             .get(
-                `http://155.138.216.36:5000/api/crypto-data/getColumnData/${3600}`
+                `http://155.138.162.49:5000/api/crypto-data/getColumnData/${3600}`
             )
             .then(response => {
                 processNewColumnData(
